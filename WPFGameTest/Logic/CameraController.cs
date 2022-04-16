@@ -58,7 +58,7 @@ namespace WPFGameTest.Logic
             {
                 if (currentShakeTime < shakeDuration)
                 {
-                    currentShakeTime += _Time.DeltaTime;
+                    currentShakeTime += Time.DeltaTime;
                 }
                 else
                 {

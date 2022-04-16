@@ -14,8 +14,7 @@ namespace WPFGameTest.Net
 {
     public class Client
     {
-        TcpClient _client;
-        //Was public
+        TcpClient client;
         private PacketReader PacketReader;
 
         //public static List<MovementPackage> MovementHistory=new List<MovementPackage>();
@@ -32,9 +31,9 @@ namespace WPFGameTest.Net
 
         public Client()
         {
-            _client = new TcpClient();
+            client = new TcpClient();
         }        
-
+        //Client recieving datafrom the Server (OPCODE if for identifying)
         private void ReadPacket()
         {
             Task.Run(() => {
@@ -45,29 +44,36 @@ namespace WPFGameTest.Net
                         var opcode = PacketReader.ReadByte();
                         switch (opcode)
                         {
+                            //ServerSendingConnection
                             case 1:
                                 connectedEvent?.Invoke();
                                 break;
+                            //userCommand
                             case 9:
                                 userCommandSentEvent?.Invoke();
                                 break;
+                            //Message
                             case 5:
                                 messageRecievedEvent?.Invoke();
                                 break;
+                            //Disconnect
                             case 10:
                                 userDisconnectedEvent?.Invoke();
                                 break;
+                            //Lobby was Created
                             case 11:
                                 userCreatedLobbyEvent?.Invoke();
                                 break;
+                            //User Joined the Lobby
                             case 12:
                                 userJoinedLobbyEvent?.Invoke();                                
                                 break;
+                            //User joined the game
                             case 13:
                                 userJoinedGameEvent?.Invoke();
                                 break;
                             case 17:
-                                //MessageBox.Show("userMovedEvent Invoked");
+                            //User Moved
                                 userMovedEvent?.Invoke();
                                 break;
                             default:
@@ -85,32 +91,32 @@ namespace WPFGameTest.Net
         }
         public void ConnectToServer(string username)
         {
-            if (!_client.Connected)
+            if (!client.Connected)
             {
-                _client.Connect("127.0.0.1", 5000);
-                PacketReader = new PacketReader(_client.GetStream());
+                client.Connect("127.0.0.1", 5000);
+                PacketReader = new PacketReader(client.GetStream());
 
                 if (!string.IsNullOrEmpty(username))
                 {
                     var connectPacket = new PacketBuilder();
                     connectPacket.WriteOptCode(0);
                     connectPacket.WriteMessage(username);
-                    _client.Client.Send(connectPacket.GetPacketbytes());
+                    client.Client.Send(connectPacket.GetPacketbytes());
                 }
                 ReadPacket();
             }
         }
         public void DisconnectFromServer(string guid)
         {
-            if (_client.Connected)
+            if (client.Connected)
             {
-                PacketReader = new PacketReader(_client.GetStream());
+                PacketReader = new PacketReader(client.GetStream());
                 if (!string.IsNullOrEmpty(guid))
                 {
                     var connectPacket = new PacketBuilder();
                     connectPacket.WriteOptCode(10);
                     connectPacket.WriteMessage(guid);
-                    _client.Client.Send(connectPacket.GetPacketbytes());
+                    client.Client.Send(connectPacket.GetPacketbytes());
                 }
                 ReadPacket();
             }
@@ -120,7 +126,7 @@ namespace WPFGameTest.Net
             var messagePacket = new PacketBuilder();
             messagePacket.WriteOptCode(5);
             messagePacket.WriteMessage(message);
-            _client.Client.Send(messagePacket.GetPacketbytes());
+            client.Client.Send(messagePacket.GetPacketbytes());
         }
         public void SendCommandToServer(string commandname, string executor, string command ,int tick)
         {
@@ -135,11 +141,7 @@ namespace WPFGameTest.Net
             var messagePacket = new PacketBuilder();
             messagePacket.WriteOptCode(9);
             messagePacket.WriteMessage(formattedcommand);
-            _client.Client.Send(messagePacket.GetPacketbytes());
+            client.Client.Send(messagePacket.GetPacketbytes());
         }
-
-
-
-
     }
 }

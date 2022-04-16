@@ -69,7 +69,7 @@ namespace WPFGameTest
                 ChangeState();
             }
 
-            _Time.Tick();
+            Time.Tick();
         }
 
         public void ChangeState()
