@@ -32,6 +32,7 @@ namespace WPFGameTest
         public MainWindow()
         {
             InitializeComponent();
+            /*
             _Width = this.Width;
             _Height = this.Height;
             //Renderer.InvalidateVisual();
@@ -64,6 +65,7 @@ namespace WPFGameTest
 
             // Game loop
             CompositionTargetEx.Rendering += MainLoop;
+            */
         }
 
         public void MainLoop(object sender, RenderingEventArgs e)

@@ -5,8 +5,54 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:WPFGameTest.MVVM.View"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="768" d:DesignWidth="1024">
     <Grid>
+        <Button 
+            Content="Play" 
+            HorizontalAlignment="Center" 
+            Margin="0,145,0,0" 
+            VerticalAlignment="Top" 
+            Height="73" 
+            Width="320"
+            FontSize="36"
             
+         />
+        <Button 
+            Content="Multiplayer" 
+            HorizontalAlignment="Center" 
+            Margin="0,245,0,0" 
+            VerticalAlignment="Top" 
+            Height="73" 
+            Width="320"
+            FontSize="36"
+            />
+        <Button 
+            Content="Map Editor" 
+            HorizontalAlignment="Center" 
+            Margin="0,344,0,0" 
+            VerticalAlignment="Top" 
+            Height="73" 
+            Width="320"
+            FontSize="36"
+            />
+        <Button 
+            Content="Server Tester" 
+            HorizontalAlignment="Center" 
+            Margin="0,443,0,0" 
+            VerticalAlignment="Top" 
+            Height="73" 
+            Width="320"
+            FontSize="36"
+            />
+        <Button 
+            Content="Test Button" 
+            HorizontalAlignment="Center" 
+            Margin="0,537,0,0" 
+            VerticalAlignment="Top" 
+            Height="73" 
+            Width="320"
+            FontSize="36"
+            />
+
     </Grid>
 </UserControl>

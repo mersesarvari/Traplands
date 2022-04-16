@@ -9,6 +9,7 @@ namespace WPFGameTest.MVVM.ViewModel
 {    
     internal class MainWindowViewModel:ObservableObject
     {
+        public static MainWindowViewModel Instance;
         public LobbyViewModel LobbyMV { get; set; }
         public MainmenuViewModel MainMenuVM { get; set; }
         public MultiplayerGameMenuViewModel MultiplayerGameMenuVM { get; set; }
@@ -33,8 +34,13 @@ namespace WPFGameTest.MVVM.ViewModel
             MultiplayerGameMenuVM = new MultiplayerGameMenuViewModel();
             MultiplayerGameVM = new MultiplayerGameViewModel();
             SingleplayerGameVM = new SingleplayerGameViewModel();   
+            CurrentView = MainMenuVM;
 
+        }
 
+        public void ChangeCurrentView()
+        { 
+            Instance.CurrentView = CurrentView;
         }
 
 

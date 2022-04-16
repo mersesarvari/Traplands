@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:WPFGameTest.MVVM.View"
              xmlns:renderer="clr-namespace:WPFGameTest.Renderer"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="768" d:DesignWidth="1024">
     <Grid x:Name="MainGrid">
         <ScrollViewer x:Name="MainCamera">
             <Canvas x:Name="MainCanvas">

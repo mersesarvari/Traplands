@@ -5,14 +5,14 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WPFGameTest"
         xmlns:renderer="clr-namespace:WPFGameTest.Renderer"
+        xmlns:viewModel="clr-namespace:WPFGameTest.MVVM.ViewModel"
         mc:Ignorable="d"
         Title="Game" Background="Gray" Height="768" Width="1024" KeyDown="Window_KeyDown" KeyUp="Window_KeyUp" SizeChanged="GameWindow_SizeChanged">
-    <Grid x:Name="MainGrid">
-        <ScrollViewer x:Name="MainCamera">
-            <Canvas x:Name="MainCanvas">
-                
-            </Canvas>
-        </ScrollViewer>
-        <renderer:Renderer x:Name="Renderer"/>
+    <Window.DataContext>
+        <viewModel:MainWindowViewModel/>
+
+    </Window.DataContext>
+    <Grid>
+        <ContentControl Content="{Binding CurrentView}" Height="768" Width="1024"/>
     </Grid>
-    </Window>
+</Window>
