@@ -208,7 +208,7 @@ namespace WPFGameTest.Logic
             canvas.Children.Add(player2.Element);
 
             TestClient.Instance.Init(player);
-            Server.Instance.Init(player2);
+            TestServer.Instance.Init(player2);
         }
 
         public override void Update()
@@ -221,7 +221,7 @@ namespace WPFGameTest.Logic
             }
 
             TestClient.Instance.Update();
-            Server.Instance.Update();
+            TestServer.Instance.Update();
 
             CameraController.Instance.UpdateCamera(player.Transform.Position);
         }

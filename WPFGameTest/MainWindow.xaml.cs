@@ -50,6 +50,8 @@ namespace WPFGameTest
             Resource.AddImage("Grass_Top_Right_Bottom", "grass_toprightbottom.png");
             Resource.AddImage("Grass_Top_Left_Bottom", "grass_topleftbottom.png");
 
+
+
             // Background music
             AudioManager.Init();
 

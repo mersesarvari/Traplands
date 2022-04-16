@@ -156,7 +156,7 @@ namespace WPFGameTest
 
         private void SendToServer(InputPayload inputPayload)
         {
-            Server.Instance.OnClientInput(inputPayload);
+            TestServer.Instance.OnClientInput(inputPayload);
         }
     }
 }

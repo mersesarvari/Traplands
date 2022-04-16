@@ -9,9 +9,9 @@ using WPFGameTest.Models;
 
 namespace WPFGameTest
 {
-    public class Server
+    public class TestServer
     {
-        private static readonly Server instance = new Server();
+        private static readonly TestServer instance = new TestServer();
 
         private const float SERVER_TICK_RATE = 30f;
         private float timer;
@@ -24,11 +24,11 @@ namespace WPFGameTest
 
         private Player player;
 
-        static Server() { }
+        static TestServer() { }
 
-        private Server() { }
+        private TestServer() { }
 
-        public static Server Instance
+        public static TestServer Instance
         {
             get
             {
