@@ -33,6 +33,7 @@ namespace WPFGameTest
         {
             InitializeComponent();
             _Width = this.Width;
+            _Height = this.Height;
             //Renderer.InvalidateVisual();
 
             Resource.AddImage("MainMenu_Bg", "menu_bg.jpg");
