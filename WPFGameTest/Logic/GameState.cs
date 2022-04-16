@@ -790,15 +790,19 @@ namespace WPFGameTest.Logic
             #region Elements
 
             TextBox lobbycodebox = new TextBox();
+            Label codelabel = new Label();
             lobbycodebox.Width = 100;
             lobbycodebox.Height = 30;
 
-            //TextBox for Join
+            //TextBox for Join:
             double left = (mainWindow.Width - lobbycodebox.Width) / 2;
             double top = (mainWindow.Height - lobbycodebox.Height) / 2;
             Canvas.SetLeft(lobbycodebox, left);
             Canvas.SetTop(lobbycodebox, top);
             canvas.Children.Add(lobbycodebox);
+
+            //label:
+            //codelabel.DataContext ="{Binding DataContext.TextControl}";
 
             #endregion
             /*
