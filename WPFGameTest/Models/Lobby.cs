@@ -29,5 +29,23 @@ namespace WPFGameTest.Models
 
         }
 
+        public void Start()
+        { 
+            
+        }
+
+        public void Exit()
+        { 
+            
+        }
+        //Removing player from lobby
+        public void KickPlayer(string ownerid, string NameOfTargetPlayer)
+        {
+            if (Owner.PlayerID == ownerid)
+            {
+                Players.Remove(Players.FirstOrDefault(x => x.PlayerName == NameOfTargetPlayer));
+            }
+        }
+
     }
 }
