@@ -4,9 +4,15 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:WPFGameTest.MVVM.View"
+             xmlns:renderer="clr-namespace:WPFGameTest.Renderer"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
-            
+    <Grid x:Name="MainGrid">
+        <ScrollViewer x:Name="MainCamera">
+            <Canvas x:Name="MainCanvas">
+
+            </Canvas>
+        </ScrollViewer>
+        <renderer:Renderer x:Name="Renderer"/>
     </Grid>
 </UserControl>
