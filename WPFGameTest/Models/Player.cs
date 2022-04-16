@@ -296,10 +296,5 @@ namespace WPFGameTest.Models
 
             AnimActive.Play(Element);
         }
-
-        public static FindPlayer()
-        { 
-            
-        }
     }
 }
