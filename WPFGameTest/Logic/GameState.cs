@@ -20,6 +20,7 @@ namespace WPFGameTest.Logic
         Play,
         Editor,
         Multiplayer,
+        Lobby,
         Exit
     }
 
@@ -76,7 +77,6 @@ namespace WPFGameTest.Logic
             NeedChange = true;
         }
     }
-
     public class MainMenu : GameState
     {
         private float transitionTime = 1f;
@@ -179,7 +179,6 @@ namespace WPFGameTest.Logic
             }
         }
     }
-
     public class ClientTest : GameState
     {
         private Player player;
@@ -235,7 +234,6 @@ namespace WPFGameTest.Logic
             CameraController.Instance.UpdateCamera(player.Transform.Position);
         }
     }
-
     public class PlayState : GameState
     {
         private Player player;
@@ -311,7 +309,6 @@ namespace WPFGameTest.Logic
             CameraController.Instance.UpdateCamera(player.Transform.Position); // Apply modifications to the "camera" like following the player or shaking
         }
     }
-
     public class EditorState : GameState
     {
         private struct Coordinate
@@ -442,7 +439,7 @@ namespace WPFGameTest.Logic
             canvas.PreviewMouseDown += (s, e) => { canPlace = true; };
             canvas.PreviewMouseUp += (s, e) => { canPlace = false; };
         }
-
+        
 
         // Zooming in the scrollviewer with mousewheel
         private void Camera_MouseWheel(object sender, MouseWheelEventArgs e)
@@ -745,13 +742,30 @@ namespace WPFGameTest.Logic
     }
 
 
-    //TODO: LobbyState
+    //TODO: Lobby State
+    /// <summary>
+    /// TODO:
+    /// This function will inicialize the lobby with the player list, start button and map selector
+    /// </summary>
     public class LobbyState : GameState
     {
+
         public LobbyState(MainWindow mainWindow) : base(mainWindow)
         {
 
         }
     }
+    //TODO: Summary
+    /// <summary>
+    /// TODO: Multiplayr state
+    /// This function will inicialize the elements for the Multiplayer Game creation of Lobby Join Panel
+    /// </summary>
+    public class MultiplayerState : GameState
+    {
+        public MultiplayerState(MainWindow mainWindow) : base(mainWindow)
+        {
+        }
+    }
+
 }
 

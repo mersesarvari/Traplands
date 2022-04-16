@@ -90,8 +90,11 @@ namespace WPFGameTest
                 case GameStates.Editor:
                     currentState = new EditorState(GameWindow);
                     break;
-                case GameStates.Multiplayer:
+                case GameStates.Lobby:
                     currentState = new LobbyState(GameWindow);
+                    break;
+                case GameStates.Multiplayer:
+                    currentState = new MultiplayerState(GameWindow);
                     break;
                 case GameStates.Exit:
                     Environment.Exit(0);
