@@ -19,6 +19,7 @@ namespace WPFGameTest.Logic
         ClientTest,
         Play,
         Editor,
+        Multiplayer,
         Exit
     }
 
@@ -108,11 +109,19 @@ namespace WPFGameTest.Logic
             playButton.AddOnClickEvent((s, e) => { selectAudio.Play(); StartTransition(GameStates.Play); });
             playButton.AddOnMouseEnterEvent((s, e) => { playButton.Border.Fill = new SolidColorBrush(Colors.MediumAquamarine); });
             playButton.AddOnMouseLeaveEvent((s, e) => { playButton.Border.Fill = new SolidColorBrush(Colors.Gray); });
-
+            
+            RectButton multiplayerButton = new RectButton(canvas, 200, 50, new SolidColorBrush(Colors.Gray));
+            multiplayerButton.SetText("Multiplayer");
+            multiplayerButton.SetTextSize(26);
+            multiplayerButton.SetPosition(412, 400);
+            multiplayerButton.AddOnClickEvent((s, e) => { selectAudio.Play(); StartTransition(GameStates.Multiplayer); });
+            multiplayerButton.AddOnMouseEnterEvent((s, e) => { multiplayerButton.Border.Fill = new SolidColorBrush(Colors.MediumAquamarine); });
+            multiplayerButton.AddOnMouseLeaveEvent((s, e) => { multiplayerButton.Border.Fill = new SolidColorBrush(Colors.Gray); });
+            
             RectButton editorButton = new RectButton(canvas, 200, 50, new SolidColorBrush(Colors.Gray));
             editorButton.SetText("Level Editor");
             editorButton.SetTextSize(26);
-            editorButton.SetPosition(412, 400);
+            editorButton.SetPosition(412, 500);
             editorButton.AddOnClickEvent((s, e) => { selectAudio.Play(); StartTransition(GameStates.Editor); });
             editorButton.AddOnMouseEnterEvent((s, e) => { editorButton.Border.Fill = new SolidColorBrush(Colors.MediumAquamarine); });
             editorButton.AddOnMouseLeaveEvent((s, e) => { editorButton.Border.Fill = new SolidColorBrush(Colors.Gray); });
@@ -120,7 +129,7 @@ namespace WPFGameTest.Logic
             RectButton exitButton = new RectButton(canvas, 200, 50, new SolidColorBrush(Colors.Gray));
             exitButton.SetText("Exit");
             exitButton.SetTextSize(26);
-            exitButton.SetPosition(412, 500);
+            exitButton.SetPosition(412, 600);
             exitButton.AddOnClickEvent((s, e) => { ChangeState(GameStates.Exit); });
             exitButton.AddOnMouseEnterEvent((s, e) => { exitButton.Border.Fill = new SolidColorBrush(Colors.IndianRed); });
             exitButton.AddOnMouseLeaveEvent((s, e) => { exitButton.Border.Fill = new SolidColorBrush(Colors.Gray); });
