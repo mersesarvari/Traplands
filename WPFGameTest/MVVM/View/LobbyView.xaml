@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:WPFGameTest.MVVM.View"
              mc:Ignorable="d" 
              d:DesignHeight="768" d:DesignWidth="1024">
-    <Grid>
+    <Grid Background="#FFE80303">
             
     </Grid>
 </UserControl>

@@ -3,10 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
+using WPFGameTest.Core;
 
 namespace WPFGameTest.MVVM.ViewModel
 {
     internal class MainmenuViewModel
     {
+        public ICommand PushPlayButtonCommand { get; set; }
+
+        public MainmenuViewModel()
+        {
+        }
     }
 }

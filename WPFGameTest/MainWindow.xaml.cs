@@ -15,6 +15,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using WPFGameTest.Helpers;
 using WPFGameTest.Logic;
+using WPFGameTest.MVVM.ViewModel;
 using WPFGameTest.Renderer;
 
 namespace WPFGameTest
@@ -32,6 +33,7 @@ namespace WPFGameTest
         public MainWindow()
         {
             InitializeComponent();
+            DataContext = new MainWindowViewModel();
             /*
             _Width = this.Width;
             _Height = this.Height;

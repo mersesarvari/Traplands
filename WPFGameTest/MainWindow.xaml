@@ -8,11 +8,15 @@
         xmlns:viewModel="clr-namespace:WPFGameTest.MVVM.ViewModel"
         mc:Ignorable="d"
         Title="Game" Background="Gray" Height="768" Width="1024" KeyDown="Window_KeyDown" KeyUp="Window_KeyUp" SizeChanged="GameWindow_SizeChanged">
-    <Window.DataContext>
-        <viewModel:MainWindowViewModel/>
-
-    </Window.DataContext>
+    
+    
     <Grid>
-        <ContentControl Content="{Binding CurrentView}" Height="768" Width="1024"/>
+        <Grid.DataContext>
+            <viewModel:MainWindowViewModel/>
+        </Grid.DataContext>
+        <Button Command="{Binding ViewChangeCommand}" Content="Button" HorizontalAlignment="Left" Margin="342,36,0,0" VerticalAlignment="Top" Height="113" Width="305"/>
+        <ContentControl Content="{Binding CurrentView}" Height="400" Width="1024" Margin="0,0,0,-16"/>
+        
     </Grid>
+    
 </Window>
