@@ -1,0 +1,8 @@
+﻿Ide bárki beírhatja az észrevételeit. és in-code meg tudjuk beszélni.
+
+Merse: 2022.04.16
+	Egy felvetés. Lehet hogy amikor nem vagyunk in-game tehát nem konkrétan van egy mapünk, 
+	és mozgatunk egy karaktert, akkor el kéne felejteni a canvas használatát, 
+	mert rettentően megbonyolítja a Menu itemek és minden más komponens kirajzolását is.
+---
+

@@ -46,13 +46,16 @@ namespace WPFGameTest.Logic
 
             // Canvas setup
             canvas = new Canvas();
+            //Removing this because we dont need that canvas size in everywhere
+            /*
             canvas.Width = ObjectData.BLOCK_WIDTH * 100;
             canvas.Height = ObjectData.BLOCK_HEIGHT * 100;
+            */
 
             // Camera (ScrollViewer) setup
             camera = new ScrollViewer();
-            camera.Width = WindowController.WIDTH;
-            camera.Height = WindowController.HEIGHT;
+            camera.Width = mainWindow.Width;
+            camera.Height = mainWindow.Width;
             camera.HorizontalScrollBarVisibility = ScrollBarVisibility.Hidden;
             camera.VerticalScrollBarVisibility = ScrollBarVisibility.Hidden;
 
@@ -64,8 +67,8 @@ namespace WPFGameTest.Logic
 
             camera.Content = canvas;
             grid.Children.Add(camera);
-
             CameraController.Instance.Init(camera);
+
         }
 
         public virtual void Update() { }
@@ -246,7 +249,9 @@ namespace WPFGameTest.Logic
             * Store input in order to replay player movement
             * 
             */
-
+            //Setting back Canvas size to normal
+            canvas.Width = ObjectData.BLOCK_WIDTH * 100;
+            canvas.Height = ObjectData.BLOCK_HEIGHT * 100;
             timer = new Stopwatch();
             timer.Start();
 
@@ -770,19 +775,22 @@ namespace WPFGameTest.Logic
 
             selectAudio = new AudioClip("ui_reward.wav");
             selectAudio.Volume = 0.1;
-            
+
 
             //Adding elements Dinamically
             #region Elements
+            
             TextBox lobbycodebox = new TextBox();
-            MessageBox.Show($"Canvas current parameters: Width: {canvas.ActualWidth} Hight: {canvas.ActualHeight}");
             lobbycodebox.Width = 100;
             lobbycodebox.Height = 30;
-            double left = (canvas.ActualWidth - lobbycodebox.ActualWidth) / 2;
-            double top = (canvas.ActualHeight - lobbycodebox.ActualHeight) / 2;
+
+            //Set canvas Size to window Size Need to Set this Back on Game
+            canvas.Width = mainWindow.Width;
+            canvas.Height = mainWindow.Height;
+            double left = (mainWindow.Width - lobbycodebox.Width) / 2;
+            double top = (mainWindow.Height - lobbycodebox.Height) / 2;
             Canvas.SetLeft(lobbycodebox, left);
             Canvas.SetTop(lobbycodebox, top);
-
             canvas.Children.Add(lobbycodebox);
 
             #endregion

@@ -51,8 +51,8 @@ namespace WPFGameTest.Logic
 
         public void UpdateCamera(Vector2 position)
         {
-            int offsetX = (int)(position.X - WindowController.WIDTH / 2);
-            int offsetY = (int)(position.Y - WindowController.HEIGHT / 1.7f);
+            int offsetX = (int)(position.X - MainWindow._Width / 2);
+            int offsetY = (int)(position.Y - MainWindow._Height / 1.7f);
 
             if (isShaking)
             {
@@ -66,8 +66,8 @@ namespace WPFGameTest.Logic
                     currentShakeTime = 0;
                 }
 
-                offsetX = (int)(position.X - WindowController.WIDTH / 2 + rnd.NextDouble() * (shakePower * 2) + -shakePower);
-                offsetY = (int)(position.Y - WindowController.HEIGHT / 1.7f + rnd.NextDouble() * (shakePower * 2) + -shakePower);
+                offsetX = (int)(position.X - MainWindow._Width / 2 + rnd.NextDouble() * (shakePower * 2) + -shakePower);
+                offsetY = (int)(position.Y - MainWindow._Height / 1.7f + rnd.NextDouble() * (shakePower * 2) + -shakePower);
             }
 
             camera.ScrollToHorizontalOffset(offsetX);
@@ -76,8 +76,8 @@ namespace WPFGameTest.Logic
 
         public void UpdateEditorCamera(Vector2f position)
         {
-            int offsetX = (int)(position.X - WindowController.WIDTH / 2);
-            int offsetY = (int)(position.Y - WindowController.HEIGHT / 2);
+            int offsetX = (int)(position.X - MainWindow._Width / 2);
+            int offsetY = (int)(position.Y - MainWindow._Height / 2);
 
             camera.ScrollToHorizontalOffset(offsetX);
             camera.ScrollToVerticalOffset(offsetY);

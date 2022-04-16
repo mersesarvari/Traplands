@@ -26,11 +26,13 @@ namespace WPFGameTest
     public partial class MainWindow : Window
     {
         GameState currentState;
+        public static double _Width;
+        public static double _Height;
 
         public MainWindow()
         {
             InitializeComponent();
-
+            _Width = this.Width;
             //Renderer.InvalidateVisual();
 
             Resource.AddImage("MainMenu_Bg", "menu_bg.jpg");
@@ -49,6 +51,7 @@ namespace WPFGameTest
             Resource.AddImage("Grass_Mid_Right_Left", "grass_midrightleft.png");
             Resource.AddImage("Grass_Top_Right_Bottom", "grass_toprightbottom.png");
             Resource.AddImage("Grass_Top_Left_Bottom", "grass_topleftbottom.png");
+            
 
 
 
@@ -116,8 +119,8 @@ namespace WPFGameTest
 
         private void GameWindow_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            WindowController.WIDTH = (int)e.NewSize.Width;
-            WindowController.HEIGHT = (int)e.NewSize.Height;
+            this.Width = (int)e.NewSize.Width;
+            this.Height = (int)e.NewSize.Height;
         }
     }
 }
