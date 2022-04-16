@@ -791,26 +791,39 @@ namespace WPFGameTest.Logic
 
             TextBox lobbycodebox = new TextBox();
             Label codelabel = new Label();
-            lobbycodebox.Width = 100;
+            lobbycodebox.Width = 400;
             lobbycodebox.Height = 30;
+            lobbycodebox.FontSize = 18;
 
             //TextBox for Join:
             double left = (mainWindow.Width - lobbycodebox.Width) / 2;
             double top = (mainWindow.Height - lobbycodebox.Height) / 2;
-            Canvas.SetLeft(lobbycodebox, left);
-            Canvas.SetTop(lobbycodebox, top);
-            canvas.Children.Add(lobbycodebox);
+            //Canvas.SetLeft(lobbycodebox, left);
+            //Canvas.SetTop(lobbycodebox, top);
+            
 
             //label:
-            //codelabel.DataContext ="{Binding DataContext.TextControl}";
+            codelabel.Content ="Lobby Id:";
+            codelabel.FontSize=18;
+            //Canvas.SetLeft(codelabel, left-80);
+            //Canvas.SetTop(codelabel, top);
 
+            //GroupBox1
+            StackPanel lobbyBox = new StackPanel();
+            lobbyBox.Width = 800;
+            lobbyBox.Height = 500;
+            lobbyBox.Visibility = Visibility.Visible;
+            lobbyBox.Children.Add(lobbycodebox);
+            lobbyBox.Children.Add(codelabel);
+            Canvas.SetLeft(lobbyBox, left);
+            Canvas.SetTop(lobbyBox, top);
             #endregion
             /*
             blackScreen = new Rectangle();
             blackScreen.Width = canvas.Width;
             blackScreen.Height = canvas.Height;
             */
-
+            canvas.Children.Add(lobbyBox);
 
         }
 
