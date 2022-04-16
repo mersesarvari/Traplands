@@ -13,6 +13,9 @@ namespace WPFGameTest.Models
     public class Player : DynamicObject
     {
         protected PlayerState State { get; set; } // Should be private later
+        //Player data from the server
+        public string PlayerName { get; set; }
+        public string PlayerID { get; set; }
 
         // Movement attributes
         public int Dir { get; set; }
@@ -51,8 +54,12 @@ namespace WPFGameTest.Models
         public float DashCooldown { get; private set; }
         public float CooldownLeft { get; set; }
 
-        public Player(Vector2 position, Vector2 size, int hitboxOffset = 0) : base(position, size, hitboxOffset)
+        public Player(string id, string name,Vector2 position, Vector2 size, int hitboxOffset = 0) : base(position, size, hitboxOffset)
         {
+            //setting up player data from the server
+            PlayerID = id;
+            PlayerName = name;
+
             State = new PlayerOnGround(this);
 
             // Setting up default values
@@ -69,6 +76,7 @@ namespace WPFGameTest.Models
             MaxJumps = 1;
             JumpsLeft = MaxJumps;
 
+            #region Animations
             // Animations + sound effects
             AnimIdle = new Animation("player_idle.png", 4, 48, 48, 0.2f);
             AnimRunning = new Animation("player_run.png", 6, 48, 48, 0.1f);
@@ -117,6 +125,7 @@ namespace WPFGameTest.Models
                 if (Grounded) State = new PlayerOnGround(this);
                 else State = new PlayerInAir(this);
             };
+            #endregion
         }
 
         public override void MoveY(float amount, Action onCollision)
@@ -180,7 +189,6 @@ namespace WPFGameTest.Models
                     Grounded = false;
                 }
             }
-
             Canvas.SetTop(Element, Transform.Position.Y);
         }
 

@@ -48,7 +48,7 @@ namespace WPFGameTest
 
         public void Update()
         {
-            timer += Time.DeltaTime;
+            timer += _Time.DeltaTime;
 
             while (timer >= minTimeBetweenTicks)
             {

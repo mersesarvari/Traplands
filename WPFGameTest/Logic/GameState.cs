@@ -197,12 +197,12 @@ namespace WPFGameTest.Logic
                 canvas.Children.Add(s2.Element);
             }
 
-            player = new Player(new Vector2(100, 0), new Vector2(44, 44), 8);
+            player = new Player("001", "Player1",new Vector2(100, 0), new Vector2(44, 44), 8);
             player.SetDefaultSprite(Resource.GetImage("Player"));
             player.SetSolids(solids);
             canvas.Children.Add(player.Element);
 
-            player2 = new Player(new Vector2(100, 0), new Vector2(44, 44), 8);
+            player2 = new Player("002", "Player2",new Vector2(100, 0), new Vector2(44, 44), 8);
             player2.SetDefaultSprite(Resource.GetImage("Grass_Under"));
             player2.Element.Fill.Opacity = 0.2;
             canvas.Children.Add(player2.Element);
@@ -250,7 +250,7 @@ namespace WPFGameTest.Logic
             AudioManager.SetBackgroundMusic("26-Dark Fantasy Studio- Playing in water.wav");
             camera.Background = new ImageBrush(Resource.GetImage("Game_Bg"));
 
-            player = new Player(new Vector2(100, 0), new Vector2(44, 44), 8);
+            player = new Player("001", "Player1",new Vector2(100, 0), new Vector2(44, 44), 8);
             player.SetDefaultSprite(Resource.GetImage("Player"));
 
 

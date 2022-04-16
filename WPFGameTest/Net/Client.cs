@@ -15,7 +15,8 @@ namespace WPFGameTest.Net
     public class Client
     {
         TcpClient _client;
-        public PacketReader PacketReader;
+        //Was public
+        private PacketReader PacketReader;
 
         //public static List<MovementPackage> MovementHistory=new List<MovementPackage>();
         public static List<Player> PlayerHistory = new List<Player>();

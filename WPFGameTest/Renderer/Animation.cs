@@ -89,7 +89,7 @@ namespace WPFGameTest.Renderer
 
             if (timeToNewImage < TimeBetweenImages)
             {
-                timeToNewImage += Time.DeltaTime;
+                timeToNewImage += _Time.DeltaTime;
             }
             else
             {
