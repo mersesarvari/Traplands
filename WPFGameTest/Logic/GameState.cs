@@ -85,7 +85,6 @@ namespace WPFGameTest.Logic
         private bool startTransition = false;
         private GameStates newState;
         AudioClip selectAudio;
-
         public MainMenu(MainWindow mainWindow) : base(mainWindow)
         {
             camera.Background = new ImageBrush(Resource.GetImage("MainMenu_Bg"));
@@ -138,7 +137,6 @@ namespace WPFGameTest.Logic
             blackScreen.Width = canvas.Width;
             blackScreen.Height = canvas.Height;
         }
-
         private void StartTransition(GameStates newState)
         {
             this.newState = newState;
@@ -146,7 +144,6 @@ namespace WPFGameTest.Logic
             canvas.Children.Add(blackScreen);
             startTransition = true;
         }
-
         private void Transition()
         {
             float ratio = currentTime / transitionTime;
@@ -165,7 +162,6 @@ namespace WPFGameTest.Logic
                 ChangeState(newState);
             }
         }
-
         public override void Update()
         {
             if (Input.GetKeyPressed(Key.Escape))
@@ -740,9 +736,7 @@ namespace WPFGameTest.Logic
             return obj;
         }
     }
-
-
-    //TODO: Lobby State
+    //TODO: Summary
     /// <summary>
     /// TODO:
     /// This function will inicialize the lobby with the player list, start button and map selector
@@ -762,10 +756,82 @@ namespace WPFGameTest.Logic
     /// </summary>
     public class MultiplayerState : GameState
     {
+        private float transitionTime = 1f;
+        private float currentTime = 0;
+        private Rectangle blackScreen;
+        private bool startTransition = false;
+        private GameStates newState;
+        AudioClip selectAudio;
+
         public MultiplayerState(MainWindow mainWindow) : base(mainWindow)
         {
+            camera.Background = new ImageBrush(Resource.GetImage("MainMenu_Bg"));
+            AudioManager.SetBackgroundMusic("27-Dark Fantasy Studio- Silent walk.wav");
+
+            selectAudio = new AudioClip("ui_reward.wav");
+            selectAudio.Volume = 0.1;
+            
+
+            //Adding elements Dinamically
+            #region Elements
+            TextBox lobbycodebox = new TextBox();
+            MessageBox.Show($"Canvas current parameters: Width: {canvas.ActualWidth} Hight: {canvas.ActualHeight}");
+            lobbycodebox.Width = 100;
+            lobbycodebox.Height = 30;
+            double left = (canvas.ActualWidth - lobbycodebox.ActualWidth) / 2;
+            double top = (canvas.ActualHeight - lobbycodebox.ActualHeight) / 2;
+            Canvas.SetLeft(lobbycodebox, left);
+            Canvas.SetTop(lobbycodebox, top);
+
+            canvas.Children.Add(lobbycodebox);
+
+            #endregion
+            /*
+            blackScreen = new Rectangle();
+            blackScreen.Width = canvas.Width;
+            blackScreen.Height = canvas.Height;
+            */
+
+
+        }
+
+        private void StartTransition(GameStates newState)
+        {
+            this.newState = newState;
+            blackScreen.Fill = new SolidColorBrush(Color.FromArgb(0, 0, 0, 0));
+            canvas.Children.Add(blackScreen);
+            startTransition = true;
+        }
+        private void Transition()
+        {
+            float ratio = currentTime / transitionTime;
+            byte a = (byte)(255 * ratio);
+
+            double volume = AudioManager.defaultVolume - ratio * AudioManager.defaultVolume;
+
+            if (currentTime < transitionTime)
+            {
+                currentTime += Time.DeltaTime;
+                blackScreen.Fill = new SolidColorBrush(Color.FromArgb(a, 0, 0, 0));
+                AudioManager.backgroundMusic.Volume = volume;
+            }
+            else
+            {
+                ChangeState(newState);
+            }
+        }
+        public override void Update()
+        {
+            if (Input.GetKeyPressed(Key.Escape))
+            {
+                ChangeState(GameStates.Exit);
+            }
+
+            if (startTransition)
+            {
+                Transition();
+            }
         }
     }
-
 }
 
