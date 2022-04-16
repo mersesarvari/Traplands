@@ -103,7 +103,7 @@ namespace WPFGameTest.Logic
             clientButton.AddOnMouseLeaveEvent((s, e) => { clientButton.Border.Fill = new SolidColorBrush(Colors.Gray); });
 
             RectButton playButton = new RectButton(canvas, 200, 50, new SolidColorBrush(Colors.Gray));
-            playButton.SetText("Play");
+            playButton.SetText("Singleplayer");
             playButton.SetTextSize(26);
             playButton.SetPosition(412, 300);
             playButton.AddOnClickEvent((s, e) => { selectAudio.Play(); StartTransition(GameStates.Play); });
@@ -324,7 +324,7 @@ namespace WPFGameTest.Logic
                 Y = y;
             }
         }
-
+        #region Variables
         // Visuals
         private LevelGrid levelGrid;
         private Rectangle previewRect;
@@ -358,7 +358,7 @@ namespace WPFGameTest.Logic
             new Vector2(1,-1),
             new Vector2(-1,1)
         };
-
+        #endregion
         public EditorState(MainWindow mainWindow) : base(mainWindow)
         {
             // Initial setup of the state
@@ -388,14 +388,16 @@ namespace WPFGameTest.Logic
                 }
             }
 
-            editorPanel.Children.Add(new TextBox 
-            { 
+            editorPanel.Children.Add(new TextBox
+            {
                 Width = 150,
-                AcceptsReturn = false, 
-                BorderThickness = new Thickness(0), 
-                Background = 
-                new SolidColorBrush(Colors.Black), 
-                Opacity = 0.5, Foreground = new SolidColorBrush(Colors.White) }) ;
+                AcceptsReturn = false,
+                BorderThickness = new Thickness(0),
+                Background =
+                new SolidColorBrush(Colors.Black),
+                Opacity = 0.5,
+                Foreground = new SolidColorBrush(Colors.White)
+            });
 
             grid.Children.Add(editorPanel);
 
@@ -409,7 +411,7 @@ namespace WPFGameTest.Logic
             canvas.Children.Add(previewRect);
 
             // When moving the mouse in the scrollview update and calculate actual position on the "grid"
-            camera.PreviewMouseMove += (s, e) => 
+            camera.PreviewMouseMove += (s, e) =>
             {
                 // Get mouse position relative to canvas (world)
                 mouseX = Mouse.GetPosition(canvas).X;
@@ -430,7 +432,7 @@ namespace WPFGameTest.Logic
             canvas.LayoutTransform = scale;
 
             // On exiting this state (not needed at this build, we remake every canvas and scrollviewer anyway)
-            OnStateExit += () => 
+            OnStateExit += () =>
             {
                 scale = new ScaleTransform(1, 1);
                 canvas.LayoutTransform = scale;
@@ -440,6 +442,7 @@ namespace WPFGameTest.Logic
             canvas.PreviewMouseDown += (s, e) => { canPlace = true; };
             canvas.PreviewMouseUp += (s, e) => { canPlace = false; };
         }
+
 
         // Zooming in the scrollviewer with mousewheel
         private void Camera_MouseWheel(object sender, MouseWheelEventArgs e)
@@ -738,6 +741,16 @@ namespace WPFGameTest.Logic
             }
 
             return obj;
+        }
+    }
+
+
+    //TODO: LobbyState
+    public class LobbyState : GameState
+    {
+        public LobbyState(MainWindow mainWindow) : base(mainWindow)
+        {
+
         }
     }
 }
