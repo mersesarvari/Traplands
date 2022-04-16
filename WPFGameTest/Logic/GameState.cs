@@ -781,15 +781,19 @@ namespace WPFGameTest.Logic
 
 
             //Adding elements Dinamically
-            #region Elements
             
-            TextBox lobbycodebox = new TextBox();
-            lobbycodebox.Width = 100;
-            lobbycodebox.Height = 30;
 
             //Set canvas Size to window Size Need to Set this Back on Game
             canvas.Width = mainWindow.Width;
             canvas.Height = mainWindow.Height;
+
+            #region Elements
+
+            TextBox lobbycodebox = new TextBox();
+            lobbycodebox.Width = 100;
+            lobbycodebox.Height = 30;
+
+            //TextBox for Join
             double left = (mainWindow.Width - lobbycodebox.Width) / 2;
             double top = (mainWindow.Height - lobbycodebox.Height) / 2;
             Canvas.SetLeft(lobbycodebox, left);
