@@ -51,6 +51,8 @@ namespace WPFGameTest.Logic
             canvas.Width = ObjectData.BLOCK_WIDTH * 100;
             canvas.Height = ObjectData.BLOCK_HEIGHT * 100;
             */
+            canvas.Width = mainWindow.Width;
+            canvas.Height = mainWindow.Height;
 
             // Camera (ScrollViewer) setup
             camera = new ScrollViewer();
@@ -95,11 +97,12 @@ namespace WPFGameTest.Logic
 
             selectAudio = new AudioClip("ui_reward.wav");
             selectAudio.Volume = 0.1;
-
+            
             RectButton clientButton = new RectButton(canvas, 200, 50, new SolidColorBrush(Colors.Gray));
+            int centerposition = (int)((canvas.Width-200)/ 2);
             clientButton.SetText("Client Test");
             clientButton.SetTextSize(26);
-            clientButton.SetPosition(412, 200);
+            clientButton.SetPosition(centerposition, 200);
             clientButton.AddOnClickEvent((s, e) => { selectAudio.Play(); StartTransition(GameStates.ClientTest); });
             clientButton.AddOnMouseEnterEvent((s, e) => { clientButton.Border.Fill = new SolidColorBrush(Colors.MediumAquamarine); });
             clientButton.AddOnMouseLeaveEvent((s, e) => { clientButton.Border.Fill = new SolidColorBrush(Colors.Gray); });
@@ -107,7 +110,7 @@ namespace WPFGameTest.Logic
             RectButton playButton = new RectButton(canvas, 200, 50, new SolidColorBrush(Colors.Gray));
             playButton.SetText("Singleplayer");
             playButton.SetTextSize(26);
-            playButton.SetPosition(412, 300);
+            playButton.SetPosition(centerposition, 300);
             playButton.AddOnClickEvent((s, e) => { selectAudio.Play(); StartTransition(GameStates.Play); });
             playButton.AddOnMouseEnterEvent((s, e) => { playButton.Border.Fill = new SolidColorBrush(Colors.MediumAquamarine); });
             playButton.AddOnMouseLeaveEvent((s, e) => { playButton.Border.Fill = new SolidColorBrush(Colors.Gray); });
@@ -115,7 +118,7 @@ namespace WPFGameTest.Logic
             RectButton multiplayerButton = new RectButton(canvas, 200, 50, new SolidColorBrush(Colors.Gray));
             multiplayerButton.SetText("Multiplayer");
             multiplayerButton.SetTextSize(26);
-            multiplayerButton.SetPosition(412, 400);
+            multiplayerButton.SetPosition(centerposition, 400);
             multiplayerButton.AddOnClickEvent((s, e) => { selectAudio.Play(); StartTransition(GameStates.Multiplayer); });
             multiplayerButton.AddOnMouseEnterEvent((s, e) => { multiplayerButton.Border.Fill = new SolidColorBrush(Colors.MediumAquamarine); });
             multiplayerButton.AddOnMouseLeaveEvent((s, e) => { multiplayerButton.Border.Fill = new SolidColorBrush(Colors.Gray); });
@@ -123,7 +126,7 @@ namespace WPFGameTest.Logic
             RectButton editorButton = new RectButton(canvas, 200, 50, new SolidColorBrush(Colors.Gray));
             editorButton.SetText("Level Editor");
             editorButton.SetTextSize(26);
-            editorButton.SetPosition(412, 500);
+            editorButton.SetPosition(centerposition, 500);
             editorButton.AddOnClickEvent((s, e) => { selectAudio.Play(); StartTransition(GameStates.Editor); });
             editorButton.AddOnMouseEnterEvent((s, e) => { editorButton.Border.Fill = new SolidColorBrush(Colors.MediumAquamarine); });
             editorButton.AddOnMouseLeaveEvent((s, e) => { editorButton.Border.Fill = new SolidColorBrush(Colors.Gray); });
@@ -131,7 +134,7 @@ namespace WPFGameTest.Logic
             RectButton exitButton = new RectButton(canvas, 200, 50, new SolidColorBrush(Colors.Gray));
             exitButton.SetText("Exit");
             exitButton.SetTextSize(26);
-            exitButton.SetPosition(412, 600);
+            exitButton.SetPosition(centerposition, 600);
             exitButton.AddOnClickEvent((s, e) => { ChangeState(GameStates.Exit); });
             exitButton.AddOnMouseEnterEvent((s, e) => { exitButton.Border.Fill = new SolidColorBrush(Colors.IndianRed); });
             exitButton.AddOnMouseLeaveEvent((s, e) => { exitButton.Border.Fill = new SolidColorBrush(Colors.Gray); });
