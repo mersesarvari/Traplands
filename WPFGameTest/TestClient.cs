@@ -14,16 +14,15 @@ namespace WPFGameTest
         public float deltaTime;
         public int tick;
     }
-
     public struct StatePayload
     {
         public Vector2 position;
         public int tick;
     }
 
-    public class Client
+    public class TestClient
     {
-        private static readonly Client instance = new Client();
+        private static readonly TestClient instance = new TestClient();
 
         // Shared
         private int currentTick;
@@ -38,11 +37,11 @@ namespace WPFGameTest
 
         private Player player;
 
-        static Client() { }
+        static TestClient() { }
 
-        private Client() { }
+        private TestClient() { }
 
-        public static Client Instance
+        public static TestClient Instance
         {
             get
             {

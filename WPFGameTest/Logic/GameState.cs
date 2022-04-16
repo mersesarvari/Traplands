@@ -207,7 +207,7 @@ namespace WPFGameTest.Logic
             player2.Element.Fill.Opacity = 0.2;
             canvas.Children.Add(player2.Element);
 
-            Client.Instance.Init(player);
+            TestClient.Instance.Init(player);
             Server.Instance.Init(player2);
         }
 
@@ -220,7 +220,7 @@ namespace WPFGameTest.Logic
                 ChangeState(GameStates.MainMenu);
             }
 
-            Client.Instance.Update();
+            TestClient.Instance.Update();
             Server.Instance.Update();
 
             CameraController.Instance.UpdateCamera(player.Transform.Position);

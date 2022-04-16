@@ -98,7 +98,7 @@ namespace WPFGameTest
 
         private void SendToClient(StatePayload statePayload)
         {
-            Client.Instance.OnServerMovementState(statePayload);
+            TestClient.Instance.OnServerMovementState(statePayload);
         }
     }
 }
