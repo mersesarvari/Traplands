@@ -24,6 +24,8 @@ namespace WPFGameTest
     public enum ObjectType
     {
         None = 0,
+        Spawn,
+        Spike,
         Grass_First,
         Grass_Top_Center,
         Grass_Top_Right,
@@ -38,21 +40,18 @@ namespace WPFGameTest
         Grass_Mid_Right_Left,
         Grass_Under,
         Grass_Last,
-        Player,
-        Coin,
     }
 
     public static class LevelManager
     {
         private static Dictionary<string, Level> levels = new Dictionary<string, Level>();
-        public static List<StaticObject> Solids = new List<StaticObject>();
 
         public static ImageBrush GetCorrectTileImage(ObjectType obj)
         {
             return new ImageBrush(Resource.GetImage(obj.ToString()));
         }
 
-        public static Level Get(string key)
+        private static Level Get(string key)
         {
             Level level;
             levels.TryGetValue(key, out level);
@@ -78,38 +77,16 @@ namespace WPFGameTest
             //}
         }
 
-        public static bool Load(string key, Canvas canvas)
+        public static Level GetLevel(string key)
         {
             Level level = Get(key);
 
             if (level == null)
             {
-                return false;
+                return null;
             }
 
-            for (int i = 0; i < level.Map.GetLength(0); i++)
-            {
-                for (int j = 0; j < level.Map.GetLength(1); j++)
-                {
-                    ObjectType e = (ObjectType)level.Map[i, j];
-                    if (e != ObjectType.None)
-                    {
-                        StaticObject block = new StaticObject
-                        (
-                            new Vector2(ObjectData.BLOCK_WIDTH * i, ObjectData.BLOCK_HEIGHT * j),
-                            new Vector2(ObjectData.BLOCK_WIDTH, ObjectData.BLOCK_HEIGHT),
-                            Resource.GetImage(e.ToString()),
-                            true
-                        );
-                        Solids.Add(block);
-                        canvas.Children.Add(block.Element);
-                    }
-                }
-            }
-
-            return true;
+            return level;
         }
     }
-
-   
 }
