@@ -10,40 +10,30 @@ using WPFGameTest.Helpers;
 
 namespace WPFGameTest.Models
 {
-    public class StaticObject
+    public abstract class Entity
     {
+        public string Tag { get; set; }
         public Rectangle Element { get; set; }
         public Transform Transform { get; set; }
         public IntRect Hitbox { get; set; }
-        public bool IsGrabbable { get; private set; }
 
-        public StaticObject(Vector2 position, Vector2 size, bool grabbable = false)
+        public Entity(Vector2 position, Vector2 size)
         {
-            Transform = new Transform();
-            Transform.Position = position;
-            Transform.Size = size;
-            IsGrabbable = grabbable;
+            Tag = "Default";
 
             Element = new Rectangle();
             Element.Width = size.X;
             Element.Height = size.Y;
             Element.Fill = new SolidColorBrush(Colors.Thistle);
 
+            Transform = new Transform();
+            Transform.Position = new Vector2(position.X, position.Y);
+            Transform.Size = new Vector2(size.X, size.Y); ;
+
             Hitbox = new IntRect(position.X, position.Y, size.X, size.Y);
 
             Canvas.SetLeft(Element, position.X);
             Canvas.SetTop(Element, position.Y);
         }
-
-        public StaticObject(Vector2 position, Vector2 size, ImageSource image, bool grabbable = false) : this(position, size, grabbable)
-        {
-            Element.Fill = new ImageBrush(image);
-        }
-
-        public StaticObject(Vector2 position, Vector2 size, Color color, bool grabbable = false) : this(position, size, grabbable)
-        {
-            Element.Fill = new SolidColorBrush(color);
-        }
     }
 }
-

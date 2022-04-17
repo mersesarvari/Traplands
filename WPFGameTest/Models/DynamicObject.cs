@@ -11,23 +11,23 @@ using WPFGameTest.Helpers;
 
 namespace WPFGameTest.Models
 {
-    public class DynamicObject
+    public class DynamicObject : Entity
     {
-        public Transform Transform { get; set; }
-        public Rectangle Element { get; set; }
         public float xRemainder { get; protected set; }
         public float yRemainder { get; protected set; }
         public bool FacingRight { get; private set; }
         public bool Grounded { get; protected set; }
         public int HitboxOffset { get; private set; }
 
-        public DynamicObject(Vector2 position, Vector2 size, int hitboxOffset = 0)
+        public DynamicObject(Vector2 position, Vector2 size, int hitboxOffset = 0) : base(position, size)
         {
             Transform = new Transform();
             Transform.Position = new Vector2(position.X, position.Y);
-            Transform.Size = new Vector2(size.X, size.Y); ;
-            Transform.Position.X -= hitboxOffset;
-            Transform.Size.X -= hitboxOffset * 2;
+            Transform.Size = new Vector2(size.X, size.Y);
+
+            Hitbox = new IntRect(position.X, position.Y, size.X, size.Y);
+            Hitbox.X += hitboxOffset;
+            Hitbox.Width -= hitboxOffset * 2;
 
             xRemainder = 0;
             yRemainder = 0;
@@ -47,11 +47,17 @@ namespace WPFGameTest.Models
             Canvas.SetTop(Element, position.Y);
         }
 
-        public static List<StaticObject> solids = new List<StaticObject>();
+        public static List<Entity> solids = new List<Entity>();
+        public static List<Entity> interactables = new List<Entity>();
 
-        public void SetSolids(List<StaticObject> solidBodies)
+        public void SetSolids(List<Entity> solidBodies)
         {
             solids = solidBodies;
+        }
+
+        public void SetInteractables(List<Entity> interactableBodies)
+        {
+            interactables = interactableBodies;
         }
 
         public virtual void MoveX(float amount, Action onCollision)
@@ -68,16 +74,17 @@ namespace WPFGameTest.Models
                 {
                     IntRect tempRect = new IntRect
                     {
-                        X = Transform.Position.X + sign,
-                        Y = Transform.Position.Y,
-                        Width = Transform.Size.X,
-                        Height = Transform.Size.Y
+                        X = Hitbox.X + sign,
+                        Y = Hitbox.Y,
+                        Width = Hitbox.Width,
+                        Height = Hitbox.Height
                     };
 
                     if (!Physics.IsColliding(solids, tempRect))
                     {
                         //  We don't collide with anyting solid
                         Transform.Position.X += sign;
+                        Hitbox.X += sign;
                         move -= sign;
                     }
                     else
@@ -89,7 +96,7 @@ namespace WPFGameTest.Models
                 }
             }
 
-            Canvas.SetLeft(Element, Transform.Position.X - HitboxOffset);
+            Canvas.SetLeft(Element, Transform.Position.X);
         }
 
         public virtual void MoveY(float amount, Action onCollision)
@@ -104,16 +111,17 @@ namespace WPFGameTest.Models
             {
                 IntRect tempRect = new IntRect
                 {
-                    X = Transform.Position.X,
-                    Y = Transform.Position.Y + sign,
-                    Width = Transform.Size.X,
-                    Height = Transform.Size.Y
+                    X = Hitbox.X,
+                    Y = Hitbox.Y + sign,
+                    Width = Hitbox.Width,
+                    Height = Hitbox.Height
                 };
 
                 if (!Physics.IsColliding(solids, tempRect))
                 {
                     //  We don't collide with anyting solid
                     Transform.Position.Y += sign;
+                    Hitbox.Y += sign;
                     move -= sign;
                     Grounded = false;
                 }
@@ -146,5 +154,4 @@ namespace WPFGameTest.Models
 
         public virtual void Update(float deltaTime) { }
     }
-
 }
