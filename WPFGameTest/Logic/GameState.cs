@@ -191,28 +191,34 @@ namespace WPFGameTest.Logic
             AudioManager.SetBackgroundMusic("26-Dark Fantasy Studio- Playing in water.wav");
             camera.Background = new ImageBrush(Resource.GetImage("Game_Bg"));
 
-            List<StaticObject> solids = new List<StaticObject>();
+            List<Entity> solids = new List<Entity>();
+            List<Entity> interactables = new List<Entity>();
 
-            if (LevelManager.Load("test", canvas))
+            Level level = LevelManager.GetLevel("test");
+
+            if (level is not null)
             {
-                solids = LevelManager.Solids;
+                level.Load(canvas);
+                solids = level.Solids;
+                interactables = level.Interactables;
             }
             else
             {
-                StaticObject s1 = new StaticObject(new Vector2(300, 950), new Vector2(50, 50));
-                StaticObject s2 = new StaticObject(new Vector2(0, 1000), new Vector2(5000, 50));
+                SolidObject s1 = new SolidObject(new Vector2(300, 950), new Vector2(50, 50));
+                SolidObject s2 = new SolidObject(new Vector2(0, 1000), new Vector2(5000, 50));
                 solids.Add(s1);
                 solids.Add(s2);
                 canvas.Children.Add(s1.Element);
                 canvas.Children.Add(s2.Element);
             }
 
-            player = new Player("001", "Player1",new Vector2(100, 0), new Vector2(44, 44), 8);
+            player = new Player("001", "Player1", new Vector2(100, 0), new Vector2(44, 44), 8);
             player.SetDefaultSprite(Resource.GetImage("Player"));
             player.SetSolids(solids);
+            player.SetInteractables(interactables);
             canvas.Children.Add(player.Element);
 
-            player2 = new Player("002", "Player2",new Vector2(100, 0), new Vector2(44, 44), 8);
+            player2 = new Player("002", "Player2", new Vector2(100, 0), new Vector2(44, 44), 8);
             player2.SetDefaultSprite(Resource.GetImage("Grass_Under"));
             player2.Element.Fill.Opacity = 0.2;
             canvas.Children.Add(player2.Element);
@@ -262,27 +268,34 @@ namespace WPFGameTest.Logic
             camera.Background = new ImageBrush(Resource.GetImage("Game_Bg"));
 
             player = new Player("001", "Player1",new Vector2(100, 0), new Vector2(44, 44), 8);
-            player.SetDefaultSprite(Resource.GetImage("Player"));
+            List<Entity> solids = new List<Entity>();
+            List<Entity> interactables = new List<Entity>();
 
+            Level level = LevelManager.GetLevel("test");
 
-            canvas.Children.Add(player.Element);
-
-            if (LevelManager.Load("test", canvas))
+            if (level is not null)
             {
-                player.SetSolids(LevelManager.Solids);
+                level.Load(canvas);
+                solids = level.Solids;
+                interactables = level.Interactables;
+                player = new Player("001", "Player1", level.SpawnPoint, new Vector2(44, 44), 8);
             }
             else
             {
-                List<StaticObject> solids = new List<StaticObject>();
-
-                StaticObject s1 = new StaticObject(new Vector2(300, 950), new Vector2(50, 50));
-                StaticObject s2 = new StaticObject(new Vector2(0, 1000), new Vector2(5000, 50));
+                player = new Player("001", "Player1", new Vector2(100, 0), new Vector2(44, 44), 8);
+                SolidObject s1 = new SolidObject(new Vector2(300, 950), new Vector2(50, 50));
+                SolidObject s2 = new SolidObject(new Vector2(0, 1000), new Vector2(5000, 50));
                 solids.Add(s1);
                 solids.Add(s2);
                 canvas.Children.Add(s1.Element);
                 canvas.Children.Add(s2.Element);
-                player.SetSolids(solids);
             }
+
+            player.SetDefaultSprite(Resource.GetImage("Player"));
+            player.SetSolids(solids);
+            player.SetInteractables(interactables);
+
+            canvas.Children.Add(player.Element);
         }
 
         private void SimulateInput(Key key)
@@ -345,7 +358,7 @@ namespace WPFGameTest.Logic
         private Dictionary<Coordinate, Rectangle> rects = new Dictionary<Coordinate, Rectangle>();
         private ObjectType selectedType = ObjectType.Grass_Top_Center;
         private bool isDeleting = false;
-        private bool canPlace = false;
+        Vector2 spawnPosition;
 
         private Vector2[] dirs =
         {
@@ -368,40 +381,6 @@ namespace WPFGameTest.Logic
             levelGrid = new LevelGrid(canvas, 100, 100, ObjectData.BLOCK_WIDTH, ObjectData.BLOCK_HEIGHT);
             firstRectIndex = canvas.Children.Count - 1;
 
-            // Set up editor panel for customizing settings
-            Canvas editorPanel = new Canvas();
-            editorPanel.HorizontalAlignment = HorizontalAlignment.Right;
-            editorPanel.Background = new SolidColorBrush(Colors.Black);
-            editorPanel.Width = 250;
-            editorPanel.Background.Opacity = 0.25;
-
-            editorPanel.MouseMove += (s, e) => // Prevent user from placing tiles while mouse is over the editor panel
-            {
-                canPlace = false;
-            };
-
-            for (int i = 0; i < 3; i++) // Place 9 "checkboxes" in a 3x3 pattern (not useful atm)
-            {
-                for (int j = 0; j < 3; j++)
-                {
-                    RectCheckbox rc = new RectCheckbox(editorPanel, 25, 25, new SolidColorBrush(Colors.LightSkyBlue));
-                    rc.SetPosition(i * 26, 200 + j * 26);
-                }
-            }
-
-            editorPanel.Children.Add(new TextBox
-            {
-                Width = 150,
-                AcceptsReturn = false,
-                BorderThickness = new Thickness(0),
-                Background =
-                new SolidColorBrush(Colors.Black),
-                Opacity = 0.5,
-                Foreground = new SolidColorBrush(Colors.White)
-            });
-
-            grid.Children.Add(editorPanel);
-
             // Set up mouse hover image (tile or red square when deleting)
             previewImage = new ImageBrush(Resource.GetImage("Grass_Top_Center"));
             previewRect = new Rectangle();
@@ -422,8 +401,6 @@ namespace WPFGameTest.Logic
 
                 Canvas.SetLeft(previewRect, actualPos.X);
                 Canvas.SetTop(previewRect, actualPos.Y);
-
-                canPlace = true;
             };
 
             camera.PreviewMouseWheel += Camera_MouseWheel;
@@ -439,9 +416,6 @@ namespace WPFGameTest.Logic
                 canvas.LayoutTransform = scale;
                 camera.PreviewMouseWheel -= Camera_MouseWheel;
             };
-
-            canvas.PreviewMouseDown += (s, e) => { canPlace = true; };
-            canvas.PreviewMouseUp += (s, e) => { canPlace = false; };
         }
         
 
@@ -503,18 +477,34 @@ namespace WPFGameTest.Logic
                 isDeleting = false;
             }
 
-            if (Input.GetKeyPressed(Key.P))
+            if (Input.GetKeyPressed(Key.D1))
             {
-                //Trace.WriteLine(" camera width: " + camera.Width);
-                //Trace.WriteLine(cameraPos.X + " " + cameraPos.Y);
-                //Trace.WriteLine(camera.HorizontalOffset + " - " + camera.VerticalOffset);
-                Trace.WriteLine(1 / Time.DeltaTime);
+                selectedType = ObjectType.Grass_First;
+                previewImage = new ImageBrush(Resource.GetImage("Top_Center"));
+            }
+            else if (Input.GetKeyPressed(Key.D2))
+            {
+                selectedType = ObjectType.Spike;
+                previewImage = new ImageBrush(Resource.GetImage("Spike"));
+            }
+            else if (Input.GetKeyPressed(Key.D3))
+            {
+                selectedType = ObjectType.Spawn;
+                previewImage = new ImageBrush(Resource.GetImage("Spawn"));
             }
 
             // If the mouse is not over the editor panel and we are pressing the Left button
-            if (canPlace && Input.GetMouseButton(Mouse.LeftButton))
+            if (Input.GetMouseButton(Mouse.LeftButton))
             {
-                PlaceTile();
+                if (selectedType < ObjectType.Grass_First ||
+                    selectedType > ObjectType.Grass_Last)
+                {
+                    PlaceSingleTile();
+                }
+                else
+                {
+                    PlaceTile();
+                }
             }
 
             SetCameraInBoundries();
@@ -558,6 +548,59 @@ namespace WPFGameTest.Logic
             rects.TryGetValue(cord, out rect);
 
             return rect;
+        }
+
+        private void PlaceSingleTile()
+        {
+            Vector2 matrixPos = new Vector2(actualPos.X / levelGrid.CellSize.X, actualPos.Y / levelGrid.CellSize.Y);
+
+            if (levelGrid.Map[matrixPos.X, matrixPos.Y] != 0) // If the cell is not empty
+            {
+                if (isDeleting) // Delete
+                {
+                    // Delete tile and update it's neighbours
+                    DeleteTile(matrixPos.X, matrixPos.Y);
+                    UpdateTile(matrixPos.X + 1, matrixPos.Y);
+                    UpdateTile(matrixPos.X - 1, matrixPos.Y);
+                    UpdateTile(matrixPos.X, matrixPos.Y + 1);
+                    UpdateTile(matrixPos.X, matrixPos.Y - 1);
+                }
+
+                return;
+            }
+
+            if (isDeleting)
+                return;
+
+            if (levelGrid.Map[matrixPos.X, matrixPos.Y] == 0)
+            {
+                Rectangle rect = new Rectangle();
+                rect.Width = ObjectData.BLOCK_WIDTH;
+                rect.Height = ObjectData.BLOCK_HEIGHT;
+                rect.Fill = previewImage;
+
+                if (selectedType == ObjectType.Spawn)
+                {
+                    Coordinate spawnCoord = new Coordinate(spawnPosition.X, spawnPosition.Y);
+                    Rectangle toDelete = Get(spawnCoord);
+                    DeleteTile(spawnPosition.X, spawnPosition.Y);
+                    rects.Remove(spawnCoord);
+
+                    canvas.Children.Remove(toDelete);
+
+                    spawnPosition = new Vector2(matrixPos.X, matrixPos.Y);
+                }
+
+                levelGrid.Map[matrixPos.X, matrixPos.Y] = (int)selectedType;
+                rects.Add(new Coordinate(matrixPos.X, matrixPos.Y), rect);
+
+                Canvas.SetLeft(rect, actualPos.X);
+                Canvas.SetTop(rect, actualPos.Y);
+
+                // Insert rectangle after with the right index behind the preview
+                // to make sure we see the preview after the cell is occupied
+                canvas.Children.Insert(firstRectIndex, rect);
+            }
         }
 
         private void PlaceTile()
@@ -644,6 +687,12 @@ namespace WPFGameTest.Logic
 
             if (rect is null)
                 return;
+
+            if (levelGrid.Map[x, y] < (int)ObjectType.Grass_First ||
+                levelGrid.Map[x, y] > (int)ObjectType.Grass_Last)
+            {
+                return;
+            }
 
             bool right = false, left = false, top = false, bottom = false;
             ObjectType type = GetCorrectTile(right, left, top, bottom);
