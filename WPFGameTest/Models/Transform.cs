@@ -21,5 +21,4 @@ namespace WPFGameTest.Models
             Size = new Vector2();
         }
     }
-    
 }
