@@ -32,6 +32,7 @@ namespace WPFGameTest.Helpers
     {
         public float X { get; set; }
         public float Y { get; set; }
+
         public Vector2f(float x, float y)
         {
             X = x;
@@ -98,7 +99,7 @@ namespace WPFGameTest.Helpers
         public const float FallClamp = 1500;
         public const float WallSlideSpeed = 150;
 
-        public static bool IsColliding(List<StaticObject> solids, IntRect b)
+        public static bool IsColliding(List<Entity> solids, IntRect b)
         {
             foreach (var solid in solids)
             {
@@ -115,7 +116,7 @@ namespace WPFGameTest.Helpers
             return false;
         }
 
-        public static bool IsColliding(List<StaticObject> solids, IntRect b, out StaticObject collidedWith)
+        public static bool IsColliding(List<Entity> solids, IntRect b, out Entity collidedWith)
         {
             foreach (var solid in solids)
             {
