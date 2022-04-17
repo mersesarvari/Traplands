@@ -12,7 +12,10 @@ namespace WPFGameTest.Models
 {
     public class Player : DynamicObject
     {
-        protected PlayerState State { get; set; } // Should be private later
+        private PlayerState State { get; set; }
+
+        public Vector2 Spawn { get; set; }
+
         //Player data from the server
         public string PlayerName { get; set; }
         public string PlayerID { get; set; }
@@ -138,19 +141,28 @@ namespace WPFGameTest.Models
 
             while (move != 0)
             {
-                StaticObject solid;
+                Entity obj;
                 IntRect tempRect = new IntRect
                 {
-                    X = Transform.Position.X,
-                    Y = Transform.Position.Y + sign,
-                    Width = Transform.Size.X,
-                    Height = Transform.Size.Y
+                    X = Hitbox.X,
+                    Y = Hitbox.Y + sign,
+                    Width = Hitbox.Width,
+                    Height = Hitbox.Height
                 };
 
-                if (!Physics.IsColliding(solids, tempRect, out solid))
+                if (Physics.IsColliding(interactables, tempRect, out obj))
+                {
+                    if (obj.Tag == "Trap")
+                    {
+                        Respawn();
+                    }
+                }
+
+                if (!Physics.IsColliding(solids, tempRect, out obj))
                 {
                     //  We don't collide with anyting solid
                     Transform.Position.Y += sign;
+                    Hitbox.Y += sign;
                     move -= sign;
                     Grounded = false;
                 }
@@ -178,10 +190,10 @@ namespace WPFGameTest.Models
 
                 IntRect tempRect = new IntRect
                 {
-                    X = Transform.Position.X,
-                    Y = Transform.Position.Y + belowAmount,
-                    Width = Transform.Size.X,
-                    Height = Transform.Size.Y
+                    X = Hitbox.X,
+                    Y = Hitbox.Y + belowAmount,
+                    Width = Hitbox.Width,
+                    Height = Hitbox.Height
                 };
 
                 if (!Physics.IsColliding(solids, tempRect))
@@ -189,6 +201,7 @@ namespace WPFGameTest.Models
                     Grounded = false;
                 }
             }
+
             Canvas.SetTop(Element, Transform.Position.Y);
         }
 
@@ -204,27 +217,35 @@ namespace WPFGameTest.Models
 
                 while (move != 0)
                 {
-                    StaticObject solid;
+                    Entity obj;
 
                     IntRect tempRect = new IntRect
                     {
-                        X = Transform.Position.X + sign,
-                        Y = Transform.Position.Y,
-                        Width = Transform.Size.X,
-                        Height = Transform.Size.Y
+                        X = Hitbox.X + sign,
+                        Y = Hitbox.Y,
+                        Width = Hitbox.Width,
+                        Height = Hitbox.Height
                     };
 
-                    if (!Physics.IsColliding(solids, tempRect, out solid))
+                    if (Physics.IsColliding(interactables, tempRect, out obj))
+                    {
+                        if (obj.Tag == "Trap")
+                        {
+                            Respawn();
+                        }
+                    }
+
+                    if (!Physics.IsColliding(solids, tempRect, out obj))
                     {
                         //  We don't collide with anyting solid
                         Transform.Position.X += sign;
+                        Hitbox.X += sign;
                         move -= sign;
                     }
                     else
                     {
                         // Colliding with solid
-                        if (solid.IsGrabbable)
-                            onCollision?.Invoke();
+                        onCollision?.Invoke();
                         break;
                     }
                 }
@@ -240,10 +261,10 @@ namespace WPFGameTest.Models
                 int sign = FacingRight ? 1 : -1;
                 IntRect tempRect = new IntRect
                 {
-                    X = Transform.Position.X + sign,
-                    Y = Transform.Position.Y,
-                    Width = Transform.Size.X,
-                    Height = Transform.Size.Y
+                    X = Hitbox.X + sign,
+                    Y = Hitbox.Y,
+                    Width = Hitbox.Width,
+                    Height = Hitbox.Height
                 };
 
                 if (!Physics.IsColliding(solids, tempRect))
@@ -253,7 +274,12 @@ namespace WPFGameTest.Models
                 }
             }
 
-            Canvas.SetLeft(Element, Transform.Position.X - HitboxOffset);
+            Canvas.SetLeft(Element, Transform.Position.X);
+        }
+
+        public void Respawn()
+        {
+            SetPosition(new Vector2(Spawn.X, Spawn.Y));
         }
 
         public void GrabWall()
@@ -264,11 +290,11 @@ namespace WPFGameTest.Models
             }
         }
 
-        public void SetPosition(int x, int y)
+        public void SetPosition(Vector2 newPos)
         {
-            Transform.Position = new Vector2(x, y);
-            Canvas.SetLeft(Element, x);
-            Canvas.SetTop(Element, y);
+            Transform.Position = newPos;
+            Hitbox.X = newPos.X + HitboxOffset;
+            Hitbox.Y = newPos.Y;
         }
 
         public void ProcessInput()
