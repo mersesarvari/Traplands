@@ -24,7 +24,9 @@
             <DataTemplate DataType="{x:Type viewModel:LevelEditorViewModel}">
                 <view:LevelEditorView/>
             </DataTemplate>
-
+            <DataTemplate DataType="{x:Type viewModel:LobbyViewModel}">
+                <view:LobbyView/>
+            </DataTemplate>
         </ContentControl.Resources>
     </ContentControl>
 

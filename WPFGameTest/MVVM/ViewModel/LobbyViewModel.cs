@@ -3,10 +3,19 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
+using WPFGameTest.MVVM.Commands;
+using WPFGameTest.MVVM.Stores;
 
 namespace WPFGameTest.MVVM.ViewModel
 {
-    internal class LobbyViewModel
+    public class LobbyViewModel:ViewModelBase
     {
+        public ICommand NavigateMultiMenuCommand { get; }
+        public LobbyViewModel(NavigationStore navigationStore)
+        {
+            NavigateMultiMenuCommand= new NavigateCommand<MultiplayerGameMenuViewModel>
+                (navigationStore, () => new MultiplayerGameMenuViewModel(navigationStore));
+        }
     }
 }

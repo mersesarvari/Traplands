@@ -7,6 +7,10 @@
              mc:Ignorable="d" 
              d:DesignHeight="768" d:DesignWidth="1024">
     <Grid Background="#FFE80303">
-            
+        <Grid.RowDefinitions>
+            <RowDefinition Height="91*"/>
+            <RowDefinition Height="677*"/>
+        </Grid.RowDefinitions>
+        <Button Command="{Binding NavigateMultiMenuCommand}" Content="Menu" Grid.Row="0" FontSize="30"/>
     </Grid>
 </UserControl>

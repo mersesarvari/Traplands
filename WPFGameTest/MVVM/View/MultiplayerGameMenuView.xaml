@@ -10,7 +10,9 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="1*"/>
             <RowDefinition Height="1*"/>
+            <RowDefinition Height="1*"/>
         </Grid.RowDefinitions>
-        <Button Command="{Binding NavigateMainMenuCommand}" Content="MainMenu" FontSize="30" Grid.Row="0"></Button>
+        <Button Command="{Binding NavigateMainMenuCommand}" Content="MainMenu" FontSize="30" Grid.Row="0"/>
+        <Button Command="{Binding NavigateLobbyCommand}" Content="Lobby" FontSize="30" Grid.Row="1"/>
     </Grid>
 </UserControl>
