@@ -5,15 +5,18 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using WPFGameTest.Core;
+using WPFGameTest.MVVM.Commands;
+using WPFGameTest.MVVM.Stores;
 
 namespace WPFGameTest.MVVM.ViewModel
 {
     internal class MainmenuViewModel:ViewModelBase
     {
-        public ICommand PushPlayButtonCommand { get; set; }
+        public ICommand NavigateMultiGameMenuCommand { get; }
 
-        public MainmenuViewModel()
+        public MainmenuViewModel(NavigationStore navigationStore)
         {
+            NavigateMultiGameMenuCommand = new NavigateMultiGameMenuCommand(navigationStore); 
         }
     }
 }

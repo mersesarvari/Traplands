@@ -6,5 +6,11 @@
              xmlns:local="clr-namespace:WPFGameTest.MVVM.View"
              mc:Ignorable="d" 
              d:DesignHeight="768" d:DesignWidth="1024">
-    <Grid Background="#FF1AC0CC"/>
+    <Grid Background="#FF1AC0CC">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="117*"/>
+            <RowDefinition Height="139*"/>
+        </Grid.RowDefinitions>
+        <Button Command="{Binding NavigateMultiGameMenuCommand}" Content="Multi Game Menu" Grid.Row="0" FontSize="30"/>
+    </Grid>
 </UserControl>

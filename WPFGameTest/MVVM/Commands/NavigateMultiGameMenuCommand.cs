@@ -8,18 +8,18 @@ using WPFGameTest.MVVM.ViewModel;
 
 namespace WPFGameTest.MVVM.Commands
 {
-    public class NavigateMainMenuCommand : CommandBase
+    public class NavigateMultiGameMenuCommand : CommandBase
     {
         private readonly NavigationStore _navigationStore;
 
-        public NavigateMainMenuCommand(NavigationStore navigationStore)
+        public NavigateMultiGameMenuCommand(NavigationStore navigationStore)
         {
             _navigationStore = navigationStore;
         }
 
         public override void Execute(object? parameter)
         {
-            _navigationStore.CurrentViewModel = new MainmenuViewModel(_navigationStore);
+            _navigationStore.CurrentViewModel = new MultiplayerGameMenuViewModel(_navigationStore);
         }
     }
 }

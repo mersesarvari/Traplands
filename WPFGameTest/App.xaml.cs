@@ -18,7 +18,7 @@ namespace WPFGameTest
         protected override void OnStartup(StartupEventArgs e)
         {
             NavigationStore navigationStore = new NavigationStore();
-            navigationStore.CurrentViewModel = new MultiplayerGameMenuViewModel(navigationStore);
+            navigationStore.CurrentViewModel = new MainmenuViewModel(navigationStore);
             MainWindow = new MainWindow()
             {
                 DataContext = new MainWindowViewModel(navigationStore)
