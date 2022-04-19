@@ -8,9 +8,12 @@
              d:DesignHeight="768" d:DesignWidth="1024">
     <Grid Background="#FF1AC0CC">
         <Grid.RowDefinitions>
-            <RowDefinition Height="117*"/>
-            <RowDefinition Height="139*"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="1*"/>
         </Grid.RowDefinitions>
         <Button Command="{Binding NavigateMultiGameMenuCommand}" Content="Multi Game Menu" Grid.Row="0" FontSize="30"/>
+        <Button Command="{Binding NavigateLevelEditorCommand}" Content="Level Editor" Grid.Row="1" FontSize="30"/>
+        <Button Command="{Binding NavigateSingleGameCommand}" Content="Single Player Game" Grid.Row="2" FontSize="30"/>
     </Grid>
 </UserControl>

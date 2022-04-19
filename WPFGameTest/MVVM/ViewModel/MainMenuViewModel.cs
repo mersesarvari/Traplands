@@ -13,11 +13,15 @@ namespace WPFGameTest.MVVM.ViewModel
     internal class MainmenuViewModel:ViewModelBase
     {
         public ICommand NavigateMultiGameMenuCommand { get; }
+        public ICommand NavigateLevelEditorCommand { get; }
+        public ICommand NavigateSingleGameCommand { get; }
 
         public MainmenuViewModel(NavigationStore navigationStore)
         {
             NavigateMultiGameMenuCommand = new NavigateCommand<MultiplayerGameMenuViewModel>
-                (navigationStore, ()=>new MultiplayerGameMenuViewModel(navigationStore)); 
+                (navigationStore, ()=>new MultiplayerGameMenuViewModel(navigationStore));
+            NavigateSingleGameCommand = new NavigateCommand<SingleplayerGameViewModel>
+                (navigationStore, () => new SingleplayerGameViewModel(navigationStore));
         }
     }
 }
