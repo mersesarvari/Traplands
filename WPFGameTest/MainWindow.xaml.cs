@@ -72,62 +72,62 @@ namespace WPFGameTest
             */
         }
 
-        public void MainLoop(object sender, RenderingEventArgs e)
-        {
-            currentState.Update();
+        //public void MainLoop(object sender, RenderingEventArgs e)
+        //{
+        //    currentState.Update();
 
-            if (currentState.NeedChange)
-            {
-                ChangeState();
-            }
+        //    if (currentState.NeedChange)
+        //    {
+        //        ChangeState();
+        //    }
 
-            Time.Tick();
-        }
+        //    Time.Tick();
+        //}
 
-        public void ChangeState()
-        {
-            switch (currentState.State)
-            {
-                case GameStates.MainMenu:
-                    currentState = new MainMenu(GameWindow);
-                    break;
-                case GameStates.ClientTest:
-                    currentState = new ClientTest(GameWindow);
-                    break;
-                case GameStates.Play:
-                    currentState = new PlayState(GameWindow);
-                    break;
-                case GameStates.Editor:
-                    currentState = new EditorState(GameWindow);
-                    break;
-                case GameStates.Lobby:
-                    currentState = new LobbyState(GameWindow);
-                    break;
-                case GameStates.Multiplayer:
-                    currentState = new MultiplayerState(GameWindow);
-                    break;
-                case GameStates.Exit:
-                    Environment.Exit(0);
-                    break;
-            }
-        }
+        //public void ChangeState()
+        //{
+        //    switch (currentState.State)
+        //    {
+        //        case GameStates.MainMenu:
+        //            currentState = new MainMenu(GameWindow);
+        //            break;
+        //        case GameStates.ClientTest:
+        //            currentState = new ClientTest(GameWindow);
+        //            break;
+        //        case GameStates.Play:
+        //            currentState = new PlayState(GameWindow);
+        //            break;
+        //        case GameStates.Editor:
+        //            currentState = new EditorState(GameWindow);
+        //            break;
+        //        case GameStates.Lobby:
+        //            currentState = new LobbyState(GameWindow);
+        //            break;
+        //        case GameStates.Multiplayer:
+        //            currentState = new MultiplayerState(GameWindow);
+        //            break;
+        //        case GameStates.Exit:
+        //            Environment.Exit(0);
+        //            break;
+        //    }
+        //}
 
-        private void Window_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (!e.IsRepeat) Input.pressedKey = e.Key;
-            Input.heldKeys[(int)e.Key] = true;
-        }
+        //private void Window_KeyDown(object sender, KeyEventArgs e)
+        //{
+        //    if (!e.IsRepeat) Input.pressedKey = e.Key;
+        //    Input.heldKeys[(int)e.Key] = true;
+        //}
 
-        private void Window_KeyUp(object sender, KeyEventArgs e)
-        {
-            Input.releasedKey = e.Key;
-            Input.heldKeys[(int)e.Key] = false;
-        }
+        //private void Window_KeyUp(object sender, KeyEventArgs e)
+        //{
+        //    Input.releasedKey = e.Key;
+        //    Input.heldKeys[(int)e.Key] = false;
+        //}
 
-        private void GameWindow_SizeChanged(object sender, SizeChangedEventArgs e)
-        {
-            this.Width = (int)e.NewSize.Width;
-            this.Height = (int)e.NewSize.Height;
-        }
+        //private void GameWindow_SizeChanged(object sender, SizeChangedEventArgs e)
+        //{
+        //    this.Width = (int)e.NewSize.Width;
+        //    this.Height = (int)e.NewSize.Height;
+        //}
     }
 }
