@@ -33,7 +33,7 @@ namespace WPFGameTest
         public MainWindow()
         {
             InitializeComponent();
-            DataContext = new MainWindowViewModel();
+
             /*
             _Width = this.Width;
             _Height = this.Height;

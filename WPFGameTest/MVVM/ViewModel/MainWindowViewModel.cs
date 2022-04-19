@@ -6,16 +6,24 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using WPFGameTest.Core;
+using WPFGameTest.MVVM.Stores;
 
 namespace WPFGameTest.MVVM.ViewModel
 {    
     public class MainWindowViewModel: ViewModelBase
     {
-        public ViewModelBase CurrentViewModel { get; }
+        private readonly NavigationStore _navigationStore;
+        public ViewModelBase CurrentViewModel => _navigationStore.CurrentViewModel;
 
-        public MainWindowViewModel()
+        public MainWindowViewModel(NavigationStore navigationStore)
         {
-            CurrentViewModel = new MultiplayerGameMenuViewModel();
+            _navigationStore = navigationStore;
+            _navigationStore.CurrentViewModelChanged += OnCurrentViewModelChanged;
+        }
+
+        private void OnCurrentViewModelChanged()
+        {
+            OnPropertyChanged(nameof(CurrentViewModel));
         }
         ////public MainWindowViewModel Instance;
 
@@ -29,7 +37,7 @@ namespace WPFGameTest.MVVM.ViewModel
         //public ICommand ViewChangeCommand { get; set; } 
 
         //object _currentView=new LobbyViewModel();
-        
+
         //public object CurrentView
         //{
         //    get { return _currentView; }
@@ -47,7 +55,7 @@ namespace WPFGameTest.MVVM.ViewModel
         //        () => ShowLobby(),
         //        () => true
         //    );
-            
+
         //    //Instance = this;
         //    LobbyMV = new LobbyViewModel();
         //    MainMenuVM = new MainmenuViewModel();
@@ -55,7 +63,7 @@ namespace WPFGameTest.MVVM.ViewModel
         //    MultiplayerGameVM = new MultiplayerGameViewModel();
         //    SingleplayerGameVM = new SingleplayerGameViewModel();
         //    //Instance.CurrentView = MainMenuVM;
-            
+
 
         //}
 

@@ -5,6 +5,7 @@ using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
+using WPFGameTest.MVVM.Stores;
 using WPFGameTest.MVVM.ViewModel;
 
 namespace WPFGameTest
@@ -16,9 +17,11 @@ namespace WPFGameTest
     {
         protected override void OnStartup(StartupEventArgs e)
         {
+            NavigationStore navigationStore = new NavigationStore();
+            navigationStore.CurrentViewModel = new MultiplayerGameMenuViewModel(navigationStore);
             MainWindow = new MainWindow()
             {
-                DataContext = new MainWindowViewModel()
+                DataContext = new MainWindowViewModel(navigationStore)
             };
             MainWindow.Show();
             base.OnStartup(e);
