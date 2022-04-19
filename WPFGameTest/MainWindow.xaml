@@ -21,6 +21,10 @@
             <DataTemplate DataType="{x:Type viewModel:SingleplayerGameViewModel}">
                 <view:SingleplayerGameView/>
             </DataTemplate>
+            <DataTemplate DataType="{x:Type viewModel:LevelEditorViewModel}">
+                <view:LevelEditorView/>
+            </DataTemplate>
+
         </ContentControl.Resources>
     </ContentControl>
 

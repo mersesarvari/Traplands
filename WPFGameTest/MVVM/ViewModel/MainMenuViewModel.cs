@@ -22,6 +22,8 @@ namespace WPFGameTest.MVVM.ViewModel
                 (navigationStore, ()=>new MultiplayerGameMenuViewModel(navigationStore));
             NavigateSingleGameCommand = new NavigateCommand<SingleplayerGameViewModel>
                 (navigationStore, () => new SingleplayerGameViewModel(navigationStore));
+            NavigateLevelEditorCommand=new NavigateCommand<LevelEditorViewModel>
+                (navigationStore, () => new LevelEditorViewModel(navigationStore));
         }
     }
 }
