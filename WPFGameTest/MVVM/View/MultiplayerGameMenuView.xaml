@@ -12,8 +12,13 @@
             <RowDefinition Height="1*"/>
             <RowDefinition Height="1*"/>
         </Grid.RowDefinitions>
-        <Button Command="{Binding NavigateMainMenuCommand}" Content="MainMenu" FontSize="30" Grid.Row="0"/>
-        <Button Command="{Binding NavigateLobbyCommand}" Content="Lobby" FontSize="30" Grid.Row="1"/>
-        <Button Command="{Binding NavigateMultiGameCommand}" Content="Multiplayer Game" FontSize="30" Grid.Row="2"/>
+        <Button Command="{Binding NavigateMainMenuCommand}" Content="Menu" FontSize="30" Grid.Row="2" Margin="0,201,867,0"/>
+        <TextBox HorizontalAlignment="Left" Margin="363,140,0,0" Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Top" Width="430" Height="38"/>
+        <Label Content="Lobby ID:" FontSize="30" Foreground="Black" HorizontalAlignment="Left" Margin="212,128,0,0" VerticalAlignment="Top" Height="88" Width="200" Grid.Row="1"/>
+        <Button Command="{Binding NavigateLobbyCommand}" Content="Join Game" FontSize="30" Margin="212,197,212,221" Grid.Row="1" Grid.RowSpan="2"/>
+        <Button Command="{Binding NavigateLobbyCommand}" Content="Create Game" FontSize="30" Margin="212,128,212,34" Grid.Row="2"/>
+        <TextBox HorizontalAlignment="Center" Margin="0,60,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="562" Height="44"/>
+        <Button Command="{Binding NavigateLobbyCommand}" Content="Go Online" FontSize="30" Margin="212,128,212,34"/>
+        <Label Content="Enter your username:&#xD;&#xA;" FontSize="30" Foreground="Black" HorizontalAlignment="Left" Margin="212,10,0,0" VerticalAlignment="Top" Height="88" Width="532"/>
     </Grid>
 </UserControl>
