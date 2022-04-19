@@ -8,8 +8,8 @@
         xmlns:viewModel="clr-namespace:WPFGameTest.MVVM.ViewModel"
         mc:Ignorable="d"
         Title="Game" Background="Gray" Height="768" Width="1024" KeyDown="Window_KeyDown" KeyUp="Window_KeyUp" SizeChanged="GameWindow_SizeChanged">
-    
-    
+
+
     <Grid>
         <Grid.DataContext>
             <viewModel:MainWindowViewModel/>
