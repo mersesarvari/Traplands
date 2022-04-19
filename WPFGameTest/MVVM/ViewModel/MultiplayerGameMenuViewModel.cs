@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace WPFGameTest.MVVM.ViewModel
 {
-    internal class MultiplayerGameMenuViewModel
+    public class MultiplayerGameMenuViewModel:ViewModelBase
     {
         public MultiplayerGameMenuViewModel()
         {

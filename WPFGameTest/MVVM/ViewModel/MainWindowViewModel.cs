@@ -15,7 +15,7 @@ namespace WPFGameTest.MVVM.ViewModel
 
         public MainWindowViewModel()
         {
-            CurrentViewModel = new MainmenuViewModel();
+            CurrentViewModel = new MultiplayerGameMenuViewModel();
         }
         ////public MainWindowViewModel Instance;
 

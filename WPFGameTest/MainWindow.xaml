@@ -6,10 +6,20 @@
         xmlns:local="clr-namespace:WPFGameTest"
         xmlns:renderer="clr-namespace:WPFGameTest.Renderer"
         xmlns:viewModel="clr-namespace:WPFGameTest.MVVM.ViewModel"
+        xmlns:view="clr-namespace:WPFGameTest.MVVM.View"
         mc:Ignorable="d"
         Title="Game" Background="Gray" Height="768" Width="1024" KeyDown="Window_KeyDown" KeyUp="Window_KeyUp" SizeChanged="GameWindow_SizeChanged">
 
-    <ContentControl Content="{Binding CurrentViewModel}"/>
+    <ContentControl Content="{Binding CurrentViewModel}">
+        <ContentControl.Resources>
+            <DataTemplate DataType="{x:Type viewModel:MainmenuViewModel}">
+                <view:MainMenuView/>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type viewModel:MultiplayerGameMenuViewModel}">
+                <view:MultiplayerGameMenuView/>
+            </DataTemplate>
+        </ContentControl.Resources>
+    </ContentControl>
 
     <!--<Grid>
         <Grid.DataContext>
