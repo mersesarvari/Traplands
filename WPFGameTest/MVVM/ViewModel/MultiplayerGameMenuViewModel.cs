@@ -21,6 +21,9 @@ namespace WPFGameTest.MVVM.ViewModel
 
             NavigateLobbyCommand = new NavigateCommand<LobbyViewModel>
                 (navigationStore, () => new LobbyViewModel(navigationStore));
+
+            NavigateMultiGameCommand = new NavigateCommand<MultiplayerGameViewModel>
+                (navigationStore, () => new MultiplayerGameViewModel(navigationStore));
         }
     }
 }

@@ -14,5 +14,6 @@
         </Grid.RowDefinitions>
         <Button Command="{Binding NavigateMainMenuCommand}" Content="MainMenu" FontSize="30" Grid.Row="0"/>
         <Button Command="{Binding NavigateLobbyCommand}" Content="Lobby" FontSize="30" Grid.Row="1"/>
+        <Button Command="{Binding NavigateMultiGameCommand}" Content="Multiplayer Game" FontSize="30" Grid.Row="2"/>
     </Grid>
 </UserControl>

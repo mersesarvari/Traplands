@@ -8,11 +8,16 @@
              mc:Ignorable="d" 
              d:DesignHeight="768" d:DesignWidth="1024">
     <Grid x:Name="MainGrid">
-        <ScrollViewer x:Name="MainCamera">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="5*"/>
+            <RowDefinition Height="59*"/>
+        </Grid.RowDefinitions>
+        <ScrollViewer x:Name="MainCamera" Grid.RowSpan="2">
             <Canvas x:Name="MainCanvas">
 
             </Canvas>
         </ScrollViewer>
-        <renderer:Renderer x:Name="Renderer"/>
+        <renderer:Renderer x:Name="Renderer" Grid.RowSpan="2"/>
+        <Button Command="{Binding NavigateMultiMenuCommand}" Content="Menu" Grid.Row="0" FontSize="30"/>
     </Grid>
 </UserControl>
