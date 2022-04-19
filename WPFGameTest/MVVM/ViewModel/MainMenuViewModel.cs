@@ -8,7 +8,7 @@ using WPFGameTest.Core;
 
 namespace WPFGameTest.MVVM.ViewModel
 {
-    internal class MainmenuViewModel
+    internal class MainmenuViewModel:ViewModelBase
     {
         public ICommand PushPlayButtonCommand { get; set; }
 
