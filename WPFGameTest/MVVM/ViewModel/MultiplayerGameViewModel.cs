@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using WPFGameTest.MVVM.Commands;
+using WPFGameTest.MVVM.Services;
 using WPFGameTest.MVVM.Stores;
 
 namespace WPFGameTest.MVVM.ViewModel
@@ -14,8 +15,8 @@ namespace WPFGameTest.MVVM.ViewModel
         public ICommand NavigateMultiMenuCommand { get; }
         public MultiplayerGameViewModel(NavigationStore navigationStore)
         {
-            NavigateMultiMenuCommand = new NavigateCommand<MultiplayerGameMenuViewModel>
-                (navigationStore, () => new MultiplayerGameMenuViewModel(navigationStore));
+            NavigateMultiMenuCommand = new NavigateCommand<MultiplayerGameMenuViewModel>(new NavigationService<MultiplayerGameMenuViewModel>
+                (navigationStore, () => new MultiplayerGameMenuViewModel(navigationStore)));
         }
     }
 

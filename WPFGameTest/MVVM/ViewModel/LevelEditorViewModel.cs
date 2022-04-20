@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using WPFGameTest.MVVM.Commands;
+using WPFGameTest.MVVM.Services;
 using WPFGameTest.MVVM.Stores;
 
 namespace WPFGameTest.MVVM.ViewModel
@@ -15,10 +16,11 @@ namespace WPFGameTest.MVVM.ViewModel
         public ICommand SaveAndExitCommand { get; }
         public LevelEditorViewModel(NavigationStore navigationStore)
         {
-            NavigateMainMenuCommand = new NavigateCommand<MainmenuViewModel>
-               (navigationStore, () => new MainmenuViewModel(navigationStore));
+            NavigateMainMenuCommand = new NavigateCommand<MainmenuViewModel>(new NavigationService<MainmenuViewModel>
+               (navigationStore, () => new MainmenuViewModel(navigationStore)));
 
-            SaveAndExitCommand = new SaveAndExitCommand(navigationStore);
+            SaveAndExitCommand = new SaveAndExitCommand(new NavigationService<MainmenuViewModel>
+                (navigationStore, ()=>new MainmenuViewModel(navigationStore)));
         }
     }
 }

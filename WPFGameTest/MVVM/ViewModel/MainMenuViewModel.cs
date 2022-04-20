@@ -6,11 +6,12 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using WPFGameTest.Core;
 using WPFGameTest.MVVM.Commands;
+using WPFGameTest.MVVM.Services;
 using WPFGameTest.MVVM.Stores;
 
 namespace WPFGameTest.MVVM.ViewModel
 {
-    internal class MainmenuViewModel:ViewModelBase
+    public class MainmenuViewModel:ViewModelBase
     {
         public ICommand NavigateMultiGameMenuCommand { get; }
         public ICommand NavigateLevelEditorCommand { get; }
@@ -18,12 +19,12 @@ namespace WPFGameTest.MVVM.ViewModel
 
         public MainmenuViewModel(NavigationStore navigationStore)
         {
-            NavigateMultiGameMenuCommand = new NavigateCommand<MultiplayerGameMenuViewModel>
-                (navigationStore, ()=>new MultiplayerGameMenuViewModel(navigationStore));
-            NavigateSingleGameCommand = new NavigateCommand<SingleplayerGameViewModel>
-                (navigationStore, () => new SingleplayerGameViewModel(navigationStore));
-            NavigateLevelEditorCommand=new NavigateCommand<LevelEditorViewModel>
-                (navigationStore, () => new LevelEditorViewModel(navigationStore));
+            NavigateMultiGameMenuCommand = new NavigateCommand<MultiplayerGameMenuViewModel>(new NavigationService<MultiplayerGameMenuViewModel>
+                (navigationStore, ()=>new MultiplayerGameMenuViewModel(navigationStore)));
+            NavigateSingleGameCommand = new NavigateCommand<SingleplayerGameViewModel>(new NavigationService<SingleplayerGameViewModel>
+                (navigationStore, () => new SingleplayerGameViewModel(navigationStore)));
+            NavigateLevelEditorCommand=new NavigateCommand<LevelEditorViewModel>(new NavigationService<LevelEditorViewModel>
+                (navigationStore, () => new LevelEditorViewModel(navigationStore)));
         }
     }
 }
