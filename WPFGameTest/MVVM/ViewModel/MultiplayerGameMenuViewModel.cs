@@ -15,16 +15,15 @@ namespace WPFGameTest.MVVM.ViewModel
         public ICommand NavigateMainMenuCommand { get; }
         public ICommand NavigateLobbyCommand { get; }
         public ICommand NavigateMultiGameCommand { get; }
-        public MultiplayerGameMenuViewModel(NavigationStore navigationStore)
+        public MultiplayerGameMenuViewModel(NavigationService<MainmenuViewModel> mainMenuNavigationService, 
+            NavigationService<LobbyViewModel> lobbyNavigationService, 
+            NavigationService<MultiplayerGameViewModel> multiGameNavigationService)
         {
-            NavigateMainMenuCommand = new NavigateCommand<MainmenuViewModel>(new NavigationService<MainmenuViewModel>
-                (navigationStore, () => new MainmenuViewModel(navigationStore)));
+            NavigateMainMenuCommand = new NavigateCommand<MainmenuViewModel>(mainMenuNavigationService);
 
-            NavigateLobbyCommand = new NavigateCommand<LobbyViewModel>(new NavigationService<LobbyViewModel>
-                (navigationStore, () => new LobbyViewModel(navigationStore)));
+            NavigateLobbyCommand = new NavigateCommand<LobbyViewModel>(lobbyNavigationService);
 
-            NavigateMultiGameCommand = new NavigateCommand<MultiplayerGameViewModel>(new NavigationService<MultiplayerGameViewModel>
-                (navigationStore, () => new MultiplayerGameViewModel(navigationStore)));
+            NavigateMultiGameCommand = new NavigateCommand<MultiplayerGameViewModel>(multiGameNavigationService);
         }
     }
 }

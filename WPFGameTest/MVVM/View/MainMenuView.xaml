@@ -3,17 +3,25 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:WPFGameTest.MVVM.View"
+             xmlns:local="clr-namespace:WPFGameTest.MVVM.View" 
+             xmlns:components="clr-namespace:WPFGameTest.MVVM.Components"
              mc:Ignorable="d" 
              d:DesignHeight="768" d:DesignWidth="1024">
-    <Grid Background="#FF1AC0CC">
+    <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="1*"/>
-            <RowDefinition Height="1*"/>
-            <RowDefinition Height="1*"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <Button Command="{Binding NavigateMultiGameMenuCommand}" Content="Multi Game Menu" Grid.Row="0" FontSize="30"/>
-        <Button Command="{Binding NavigateLevelEditorCommand}" Content="Level Editor" Grid.Row="1" FontSize="30"/>
-        <Button Command="{Binding NavigateSingleGameCommand}" Content="Single Player Game" Grid.Row="2" FontSize="30"/>
+        <!--<components:NavigationBar Grid.Row="0" DataContext="{Binding NavigationBarViewModel}"/>-->
+        <Grid Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="1*"/>
+            </Grid.RowDefinitions>
+            <Button Command="{Binding NavigateMultiGameMenuCommand}" Content="Multi Game Menu" Grid.Row="0" FontSize="30"/>
+            <Button Command="{Binding NavigateLevelEditorCommand}" Content="Level Editor" Grid.Row="1" FontSize="30"/>
+            <Button Command="{Binding NavigateSingleGameCommand}" Content="Single Player Game" Grid.Row="2" FontSize="30"/>
+        </Grid>
     </Grid>
 </UserControl>

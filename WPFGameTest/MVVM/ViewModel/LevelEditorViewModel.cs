@@ -14,13 +14,11 @@ namespace WPFGameTest.MVVM.ViewModel
     {
         public ICommand NavigateMainMenuCommand { get; }
         public ICommand SaveAndExitCommand { get; }
-        public LevelEditorViewModel(NavigationStore navigationStore)
+        public LevelEditorViewModel(NavigationService<MainmenuViewModel> mainMenuNavigationService)
         {
-            NavigateMainMenuCommand = new NavigateCommand<MainmenuViewModel>(new NavigationService<MainmenuViewModel>
-               (navigationStore, () => new MainmenuViewModel(navigationStore)));
+            NavigateMainMenuCommand = new NavigateCommand<MainmenuViewModel>(mainMenuNavigationService);
 
-            SaveAndExitCommand = new SaveAndExitCommand(new NavigationService<MainmenuViewModel>
-                (navigationStore, ()=>new MainmenuViewModel(navigationStore)));
+            SaveAndExitCommand = new SaveAndExitCommand(mainMenuNavigationService);
         }
     }
 }
