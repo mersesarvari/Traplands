@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Extensions.DependencyInjection;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
@@ -16,78 +17,86 @@ namespace WPFGameTest
     /// </summary>
     public partial class App : Application
     {
-        private readonly NavigationStore _navigationStore;
+        private readonly IServiceProvider _serviceProvider;
 
         public App()
         {
-            _navigationStore = new NavigationStore();
+            IServiceCollection services = new ServiceCollection();
+            services.AddSingleton<NavigationStore>();
+
+            services.AddSingleton<INavigationService<MainmenuViewModel>>(s => CreateMainMenuNavigationService(s));
+
+            services.AddSingleton<MainWindowViewModel>();
+            services.AddSingleton<MainWindow>(s => new MainWindow()
+            {
+                DataContext = s.GetRequiredService<MainWindowViewModel>()
+            });
+
+            _serviceProvider=services.BuildServiceProvider();
         }
 
         protected override void OnStartup(StartupEventArgs e)
         {
-            //_navigationStore.CurrentViewModel = new MainmenuViewModel(_navigationBarViewModel, _navigationStore);
-            INavigationService<MainmenuViewModel> mainMenuNavigationService = CreateMainMenuNavigationService();
+            INavigationService<MainmenuViewModel> mainMenuNavigationService = 
+                _serviceProvider.GetRequiredService <INavigationService<MainmenuViewModel>>();
             mainMenuNavigationService.Navigate();
 
-            MainWindow = new MainWindow()
-            {
-                DataContext = new MainWindowViewModel(_navigationStore)
-            };
+            MainWindow = _serviceProvider.GetRequiredService<MainWindow>();
             MainWindow.Show();
             base.OnStartup(e);
         }
 
-        private INavigationService<MainmenuViewModel> CreateMainMenuNavigationService()
+        private INavigationService<MainmenuViewModel> CreateMainMenuNavigationService(IServiceProvider serviceProvider)
         {
             return new NavigationService<MainmenuViewModel>(
-                _navigationStore,
+                serviceProvider.GetRequiredService<NavigationStore>(),
                 () => new MainmenuViewModel(
-                    CreateMultiMenuNavigationService(),
-                    CreateLevelEditorNavigationService(),
-                    CreateSingleGameNavigationService())
+                    CreateMultiMenuNavigationService(serviceProvider),
+                    CreateLevelEditorNavigationService(serviceProvider),
+                    CreateSingleGameNavigationService(serviceProvider))
                 );
         }
-        private INavigationService<MultiplayerGameMenuViewModel> CreateMultiMenuNavigationService()
+        private INavigationService<MultiplayerGameMenuViewModel> CreateMultiMenuNavigationService(IServiceProvider serviceProvider)
         {
             return new NavigationService<MultiplayerGameMenuViewModel>(
-                _navigationStore, 
+                serviceProvider.GetRequiredService<NavigationStore>(),
                 () => new MultiplayerGameMenuViewModel(
-                    CreateMainMenuNavigationService(),
-                    CreateLobbyNavigationService(),
-                    CreateMultiGameNavigationService())
+                    CreateMainMenuNavigationService(serviceProvider),
+                    CreateLobbyNavigationService(serviceProvider),
+                    CreateMultiGameNavigationService(serviceProvider))
                 );
         }
 
-        private INavigationService<LevelEditorViewModel> CreateLevelEditorNavigationService()
+        private INavigationService<LevelEditorViewModel> CreateLevelEditorNavigationService(IServiceProvider serviceProvider)
         {
             return new NavigationService<LevelEditorViewModel>(
-                _navigationStore,
-                () => new LevelEditorViewModel(CreateMainMenuNavigationService())
+               serviceProvider.GetRequiredService<NavigationStore>(),
+                () => new LevelEditorViewModel(CreateMainMenuNavigationService(serviceProvider))
                 );
         }
-        private INavigationService<SingleplayerGameViewModel> CreateSingleGameNavigationService()
+        private INavigationService<SingleplayerGameViewModel> CreateSingleGameNavigationService(IServiceProvider serviceProvider)
         {
             return new NavigationService<SingleplayerGameViewModel>(
-                _navigationStore,
-                () => new SingleplayerGameViewModel(CreateMainMenuNavigationService())
+                serviceProvider.GetRequiredService<NavigationStore>(),
+                () => new SingleplayerGameViewModel(CreateMainMenuNavigationService(serviceProvider))
                 );
         }
 
-        private INavigationService<LobbyViewModel> CreateLobbyNavigationService()
+        private INavigationService<LobbyViewModel> CreateLobbyNavigationService(IServiceProvider serviceProvider)
         {
             return new NavigationService<LobbyViewModel>(
-                _navigationStore,
+                serviceProvider.GetRequiredService<NavigationStore>(),
                 ()=>new LobbyViewModel(
-                    CreateMultiMenuNavigationService()
+                    CreateMultiMenuNavigationService(serviceProvider)
                     )
                 );
         }
-        private INavigationService<MultiplayerGameViewModel> CreateMultiGameNavigationService()
+        private INavigationService<MultiplayerGameViewModel> CreateMultiGameNavigationService(IServiceProvider serviceProvider)
         {
             return new NavigationService<MultiplayerGameViewModel>(
-                _navigationStore,
+                serviceProvider.GetRequiredService<NavigationStore>(),
                 () => new MultiplayerGameViewModel(
-                    CreateMultiMenuNavigationService()
+                    CreateMultiMenuNavigationService(serviceProvider)
                     )
                 );
         }
