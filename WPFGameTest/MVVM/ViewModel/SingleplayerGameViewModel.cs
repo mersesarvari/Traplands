@@ -13,9 +13,9 @@ namespace WPFGameTest.MVVM.ViewModel
     public class SingleplayerGameViewModel:ViewModelBase
     {
         public ICommand NavigateMainMenuCommand { get; }
-        public SingleplayerGameViewModel(INavigationService<MainmenuViewModel> mainMenuNavigationService)
+        public SingleplayerGameViewModel(INavigationService mainMenuNavigationService)
         {
-            NavigateMainMenuCommand = new NavigateCommand<MainmenuViewModel>(mainMenuNavigationService);
+            NavigateMainMenuCommand = new NavigateCommand(mainMenuNavigationService);
         }
     }
 }

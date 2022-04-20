@@ -13,9 +13,9 @@ namespace WPFGameTest.MVVM.ViewModel
     public class LobbyViewModel:ViewModelBase
     {
         public ICommand NavigateMultiMenuCommand { get; }
-        public LobbyViewModel(INavigationService<MultiplayerGameMenuViewModel> multiMenuNavigationService)
+        public LobbyViewModel(INavigationService multiMenuNavigationService)
         {
-            NavigateMultiMenuCommand= new NavigateCommand<MultiplayerGameMenuViewModel>(multiMenuNavigationService);
+            NavigateMultiMenuCommand= new NavigateCommand(multiMenuNavigationService);
         }
     }
 }

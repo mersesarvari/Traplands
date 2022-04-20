@@ -16,13 +16,13 @@ namespace WPFGameTest.MVVM.ViewModel
         public ICommand NavigateSingleGameCommand { get; }
 
         public NavigationBarViewModel(
-            INavigationService<MultiplayerGameMenuViewModel> multiMenuNavigationService, 
-            INavigationService<LevelEditorViewModel> levelEditorNavigationService, 
-            INavigationService<SingleplayerGameViewModel> singleGameNavigationService)
+            INavigationService multiMenuNavigationService, 
+            INavigationService levelEditorNavigationService, 
+            INavigationService singleGameNavigationService)
         {
-            NavigateMultiGameMenuCommand = new NavigateCommand<MultiplayerGameMenuViewModel>(multiMenuNavigationService);
-            NavigateLevelEditorCommand = new NavigateCommand<LevelEditorViewModel>(levelEditorNavigationService);
-            NavigateSingleGameCommand = new NavigateCommand<SingleplayerGameViewModel>(singleGameNavigationService);
+            NavigateMultiGameMenuCommand = new NavigateCommand(multiMenuNavigationService);
+            NavigateLevelEditorCommand = new NavigateCommand(levelEditorNavigationService);
+            NavigateSingleGameCommand = new NavigateCommand(singleGameNavigationService);
         }
     }
 }

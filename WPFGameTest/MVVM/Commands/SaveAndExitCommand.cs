@@ -12,9 +12,9 @@ namespace WPFGameTest.MVVM.Commands
 {
     public class SaveAndExitCommand : CommandBase
     {
-        private readonly INavigationService<MainmenuViewModel> _navigationService;
+        private readonly INavigationService _navigationService;
 
-        public SaveAndExitCommand(INavigationService<MainmenuViewModel> navigationService)
+        public SaveAndExitCommand(INavigationService navigationService)
         {
             _navigationService = navigationService;
         }

@@ -14,9 +14,9 @@ namespace WPFGameTest.MVVM.ViewModel
     {
         public ICommand NavigateMainMenuCommand { get; }
         public ICommand SaveAndExitCommand { get; }
-        public LevelEditorViewModel(INavigationService<MainmenuViewModel> mainMenuNavigationService)
+        public LevelEditorViewModel(INavigationService mainMenuNavigationService)
         {
-            NavigateMainMenuCommand = new NavigateCommand<MainmenuViewModel>(mainMenuNavigationService);
+            NavigateMainMenuCommand = new NavigateCommand(mainMenuNavigationService);
 
             SaveAndExitCommand = new SaveAndExitCommand(mainMenuNavigationService);
         }
