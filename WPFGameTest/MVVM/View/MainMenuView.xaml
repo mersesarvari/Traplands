@@ -14,14 +14,7 @@
         </Grid.RowDefinitions>
         <components:NavigationBar Grid.Row="0" DataContext="{Binding NavigationBarViewModel}"/>
         <Grid Grid.Row="1">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="1*"/>
-                <RowDefinition Height="1*"/>
-                <RowDefinition Height="1*"/>
-            </Grid.RowDefinitions>
-            <Button Command="{Binding NavigateMultiGameMenuCommand}" Content="Multi Game Menu" Grid.Row="0" FontSize="30"/>
-            <Button Command="{Binding NavigateLevelEditorCommand}" Content="Level Editor" Grid.Row="1" FontSize="30"/>
-            <Button Command="{Binding NavigateSingleGameCommand}" Content="Single Player Game" Grid.Row="2" FontSize="30"/>
+            <Label Content="Let's Play" FontSize="30"/>
         </Grid>
     </Grid>
 </UserControl>

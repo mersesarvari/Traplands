@@ -5,18 +5,48 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:WPFGameTest.MVVM.Components"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
+             d:DesignHeight="450" d:DesignWidth="800"
+             Background="IndianRed">
+    <UserControl.Resources>
+        <Style TargetType="Button">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <TextBlock Text="{TemplateBinding Content}"/>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="Button">
+                                <TextBlock Text="{TemplateBinding Content}" TextDecorations="Underline"/>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </UserControl.Resources>
+    <Grid MaxWidth="1000" Margin="20 10">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="auto"/>
             <ColumnDefinition Width="auto"/>
             <ColumnDefinition Width="auto"/>
         </Grid.ColumnDefinitions>
 
-        <TextBlock Text="Navigation Demo" Grid.Column="0"/>
-        <Button Command="{Binding NavigateMultiGameMenuCommand}" Grid.Column="1" Content="MultiplayerGameMenu"/>
-        <Button Command="{Binding NavigateLevelEditorCommand}" Grid.Column="2" Content="Level Editor"/>
-        <Button Command="{Binding NavigateSingleGameCommand}" Grid.Column="3" Content="Singleplayer Game"/>
+        <TextBlock Text="Navigation Demo" Grid.Column="0" Foreground="White"/>
+        <Button Command="{Binding NavigateMultiGameMenuCommand}" Grid.Column="1" Content="MultiplayerGameMenu"
+                Margin="10 0 0 0"/>
+        <Button Command="{Binding NavigateLevelEditorCommand}" Grid.Column="2" Content="Level Editor"
+                Margin="10 0 0 0"/>
+        <Button Command="{Binding NavigateSingleGameCommand}" Grid.Column="3" Content="Singleplayer Game"
+                Margin="10 0 0 0"/>
     </Grid>
 </UserControl>
