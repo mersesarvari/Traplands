@@ -17,16 +17,10 @@ namespace WPFGameTest
     public partial class App : Application
     {
         private readonly NavigationStore _navigationStore;
-        private readonly NavigationBarViewModel _navigationBarViewModel;
 
         public App()
         {
             _navigationStore = new NavigationStore();
-            _navigationBarViewModel = new NavigationBarViewModel(
-                CreateMultiMenuNavigationService(),
-                CreateLevelEditorNavigationService(),
-                CreateSingleGameNavigationService()
-                );
         }
 
         protected override void OnStartup(StartupEventArgs e)
@@ -48,7 +42,6 @@ namespace WPFGameTest
             return new NavigationService<MainmenuViewModel>(
                 _navigationStore,
                 () => new MainmenuViewModel(
-                    _navigationBarViewModel, 
                     CreateMultiMenuNavigationService(),
                     CreateLevelEditorNavigationService(),
                     CreateSingleGameNavigationService())

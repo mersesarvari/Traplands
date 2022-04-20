@@ -4,17 +4,22 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:WPFGameTest.MVVM.View" 
-             xmlns:components="clr-namespace:WPFGameTest.MVVM.Components"
              mc:Ignorable="d" 
              d:DesignHeight="768" d:DesignWidth="1024">
-    <Grid>
+ 
+     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="auto"/>
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="1*"/>
         </Grid.RowDefinitions>
-        <components:NavigationBar Grid.Row="0" DataContext="{Binding NavigationBarViewModel}"/>
-        <Grid Grid.Row="1">
-            <Label Content="Let's Play" FontSize="30" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
-        </Grid>
-    </Grid>
+        <Label Content="Let's Play" FontSize="30" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Grid.Row="0"/>
+        <Button Command="{Binding NavigateMultiGameMenuCommand}" Grid.Row="1" Content="MultiplayerGameMenu"
+                Margin="10 0 0 0"/>
+        <Button Command="{Binding NavigateLevelEditorCommand}" Grid.Row="2" Content="Level Editor"
+                Margin="10 0 0 0"/>
+        <Button Command="{Binding NavigateSingleGameCommand}" Grid.Row="3" Content="Singleplayer Game"
+                Margin="10 0 0 0"/>
+     </Grid>
 </UserControl>

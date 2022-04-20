@@ -13,12 +13,11 @@ namespace WPFGameTest.MVVM.ViewModel
 {
     public class MainmenuViewModel:ViewModelBase
     {
-        public NavigationBarViewModel NavigationBarViewModel { get; }
         public ICommand NavigateMultiGameMenuCommand { get; }
         public ICommand NavigateLevelEditorCommand { get; }
         public ICommand NavigateSingleGameCommand { get; }
 
-        public MainmenuViewModel(NavigationBarViewModel navigationBarViewModel, 
+        public MainmenuViewModel( 
             INavigationService<MultiplayerGameMenuViewModel> multiMenuNavigationService,
             INavigationService<LevelEditorViewModel> levelEditorNavigationService,
             INavigationService<SingleplayerGameViewModel> singleGameNavigationService)
@@ -26,8 +25,6 @@ namespace WPFGameTest.MVVM.ViewModel
             NavigateMultiGameMenuCommand = new NavigateCommand<MultiplayerGameMenuViewModel>(multiMenuNavigationService);
             NavigateLevelEditorCommand=new NavigateCommand<LevelEditorViewModel>(levelEditorNavigationService);
             NavigateSingleGameCommand = new NavigateCommand<SingleplayerGameViewModel>(singleGameNavigationService);
-
-            NavigationBarViewModel = navigationBarViewModel;
         }
     }
 }
