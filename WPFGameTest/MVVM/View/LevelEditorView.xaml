@@ -12,5 +12,6 @@
             <RowDefinition Height="197*"/>
         </Grid.RowDefinitions>
         <Button Command="{Binding NavigateMainMenuCommand}" Content="MainMenu" Grid.Row="0" FontSize="30"/>
+        <Button Command="{Binding SaveAndExitCommand}" Content="Save/Exit" Grid.Row="1" FontSize="30"/>
     </Grid>
 </UserControl>
