@@ -32,7 +32,7 @@ namespace WPFGameTest
         protected override void OnStartup(StartupEventArgs e)
         {
             //_navigationStore.CurrentViewModel = new MainmenuViewModel(_navigationBarViewModel, _navigationStore);
-            NavigationService<MainmenuViewModel> mainMenuNavigationService = CreateMainMenuNavigationService();
+            INavigationService<MainmenuViewModel> mainMenuNavigationService = CreateMainMenuNavigationService();
             mainMenuNavigationService.Navigate();
 
             MainWindow = new MainWindow()
@@ -43,7 +43,7 @@ namespace WPFGameTest
             base.OnStartup(e);
         }
 
-        private NavigationService<MainmenuViewModel> CreateMainMenuNavigationService()
+        private INavigationService<MainmenuViewModel> CreateMainMenuNavigationService()
         {
             return new NavigationService<MainmenuViewModel>(
                 _navigationStore,
@@ -54,7 +54,7 @@ namespace WPFGameTest
                     CreateSingleGameNavigationService())
                 );
         }
-        private NavigationService<MultiplayerGameMenuViewModel> CreateMultiMenuNavigationService()
+        private INavigationService<MultiplayerGameMenuViewModel> CreateMultiMenuNavigationService()
         {
             return new NavigationService<MultiplayerGameMenuViewModel>(
                 _navigationStore, 
@@ -65,14 +65,14 @@ namespace WPFGameTest
                 );
         }
 
-        private NavigationService<LevelEditorViewModel> CreateLevelEditorNavigationService()
+        private INavigationService<LevelEditorViewModel> CreateLevelEditorNavigationService()
         {
             return new NavigationService<LevelEditorViewModel>(
                 _navigationStore,
                 () => new LevelEditorViewModel(CreateMainMenuNavigationService())
                 );
         }
-        private NavigationService<SingleplayerGameViewModel> CreateSingleGameNavigationService()
+        private INavigationService<SingleplayerGameViewModel> CreateSingleGameNavigationService()
         {
             return new NavigationService<SingleplayerGameViewModel>(
                 _navigationStore,
@@ -80,7 +80,7 @@ namespace WPFGameTest
                 );
         }
 
-        private NavigationService<LobbyViewModel> CreateLobbyNavigationService()
+        private INavigationService<LobbyViewModel> CreateLobbyNavigationService()
         {
             return new NavigationService<LobbyViewModel>(
                 _navigationStore,
@@ -89,7 +89,7 @@ namespace WPFGameTest
                     )
                 );
         }
-        private NavigationService<MultiplayerGameViewModel> CreateMultiGameNavigationService()
+        private INavigationService<MultiplayerGameViewModel> CreateMultiGameNavigationService()
         {
             return new NavigationService<MultiplayerGameViewModel>(
                 _navigationStore,

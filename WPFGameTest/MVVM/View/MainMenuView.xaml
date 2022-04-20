@@ -14,7 +14,7 @@
         </Grid.RowDefinitions>
         <components:NavigationBar Grid.Row="0" DataContext="{Binding NavigationBarViewModel}"/>
         <Grid Grid.Row="1">
-            <Label Content="Let's Play" FontSize="30"/>
+            <Label Content="Let's Play" FontSize="30" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
         </Grid>
     </Grid>
 </UserControl>
