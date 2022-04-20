@@ -22,9 +22,29 @@ namespace WPFGameTest
         public App()
         {
             IServiceCollection services = new ServiceCollection();
-            services.AddSingleton<NavigationStore>();
 
+            services.AddSingleton<NavigationStore>();
             services.AddSingleton<INavigationService<MainmenuViewModel>>(s => CreateMainMenuNavigationService(s));
+
+            services.AddTransient<MainmenuViewModel>(s => new MainmenuViewModel(
+                CreateMultiMenuNavigationService(s),
+                CreateLevelEditorNavigationService(s),
+                CreateSingleGameNavigationService(s)
+                ));
+            services.AddTransient<MultiplayerGameMenuViewModel>(s => new MultiplayerGameMenuViewModel(
+                CreateMainMenuNavigationService(s),
+                CreateLobbyNavigationService(s),
+                CreateMultiGameNavigationService(s)
+                ));
+
+            services.AddTransient<LevelEditorViewModel>(s => new LevelEditorViewModel(
+                CreateMainMenuNavigationService(s)));
+            services.AddTransient<SingleplayerGameViewModel>(s => new SingleplayerGameViewModel(
+                CreateMainMenuNavigationService(s)));
+            services.AddTransient<LobbyViewModel>(s => new LobbyViewModel(
+                CreateMultiMenuNavigationService(s)));
+            services.AddTransient<MultiplayerGameViewModel>(s => new MultiplayerGameViewModel(
+                CreateMultiMenuNavigationService(s)));
 
             services.AddSingleton<MainWindowViewModel>();
             services.AddSingleton<MainWindow>(s => new MainWindow()
@@ -50,55 +70,39 @@ namespace WPFGameTest
         {
             return new NavigationService<MainmenuViewModel>(
                 serviceProvider.GetRequiredService<NavigationStore>(),
-                () => new MainmenuViewModel(
-                    CreateMultiMenuNavigationService(serviceProvider),
-                    CreateLevelEditorNavigationService(serviceProvider),
-                    CreateSingleGameNavigationService(serviceProvider))
-                );
+                () => serviceProvider.GetRequiredService<MainmenuViewModel>());
         }
         private INavigationService<MultiplayerGameMenuViewModel> CreateMultiMenuNavigationService(IServiceProvider serviceProvider)
         {
             return new NavigationService<MultiplayerGameMenuViewModel>(
                 serviceProvider.GetRequiredService<NavigationStore>(),
-                () => new MultiplayerGameMenuViewModel(
-                    CreateMainMenuNavigationService(serviceProvider),
-                    CreateLobbyNavigationService(serviceProvider),
-                    CreateMultiGameNavigationService(serviceProvider))
-                );
+                () => serviceProvider.GetRequiredService<MultiplayerGameMenuViewModel>());
         }
 
         private INavigationService<LevelEditorViewModel> CreateLevelEditorNavigationService(IServiceProvider serviceProvider)
         {
             return new NavigationService<LevelEditorViewModel>(
                serviceProvider.GetRequiredService<NavigationStore>(),
-                () => new LevelEditorViewModel(CreateMainMenuNavigationService(serviceProvider))
-                );
+                () => serviceProvider.GetRequiredService<LevelEditorViewModel>());
         }
         private INavigationService<SingleplayerGameViewModel> CreateSingleGameNavigationService(IServiceProvider serviceProvider)
         {
             return new NavigationService<SingleplayerGameViewModel>(
                 serviceProvider.GetRequiredService<NavigationStore>(),
-                () => new SingleplayerGameViewModel(CreateMainMenuNavigationService(serviceProvider))
-                );
+                () => serviceProvider.GetRequiredService<SingleplayerGameViewModel>());
         }
 
         private INavigationService<LobbyViewModel> CreateLobbyNavigationService(IServiceProvider serviceProvider)
         {
             return new NavigationService<LobbyViewModel>(
                 serviceProvider.GetRequiredService<NavigationStore>(),
-                ()=>new LobbyViewModel(
-                    CreateMultiMenuNavigationService(serviceProvider)
-                    )
-                );
+                () => serviceProvider.GetRequiredService<LobbyViewModel>());
         }
         private INavigationService<MultiplayerGameViewModel> CreateMultiGameNavigationService(IServiceProvider serviceProvider)
         {
             return new NavigationService<MultiplayerGameViewModel>(
                 serviceProvider.GetRequiredService<NavigationStore>(),
-                () => new MultiplayerGameViewModel(
-                    CreateMultiMenuNavigationService(serviceProvider)
-                    )
-                );
+                () => serviceProvider.GetRequiredService<MultiplayerGameViewModel>());
         }
 
 
