@@ -5,12 +5,20 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:WPFGameTest.MVVM.View"
              mc:Ignorable="d" 
-             d:DesignHeight="768" d:DesignWidth="1024">
-    <Grid Background="#FFE80303">
+             d:DesignHeight="800" d:DesignWidth="1024">
+    <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="91*"/>
-            <RowDefinition Height="677*"/>
+            <RowDefinition Height="10*"/>
+            <RowDefinition Height="1*"/>
         </Grid.RowDefinitions>
-        <Button Command="{Binding NavigateMultiMenuCommand}" Content="Menu" Grid.Row="0" FontSize="30"/>
+        <Button Command="{Binding NavigateMultiMenuCommand}" Content="Return to Menu" Grid.Row="1" FontSize="30"
+                Margin="200 10 200 10">
+            <Button.Background>
+                <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                    <GradientStop Color="LightGreen" Offset="0.3"/>
+                    <GradientStop Color="Brown" Offset="1.0"/>
+                </LinearGradientBrush>
+            </Button.Background>
+        </Button>
     </Grid>
 </UserControl>
