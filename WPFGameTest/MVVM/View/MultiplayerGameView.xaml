@@ -6,11 +6,11 @@
              xmlns:local="clr-namespace:WPFGameTest.MVVM.View"
              xmlns:renderer="clr-namespace:WPFGameTest.Renderer"
              mc:Ignorable="d" 
-             d:DesignHeight="768" d:DesignWidth="1024">
+             d:DesignHeight="800" d:DesignWidth="1024">
     <Grid x:Name="MainGrid">
         <Grid.RowDefinitions>
-            <RowDefinition Height="5*"/>
-            <RowDefinition Height="59*"/>
+            <RowDefinition Height="10*"/>
+            <RowDefinition Height="1*"/>
         </Grid.RowDefinitions>
         <ScrollViewer x:Name="MainCamera" Grid.RowSpan="2">
             <Canvas x:Name="MainCanvas">
@@ -18,6 +18,14 @@
             </Canvas>
         </ScrollViewer>
         <renderer:Renderer x:Name="Renderer" Grid.RowSpan="2"/>
-        <Button Command="{Binding NavigateMultiMenuCommand}" Content="Menu" Grid.Row="0" FontSize="30"/>
+        <Button Command="{Binding NavigateMultiMenuCommand}" Content="Return to Menu" Grid.Row="1" FontSize="30"
+                Margin="200 10">
+            <Button.Background>
+                <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                    <GradientStop Color="LightGreen" Offset="0.3"/>
+                    <GradientStop Color="Brown" Offset="1.0"/>
+                </LinearGradientBrush>
+            </Button.Background>
+        </Button>
     </Grid>
 </UserControl>
