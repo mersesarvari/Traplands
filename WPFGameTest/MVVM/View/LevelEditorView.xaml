@@ -5,13 +5,20 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WPFGameTest.MVVM.View"
         mc:Ignorable="d"
-         Height="450" Width="800">
+        d:DesignHeight="800" d:DesignWidth="1024">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="28*"/>
-            <RowDefinition Height="197*"/>
+            <RowDefinition Height="8*"/>
+            <RowDefinition Height="1*"/>
         </Grid.RowDefinitions>
-        <Button Command="{Binding NavigateMainMenuCommand}" Content="MainMenu" Grid.Row="0" FontSize="30"/>
-        <Button Command="{Binding SaveAndExitCommand}" Content="Save/Exit" Grid.Row="1" FontSize="30"/>
+        <Button Command="{Binding SaveAndExitCommand}" Content="Save Map" FontSize="30"
+                Margin="200 10 200 10"  Grid.Row="1">
+            <Button.Background>
+                <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                    <GradientStop Color="LightGreen" Offset="0.3"/>
+                    <GradientStop Color="Brown" Offset="1.0"/>
+                </LinearGradientBrush>
+            </Button.Background>
+        </Button>
     </Grid>
 </UserControl>
