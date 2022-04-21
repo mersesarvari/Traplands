@@ -10,16 +10,38 @@
      <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="4*"/>
-            <RowDefinition Height="1*"/>
-            <RowDefinition Height="1*"/>
-            <RowDefinition Height="1*"/>
+            <RowDefinition Height="2*"/>
         </Grid.RowDefinitions>
         <Label Content="Let's Play" FontSize="30" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Grid.Row="0"/>
-        <Button Command="{Binding NavigateMultiGameMenuCommand}" Grid.Row="1" Content="MultiplayerGameMenu"
-                Margin="10 0 0 0"/>
-        <Button Command="{Binding NavigateLevelEditorCommand}" Grid.Row="2" Content="Level Editor"
-                Margin="10 0 0 0"/>
-        <Button Command="{Binding NavigateSingleGameCommand}" Grid.Row="3" Content="Singleplayer Game"
-                Margin="10 0 0 0"/>
+        <StackPanel Grid.Row="1">
+            <Button Command="{Binding NavigateMultiGameMenuCommand}" Content="Multiplayer Game Menu"
+               FontSize="20" Padding="10" Margin="200 10 200 10">
+                <Button.Background>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                        <GradientStop Color="LightGreen" Offset="0.3"/>
+                        <GradientStop Color="Brown" Offset="1.0"/>
+                    </LinearGradientBrush>
+                </Button.Background>
+            </Button>
+            <Button Command="{Binding NavigateLevelEditorCommand}" Content="Level Editor"
+                FontSize="20" Padding="10" Margin="200 10 200 10">
+                <Button.Background>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                        <GradientStop Color="LightGreen" Offset="0.3"/>
+                        <GradientStop Color="Brown" Offset="1.0"/>
+                    </LinearGradientBrush>
+                </Button.Background>
+            </Button>
+            <Button Command="{Binding NavigateSingleGameCommand}" Content="Singleplayer Game"
+               FontSize="20" Padding="10" Margin="200 10 200 10">
+                <Button.Background>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                        <GradientStop Color="LightGreen" Offset="0.3"/>
+                        <GradientStop Color="Brown" Offset="1.0"/>
+                    </LinearGradientBrush>
+                </Button.Background>
+            </Button>
+        </StackPanel>
+        
      </Grid>
 </UserControl>
