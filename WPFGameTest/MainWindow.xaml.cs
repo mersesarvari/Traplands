@@ -15,8 +15,8 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using WPFGameTest.Helpers;
 using WPFGameTest.Logic;
-using WPFGameTest.MVVM.ViewModel;
 using WPFGameTest.Renderer;
+using WPFGameTest.MVVM.ViewModel;
 
 namespace WPFGameTest
 {
@@ -29,17 +29,17 @@ namespace WPFGameTest
         public static double _Width;
         public static double _Height;
 
-        IGameModel game;
+        public static IGameModel game = null;
+        public static RendererBase renderer = null;
 
         public MainWindow()
         {
             InitializeComponent();
 
-            /*
             _Width = this.Width;
             _Height = this.Height;
-            //Renderer.InvalidateVisual();
 
+            /*
             Resource.AddImage("MainMenu_Bg", "menu_bg.jpg");
             Resource.AddImage("Game_Bg", "background.png");
             Resource.AddImage("Player", "player.png");
@@ -60,42 +60,50 @@ namespace WPFGameTest
             Resource.AddImage("Grass_Top_Left_Bottom", "grass_topleftbottom.png");
             */
 
-
-
-            // Background music
-            //AudioManager.Init();
-
             // Game loop
             CompositionTargetEx.Rendering += MainLoop;
         }
 
         public void MainLoop(object sender, RenderingEventArgs e)
         {
-            if (game != null)
+            if (game != null && renderer != null)
             {
                 game.ProcessInput();
+
                 game.Update(Time.DeltaTime);
+
+                renderer.InvalidateVisual();
             }
 
             Time.Tick();
         }
 
-        private void Window_KeyDown(object sender, KeyEventArgs e)
+        public static void SetupCamera(ScrollViewer camera)
         {
-            if (!e.IsRepeat) Input.pressedKey = e.Key;
-            Input.heldKeys[(int)e.Key] = true;
-        }
+            camera.Width = _Width;
+            camera.Height = _Height;
+            camera.HorizontalScrollBarVisibility = ScrollBarVisibility.Hidden;
+            camera.VerticalScrollBarVisibility = ScrollBarVisibility.Hidden;
 
-        private void Window_KeyUp(object sender, KeyEventArgs e)
-        {
-            Input.releasedKey = e.Key;
-            Input.heldKeys[(int)e.Key] = false;
+            CameraController.Instance.Init(camera);
         }
 
         private void GameWindow_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             this.Width = (int)e.NewSize.Width;
             this.Height = (int)e.NewSize.Height;
+        }
+
+        private void GameWindow_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (!e.IsRepeat) Input.pressedKey = e.Key;
+            Input.heldKeys[(int)e.Key] = true;
+        }
+
+        private void GameWindow_KeyUp(object sender, KeyEventArgs e)
+        {
+            Input.releasedKey = e.Key;
+            Input.heldKeys[(int)e.Key] = false;
         }
     }
 }
