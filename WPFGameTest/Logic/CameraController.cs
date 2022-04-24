@@ -82,5 +82,14 @@ namespace WPFGameTest.Logic
             camera.ScrollToHorizontalOffset(offsetX);
             camera.ScrollToVerticalOffset(offsetY);
         }
+
+        public void UpdateCameraView(double width, double height)
+        {
+            if (camera != null)
+            {
+                camera.Width = width;
+                camera.Height = height;
+            }
+        }
     }
 }

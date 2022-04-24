@@ -68,11 +68,11 @@ namespace WPFGameTest
         {
             if (game != null && renderer != null)
             {
-                game.ProcessInput();
+                game.ProcessInput(); // Get input
 
-                game.Update(Time.DeltaTime);
+                game.Update(Time.DeltaTime); // Update game state and objects
 
-                renderer.InvalidateVisual();
+                renderer.InvalidateVisual(); // Render game
             }
 
             Time.Tick();
@@ -90,8 +90,10 @@ namespace WPFGameTest
 
         private void GameWindow_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            this.Width = (int)e.NewSize.Width;
-            this.Height = (int)e.NewSize.Height;
+            _Width = e.NewSize.Width;
+            _Height = e.NewSize.Height;
+
+            CameraController.Instance.UpdateCameraView(_Width, _Height);
         }
 
         private void GameWindow_KeyDown(object sender, KeyEventArgs e)
