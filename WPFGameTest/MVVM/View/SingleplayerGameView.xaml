@@ -17,7 +17,7 @@
 
             </Canvas>
         </ScrollViewer>
-        <renderer:Renderer x:Name="Renderer" Grid.RowSpan="2"/>
+        <!--<renderer:Renderer x:Name="Renderer" Grid.RowSpan="2"/>-->
         <Button Command="{Binding NavigateMainMenuCommand}" Content="Return to Menu" Grid.Row="1" FontSize="30"
                 Margin="200 10">
             <Button.Background>

@@ -26,9 +26,10 @@ namespace WPFGameTest
 
     public partial class MainWindow : Window
     {
-        GameState currentState;
         public static double _Width;
         public static double _Height;
+
+        IGameModel game;
 
         public MainWindow()
         {
@@ -57,77 +58,44 @@ namespace WPFGameTest
             Resource.AddImage("Grass_Mid_Right_Left", "grass_midrightleft.png");
             Resource.AddImage("Grass_Top_Right_Bottom", "grass_toprightbottom.png");
             Resource.AddImage("Grass_Top_Left_Bottom", "grass_topleftbottom.png");
-            
+            */
 
 
 
             // Background music
-            AudioManager.Init();
-
-            // Setting up the initial game state
-            currentState = new MainMenu(GameWindow);
+            //AudioManager.Init();
 
             // Game loop
             CompositionTargetEx.Rendering += MainLoop;
-            */
         }
 
-        //public void MainLoop(object sender, RenderingEventArgs e)
-        //{
-        //    currentState.Update();
+        public void MainLoop(object sender, RenderingEventArgs e)
+        {
+            if (game != null)
+            {
+                game.ProcessInput();
+                game.Update(Time.DeltaTime);
+            }
 
-        //    if (currentState.NeedChange)
-        //    {
-        //        ChangeState();
-        //    }
+            Time.Tick();
+        }
 
-        //    Time.Tick();
-        //}
+        private void Window_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (!e.IsRepeat) Input.pressedKey = e.Key;
+            Input.heldKeys[(int)e.Key] = true;
+        }
 
-        //public void ChangeState()
-        //{
-        //    switch (currentState.State)
-        //    {
-        //        case GameStates.MainMenu:
-        //            currentState = new MainMenu(GameWindow);
-        //            break;
-        //        case GameStates.ClientTest:
-        //            currentState = new ClientTest(GameWindow);
-        //            break;
-        //        case GameStates.Play:
-        //            currentState = new PlayState(GameWindow);
-        //            break;
-        //        case GameStates.Editor:
-        //            currentState = new EditorState(GameWindow);
-        //            break;
-        //        case GameStates.Lobby:
-        //            currentState = new LobbyState(GameWindow);
-        //            break;
-        //        case GameStates.Multiplayer:
-        //            currentState = new MultiplayerState(GameWindow);
-        //            break;
-        //        case GameStates.Exit:
-        //            Environment.Exit(0);
-        //            break;
-        //    }
-        //}
+        private void Window_KeyUp(object sender, KeyEventArgs e)
+        {
+            Input.releasedKey = e.Key;
+            Input.heldKeys[(int)e.Key] = false;
+        }
 
-        //private void Window_KeyDown(object sender, KeyEventArgs e)
-        //{
-        //    if (!e.IsRepeat) Input.pressedKey = e.Key;
-        //    Input.heldKeys[(int)e.Key] = true;
-        //}
-
-        //private void Window_KeyUp(object sender, KeyEventArgs e)
-        //{
-        //    Input.releasedKey = e.Key;
-        //    Input.heldKeys[(int)e.Key] = false;
-        //}
-
-        //private void GameWindow_SizeChanged(object sender, SizeChangedEventArgs e)
-        //{
-        //    this.Width = (int)e.NewSize.Width;
-        //    this.Height = (int)e.NewSize.Height;
-        //}
+        private void GameWindow_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            this.Width = (int)e.NewSize.Width;
+            this.Height = (int)e.NewSize.Height;
+        }
     }
 }
