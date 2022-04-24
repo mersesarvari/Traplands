@@ -123,7 +123,10 @@ namespace WPFGameTest
                 Level level = new Level(levelMap);
                 string name = Path.GetFileNameWithoutExtension(path); // Use the filename without extension as name of the level
 
-                levels.Add(name, level);
+                if (Get(name) == null)
+                {
+                    levels.Add(name, level);
+                }
             }
         }
     }
