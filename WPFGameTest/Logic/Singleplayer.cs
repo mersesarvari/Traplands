@@ -3,6 +3,7 @@ using WPFGameTest.Models;
 using WPFGameTest.Helpers;
 using WPFGameTest.Renderer;
 using System.Windows.Media;
+using System.Diagnostics;
 
 namespace WPFGameTest.Logic
 {
@@ -58,7 +59,6 @@ namespace WPFGameTest.Logic
             }
 
             mt = new MovingTrap(new Vector2(100, 400), new Vector2(44, 44));
-            mt.Fill = new ImageBrush(Resource.GetImage("SpikeSingle"));
             mt.Tag = "Trap";
 
             mt.AddWaypoint(new Vector2(200, 400));
