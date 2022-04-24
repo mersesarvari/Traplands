@@ -10,6 +10,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using WPFGameTest.Helpers;
+using WPFGameTest.Models;
 
 namespace WPFGameTest.Renderer
 {
@@ -78,7 +79,7 @@ namespace WPFGameTest.Renderer
             hasAudio = true;
         }
 
-        public void Play(Rectangle user)
+        public void Play(GameObject user, float deltaTime)
         {
             user.Fill = new ImageBrush(new CroppedBitmap(spriteSheet.Image, spriteSheet.Regions[imageIndex]));
 
@@ -89,7 +90,7 @@ namespace WPFGameTest.Renderer
 
             if (timeToNewImage < TimeBetweenImages)
             {
-                timeToNewImage += Time.DeltaTime;
+                timeToNewImage += deltaTime;
             }
             else
             {
