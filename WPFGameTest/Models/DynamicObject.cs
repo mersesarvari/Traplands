@@ -1,17 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Controls;
 using System.Windows.Media;
-using System.Windows.Shapes;
-using System.Windows;
 using WPFGameTest.Helpers;
 
 namespace WPFGameTest.Models
 {
-    public class DynamicObject : Entity
+    public class DynamicObject : GameObject
     {
         public float xRemainder { get; protected set; }
         public float yRemainder { get; protected set; }
@@ -34,28 +28,20 @@ namespace WPFGameTest.Models
             FacingRight = true;
             HitboxOffset = hitboxOffset;
 
-            Element = new Rectangle();
-            Element.Width = size.X;
-            Element.Height = size.Y;
-            Element.Fill = new SolidColorBrush(Colors.Red);
+            Fill = new SolidColorBrush(Colors.Red);
 
             Transform.ScaleTransform = new ScaleTransform();
-            Element.RenderTransform = Transform.ScaleTransform;
-            Element.RenderTransformOrigin = new Point(0.5, 0.5);
-
-            Canvas.SetLeft(Element, position.X);
-            Canvas.SetTop(Element, position.Y);
         }
 
-        public static List<Entity> solids = new List<Entity>();
-        public static List<Entity> interactables = new List<Entity>();
+        public static List<GameObject> solids = new List<GameObject>();
+        public static List<GameObject> interactables = new List<GameObject>();
 
-        public void SetSolids(List<Entity> solidBodies)
+        public void SetSolids(List<GameObject> solidBodies)
         {
             solids = solidBodies;
         }
 
-        public void SetInteractables(List<Entity> interactableBodies)
+        public void SetInteractables(List<GameObject> interactableBodies)
         {
             interactables = interactableBodies;
         }
@@ -72,31 +58,11 @@ namespace WPFGameTest.Models
 
                 while (move != 0)
                 {
-                    IntRect tempRect = new IntRect
-                    {
-                        X = Hitbox.X + sign,
-                        Y = Hitbox.Y,
-                        Width = Hitbox.Width,
-                        Height = Hitbox.Height
-                    };
-
-                    if (!Physics.IsColliding(solids, tempRect))
-                    {
-                        //  We don't collide with anyting solid
-                        Transform.Position.X += sign;
-                        Hitbox.X += sign;
-                        move -= sign;
-                    }
-                    else
-                    {
-                        // Colliding with solid
-                        onCollision?.Invoke();
-                        break;
-                    }
+                    Transform.Position.X += sign;
+                    Hitbox.X += sign;
+                    move -= sign;
                 }
             }
-
-            Canvas.SetLeft(Element, Transform.Position.X);
         }
 
         public virtual void MoveY(float amount, Action onCollision)
@@ -109,36 +75,10 @@ namespace WPFGameTest.Models
 
             while (move != 0)
             {
-                IntRect tempRect = new IntRect
-                {
-                    X = Hitbox.X,
-                    Y = Hitbox.Y + sign,
-                    Width = Hitbox.Width,
-                    Height = Hitbox.Height
-                };
-
-                if (!Physics.IsColliding(solids, tempRect))
-                {
-                    //  We don't collide with anyting solid
-                    Transform.Position.Y += sign;
-                    Hitbox.Y += sign;
-                    move -= sign;
-                    Grounded = false;
-                }
-                else
-                {
-                    // Colliding with solid
-                    if (sign == 1) // If we collided below us
-                    {
-                        Grounded = true;
-                    }
-
-                    onCollision?.Invoke();
-                    break;
-                }
+                Transform.Position.Y += sign;
+                Hitbox.Y += sign;
+                move -= sign;
             }
-
-            Canvas.SetTop(Element, Transform.Position.Y);
         }
 
         public void Flip()
@@ -149,9 +89,7 @@ namespace WPFGameTest.Models
 
         public void SetDefaultSprite(ImageSource imgSrc)
         {
-            Element.Fill = new ImageBrush(imgSrc);
+            Fill = new ImageBrush(imgSrc);
         }
-
-        public virtual void Update(float deltaTime) { }
     }
 }
