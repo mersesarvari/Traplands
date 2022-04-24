@@ -65,6 +65,8 @@ namespace WPFGameTest.Models
 
             State = new PlayerOnGround(this);
 
+            Spawn = new Vector2(position.X, position.Y);
+
             // Setting up default values
             Velocity = new Vector2f();
             MoveSpeed = 300;
@@ -317,6 +319,8 @@ namespace WPFGameTest.Models
             }
 
             AnimActive.Play(this, deltaTime);
+
+            base.Update(deltaTime);
         }
     }
 }
