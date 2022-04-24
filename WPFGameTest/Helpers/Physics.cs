@@ -99,7 +99,7 @@ namespace WPFGameTest.Helpers
         public const float FallClamp = 1500;
         public const float WallSlideSpeed = 150;
 
-        public static bool IsColliding(List<Entity> solids, IntRect b)
+        public static bool IsColliding(List<GameObject> solids, IntRect b)
         {
             foreach (var solid in solids)
             {
@@ -116,7 +116,7 @@ namespace WPFGameTest.Helpers
             return false;
         }
 
-        public static bool IsColliding(List<Entity> solids, IntRect b, out Entity collidedWith)
+        public static bool IsColliding(List<GameObject> solids, IntRect b, out GameObject collidedWith)
         {
             foreach (var solid in solids)
             {
