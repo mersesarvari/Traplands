@@ -5,7 +5,7 @@ using WPFGameTest.Logic;
 
 namespace WPFGameTest.Renderer
 {
-    public abstract class Renderer : FrameworkElement, IRenderer
+    public abstract class RendererBase : FrameworkElement, IRenderer
     {
         public IGameModel Model { get; set; }
 
@@ -15,7 +15,7 @@ namespace WPFGameTest.Renderer
         }
     }
 
-    public class SinglePlayerRenderer : Renderer
+    public class SinglePlayerRenderer : RendererBase
     {
         protected override void OnRender(DrawingContext drawingContext)
         {
@@ -52,7 +52,7 @@ namespace WPFGameTest.Renderer
         }
     }
 
-    public class LevelEditorRenderer : Renderer
+    public class LevelEditorRenderer : RendererBase
     {
         protected override void OnRender(DrawingContext drawingContext)
         {
