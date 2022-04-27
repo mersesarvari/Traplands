@@ -6,13 +6,18 @@
         xmlns:local="clr-namespace:WPFGameTest.MVVM.View"
         mc:Ignorable="d"
         d:DesignHeight="800" d:DesignWidth="1024">
-    <Grid>
+    <Grid Height="800" VerticalAlignment="Bottom">
         <Grid.RowDefinitions>
             <RowDefinition Height="10*"/>
             <RowDefinition Height="1*"/>
         </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="1*"/>
+        </Grid.ColumnDefinitions>
+        <TextBox Grid.Row="1" Margin="10,10,10,10" Padding="10" Grid.Column="0" FontSize="20"/>
         <Button Command="{Binding SaveAndExitCommand}" Content="Save Map" FontSize="30"
-                Margin="200 10 200 10"  Grid.Row="1">
+                Margin="10"  Grid.Row="1" Grid.Column="1">
             <Button.Background>
                 <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
                     <GradientStop Color="LightGreen" Offset="0.3"/>
