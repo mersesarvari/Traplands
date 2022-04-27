@@ -15,8 +15,8 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using WPFGameTest.Helpers;
 using WPFGameTest.Logic;
-using WPFGameTest.MVVM.ViewModel;
 using WPFGameTest.Renderer;
+using WPFGameTest.MVVM.ViewModel;
 
 namespace WPFGameTest
 {
@@ -26,19 +26,20 @@ namespace WPFGameTest
 
     public partial class MainWindow : Window
     {
-        GameState currentState;
         public static double _Width;
         public static double _Height;
+
+        public static IGameModel game = null;
+        public static RendererBase renderer = null;
 
         public MainWindow()
         {
             InitializeComponent();
 
-            /*
             _Width = this.Width;
             _Height = this.Height;
-            //Renderer.InvalidateVisual();
 
+            /*
             Resource.AddImage("MainMenu_Bg", "menu_bg.jpg");
             Resource.AddImage("Game_Bg", "background.png");
             Resource.AddImage("Player", "player.png");
@@ -57,77 +58,54 @@ namespace WPFGameTest
             Resource.AddImage("Grass_Mid_Right_Left", "grass_midrightleft.png");
             Resource.AddImage("Grass_Top_Right_Bottom", "grass_toprightbottom.png");
             Resource.AddImage("Grass_Top_Left_Bottom", "grass_topleftbottom.png");
-            
-
-
-
-            // Background music
-            AudioManager.Init();
-
-            // Setting up the initial game state
-            currentState = new MainMenu(GameWindow);
+            */
 
             // Game loop
             CompositionTargetEx.Rendering += MainLoop;
-            */
         }
 
-        //public void MainLoop(object sender, RenderingEventArgs e)
-        //{
-        //    currentState.Update();
+        public void MainLoop(object sender, RenderingEventArgs e)
+        {
+            if (game != null && renderer != null)
+            {
+                game.ProcessInput(); // Get input
 
-        //    if (currentState.NeedChange)
-        //    {
-        //        ChangeState();
-        //    }
+                game.Update(Time.DeltaTime); // Update game state and objects
 
-        //    Time.Tick();
-        //}
+                renderer.InvalidateVisual(); // Render game
+            }
 
-        //public void ChangeState()
-        //{
-        //    switch (currentState.State)
-        //    {
-        //        case GameStates.MainMenu:
-        //            currentState = new MainMenu(GameWindow);
-        //            break;
-        //        case GameStates.ClientTest:
-        //            currentState = new ClientTest(GameWindow);
-        //            break;
-        //        case GameStates.Play:
-        //            currentState = new PlayState(GameWindow);
-        //            break;
-        //        case GameStates.Editor:
-        //            currentState = new EditorState(GameWindow);
-        //            break;
-        //        case GameStates.Lobby:
-        //            currentState = new LobbyState(GameWindow);
-        //            break;
-        //        case GameStates.Multiplayer:
-        //            currentState = new MultiplayerState(GameWindow);
-        //            break;
-        //        case GameStates.Exit:
-        //            Environment.Exit(0);
-        //            break;
-        //    }
-        //}
+            Time.Tick();
+        }
 
-        //private void Window_KeyDown(object sender, KeyEventArgs e)
-        //{
-        //    if (!e.IsRepeat) Input.pressedKey = e.Key;
-        //    Input.heldKeys[(int)e.Key] = true;
-        //}
+        public static void SetupCamera(ScrollViewer camera)
+        {
+            camera.Width = _Width;
+            camera.Height = _Height;
+            camera.HorizontalScrollBarVisibility = ScrollBarVisibility.Hidden;
+            camera.VerticalScrollBarVisibility = ScrollBarVisibility.Hidden;
 
-        //private void Window_KeyUp(object sender, KeyEventArgs e)
-        //{
-        //    Input.releasedKey = e.Key;
-        //    Input.heldKeys[(int)e.Key] = false;
-        //}
+            CameraController.Instance.Init(camera);
+        }
 
-        //private void GameWindow_SizeChanged(object sender, SizeChangedEventArgs e)
-        //{
-        //    this.Width = (int)e.NewSize.Width;
-        //    this.Height = (int)e.NewSize.Height;
-        //}
+        private void GameWindow_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            _Width = e.NewSize.Width;
+            _Height = e.NewSize.Height;
+
+            CameraController.Instance.UpdateCameraView(_Width, _Height);
+        }
+
+        private void GameWindow_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (!e.IsRepeat) Input.pressedKey = e.Key;
+            Input.heldKeys[(int)e.Key] = true;
+        }
+
+        private void GameWindow_KeyUp(object sender, KeyEventArgs e)
+        {
+            Input.releasedKey = e.Key;
+            Input.heldKeys[(int)e.Key] = false;
+        }
     }
 }

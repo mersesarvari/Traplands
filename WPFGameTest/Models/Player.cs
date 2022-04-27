@@ -65,6 +65,8 @@ namespace WPFGameTest.Models
 
             State = new PlayerOnGround(this);
 
+            Spawn = new Vector2(position.X, position.Y);
+
             // Setting up default values
             Velocity = new Vector2f();
             MoveSpeed = 300;
@@ -111,7 +113,7 @@ namespace WPFGameTest.Models
             AnimDash.OnAnimationStart += () =>
             {
                 CameraController.Instance.Shake();
-                Element.Opacity = 0.5;
+                Fill.Opacity = 0.5;
                 Dir = FacingRight ? 1 : -1;
                 MoveSpeed = 1500;
                 Velocity.X = Dir * MoveSpeed;
@@ -121,7 +123,7 @@ namespace WPFGameTest.Models
 
             AnimDash.OnAnimationOver += () =>
             {
-                Element.Opacity = 1;
+                Fill.Opacity = 1;
                 MoveSpeed = 400;
                 Velocity.X = Dir * MoveSpeed;
                 Velocity.Y = 0;
@@ -141,7 +143,7 @@ namespace WPFGameTest.Models
 
             while (move != 0)
             {
-                Entity obj;
+                GameObject obj;
                 IntRect tempRect = new IntRect
                 {
                     X = Hitbox.X,
@@ -201,8 +203,6 @@ namespace WPFGameTest.Models
                     Grounded = false;
                 }
             }
-
-            Canvas.SetTop(Element, Transform.Position.Y);
         }
 
         public override void MoveX(float amount, Action onCollision)
@@ -217,7 +217,7 @@ namespace WPFGameTest.Models
 
                 while (move != 0)
                 {
-                    Entity obj;
+                    GameObject obj;
 
                     IntRect tempRect = new IntRect
                     {
@@ -273,8 +273,6 @@ namespace WPFGameTest.Models
                     WallGrabbing = false;
                 }
             }
-
-            Canvas.SetLeft(Element, Transform.Position.X);
         }
 
         public void Respawn()
@@ -320,7 +318,9 @@ namespace WPFGameTest.Models
                 CooldownLeft = 0;
             }
 
-            AnimActive.Play(Element);
+            AnimActive.Play(this, deltaTime);
+
+            base.Update(deltaTime);
         }
     }
 }

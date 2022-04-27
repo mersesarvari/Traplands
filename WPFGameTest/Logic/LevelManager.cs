@@ -2,14 +2,8 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using WPFGameTest.Helpers;
-using WPFGameTest.Logic;
 using WPFGameTest.Models;
 using WPFGameTest.Renderer;
 
@@ -59,9 +53,21 @@ namespace WPFGameTest
             return level;
         }
 
-        public static void Save(string key, Level value, Canvas canvas)
+        public static void Save(string key, Level value)
         {
             levels.Add(key, value);
+
+            using (StreamWriter sw = new StreamWriter(key + ".lvl"))
+            {
+                for (int i = 0; i < value.Map.GetLength(0); i++)
+                {
+                    for (int j = 0; j < value.Map.GetLength(1); j++)
+                    {
+                        sw.Write(value.Map[j, i] + ";");
+                    }
+                    sw.WriteLine();
+                }
+            }
 
             // Save map to image
 
@@ -87,6 +93,41 @@ namespace WPFGameTest
             }
 
             return level;
+        }
+
+        public static void LoadLevels()
+        {
+            // Get all levels in the Levels folder
+            var lvls = Directory.GetFiles(Path.Combine(Directory.GetParent(Directory.GetCurrentDirectory()).Parent.Parent.Parent.FullName, "Levels"), "*.lvl");
+
+            // Go through each level file
+            foreach (var path in lvls)
+            {
+                string[] lines = File.ReadAllLines(path); // Read line by line
+                int[,] levelMap = new int[100, 100];
+
+                for (int i = 0; i < lines.Length; i++)
+                {
+                    string[] splitLine = lines[i].Split(';'); // Split each row into single objectIDs(string)
+
+                    for (int j = 0; j < splitLine.Length; j++)
+                    {
+                        if (splitLine[j].Length != 0) // If it has a value
+                        {
+                            int currentObject = int.Parse(splitLine[j]); // Convert from string to int
+                            levelMap[j, i] = currentObject;
+                        }
+                    }
+                }
+
+                Level level = new Level(levelMap);
+                string name = Path.GetFileNameWithoutExtension(path); // Use the filename without extension as name of the level
+
+                if (Get(name) == null)
+                {
+                    levels.Add(name, level);
+                }
+            }
         }
     }
 }

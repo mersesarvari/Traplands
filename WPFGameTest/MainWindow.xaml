@@ -8,7 +8,7 @@
         xmlns:viewModel="clr-namespace:WPFGameTest.MVVM.ViewModel"
         xmlns:view="clr-namespace:WPFGameTest.MVVM.View"
         mc:Ignorable="d"
-        Title="Game" Height="768" Width="1024">
+        Title="Game" Height="768" Width="1024" KeyDown="GameWindow_KeyDown" KeyUp="GameWindow_KeyUp" SizeChanged="GameWindow_SizeChanged">
     <!--KeyDown="Window_KeyDown" KeyUp="Window_KeyUp" SizeChanged="GameWindow_SizeChanged"-->
 
     <ContentControl Content="{Binding CurrentViewModel}">

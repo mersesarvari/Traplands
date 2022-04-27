@@ -10,7 +10,7 @@ using WPFGameTest.Helpers;
 
 namespace WPFGameTest.Models
 {
-    public class SolidObject : Entity
+    public class SolidObject : GameObject
     {
         public bool IsGrabbable { get; private set; }
 
@@ -21,12 +21,12 @@ namespace WPFGameTest.Models
 
         public SolidObject(Vector2 position, Vector2 size, ImageSource image, bool grabbable = false) : this(position, size, grabbable)
         {
-            Element.Fill = new ImageBrush(image);
+            Fill = new ImageBrush(image);
         }
 
         public SolidObject(Vector2 position, Vector2 size, Color color, bool grabbable = false) : this(position, size, grabbable)
         {
-            Element.Fill = new SolidColorBrush(color);
+            Fill = new SolidColorBrush(color);
         }
     }
 }

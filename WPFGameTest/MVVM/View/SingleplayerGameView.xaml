@@ -13,11 +13,8 @@
             <RowDefinition Height="1*"/>
         </Grid.RowDefinitions>
         <ScrollViewer x:Name="MainCamera" Grid.RowSpan="2">
-            <Canvas x:Name="MainCanvas">
-
-            </Canvas>
+            <renderer:SinglePlayerRenderer x:Name="Renderer" Width="4400" Height="4400"/>
         </ScrollViewer>
-        <renderer:Renderer x:Name="Renderer" Grid.RowSpan="2"/>
         <Button Command="{Binding NavigateMainMenuCommand}" Content="Return to Menu" Grid.Row="1" FontSize="30"
                 Margin="200 10">
             <Button.Background>

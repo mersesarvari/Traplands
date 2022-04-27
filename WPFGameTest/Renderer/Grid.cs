@@ -14,11 +14,13 @@ namespace WPFGameTest.Renderer
     public class LevelGrid
     {
         public int[,] Map { get; set; }
+        public List<Line> Lines { get; set; }
         public Vector2 CellSize { get; private set; }
 
-        public LevelGrid(Canvas canvas, int rows, int cols, int width, int height)
+        public LevelGrid(int rows, int cols, int width, int height)
         {
             Map = new int[rows, cols];
+            Lines = new List<Line>();
             CellSize = new Vector2(width, height);
 
             for (int i = 0; i < rows; i++)
@@ -29,7 +31,7 @@ namespace WPFGameTest.Renderer
 
                 line.X1 = 0; line.X2 = rows * width;
                 line.Y1 = i * height; line.Y2 = i * height;
-                canvas.Children.Add(line);
+                Lines.Add(line);
             }
 
             for (int i = 0; i < cols; i++)
@@ -40,7 +42,7 @@ namespace WPFGameTest.Renderer
 
                 line.X1 = i * width; line.X2 = i * width;
                 line.Y1 = 0; line.Y2 = cols * height;
-                canvas.Children.Add(line);
+                Lines.Add(line);
             }
         }
     }
