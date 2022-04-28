@@ -32,7 +32,7 @@
                     </LinearGradientBrush>
                 </Button.Background>
             </Button>
-            <Button Command="{Binding NavigateSingleGameCommand}" Content="Singleplayer Game"
+            <Button Command="{Binding NavigateLevelManagerCommand}" Content="Singleplayer Game"
                FontSize="20" Padding="10" Margin="200 10 200 10">
                 <Button.Background>
                     <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">

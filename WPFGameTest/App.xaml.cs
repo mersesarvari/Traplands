@@ -29,7 +29,7 @@ namespace WPFGameTest
             services.AddTransient<MainmenuViewModel>(s => new MainmenuViewModel(
                 CreateMultiMenuNavigationService(s),
                 CreateLevelEditorNavigationService(s),
-                CreateSingleGameNavigationService(s)
+                CreateLevelManagerNavigationService(s)
                 ));
             services.AddTransient<MultiplayerGameMenuViewModel>(s => new MultiplayerGameMenuViewModel(
                 CreateMainMenuNavigationService(s),
@@ -39,6 +39,8 @@ namespace WPFGameTest
 
             services.AddTransient<LevelEditorViewModel>(s => new LevelEditorViewModel(
                 CreateMainMenuNavigationService(s)));
+            services.AddTransient<LevelManagerViewModel>(s => new LevelManagerViewModel(
+                CreateSingleGameNavigationService(s)));
             services.AddTransient<SingleplayerGameViewModel>(s => new SingleplayerGameViewModel(
                 CreateMainMenuNavigationService(s)));
             services.AddTransient<LobbyViewModel>(s => new LobbyViewModel(
@@ -84,6 +86,12 @@ namespace WPFGameTest
             return new NavigationService<LevelEditorViewModel>(
                serviceProvider.GetRequiredService<NavigationStore>(),
                 () => serviceProvider.GetRequiredService<LevelEditorViewModel>());
+        }
+        private INavigationService CreateLevelManagerNavigationService(IServiceProvider serviceProvider)
+        {
+            return new NavigationService<LevelManagerViewModel>(
+                serviceProvider.GetRequiredService<NavigationStore>(),
+                () => serviceProvider.GetRequiredService<LevelManagerViewModel>());
         }
         private INavigationService CreateSingleGameNavigationService(IServiceProvider serviceProvider)
         {

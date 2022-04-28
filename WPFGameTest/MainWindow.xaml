@@ -31,6 +31,9 @@
             <DataTemplate DataType="{x:Type viewModel:MultiplayerGameViewModel}">
                 <view:MultiplayerGameView/>
             </DataTemplate>
+            <DataTemplate DataType="{x:Type viewModel:LevelManagerViewModel}">
+                <view:LevelManagerView/>
+            </DataTemplate>
         </ContentControl.Resources>
     </ContentControl>
 
