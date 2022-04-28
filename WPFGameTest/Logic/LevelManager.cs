@@ -39,6 +39,12 @@ namespace WPFGameTest
     public static class LevelManager
     {
         private static Dictionary<string, Level> levels = new Dictionary<string, Level>();
+        public static Dictionary<string, Level> Levels
+        {
+            get {
+                return levels;
+            }
+        }
 
         public static ImageBrush GetCorrectTileImage(ObjectType obj)
         {
@@ -81,18 +87,6 @@ namespace WPFGameTest
             //{
             //    pngImage.Save(fileStream);
             //}
-        }
-
-        public static List<Level> GetAllLevels()
-        {
-            List<Level> levelsList = new List<Level>();
-
-            foreach (Level level in levels.Values)
-            {
-                levelsList.Add(level);
-            }
-
-            return levelsList;
         }
 
         public static Level GetLevel(string key)
