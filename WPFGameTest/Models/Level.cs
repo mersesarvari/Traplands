@@ -11,6 +11,7 @@ namespace WPFGameTest.Models
         public Vector2 SpawnPoint { get; private set; }
         public List<GameObject> Solids { get; private set; }
         public List<GameObject> Interactables { get; private set; }
+        public string ImagePath { get; set; }
 
         public Level(int[,] map)
         {

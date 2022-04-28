@@ -83,6 +83,18 @@ namespace WPFGameTest
             //}
         }
 
+        public static List<Level> GetAllLevels()
+        {
+            List<Level> levelsList = new List<Level>();
+
+            foreach (Level level in levels.Values)
+            {
+                levelsList.Add(level);
+            }
+
+            return levelsList;
+        }
+
         public static Level GetLevel(string key)
         {
             Level level = Get(key);

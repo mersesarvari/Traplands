@@ -60,6 +60,8 @@ namespace WPFGameTest
             Resource.AddImage("Grass_Top_Left_Bottom", "grass_topleftbottom.png");
             */
 
+            LevelManager.LoadLevels();
+
             // Game loop
             CompositionTargetEx.Rendering += MainLoop;
         }
