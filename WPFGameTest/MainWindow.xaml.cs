@@ -76,7 +76,6 @@ namespace WPFGameTest
 
                 renderer.InvalidateVisual(); // Render game
             }
-
             Time.Tick();
         }
 

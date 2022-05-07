@@ -10,11 +10,11 @@ using WPFGameTest.MVVM.ViewModel;
 
 namespace WPFGameTest.MVVM.Commands
 {
-    public class NavigateToLobbyComman : CommandBase
+    public class NavigateToLobbyCommand : CommandBase
     {
         private readonly INavigationService _navigationService;
 
-        public NavigateToLobbyComman(INavigationService navigationService, Lobby lobby)
+        public NavigateToLobbyCommand(INavigationService navigationService, Lobby lobby)
         {
             _navigationService = navigationService;
         }

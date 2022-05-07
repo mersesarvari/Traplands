@@ -62,10 +62,15 @@ namespace WPFGameTest
             INavigationService mainMenuNavigationService = 
                 _serviceProvider.GetRequiredService <INavigationService>();
             mainMenuNavigationService.Navigate();
-
+            
             MainWindow = _serviceProvider.GetRequiredService<MainWindow>();
+            MainWindow.Visibility = Visibility.Visible;
             MainWindow.Show();
+            MainWindow.Title = "GameMainWindow";
+            
             base.OnStartup(e);
+            
+            
         }
 
         private INavigationService CreateMainMenuNavigationService(IServiceProvider serviceProvider)
