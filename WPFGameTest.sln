@@ -5,6 +5,10 @@ VisualStudioVersion = 17.0.32112.339
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Game", "WPFGameTest\Game.csproj", "{810DE979-DCAC-4DF1-B351-1D58F5417DAE}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Client", "Client\Client.csproj", "{7076050E-D666-458F-827A-0ED1712677CE}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Server", "Server\Server.csproj", "{E099E750-648B-4008-85CB-8CD4C0A154A2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +19,14 @@ Global
 		{810DE979-DCAC-4DF1-B351-1D58F5417DAE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{810DE979-DCAC-4DF1-B351-1D58F5417DAE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{810DE979-DCAC-4DF1-B351-1D58F5417DAE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7076050E-D666-458F-827A-0ED1712677CE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7076050E-D666-458F-827A-0ED1712677CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7076050E-D666-458F-827A-0ED1712677CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7076050E-D666-458F-827A-0ED1712677CE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E099E750-648B-4008-85CB-8CD4C0A154A2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E099E750-648B-4008-85CB-8CD4C0A154A2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E099E750-648B-4008-85CB-8CD4C0A154A2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E099E750-648B-4008-85CB-8CD4C0A154A2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

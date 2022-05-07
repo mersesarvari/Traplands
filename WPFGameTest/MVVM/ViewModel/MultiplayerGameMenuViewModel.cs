@@ -28,6 +28,14 @@ namespace Game.MVVM.ViewModel
             get { return lobbyCode; }
             set { lobbyCode = value; }
         }
+        private string username;
+
+        public string Username
+        {
+            get { return username; }
+            set { username = value; }
+        }
+
 
 
         public MultiplayerGameMenuViewModel(INavigationService mainMenuNavigationService, INavigationService lobbyNavigationService, INavigationService multiGameNavigationService)
@@ -37,7 +45,7 @@ namespace Game.MVVM.ViewModel
             NavigateMultiGameCommand = new NavigateCommand(multiGameNavigationService);
 
             JoinLobbyCommand = new RelayCommand(
-                () => MultiLogic.JoinLobby(LobbyCode, 0));
+                () => MultiLogic.JoinLobby(Username,LobbyCode, 0));
         }
 
         
