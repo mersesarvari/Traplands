@@ -68,20 +68,24 @@ namespace Game.MVVM.ViewModel
             ConnectServerCommand = new RelayCommand(
                 () => MultiLogic.ConnectToServer(Username)
                 );
-            /*
+            
             JoinLobbyCommand = new RelayCommand(
                 () => MultiLogic.JoinLobby(lobbyNavigationService,Username, LobbyCode, 0)
                 ); ;
             CreateLobbyCommand = new RelayCommand(
                 () => MultiLogic.CreateLobby(lobbyNavigationService,Username, 0)
                 );
-            */
-            JoinLobbyCommand = MultiLogic.JoinLobby(lobbyNavigationService, Username, LobbyCode, 0);
-            CreateLobbyCommand = MultiLogic.CreateLobby(lobbyNavigationService, Username, 0);
+
+            //NavigateLobbyCommand = new NavigateToLobbyCommand(lobbyNavigationService, Locals.lobby);
 
 
 
-        }
+
+
+
+
+
+    }
 
         
 

@@ -2,6 +2,7 @@
 using Client.Models;
 using Game.MVVM.Commands;
 using Game.MVVM.Services;
+using Game.MVVM.View;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -60,6 +61,8 @@ namespace Game.Logic
                 {
                     Locals.client.SendCommandToServer("CREATELOBBY", Locals.user.Id, "NULL", currenttick);
                     JoinLobby(service, username, Locals.user.Id, currenttick);
+                    LobbyView lobby = new LobbyView();
+                    
                 }
                 else
                 {
@@ -71,10 +74,6 @@ namespace Game.Logic
 
                 throw new Exception(ex.Message);
             }
-            
-            
-
-
         }
 
 
