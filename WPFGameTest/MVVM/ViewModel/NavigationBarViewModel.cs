@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using WPFGameTest.MVVM.Commands;
-using WPFGameTest.MVVM.Services;
+using Game.MVVM.Commands;
+using Game.MVVM.Services;
 
-namespace WPFGameTest.MVVM.ViewModel
+namespace Game.MVVM.ViewModel
 {
     public class NavigationBarViewModel:ViewModelBase
     {

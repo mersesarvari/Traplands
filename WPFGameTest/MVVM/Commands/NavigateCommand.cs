@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using WPFGameTest.MVVM.Services;
-using WPFGameTest.MVVM.Stores;
-using WPFGameTest.MVVM.ViewModel;
+using Game.MVVM.Services;
+using Game.MVVM.Stores;
+using Game.MVVM.ViewModel;
 
-namespace WPFGameTest.MVVM.Commands
+namespace Game.MVVM.Commands
 {
     public class NavigateCommand : CommandBase
     {

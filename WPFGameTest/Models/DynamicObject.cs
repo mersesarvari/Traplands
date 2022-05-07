@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Windows.Media;
-using WPFGameTest.Helpers;
+using Game.Helpers;
 
-namespace WPFGameTest.Models
+namespace Game.Models
 {
     public class DynamicObject : GameObject
     {

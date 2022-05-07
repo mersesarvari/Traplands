@@ -1,6 +1,6 @@
-﻿using WPFGameTest.Logic;
+﻿using Game.Logic;
 
-namespace WPFGameTest.Renderer
+namespace Game.Renderer
 {
     public interface IRenderer
     {

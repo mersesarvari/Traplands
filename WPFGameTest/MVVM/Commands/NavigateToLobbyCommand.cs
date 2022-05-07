@@ -3,18 +3,21 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using WPFGameTest.Models;
-using WPFGameTest.MVVM.Services;
-using WPFGameTest.MVVM.Stores;
-using WPFGameTest.MVVM.ViewModel;
+using Game.Models;
+using Game.MVVM.Services;
+using Game.MVVM.Stores;
+using Game.MVVM.ViewModel;
+using Client;
 
-namespace WPFGameTest.MVVM.Commands
+namespace Game.MVVM.Commands
 {
+
+
     public class NavigateToLobbyCommand : CommandBase
     {
         private readonly INavigationService _navigationService;
 
-        public NavigateToLobbyCommand(INavigationService navigationService, Lobby lobby)
+        public NavigateToLobbyCommand(INavigationService navigationService, Lobby Lobby)
         {
             _navigationService = navigationService;
         }

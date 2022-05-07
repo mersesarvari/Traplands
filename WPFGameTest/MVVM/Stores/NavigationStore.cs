@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using WPFGameTest.MVVM.ViewModel;
+using Game.MVVM.ViewModel;
 
-namespace WPFGameTest.MVVM.Stores
+namespace Game.MVVM.Stores
 {
     public class NavigationStore
     {

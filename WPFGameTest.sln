@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.32112.339
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WPFGameTest", "WPFGameTest\WPFGameTest.csproj", "{810DE979-DCAC-4DF1-B351-1D58F5417DAE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Game", "WPFGameTest\Game.csproj", "{810DE979-DCAC-4DF1-B351-1D58F5417DAE}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LobbyClient", "LobbyClient\LobbyClient.csproj", "{0FBEDF29-DDC4-4E99-B69E-12B73F980128}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Client", "LobbyClient\Client.csproj", "{0FBEDF29-DDC4-4E99-B69E-12B73F980128}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LobbymakerServer", "LobbymakerServer\LobbymakerServer.csproj", "{1B4DC7FE-B836-407A-AA1B-0AD23CB5A54E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Server", "LobbymakerServer\Server.csproj", "{1B4DC7FE-B836-407A-AA1B-0AD23CB5A54E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

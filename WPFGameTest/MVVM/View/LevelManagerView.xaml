@@ -1,9 +1,9 @@
-﻿<UserControl x:Class="WPFGameTest.MVVM.View.LevelManagerView"
+﻿<UserControl x:Class="Game.MVVM.View.LevelManagerView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:WPFGameTest.MVVM.View"
+             xmlns:local="clr-namespace:Game.MVVM.View"
              mc:Ignorable="d" 
              d:DesignHeight="800" d:DesignWidth="1024">
     <Grid>

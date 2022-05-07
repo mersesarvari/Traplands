@@ -4,9 +4,9 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Shapes;
-using WPFGameTest.Helpers;
+using Game.Helpers;
 
-namespace WPFGameTest.Models
+namespace Game.Models
 {
     public class Transform
     {

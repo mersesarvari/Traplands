@@ -4,12 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using WPFGameTest.Core;
-using WPFGameTest.MVVM.Commands;
-using WPFGameTest.MVVM.Services;
-using WPFGameTest.MVVM.Stores;
+using Game.Core;
+using Game.MVVM.Commands;
+using Game.MVVM.Services;
+using Game.MVVM.Stores;
 
-namespace WPFGameTest.MVVM.ViewModel
+namespace Game.MVVM.ViewModel
 {
     public class MainmenuViewModel:ViewModelBase
     {

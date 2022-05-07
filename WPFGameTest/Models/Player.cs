@@ -4,11 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
-using WPFGameTest.Helpers;
-using WPFGameTest.Logic;
-using WPFGameTest.Renderer;
+using Game.Helpers;
+using Game.Logic;
+using Game.Renderer;
 
-namespace WPFGameTest.Models
+namespace Game.Models
 {
     public class Player : DynamicObject
     {

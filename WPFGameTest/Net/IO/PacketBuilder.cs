@@ -2,7 +2,7 @@
 using System.IO;
 using System.Text;
 
-namespace WPFGameTest.Net.IO
+namespace Game.Net.IO
 {
     public class PacketBuilder
     {

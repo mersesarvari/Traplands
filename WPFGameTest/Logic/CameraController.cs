@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
-using WPFGameTest.Helpers;
+using Game.Helpers;
 
-namespace WPFGameTest.Logic
+namespace Game.Logic
 {
     public sealed class CameraController
     {

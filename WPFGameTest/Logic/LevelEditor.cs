@@ -4,10 +4,10 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Shapes;
-using WPFGameTest.Helpers;
-using WPFGameTest.Renderer;
+using Game.Helpers;
+using Game.Renderer;
 
-namespace WPFGameTest.Logic
+namespace Game.Logic
 {
     public class EditorRect
     {

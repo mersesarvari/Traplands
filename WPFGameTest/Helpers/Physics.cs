@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Windows.Controls;
 using System.Windows.Shapes;
-using WPFGameTest.Models;
+using Game.Models;
 
-namespace WPFGameTest.Helpers
+namespace Game.Helpers
 {
     public class IntRect
     {

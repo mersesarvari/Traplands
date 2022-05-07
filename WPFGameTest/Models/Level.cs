@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
-using WPFGameTest.Helpers;
-using WPFGameTest.Renderer;
+using Game.Helpers;
+using Game.Renderer;
 
-namespace WPFGameTest.Models
+namespace Game.Models
 {
     public class Level
     {

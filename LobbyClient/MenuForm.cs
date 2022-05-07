@@ -1,8 +1,8 @@
 using System.Net.Sockets;
-using LobbyClient.Models;
+using Client.Models;
 using Newtonsoft.Json;
 
-namespace LobbyClient
+namespace Client
 {
     public partial class MenuForm : Form
     {

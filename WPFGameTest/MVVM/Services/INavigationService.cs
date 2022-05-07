@@ -1,6 +1,6 @@
-﻿using WPFGameTest.MVVM.ViewModel;
+﻿using Game.MVVM.ViewModel;
 
-namespace WPFGameTest.MVVM.Services
+namespace Game.MVVM.Services
 {
     public interface INavigationService
     {

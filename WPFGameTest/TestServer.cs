@@ -4,10 +4,10 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using WPFGameTest.Helpers;
-using WPFGameTest.Models;
+using Game.Helpers;
+using Game.Models;
 
-namespace WPFGameTest
+namespace Game
 {
     public class TestServer
     {

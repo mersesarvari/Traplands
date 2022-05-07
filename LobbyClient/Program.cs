@@ -1,4 +1,4 @@
-namespace LobbyClient
+namespace Client
 {
     internal static class Program
     {

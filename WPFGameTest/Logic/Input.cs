@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
-namespace WPFGameTest.Logic
+namespace Game.Logic
 {
     public static class Input
     {

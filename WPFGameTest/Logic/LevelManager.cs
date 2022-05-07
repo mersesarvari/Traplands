@@ -4,10 +4,10 @@ using System.Diagnostics;
 using System.IO;
 using System.Windows.Controls;
 using System.Windows.Media;
-using WPFGameTest.Models;
-using WPFGameTest.Renderer;
+using Game.Models;
+using Game.Renderer;
 
-namespace WPFGameTest
+namespace Game
 {
     public static class ObjectData
     {

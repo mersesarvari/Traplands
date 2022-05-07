@@ -1,9 +1,9 @@
-﻿<Application x:Class="WPFGameTest.App"
+﻿<Application x:Class="Game.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:local="clr-namespace:WPFGameTest"
-             xmlns:viewModel="clr-namespace:WPFGameTest.MVVM.ViewModel"
-             xmlns:view="clr-namespace:WPFGameTest.MVVM.View"
+             xmlns:local="clr-namespace:Game"
+             xmlns:viewModel="clr-namespace:Game.MVVM.ViewModel"
+             xmlns:view="clr-namespace:Game.MVVM.View"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
         <ResourceDictionary>

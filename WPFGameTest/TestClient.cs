@@ -2,11 +2,11 @@
 using System.Diagnostics;
 using System.Windows.Input;
 using System.Windows.Media;
-using WPFGameTest.Helpers;
-using WPFGameTest.Logic;
-using WPFGameTest.Models;
+using Game.Helpers;
+using Game.Logic;
+using Game.Models;
 
-namespace WPFGameTest
+namespace Game
 {
     public struct InputPayload
     {

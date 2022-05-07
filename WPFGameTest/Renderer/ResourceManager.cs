@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
-namespace WPFGameTest.Renderer
+namespace Game.Renderer
 {
     public class ResourceManager<T> where T : class
     {

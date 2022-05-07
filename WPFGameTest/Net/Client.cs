@@ -7,10 +7,10 @@ using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
-using WPFGameTest.Models;
-using WPFGameTest.Net.IO;
+using Game.Models;
+using Game.Net.IO;
 
-namespace WPFGameTest.Net
+namespace Game.Net
 {
     public class Client
     {

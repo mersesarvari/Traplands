@@ -2,7 +2,7 @@
 using System.IO;
 using System.Text;
 
-namespace LobbyClient
+namespace Client
 {
     public class PacketBuilder
     {

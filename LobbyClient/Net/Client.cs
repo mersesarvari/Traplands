@@ -7,7 +7,7 @@ using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LobbyClient
+namespace Client
 {
     public class Client
     {

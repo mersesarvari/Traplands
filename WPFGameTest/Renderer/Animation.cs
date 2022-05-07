@@ -9,10 +9,10 @@ using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
-using WPFGameTest.Helpers;
-using WPFGameTest.Models;
+using Game.Helpers;
+using Game.Models;
 
-namespace WPFGameTest.Renderer
+namespace Game.Renderer
 {
     public class Animation
     {

@@ -13,10 +13,10 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using WPFGameTest.Helpers;
-using WPFGameTest.Logic;
+using Game.Helpers;
+using Game.Logic;
 
-namespace WPFGameTest.MVVM.View
+namespace Game.MVVM.View
 {
     /// <summary>
     /// Interaction logic for SingleplayerGameView.xaml

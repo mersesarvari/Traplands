@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Shapes;
-using WPFGameTest.Helpers;
-using WPFGameTest.Logic;
+using Game.Helpers;
+using Game.Logic;
 
-namespace WPFGameTest.Renderer
+namespace Game.Renderer
 {
     public class LevelGrid
     {

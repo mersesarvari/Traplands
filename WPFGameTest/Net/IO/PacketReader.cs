@@ -6,7 +6,7 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WPFGameTest.Net.IO
+namespace Game.Net.IO
 {
     public class PacketReader : BinaryReader
     {

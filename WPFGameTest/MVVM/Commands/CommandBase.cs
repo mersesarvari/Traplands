@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
-namespace WPFGameTest.MVVM.Commands
+namespace Game.MVVM.Commands
 {
     public abstract class CommandBase : ICommand
     {

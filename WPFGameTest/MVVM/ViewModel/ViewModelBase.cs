@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WPFGameTest.MVVM.ViewModel
+namespace Game.MVVM.ViewModel
 {
     public class ViewModelBase:INotifyPropertyChanged
     {

@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WPFGameTest.Helpers
+namespace Game.Helpers
 {
     public static class Time
     {

@@ -6,11 +6,11 @@ using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
-using WPFGameTest.MVVM.Services;
-using WPFGameTest.MVVM.Stores;
-using WPFGameTest.MVVM.ViewModel;
+using Game.MVVM.Services;
+using Game.MVVM.Stores;
+using Game.MVVM.ViewModel;
 
-namespace WPFGameTest
+namespace Game
 {
     /// <summary>
     /// Interaction logic for App.xaml

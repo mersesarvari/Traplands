@@ -9,7 +9,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Shapes;
 
-namespace WPFGameTest.Renderer
+namespace Game.Renderer
 {
     public class RectCheckbox
     {

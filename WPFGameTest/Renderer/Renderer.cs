@@ -1,9 +1,9 @@
 ﻿using System.Globalization;
 using System.Windows;
 using System.Windows.Media;
-using WPFGameTest.Logic;
+using Game.Logic;
 
-namespace WPFGameTest.Renderer
+namespace Game.Renderer
 {
     public abstract class RendererBase : FrameworkElement, IRenderer
     {

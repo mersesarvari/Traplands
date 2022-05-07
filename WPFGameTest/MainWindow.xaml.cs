@@ -13,12 +13,12 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using WPFGameTest.Helpers;
-using WPFGameTest.Logic;
-using WPFGameTest.Renderer;
-using WPFGameTest.MVVM.ViewModel;
+using Game.Helpers;
+using Game.Logic;
+using Game.Renderer;
+using Game.MVVM.ViewModel;
 
-namespace WPFGameTest
+namespace Game
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml

@@ -1,4 +1,4 @@
-﻿namespace LobbyClient
+﻿namespace Client
 {
     partial class MenuForm
     {

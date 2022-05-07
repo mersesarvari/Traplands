@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using WPFGameTest.Helpers;
-using WPFGameTest.Models;
+using Game.Helpers;
+using Game.Models;
 
-namespace WPFGameTest.Logic
+namespace Game.Logic
 {
     public class MovingTrap : DynamicObject
     {

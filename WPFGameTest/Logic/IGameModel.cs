@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Windows.Shapes;
-using WPFGameTest.Models;
-using WPFGameTest.Renderer;
+using Game.Models;
+using Game.Renderer;
 
-namespace WPFGameTest.Logic
+namespace Game.Logic
 {
     public interface IGameModel
     {

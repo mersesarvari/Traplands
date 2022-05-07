@@ -1,9 +1,9 @@
 ﻿using System.Diagnostics;
 using System.Windows.Input;
-using WPFGameTest.Helpers;
-using WPFGameTest.Models;
+using Game.Helpers;
+using Game.Models;
 
-namespace WPFGameTest.Logic
+namespace Game.Logic
 {
     public interface IPlayerState
     {

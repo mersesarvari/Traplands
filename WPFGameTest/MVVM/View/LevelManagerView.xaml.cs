@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace WPFGameTest.MVVM.View
+namespace Game.MVVM.View
 {
     /// <summary>
     /// Interaction logic for LevelManagerView.xaml

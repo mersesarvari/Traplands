@@ -6,11 +6,11 @@ using System.Windows.Media;
 using System.Windows.Input;
 using System.Diagnostics;
 using System.Windows;
-using WPFGameTest.Models;
-using WPFGameTest.Helpers;
-using WPFGameTest.Renderer;
+using Game.Models;
+using Game.Helpers;
+using Game.Renderer;
 
-namespace WPFGameTest.Logic
+namespace Game.Logic
 {
     //public enum GameStates
     //{

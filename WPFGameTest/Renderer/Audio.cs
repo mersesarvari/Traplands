@@ -2,7 +2,7 @@
 using System.IO;
 using System.Windows.Media;
 
-namespace WPFGameTest.Renderer
+namespace Game.Renderer
 {
     public static class AudioManager
     {

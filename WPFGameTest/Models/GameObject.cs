@@ -1,7 +1,7 @@
 ﻿using System.Windows.Media;
-using WPFGameTest.Helpers;
+using Game.Helpers;
 
-namespace WPFGameTest.Models
+namespace Game.Models
 {
     public abstract class GameObject
     {

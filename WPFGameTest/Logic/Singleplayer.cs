@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
-using WPFGameTest.Models;
-using WPFGameTest.Helpers;
-using WPFGameTest.Renderer;
+using Game.Models;
+using Game.Helpers;
+using Game.Renderer;
 using System.Windows.Media;
 using System.Diagnostics;
 
-namespace WPFGameTest.Logic
+namespace Game.Logic
 {
     public class Singleplayer : ISingleplayer
     {
