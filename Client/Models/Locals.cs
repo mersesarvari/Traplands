@@ -6,10 +6,11 @@ using System.Threading.Tasks;
 
 namespace Client.Models
 {
-    public class Locals
+    public static class Locals
     {
-        public static Lobby lobby=new Lobby();
-        public static Client client = new Client();
-        public static User user = new User();
+        public static Lobby lobby= new Lobby();
+        public static Client client= new Client();
+        public static User user= new User();
+        public static bool Connected=false;
     }
 }

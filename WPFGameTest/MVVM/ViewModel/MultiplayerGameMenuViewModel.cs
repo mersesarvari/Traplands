@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Client.Models;
 using Game.Logic;
 using Game.MVVM.Commands;
 using Game.MVVM.Services;
@@ -20,6 +21,8 @@ namespace Game.MVVM.ViewModel
         public ICommand JoinLobbyCommand { get; set;}
         public ICommand CreateLobbyCommand { get; set; }
         public ICommand SetUsernameCommand { get; set; }
+
+        public ICommand ConnectServerCommand { get; set; }
 
         private string lobbyCode;
 
@@ -45,10 +48,17 @@ namespace Game.MVVM.ViewModel
             NavigateLobbyCommand = new NavigateCommand(lobbyNavigationService);
             NavigateMultiGameCommand = new NavigateCommand(multiGameNavigationService);
 
+            ConnectServerCommand = new RelayCommand(
+                () => MultiLogic.ConnectToServer(Username)
+                );
             JoinLobbyCommand = new RelayCommand(
-                () => MultiLogic.JoinLobby(Username,LobbyCode, 0));
+                () => MultiLogic.JoinLobby(Username,LobbyCode, 0)
+                );
             CreateLobbyCommand = new RelayCommand(
-                () => MultiLogic.CreateLobby(Username, 0));
+                () => MultiLogic.CreateLobby(Username, 0)
+                );
+            
+
 
         }
 

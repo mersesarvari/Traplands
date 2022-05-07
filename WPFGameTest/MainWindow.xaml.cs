@@ -17,6 +17,10 @@ using Game.Helpers;
 using Game.Logic;
 using Game.Renderer;
 using Game.MVVM.ViewModel;
+using Client.Models;
+using Game.Models;
+using Newtonsoft.Json;
+using Client;
 
 namespace Game
 {
@@ -31,14 +35,24 @@ namespace Game
 
         public static IGameModel game = null;
         public static RendererBase renderer = null;
+        GameTimer timer= new GameTimer();
+
 
         public MainWindow()
         {
+            
             InitializeComponent();
-
+            /*
+            Locals.client = new Client.Client();            
+            Locals.user = new User();
+            */
+            Locals.client.connectedEvent += UserConnected;
+            Locals.client.userDisconnectedEvent += UserDisconnected;
+            Locals.client.userJoinedLobbyEvent += UserJoinedLobbyResponse;
+            //Locals.client.ConnectToServer("eventtester");
             _Width = this.Width;
             _Height = this.Height;
-
+            #region commented
             /*
             Resource.AddImage("MainMenu_Bg", "menu_bg.jpg");
             Resource.AddImage("Game_Bg", "background.png");
@@ -59,7 +73,7 @@ namespace Game
             Resource.AddImage("Grass_Top_Right_Bottom", "grass_toprightbottom.png");
             Resource.AddImage("Grass_Top_Left_Bottom", "grass_topleftbottom.png");
             */
-
+            #endregion
             LevelManager.LoadLevels();
 
             // Game loop
@@ -108,5 +122,47 @@ namespace Game
             Input.releasedKey = e.Key;
             Input.heldKeys[(int)e.Key] = false;
         }
+
+
+        //Server-Client Methods
+        #region Server-Client methods
+        //Nem hívódik meg valamiért
+        private void UserConnected()
+        {
+
+            Locals.user.Username = Locals.client.PacketReader.ReadMessage();
+            Locals.user.Id = Locals.client.PacketReader.ReadMessage();
+            //Setting up the timer <==> Sync with the server
+            GameTimer.Tick = int.Parse(Locals.client.PacketReader.ReadMessage());
+            var u = Locals.user;
+            timer.Start(500);
+        }
+        private void UserDisconnected()
+        {
+            var uid = Locals.client.PacketReader.ReadMessage();
+            MessageBox.Show("User disconnected");
+        }
+
+        public void UserJoinedLobbyResponse()
+        {
+            //This method is handling the JoinResponse from the server
+            var msg = Locals.client.PacketReader.ReadMessage();
+            if (msg.Contains('/') && msg.Split('/')[0] == "JOINLOBBY")
+            {
+                var status = msg.Split('/')[1];
+
+
+                if (status != "ERROR" && status != "Success")
+                {
+                    Locals.lobby = JsonConvert.DeserializeObject<Lobby>(status);
+                }
+            }
+            else
+            {
+                MessageBox.Show("Response Message format is bad:" + msg);
+            }
+        }
+
+        #endregion
     }
 }

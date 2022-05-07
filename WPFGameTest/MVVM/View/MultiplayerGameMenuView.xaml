@@ -16,6 +16,15 @@
             <Label Content="Enter your username:&#xD;&#xA;" FontSize="30" HorizontalAlignment="Center" 
                    Height="70" Padding="10" Margin="0 100 0 0" />
             <TextBox Text="{Binding Username, Mode=TwoWay}" TextWrapping="Wrap" Height="50" HorizontalAlignment="Stretch" Margin="200 10 200 10"/>
+            <Button Command="{Binding ConnectServerCommand}" Content="CONNECT" FontSize="30"
+                    Margin="200 10 200 10">
+                <Button.Background>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                        <GradientStop Color="LightGreen" Offset="0.3"/>
+                        <GradientStop Color="Brown" Offset="1.0"/>
+                    </LinearGradientBrush>
+                </Button.Background>
+            </Button>
             <Button Command="{Binding CreateLobbyCommand}" Content="Create Game" FontSize="30"
                     Margin="200 10 200 10">
                 <Button.Background>
