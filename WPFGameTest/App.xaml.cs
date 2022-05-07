@@ -21,6 +21,8 @@ namespace Game
 
         public App()
         {
+            //Console.WriteLine("APP is running");
+            
             IServiceCollection services = new ServiceCollection();
 
             services.AddSingleton<NavigationStore>();

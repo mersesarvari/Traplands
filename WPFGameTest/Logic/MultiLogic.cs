@@ -37,7 +37,7 @@ namespace Game.Logic
                 {
                     var l = Locals.user;
                     Locals.client.SendCommandToServer("JOINLOBBY", Locals.user.Id, lobbycode, currenttick);
-                    service.Navigate();
+                    //service.Navigate();
                 }
                 
             }

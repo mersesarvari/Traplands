@@ -143,8 +143,9 @@ namespace Game
             MessageBox.Show("User disconnected");
         }
 
-        public void UserJoinedLobbyResponse()
+        public static void UserJoinedLobbyResponse()
         {
+            MessageBox.Show("USER JOINED LOBBY RESPONSE ARRIVED");
             //This method is handling the JoinResponse from the server
             var msg = Locals.client.PacketReader.ReadMessage();
             if (msg.Contains('/') && msg.Split('/')[0] == "JOINLOBBY")
@@ -155,7 +156,10 @@ namespace Game
                 if (status != "ERROR" && status != "Success")
                 {
                     Locals.lobby = JsonConvert.DeserializeObject<Lobby>(status);
+                    ;
                 }
+                //this is doing the navigation
+                
             }
             else
             {
