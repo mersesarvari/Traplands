@@ -40,12 +40,16 @@ namespace Game.MVVM.ViewModel
 
         public MultiplayerGameMenuViewModel(INavigationService mainMenuNavigationService, INavigationService lobbyNavigationService, INavigationService multiGameNavigationService)
         {
+            Username = "PLAYER";
             NavigateMainMenuCommand = new NavigateCommand(mainMenuNavigationService);
             NavigateLobbyCommand = new NavigateCommand(lobbyNavigationService);
             NavigateMultiGameCommand = new NavigateCommand(multiGameNavigationService);
 
             JoinLobbyCommand = new RelayCommand(
                 () => MultiLogic.JoinLobby(Username,LobbyCode, 0));
+            CreateLobbyCommand = new RelayCommand(
+                () => MultiLogic.CreateLobby(Username, 0));
+
         }
 
         
