@@ -39,6 +39,23 @@ namespace Game.MVVM.ViewModel
             set { username = value; }
         }
 
+        private bool connected;
+
+        public bool Connected
+        {
+            get { return Locals.Connected; }
+            set { Locals.Connected = value; }
+        }
+
+        public bool ConnectionCheck()
+        {
+            if (Locals.Connected)
+            {
+                return true;
+            }
+            else return false;
+            ;
+        }
 
 
         public MultiplayerGameMenuViewModel(INavigationService mainMenuNavigationService, INavigationService lobbyNavigationService, INavigationService multiGameNavigationService)
@@ -52,8 +69,8 @@ namespace Game.MVVM.ViewModel
                 () => MultiLogic.ConnectToServer(Username)
                 );
             JoinLobbyCommand = new RelayCommand(
-                () => MultiLogic.JoinLobby(Username,LobbyCode, 0)
-                );
+                () => MultiLogic.JoinLobby(Username, LobbyCode, 0)
+                ); ;
             CreateLobbyCommand = new RelayCommand(
                 () => MultiLogic.CreateLobby(Username, 0)
                 );

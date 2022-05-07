@@ -16,6 +16,7 @@ namespace Game.Logic
             Locals.client.ConnectToServer(Locals.user.Username);
             Locals.Connected = true;
             var l = Locals.user;
+            var c = Locals.Connected;
             ;
         }
         public static void ConnectToServer(string username)

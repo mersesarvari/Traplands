@@ -11,6 +11,6 @@ namespace Client.Models
         public static Lobby lobby= new Lobby();
         public static Client client= new Client();
         public static User user= new User();
-        public static bool Connected=false;
+        public static bool Connected;
     }
 }
