@@ -61,7 +61,7 @@ namespace Server
                     //Sending lobby information to all connected player
                     foreach (var item in currentlobby.Users)
                     {
-                        Server.SendMessage(12, item.Id, "JOINLOBBY/" + JsonConvert.SerializeObject(currentlobby));
+                        Server.SendMessage(6, item.Id, "JOINLOBBY/" + JsonConvert.SerializeObject(currentlobby));
                     }
                 }
                 else

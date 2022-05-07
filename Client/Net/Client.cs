@@ -56,9 +56,9 @@ namespace Client
                             case 11:
                                 userCreatedLobbyEvent?.Invoke();
                                 break;
-                            case 12:
-                                userJoinedLobbyEvent?.Invoke();
+                            case 6:
                                 MessageBox.Show("userJoinedLobbyEvent INVOKED");
+                                userJoinedLobbyEvent?.Invoke();                                
                                 break;
                             case 13:
                                 userJoinedGameEvent?.Invoke();
