@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace Game.Logic
 {
@@ -28,18 +29,16 @@ namespace Game.Logic
             Connect(username);
         }
         //A tickes rész átírandó arra amit a rendes gameban is használunk..
-        public static NavigateToLobbyCommand JoinLobby(INavigationService service, string username,string lobbycode, int currenttick)
+        public static void JoinLobby(INavigationService service, string username,string lobbycode, int currenttick)
         {
-            //ConnectToServer(username);
             try
             {
                 if (Locals.client.Connected())
                 {
                     var l = Locals.user;
                     Locals.client.SendCommandToServer("JOINLOBBY", Locals.user.Id, lobbycode, currenttick);
-                    return new NavigateToLobbyCommand(service, Locals.lobby);
+                    service.Navigate();
                 }
-                else return null;
                 
             }
             catch (Exception ex)
@@ -52,7 +51,6 @@ namespace Game.Logic
         //A tickes rész átírandó arra amit a rendes gameban is használunk..
         public static void CreateLobby(INavigationService service, string username, int currenttick)
         {
-            //ConnectToServer(username);
             var d = Locals.user;
             ;
             try
@@ -61,13 +59,12 @@ namespace Game.Logic
                 {
                     Locals.client.SendCommandToServer("CREATELOBBY", Locals.user.Id, "NULL", currenttick);
                     JoinLobby(service, username, Locals.user.Id, currenttick);
-                    LobbyView lobby = new LobbyView();
-                    
                 }
                 else
                 {
-                    throw new Exception("You are not connected to the server");
+                    MessageBox.Show("Error");
                 }
+                
             }
             catch (Exception ex)
             {
