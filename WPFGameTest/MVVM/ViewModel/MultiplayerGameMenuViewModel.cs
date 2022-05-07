@@ -3,13 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
+using Client;
 using Client.Models;
 using Game.Logic;
 using Game.MVVM.Commands;
 using Game.MVVM.Services;
 using Game.MVVM.Stores;
 using Microsoft.Toolkit.Mvvm.Input;
+using Newtonsoft.Json;
 
 namespace Game.MVVM.ViewModel
 {
@@ -60,6 +63,7 @@ namespace Game.MVVM.ViewModel
 
         public MultiplayerGameMenuViewModel(INavigationService mainMenuNavigationService, INavigationService lobbyNavigationService, INavigationService multiGameNavigationService)
         {
+            Locals.client.userJoinedLobbyEvent += UserJoinedLobbyResponse;
             Username = "PLAYER";
             NavigateMainMenuCommand = new NavigateCommand(mainMenuNavigationService);
             NavigateLobbyCommand = new NavigateCommand(lobbyNavigationService);
@@ -68,12 +72,12 @@ namespace Game.MVVM.ViewModel
             ConnectServerCommand = new RelayCommand(
                 () => MultiLogic.ConnectToServer(Username)
                 );
-            
+
             JoinLobbyCommand = new RelayCommand(
-                () => MultiLogic.JoinLobby(lobbyNavigationService,Username, LobbyCode, 0)
+                () => MultiLogic.JoinLobby(lobbyNavigationService, Username, LobbyCode, 0)
                 ); ;
             CreateLobbyCommand = new RelayCommand(
-                () => MultiLogic.CreateLobby(lobbyNavigationService,Username, 0)
+                () => MultiLogic.CreateLobby(lobbyNavigationService, Username, 0)
                 );
 
             //NavigateLobbyCommand = new NavigateToLobbyCommand(lobbyNavigationService, Locals.lobby);
@@ -84,10 +88,30 @@ namespace Game.MVVM.ViewModel
 
 
 
+        }
+        public static void UserJoinedLobbyResponse()
+        {
+            MessageBox.Show("USER JOINED LOBBY RESPONSE ARRIVED");
+            //This method is handling the JoinResponse from the server
+            var msg = Locals.client.PacketReader.ReadMessage();
+            if (msg.Contains('/') && msg.Split('/')[0] == "JOINLOBBY")
+            {
+                var status = msg.Split('/')[1];
 
-    }
 
-        
+                if (status != "ERROR" && status != "Success")
+                {
+                    Locals.lobby = JsonConvert.DeserializeObject<Lobby>(status);
 
+                    ;
+                }
+                //this is doing the navigation
+
+            }
+            else
+            {
+                MessageBox.Show("Response Message format is bad:" + msg);
+            }
+        }
     }
 }

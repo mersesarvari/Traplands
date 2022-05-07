@@ -41,6 +41,7 @@ namespace Client
                         switch (opcode)
                         {
                             case 1:
+                                MessageBox.Show("connectedEvent INVOKED");
                                 connectedEvent?.Invoke();
                                 break;
                             case 9:
@@ -56,7 +57,8 @@ namespace Client
                                 userCreatedLobbyEvent?.Invoke();
                                 break;
                             case 12:
-                                userJoinedLobbyEvent?.Invoke();                                
+                                userJoinedLobbyEvent?.Invoke();
+                                MessageBox.Show("userJoinedLobbyEvent INVOKED");
                                 break;
                             case 13:
                                 userJoinedGameEvent?.Invoke();
