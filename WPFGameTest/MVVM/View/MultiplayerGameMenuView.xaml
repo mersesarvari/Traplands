@@ -35,7 +35,7 @@
                 </Button.Background>
             </Button>
             <Label Content="Lobby ID:" FontSize="30" HorizontalAlignment="Center" Padding="10" Margin="10"/>
-            <TextBox TextWrapping="Wrap" Height="50" HorizontalAlignment="Stretch" Margin="200 10 200 10"/>
+            <TextBox Text="{Binding LobbyCode, Mode=TwoWay}" TextWrapping="Wrap" Height="50" HorizontalAlignment="Stretch" Margin="200 10 200 10"/>
             <Button Command="{Binding JoinLobbyCommand}" Content="Join Game" FontSize="30"
                     Margin="200 10 200 10">
                 <Button.Background>

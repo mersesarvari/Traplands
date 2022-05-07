@@ -94,6 +94,10 @@ namespace Client
                 ReadPacket();
             }
         }
+        public bool Connected()
+        { 
+            return _client.Connected;
+        }
         public void DisconnectFromServer(string guid)
         {
             if (_client.Connected)
