@@ -10,26 +10,21 @@ namespace Game.Logic
 {
     public class MultiLogic
     {
-        public void Connect()
+        public static void Connect()
         {
             Locals.client.ConnectToServer(Locals.user.Username);
         }
 
         //A tickes rész átírandó arra amit a rendes gameban is használunk..
-        public void JoinLobby(string lobbycode, int currenttick)
+        public static void JoinLobby(string lobbycode, int currenttick)
         {
-            if (Locals.user.Username != null && Locals.user.Id != null)
-            {
-                Locals.client.SendCommandToServer("JOINLOBBY", Locals.user.Id, lobbycode, currenttick);
-            }
-            else
-            {
-                throw new Exception("You are already joined a lobby!");
-            }
+            Connect();
+            Locals.client.SendCommandToServer("JOINLOBBY", Locals.user.Id, lobbycode, currenttick);
         }
         //A tickes rész átírandó arra amit a rendes gameban is használunk..
-        public void CreateLobby(int currenttick)
+        public static void CreateLobby(int currenttick)
         {
+            Connect();
             if (Locals.user.Username != null)
             {
                 Locals.client.SendCommandToServer("CREATELOBBY", Locals.user.Id, "NULL", currenttick);
