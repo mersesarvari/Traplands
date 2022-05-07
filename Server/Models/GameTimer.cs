@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LobbymakerServer.Logic
+namespace Server.Logic
 {
     public class GameTimer
     {

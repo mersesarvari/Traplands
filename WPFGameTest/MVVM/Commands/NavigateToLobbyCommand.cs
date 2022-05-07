@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Client;
 using Game.Models;
 using Game.MVVM.Services;
 using Game.MVVM.Stores;
 using Game.MVVM.ViewModel;
-using Client;
 
 namespace Game.MVVM.Commands
 {

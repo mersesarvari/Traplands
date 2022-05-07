@@ -23,8 +23,9 @@
   </ItemGroup>
 	
   <ItemGroup>
-    <ProjectReference Include="..\Client\Client.csproj" />
-    <ProjectReference Include="..\Server\Server.csproj" />
+    <ProjectReference Include="..\ClientClient\Client.csproj" />
+    <ProjectReference Include="..\LobbyClient\Client.csproj" />
+    <ProjectReference Include="..\LobbymakerServer\Server.csproj" />
   </ItemGroup>
 
 </Project>

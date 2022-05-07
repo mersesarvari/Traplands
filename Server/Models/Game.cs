@@ -4,10 +4,10 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using LobbymakerServer.Models;
+using Server.Models;
 using Newtonsoft.Json;
 
-namespace LobbymakerServer
+namespace Server
 {
     public class Game
     {

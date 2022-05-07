@@ -1,6 +1,6 @@
 ﻿using System.Net.Sockets;
 
-namespace LobbymakerServer
+namespace Server
 {
     public class _Client
     {

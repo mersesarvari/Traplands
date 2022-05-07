@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LobbymakerServer.Models
+namespace Server.Models
 {
     public class MovementPackage
     {

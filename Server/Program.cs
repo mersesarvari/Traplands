@@ -1,4 +1,4 @@
-﻿using LobbymakerServer;
+﻿using Server;
 using System;
 using System.Collections;
 using System.Collections.ObjectModel;
@@ -6,7 +6,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.Numerics;
 
-namespace LobbymakerServer // Note: actual namespace depends on the project name.
+namespace Server // Note: actual namespace depends on the project name.
 {
     public class Program
     {
