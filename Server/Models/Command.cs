@@ -17,7 +17,7 @@ namespace Server
                     Lobby.Create(executor);
                     break;
                 case "JOINLOBBY":
-                    //Lobby.Join(executor, command);
+                    Lobby.Join(executor, command);
                     ;
                     break;
                 case "MOVE":
@@ -41,8 +41,6 @@ namespace Server
                 {
                     CheckCommandId(cmdparts[0], cmdparts[1], cmdparts[2], -1);
                 }
-                ;
-                
             }
             else
             {

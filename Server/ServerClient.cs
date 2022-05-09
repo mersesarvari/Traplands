@@ -77,7 +77,7 @@ namespace Server
                 }
             }
         }
-        public Player ConvertClientTouser(_Client client)
+        public Player ConvertClientToUser(ServerClient client)
         {
             return Server.players.FirstOrDefault(x => x.Id == client.UID.ToString());
         }

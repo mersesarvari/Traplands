@@ -20,10 +20,6 @@ namespace Game.MVVM.ViewModel
 
         public MainWindowViewModel(NavigationStore navigationStore)
         {
-            Locals.client.zeroopcodeEvent += ZeroOpcodeEventHandler;
-            Locals.client.connectedEvent += UserConnected;
-            Locals.client.userDisconnectedEvent += UserDisconnected;
-            Locals.client.userJoinedLobbyEvent += UserJoinedLobbyResponse;
             _navigationStore = navigationStore;
             _navigationStore.CurrentViewModelChanged += OnCurrentViewModelChanged;
         }

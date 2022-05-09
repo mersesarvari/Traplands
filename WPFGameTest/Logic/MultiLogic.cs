@@ -28,14 +28,14 @@ namespace Game.Logic
             Connect(username);
         }
         //A tickes rész átírandó arra amit a rendes gameban is használunk..
-        public static void JoinLobby(INavigationService service, string username,string lobbycode, int currenttick)
+        public static void JoinLobby(INavigationService service, string username,string lobbycode)
         {
             try
             {
                 if (Locals.client.Connected())
                 {
                     var l = Locals.user;
-                    Locals.client.SendCommandToServer("JOINLOBBY", Locals.user.Id, lobbycode, currenttick);
+                    Locals.client.SendCommandToServer("JOINLOBBY", Locals.user.Id, lobbycode);
                     //Valahogyan meg kéne kapnom, hogy sikeres volt e a csatlakozás. Valószínűleg eventen keresztül
                     //service.Navigate();
 
@@ -56,13 +56,11 @@ namespace Game.Logic
         //A tickes rész átírandó arra amit a rendes gameban is használunk..
         public static void CreateLobby(INavigationService service, string username, int currenttick)
         {
-            var d = Locals.user;
-            ;
             try
             {
                 if (Locals.client.Connected())
                 {
-                    Locals.client.SendCommandToServer("CREATELOBBY", Locals.user.Id, Locals.user.Id, -1);
+                    Locals.client.SendCommandToServer("CREATELOBBY", Locals.user.Id, Locals.user.Id);
                     //JoinLobby(service, username, Locals.user.Id, currenttick);
                 }
                 else

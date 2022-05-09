@@ -16,7 +16,7 @@ namespace Server
         public static GameTimer timer = new GameTimer();
         public static List<Lobby> lobbies= new List<Lobby>();
         public static List<Game> games=new List<Game>();
-        private static List<_Client> clients = new List<_Client>();
+        private static List<ServerClient> clients = new List<ServerClient>();
         public static List<Player> players = new List<Player>();
         private static TcpListener listener;
 
@@ -38,7 +38,7 @@ namespace Server
             //Kliens fogadás
             while (true)
             {
-                var client = new _Client(listener.AcceptTcpClient());
+                var client = new ServerClient(listener.AcceptTcpClient());
                 var user = new Player(client);
                 clients.Add(client);
                 players.Add(user);
@@ -58,7 +58,7 @@ namespace Server
         {
             return players.Where(x => x.Id == id).FirstOrDefault();
         }
-        public static _Client FindClient(string userid)
+        public static ServerClient FindClient(string userid)
         {
             return clients.Where(x => x.UID.ToString() == userid).FirstOrDefault();
         }
@@ -79,7 +79,7 @@ namespace Server
                 }
             }
         }
-        static void SendConnection(_Client client)
+        static void SendConnection(ServerClient client)
         {
             var broadcastPacket = new PacketBuilder();
             broadcastPacket.WriteOptCode(1);
@@ -90,9 +90,9 @@ namespace Server
         }
         public static void BroadcastDisconnect(string uid)
         {
-            _Client disconnectedClient = clients.Where(x => x.UID.ToString() == uid).FirstOrDefault();
+            ServerClient disconnectedClient = clients.Where(x => x.UID.ToString() == uid).FirstOrDefault();
             clients.Remove(disconnectedClient);
-            players.Remove(disconnectedClient.ConvertClientTouser());
+            players.Remove(disconnectedClient.ConvertClientToUser(disconnectedClient));
             foreach (var client in clients)
             {
                 Console.WriteLine("User count after removing user: " + players.Count);

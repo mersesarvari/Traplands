@@ -51,10 +51,12 @@ namespace Game
                 CreateMultiMenuNavigationService(s)));
 
             services.AddSingleton<MainWindowViewModel>();
+            
             services.AddSingleton<MainWindow>(s => new MainWindow()
             {
                 DataContext = s.GetRequiredService<MainWindowViewModel>()
             });
+            
 
             _serviceProvider=services.BuildServiceProvider();
         }

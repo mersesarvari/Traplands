@@ -40,6 +40,7 @@ namespace Game
         {
             
             InitializeComponent();
+            Locals.RegisterEvents();
             /*
             Locals.client = new Client.Client();            
             Locals.user = new User();
@@ -111,51 +112,7 @@ namespace Game
             MessageBox.Show("ZeroValueOPCODE Invoked");
         }
 
-        /*
-        //Server-Client Methods
-        #region Server-Client methods
-        //Nem hívódik meg valamiért
-        private void UserConnected()
-        {
-
-            Locals.user.Username = Locals.client.PacketReader.ReadMessage();
-            Locals.user.Id = Locals.client.PacketReader.ReadMessage();
-            //Setting up the timer <==> Sync with the server
-            //GameTimer.Tick = int.Parse(Locals.client.PacketReader.ReadMessage());
-            var u = Locals.user;
-        }
-        private void UserDisconnected()
-        {
-            var uid = Locals.client.PacketReader.ReadMessage();
-            MessageBox.Show("User disconnected");
-        }
-
-        public static void UserJoinedLobbyResponse()
-        {
-            MessageBox.Show("USER JOINED LOBBY RESPONSE ARRIVED");
-            //This method is handling the JoinResponse from the server
-            var msg = Locals.client.PacketReader.ReadMessage();
-            if (msg.Contains('/') && msg.Split('/')[0] == "JOINLOBBY")
-            {
-                var status = msg.Split('/')[1];
-
-
-                if (status != "ERROR" && status != "Success")
-                {
-                    Locals.lobby = JsonConvert.DeserializeObject<Lobby>(status);
-                    ;
-                }
-                //this is doing the navigation
-                
-            }
-            else
-            {
-                MessageBox.Show("Response Message format is bad:" + msg);
-            }
-        }
-
-        #endregion
-        */
+       
         private void GameWindow_Loaded(object sender, RoutedEventArgs e)
         {
             Resource.AddImage("MainMenu_Bg", "menu_bg.jpg");

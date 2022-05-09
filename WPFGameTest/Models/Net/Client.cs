@@ -42,15 +42,13 @@ namespace Game.Models
                     {                        
                         var opcode = PacketReader.ReadByte();                                               ;
                         MessageBox.Show($"message Recieved OPCODE:{opcode}");
-                        ;
                         switch (opcode)
                         {
-                            case 0:
-                                MessageBox.Show("OPCODE 0");
-                                zeroopcodeEvent?.Invoke();
-                                break;
                             case 1:
                                 connectedEvent?.Invoke();
+                                break;
+                            case 3:
+                                userCreatedLobbyEvent?.Invoke();
                                 break;
                             case 9:
                                 userCommandSentEvent?.Invoke();
@@ -65,16 +63,16 @@ namespace Game.Models
                             case 11:
                                 userCreatedLobbyEvent?.Invoke();
                                 break;
-                            case 3:                                
-                                MessageBox.Show("userJoinedLobbyEvent INVOKED");
-                                //userJoinedLobbyEvent?.Invoke();
-                                ;
+                            case 16:
+                                userCreatedLobbyEvent?.Invoke();
+                                break;
+                            case 17:                                
+                                userJoinedLobbyEvent?.Invoke();
                                 break;
                             case 13:
                                 userJoinedGameEvent?.Invoke();
                                 break;
-                            case 17:
-                                //MessageBox.Show("userMovedEvent Invoked");
+                            case 18:
                                 userMovedEvent?.Invoke();
                                 break;                                
                         }
@@ -131,20 +129,22 @@ namespace Game.Models
             _client.Client.Send(messagePacket.GetPacketbytes());
             ReadPacket();
         }
-        public void SendCommandToServer(string commandname, string executor, string command ,int tick)
+        public void SendCommandToServer(string commandname, string executor, string command)
         {
-            MessageBox.Show("Sending command to the server");
-            PacketReader = new PacketReader(_client.GetStream());
-            string formattedcommand = "";
-            string splitter = "";
-            formattedcommand = commandname + "/"+ executor + "/" + command+"/"+tick;
-            ;
-            //MessageBox.Show("Sending Command: " + formattedcommand);
-            var messagePacket = new PacketBuilder();
-            messagePacket.WriteOptCode(4);
-            messagePacket.WriteMessage(formattedcommand);
-            _client.Client.Send(messagePacket.GetPacketbytes());
-            ReadPacket();
+            if (_client.Connected)
+            {
+                PacketReader = new PacketReader(_client.GetStream());
+                string formattedcommand = "";
+                string splitter = "";
+                MessageBox.Show("Sending Command: " + formattedcommand);
+                var messagePacket = new PacketBuilder();
+                messagePacket.WriteOptCode(4);
+                messagePacket.WriteMessage(commandname);
+                messagePacket.WriteMessage(executor);
+                messagePacket.WriteMessage(command);
+                _client.Client.Send(messagePacket.GetPacketbytes());
+                ReadPacket();
+            }
         }
 
 

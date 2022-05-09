@@ -73,7 +73,7 @@ namespace Game.MVVM.ViewModel
                 );
 
             JoinLobbyCommand = new RelayCommand(
-                () => MultiLogic.JoinLobby(lobbyNavigationService, Username, LobbyCode, 0)
+                () => MultiLogic.JoinLobby(lobbyNavigationService, Username, LobbyCode)
                 ); ;
             CreateLobbyCommand = new RelayCommand(
                 () => MultiLogic.CreateLobby(lobbyNavigationService, Username, 0)

@@ -11,7 +11,7 @@ namespace Server
         public string Id { get; set; }
         public string  Username { get; set; }
 
-        public Player(_Client client)
+        public Player(ServerClient client)
         {
             Id = client.UID.ToString();
             Username = client.Username;
