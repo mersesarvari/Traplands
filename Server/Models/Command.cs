@@ -10,6 +10,7 @@ namespace Server
     {
         private static void CheckCommandId(string commandname,string executor, string command, int tick)
         {
+            ;
             switch (commandname)
             {
                 case "CREATELOBBY":
@@ -17,6 +18,7 @@ namespace Server
                     break;
                 case "JOINLOBBY":
                     Lobby.Join(executor, command);
+                    ;
                     break;
                 case "MOVE":
                     Game.Move(tick,executor,command[0]);
@@ -39,6 +41,7 @@ namespace Server
                 {
                     CheckCommandId(cmdparts[0], cmdparts[1], cmdparts[2], -1);
                 }
+                ;
                 
             }
             else

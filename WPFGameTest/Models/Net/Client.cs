@@ -38,7 +38,9 @@ namespace Game.Models
                 {
                     try
                     {
+                        MessageBox.Show("Client is running");
                         var opcode = PacketReader.ReadByte();
+                        ;
                         switch (opcode)
                         {
                             case 1:
@@ -57,7 +59,7 @@ namespace Game.Models
                             case 11:
                                 userCreatedLobbyEvent?.Invoke();
                                 break;
-                            case 6:
+                            case 3:
                                 MessageBox.Show("userJoinedLobbyEvent INVOKED");
                                 userJoinedLobbyEvent?.Invoke();                                
                                 break;
@@ -68,8 +70,10 @@ namespace Game.Models
                                 //MessageBox.Show("userMovedEvent Invoked");
                                 userMovedEvent?.Invoke();
                                 break;
+                                /*
                             default:
                                 break;
+                                */
                         }
                     }
                     catch (Exception e)
