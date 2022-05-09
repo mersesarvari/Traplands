@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using Game.Helpers;
@@ -54,15 +55,13 @@ namespace Game.Models
                             bool foundGroup = false;
                             foreach (var list in waypoints)
                             {
-                                Waypoint wp = list.FirstOrDefault();
-                                if (wp != null)
+                                Waypoint wp = list[0];
+ 
+                                if (wp.GroupID == groupId)
                                 {
-                                    if (wp.GroupID == groupId)
-                                    {
-                                        list.Add(waypoint);
-                                        foundGroup = true;
-                                        break;
-                                    }
+                                    list.Add(waypoint);
+                                    foundGroup = true;
+                                    break;
                                 }
                             }
 
@@ -110,10 +109,9 @@ namespace Game.Models
 
             foreach (var list in waypoints)
             {
-                list.OrderBy(x => x.ID);
-
-                MovingTrap movingTrap = new MovingTrap(list[0].Position, new Vector2(ObjectData.BLOCK_WIDTH, ObjectData.BLOCK_HEIGHT));
-                movingTrap.SetWaypoints(list);
+                List<Waypoint> orderedList = list.OrderBy(x => x.ID).ToList();
+                MovingTrap movingTrap = new MovingTrap(orderedList[0].Position, new Vector2(ObjectData.BLOCK_WIDTH, ObjectData.BLOCK_HEIGHT));
+                movingTrap.SetWaypoints(orderedList);
 
                 Interactables.Add(movingTrap);
             }
