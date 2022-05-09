@@ -33,7 +33,8 @@
             </ListBox>
             <Label Content="Level name" FontSize="18" Margin="0,10,0,0" Padding="10"></Label>
             <TextBox Text="{Binding LevelName, UpdateSourceTrigger=PropertyChanged}" Padding="10" Margin="10"></TextBox>
-            <Button Command="{Binding SaveLevel}" Padding="10" Margin="10" >Save</Button>
+            <Button Command="{Binding SaveLevel}" Padding="10" Margin="10" >Save and Exit</Button>
+            <Button Command="{Binding ExitWithoutSaving}" Padding="10" Margin="10" >Back</Button>
         </StackPanel>
         <Grid x:Name="PauseMenu" Background="LightBlue" Width="500" Height="600" HorizontalAlignment="Left" Visibility="Hidden" Margin="262,76,0,76">
             <StackPanel VerticalAlignment="Center" Margin="100">

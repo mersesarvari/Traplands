@@ -58,8 +58,6 @@ namespace Game.MVVM.ViewModel
             }
         }
 
-        public ICommand SaveLevel { get; set; }
-
         public void SetupLogic(FrameworkElement renderTarget, ScrollViewer camera)
         {
             logic.Init(renderTarget, camera);
@@ -80,21 +78,18 @@ namespace Game.MVVM.ViewModel
             }
         }
 
-        public ICommand NavigateMainMenuCommand { get; }
-        public ICommand SaveAndExitCommand { get; }
+        public ICommand SaveLevel { get; set; }
+        public ICommand ExitWithoutSaving { get; set; }
 
         public LevelEditorViewModel(INavigationService mainMenuNavigationService)
         {
             this.logic = new LevelEditor();
             MainWindow.game = logic;
             SaveLevel = new RelayCommand(() => { logic.SaveLevel(LevelName); mainMenuNavigationService.Navigate(); }, () => !string.IsNullOrWhiteSpace(LevelName));
+            ExitWithoutSaving = new RelayCommand(() => { mainMenuNavigationService.Navigate(); });
 
             Elements = new ObservableCollection<EditorElement>();
             logic.LoadElements(Elements);
-
-            NavigateMainMenuCommand = new NavigateCommand(mainMenuNavigationService);
-
-            SaveAndExitCommand = new SaveAndExitCommand(mainMenuNavigationService);
         }
     }
 }
