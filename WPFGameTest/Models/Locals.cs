@@ -19,48 +19,29 @@ namespace Game.Models
         {
             client.connectedEvent += UserConnected;
             client.userCreatedLobbyEvent += Client_userCreatedLobbyEvent;
-            client.userCreatedLobbyEvent += Client_userCreatedLobbyEvent1;
-            client.zeroopcodeEvent += Client_zeroopcodeEvent;
+            client.userJoinedLobbyEvent += Client_userJoinedLobbyEvent;
         }
 
-        private static void Client_zeroopcodeEvent()
+        private static void Client_userJoinedLobbyEvent()
         {
-            try
-            {
-                
-                //This method is handling the JoinResponse from the server
-                var msg = Locals.client.PacketReader.ReadMessage();
-                ;
-                if (msg.Contains('/') && msg.Split('/')[0] == "CREATELOBBY")
-                {
-                    var status = msg.Split('/')[1];
-                    Locals.lobby = JsonConvert.DeserializeObject<Lobby>(status);
-                    MessageBox.Show(msg);
-                    MessageBox.Show("ZERO CODE EVENT OCCURED");
-                    //this is doing the navigation
-
-                }
-                else
-                {
-                    MessageBox.Show("Response Message format is bad:" + msg);
-                }
-            }
-            catch (Exception ex)
-            {
-
-                MessageBox.Show(ex.Message);
-            }
-            
-        }
-
-        private static void Client_userCreatedLobbyEvent1()
-        {
-            MessageBox.Show("Lobby Created Succesfully");
+            MessageBox.Show("USER JOINED LOBBY RESPONSE ARRIVED");
+            /*
+            //This method is handling the JoinResponse from the server
+            var msgname = Locals.client.PacketReader.ReadMessage();
+            var msg = Locals.client.PacketReader.ReadMessage();
+            MessageBox.Show(msg, msgname);
+            */
         }
 
         private static void Client_userCreatedLobbyEvent()
         {
-            MessageBox.Show("Lobby was created succesfully");
+            /*
+            MessageBox.Show("USER CREATED LOBBY RESPONSE ARRIVED");
+            //This method is handling the JoinResponse from the server
+            var msgname = Locals.client.PacketReader.ReadMessage();
+            var msg = Locals.client.PacketReader.ReadMessage();
+            MessageBox.Show(msg, msgname);
+            */
         }
 
 
@@ -83,29 +64,6 @@ namespace Game.Models
             MessageBox.Show("User disconnected");
         }
 
-        public static void UserJoinedLobbyResponse()
-        {
-            MessageBox.Show("USER JOINED LOBBY RESPONSE ARRIVED");
-            //This method is handling the JoinResponse from the server
-            var msg = Locals.client.PacketReader.ReadMessage();
-            if (msg.Contains('/') && msg.Split('/')[0] == "JOINLOBBY")
-            {
-                var status = msg.Split('/')[1];
-
-
-                if (status != "ERROR" && status != "Success")
-                {
-                    Locals.lobby = JsonConvert.DeserializeObject<Lobby>(status);
-                    ;
-                }
-                //this is doing the navigation
-                
-            }
-            else
-            {
-                MessageBox.Show("Response Message format is bad:" + msg);
-            }
-        }
 
         #endregion
         

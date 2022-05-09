@@ -115,18 +115,19 @@ namespace Server
                 client.TCP.Client.Send(msgPacket.GetPacketbytes());
             }
         }
-        public static void SendMessage(byte opcode, string userid, string message)
+        public static void SendMessage(byte opcode, string userid,string messagename, string message)
         {
             ;
             var msgPacket = new PacketBuilder();
             msgPacket.WriteOptCode(opcode);
+            msgPacket.WriteMessage(messagename);
             msgPacket.WriteMessage(message);
             ;
             var client = clients.Where(x => x.UID.ToString() == userid).FirstOrDefault();
             if (client != null)
             {
                 client.TCP.Client.Send(msgPacket.GetPacketbytes());
-                Console.WriteLine($"[Response]: {FindUserById(userid).Username} - ({opcode}){message}");
+                Console.WriteLine($"[Response]: {FindUserById(userid).Username} - ({opcode}){messagename}:{message}");
             }
             else
                 throw new Exception("client doesnt exists");

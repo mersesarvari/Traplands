@@ -35,10 +35,10 @@ namespace Server
                     {
                         //USER Command
                         case 4:
-                            var ucmd = _packetReader.ReadMessage();
-                            //Console.WriteLine("Command recieved:"+ucmd);
-                            Command.CommandManager(ucmd);
-                            //Server.SendMessage(3, ucmd.Split('/')[1], "Proba");
+                            var negy_commandname = _packetReader.ReadMessage();
+                            var negy_executor = _packetReader.ReadMessage();
+                            var negy_command = _packetReader.ReadMessage();
+                            Command.CommandManager(negy_commandname, negy_executor, negy_command);
                             ;
                             break;
                         //Messgae

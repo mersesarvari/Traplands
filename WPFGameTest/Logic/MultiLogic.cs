@@ -56,23 +56,16 @@ namespace Game.Logic
         //A tickes rész átírandó arra amit a rendes gameban is használunk..
         public static void CreateLobby(INavigationService service, string username, int currenttick)
         {
-            try
+            if (Locals.client.Connected())
             {
-                if (Locals.client.Connected())
-                {
-                    Locals.client.SendCommandToServer("CREATELOBBY", Locals.user.Id, Locals.user.Id);
-                    //JoinLobby(service, username, Locals.user.Id, currenttick);
-                }
-                else
-                {
-                    MessageBox.Show("You are not connected to the server");
-                }
-                
+                Locals.client.SendCommandToServer("CREATELOBBY", Locals.user.Id, Locals.user.Id);
+                //JoinLobby(service, username, Locals.user.Id);
+                var lobbychecker = Locals.lobby;
+                ;
             }
-            catch (Exception ex)
+            else
             {
-
-                throw new Exception(ex.Message);
+                MessageBox.Show("You are not connected to the server");
             }
         }
 

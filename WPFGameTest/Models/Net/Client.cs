@@ -50,24 +50,17 @@ namespace Game.Models
                             case 3:
                                 userCreatedLobbyEvent?.Invoke();
                                 break;
+                            case 4:
+                                userJoinedLobbyEvent?.Invoke();
+                                break;
                             case 9:
                                 userCommandSentEvent?.Invoke();
                                 break;
                             case 5:
-                                MessageBox.Show("Message Recieved from the Server");
                                 messageRecievedEvent?.Invoke();
                                 break;
                             case 10:
                                 userDisconnectedEvent?.Invoke();
-                                break;
-                            case 11:
-                                userCreatedLobbyEvent?.Invoke();
-                                break;
-                            case 16:
-                                userCreatedLobbyEvent?.Invoke();
-                                break;
-                            case 17:                                
-                                userJoinedLobbyEvent?.Invoke();
                                 break;
                             case 13:
                                 userJoinedGameEvent?.Invoke();
@@ -136,7 +129,7 @@ namespace Game.Models
                 PacketReader = new PacketReader(_client.GetStream());
                 string formattedcommand = "";
                 string splitter = "";
-                MessageBox.Show("Sending Command: " + formattedcommand);
+                MessageBox.Show("Sending Command: " + commandname+"\n" + executor + "\n" + command);
                 var messagePacket = new PacketBuilder();
                 messagePacket.WriteOptCode(4);
                 messagePacket.WriteMessage(commandname);

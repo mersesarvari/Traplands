@@ -52,7 +52,7 @@ namespace Server
             coords[0] = gametesterX;
             coords[1] = gametesterY;
             //Console.WriteLine($"[GAME CLASS] : Sending back to client: {JsonConvert.SerializeObject(new MovementPackage(tick,coords[0], coords[1]))}");
-            Server.SendMessage(17, ownerid, "MOVE/" + JsonConvert.SerializeObject(new MovementPackage(tick, coords[0], coords[1])));
+            Server.SendMessage(17, ownerid, "MOVE" , JsonConvert.SerializeObject(new MovementPackage(tick, coords[0], coords[1])));
 
         }
 
