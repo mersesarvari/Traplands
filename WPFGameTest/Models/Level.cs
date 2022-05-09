@@ -29,6 +29,9 @@ namespace Game.Models
 
         public void Load()
         {
+            Interactables.Clear();
+            Solids.Clear();
+
             List<List<Waypoint>> waypoints = new List<List<Waypoint>>();
 
             for (int i = 0; i < File.Length; i++)
