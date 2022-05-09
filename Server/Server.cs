@@ -104,28 +104,29 @@ namespace Server
 
         }
         
-        public static void BroadcastResponse(string messagename, string message)
+        public static void BroadcastResponse(byte opcode, string messagename, string message)
         {
             Console.WriteLine($"[BroadCastMessage(3)] : {message}");
             foreach (var client in clients)
             {
                 var msgPacket = new PacketBuilder();
-                msgPacket.WriteOptCode(3);
+                msgPacket.WriteOptCode(opcode);
+                msgPacket.WriteMessage(messagename);
                 msgPacket.WriteMessage(message);
                 client.TCP.Client.Send(msgPacket.GetPacketbytes());
             }
         }
-        public static void SendResponse(string userid,string messagename, string message)
+        public static void SendResponse(byte opcode,string userid,string messagename, string message)
         {
             var msgPacket = new PacketBuilder();
-            msgPacket.WriteOptCode(3);
+            msgPacket.WriteOptCode(opcode);
             msgPacket.WriteMessage(messagename);
             msgPacket.WriteMessage(message);
             var client = clients.Where(x => x.UID.ToString() == userid).FirstOrDefault();
             if (client != null)
             {
                 client.TCP.Client.Send(msgPacket.GetPacketbytes());
-                Console.WriteLine($"[Response]: {FindUserById(userid).Username} - ({3}){messagename}:{message}");
+                //Console.WriteLine($"[Response]: {FindUserById(userid).Username} - ({3}){messagename}:{message}");
             }
             else
             {

@@ -62,7 +62,6 @@ namespace Game.MVVM.ViewModel
 
         public MultiplayerGameMenuViewModel(INavigationService mainMenuNavigationService, INavigationService lobbyNavigationService, INavigationService multiGameNavigationService)
         {
-            Locals.client.userJoinedLobbyEvent += UserJoinedLobbyResponse;
             Username = "PLAYER";
             NavigateMainMenuCommand = new NavigateCommand(mainMenuNavigationService);
             NavigateLobbyCommand = new NavigateCommand(lobbyNavigationService);

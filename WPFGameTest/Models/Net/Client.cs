@@ -16,7 +16,6 @@ namespace Game.Models
         public PacketReader PacketReader;
 
         public static List<MovementPackage> MovementHistory=new List<MovementPackage>();
-
         public event Action connectedEvent;
         public event Action userDisconnectedEvent;
         public event Action messageRecievedEvent;
@@ -47,11 +46,11 @@ namespace Game.Models
                             case 1:
                                 connectedEvent?.Invoke();
                                 break;
-                            case 3:
+                            case 2:
                                 userCreatedLobbyEvent?.Invoke();
                                 break;
-                            case 10:
-                                userDisconnectedEvent?.Invoke();
+                            case 3:
+                                userJoinedLobbyEvent?.Invoke();
                                 break;
                             case 18:
                                 userMovedEvent?.Invoke();

@@ -9,22 +9,21 @@ using System.Windows;
 namespace Game.Models
 {
     public static class Locals
-    {
-        public static Lobby lobby;
-        public static Client client=new Client();
+    {        
+        public static Client client= new Client();
         public static User user=new User();
         public static bool Connected=false;
 
         public static void RegisterEvents()
         {
             client.connectedEvent += UserConnected;
-            client.userCreatedLobbyEvent += Client_userCreatedLobbyEvent;
-            client.userJoinedLobbyEvent += Client_userJoinedLobbyEvent;
+            //client.userCreatedLobbyEvent += Client_userCreatedLobbyEvent;
+            //client.userJoinedLobbyEvent += Client_userJoinedLobbyEvent;
         }
 
         private static void Client_userJoinedLobbyEvent()
         {
-            MessageBox.Show("USER JOINED LOBBY RESPONSE ARRIVED");
+            //MessageBox.Show("USER JOINED LOBBY RESPONSE ARRIVED");
             /*
             //This method is handling the JoinResponse from the server
             var msgname = Locals.client.PacketReader.ReadMessage();
@@ -35,13 +34,13 @@ namespace Game.Models
 
         private static void Client_userCreatedLobbyEvent()
         {
-            /*
-            MessageBox.Show("USER CREATED LOBBY RESPONSE ARRIVED");
+            
+            //MessageBox.Show("USER CREATED LOBBY RESPONSE ARRIVED");
             //This method is handling the JoinResponse from the server
             var msgname = Locals.client.PacketReader.ReadMessage();
             var msg = Locals.client.PacketReader.ReadMessage();
             MessageBox.Show(msg, msgname);
-            */
+            
         }
 
 
@@ -50,7 +49,6 @@ namespace Game.Models
         //Nem hívódik meg valamiért
         private static void UserConnected()
         {
-
             Locals.user.Username = Locals.client.PacketReader.ReadMessage();
             Locals.user.Id = Locals.client.PacketReader.ReadMessage();
             //Setting up the timer <==> Sync with the server

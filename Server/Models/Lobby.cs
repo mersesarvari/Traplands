@@ -11,7 +11,6 @@ namespace Server
     public class Lobby
     {
         public string LobbyId { get; set; }
-        public string OwnerId { get; set; }
         public List<Player> Users { get; set; }
         public List<string> Messages { get; set; }
         public Map Map { get; set; }
@@ -21,7 +20,6 @@ namespace Server
             LobbyId = ownerid;
             Users = new List<Player>();
             Messages = new List<string>();
-            OwnerId = ownerid;
 
         }
 
@@ -32,7 +30,7 @@ namespace Server
             {
                 Server.lobbies.Add(new Lobby(userid));
                 Console.WriteLine("[INFO] Lobby Created succesfully");
-                Server.SendResponse(userid.ToString(), "CREATELOBBY","Success");
+                Server.SendResponse(2,userid.ToString(), "CREATELOBBY","Success");
             }
 
         }
@@ -60,7 +58,7 @@ namespace Server
                             try
                             {
                                 //Server.SendMessage(3, item.Id, "JOINLOBBY/" + JsonConvert.SerializeObject(currentlobby));
-                                Server.BroadcastResponse("JOINLOBBY",JsonConvert.SerializeObject(currentlobby));
+                                Server.BroadcastResponse(3,"JOINLOBBY",JsonConvert.SerializeObject(currentlobby));
                                 ;
                             }
                             catch (Exception ex)

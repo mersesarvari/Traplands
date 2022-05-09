@@ -40,18 +40,7 @@ namespace Game
         {
             
             InitializeComponent();
-            Locals.RegisterEvents();
-            /*
-            Locals.client = new Client.Client();            
-            Locals.user = new User();
-            */
-            /*
-            Locals.client.zeroopcodeEvent += ZeroOpcodeEventHandler;
-            Locals.client.connectedEvent += UserConnected;
-            Locals.client.userDisconnectedEvent += UserDisconnected;
-            Locals.client.userJoinedLobbyEvent += UserJoinedLobbyResponse;
-            */
-            //Locals.client.ConnectToServer("eventtester");
+            
             _Width = this.Width;
             _Height = this.Height;
             #region commented
