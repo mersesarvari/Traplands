@@ -37,12 +37,11 @@ namespace Game.Models
                 while (true)
                 {
                     try
-                    {
-                        MessageBox.Show("Client is running");
-                        var opcode = PacketReader.ReadByte();
-                        ;
+                    {                        
+                        var opcode = PacketReader.ReadByte();                                               ;
+                        MessageBox.Show($"message Recieved OPCODE:{opcode}");
                         switch (opcode)
-                        {
+                        {                            
                             case 1:
                                 MessageBox.Show("connectedEvent INVOKED");
                                 connectedEvent?.Invoke();
@@ -51,6 +50,7 @@ namespace Game.Models
                                 userCommandSentEvent?.Invoke();
                                 break;
                             case 5:
+                                MessageBox.Show("Message Recieved from the Server");
                                 messageRecievedEvent?.Invoke();
                                 break;
                             case 10:
@@ -60,8 +60,9 @@ namespace Game.Models
                                 userCreatedLobbyEvent?.Invoke();
                                 break;
                             case 3:
+                                ;
                                 MessageBox.Show("userJoinedLobbyEvent INVOKED");
-                                userJoinedLobbyEvent?.Invoke();
+                                //userJoinedLobbyEvent?.Invoke();
                                 ;
                                 break;
                             case 13:
@@ -70,18 +71,13 @@ namespace Game.Models
                             case 17:
                                 //MessageBox.Show("userMovedEvent Invoked");
                                 userMovedEvent?.Invoke();
-                                break;
-                                /*
-                            default:
-                                break;
-                                */
+                                break;                                
                         }
                     }
                     catch (Exception e)
                     {
-                        MessageBox.Show($"[ERROR]: {e.Message}");                     
-                    }
-                    
+                        MessageBox.Show($"[Recieve_Error]: {e.Message}");                     
+                    }                    
                 }
             });
         }
@@ -135,14 +131,11 @@ namespace Game.Models
             PacketReader = new PacketReader(_client.GetStream());
             string formattedcommand = "";
             string splitter = "";
-            if ((command == null || command.Trim()==""))
-            {
-                command = "NULL";
-            }
             formattedcommand = commandname + "/"+ executor + "/" + command+"/"+tick;
+            ;
             //MessageBox.Show("Sending Command: " + formattedcommand);
             var messagePacket = new PacketBuilder();
-            messagePacket.WriteOptCode(9);
+            messagePacket.WriteOptCode(4);
             messagePacket.WriteMessage(formattedcommand);
             _client.Client.Send(messagePacket.GetPacketbytes());
             ReadPacket();
