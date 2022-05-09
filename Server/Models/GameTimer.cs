@@ -30,7 +30,7 @@ namespace Server.Logic
             {
                 Tick = 0;            
             }
-            Console.WriteLine($"TickNumber: {Tick}");
+            //Console.WriteLine($"TickNumber: {Tick}");
         }
 
 

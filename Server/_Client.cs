@@ -38,8 +38,9 @@ namespace Server
                         case 4:
                             var ucmd = _packetReader.ReadMessage();
                             //Console.WriteLine("Command recieved:"+ucmd);
-                            Command.CommandManager(ucmd);
-                            //Server.SendMessage(3, ucmd.Split('/')[1], "Proba");
+                            //Command.CommandManager(ucmd);
+                            Console.WriteLine($"Broadcast command recieved from Client {ucmd}");
+                            Server.BroadcastMessage("Client Broadcast a message");
                             ;
                             break;
                         //Messgae

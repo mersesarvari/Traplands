@@ -12,7 +12,6 @@ namespace Client
         public string Id { get; set; }
         public string  Username { get; set; }
         float movespeed;
-        CharacterController controller;
 
         public User()
         {

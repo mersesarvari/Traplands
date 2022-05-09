@@ -25,6 +25,8 @@ namespace Game.Models
         public event Action userJoinedLobbyEvent;
         public event Action userJoinedGameEvent;
         public event Action userMovedEvent;
+        public event Action zeroopcodeEvent;
+
 
         public Client()
         {
@@ -40,10 +42,14 @@ namespace Game.Models
                     {                        
                         var opcode = PacketReader.ReadByte();                                               ;
                         MessageBox.Show($"message Recieved OPCODE:{opcode}");
+                        ;
                         switch (opcode)
-                        {                            
+                        {
+                            case 0:
+                                MessageBox.Show("OPCODE 0");
+                                zeroopcodeEvent?.Invoke();
+                                break;
                             case 1:
-                                MessageBox.Show("connectedEvent INVOKED");
                                 connectedEvent?.Invoke();
                                 break;
                             case 9:
@@ -59,8 +65,7 @@ namespace Game.Models
                             case 11:
                                 userCreatedLobbyEvent?.Invoke();
                                 break;
-                            case 3:
-                                ;
+                            case 3:                                
                                 MessageBox.Show("userJoinedLobbyEvent INVOKED");
                                 //userJoinedLobbyEvent?.Invoke();
                                 ;
@@ -128,6 +133,7 @@ namespace Game.Models
         }
         public void SendCommandToServer(string commandname, string executor, string command ,int tick)
         {
+            MessageBox.Show("Sending command to the server");
             PacketReader = new PacketReader(_client.GetStream());
             string formattedcommand = "";
             string splitter = "";

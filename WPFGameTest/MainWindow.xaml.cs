@@ -44,9 +44,12 @@ namespace Game
             Locals.client = new Client.Client();            
             Locals.user = new User();
             */
+            /*
+            Locals.client.zeroopcodeEvent += ZeroOpcodeEventHandler;
             Locals.client.connectedEvent += UserConnected;
             Locals.client.userDisconnectedEvent += UserDisconnected;
             Locals.client.userJoinedLobbyEvent += UserJoinedLobbyResponse;
+            */
             //Locals.client.ConnectToServer("eventtester");
             _Width = this.Width;
             _Height = this.Height;
@@ -102,7 +105,13 @@ namespace Game
             Input.heldKeys[(int)e.Key] = false;
         }
 
+        public static void ZeroOpcodeEventHandler()
+        {
+            var d = Locals.client.PacketReader.ReadMessage();
+            MessageBox.Show("ZeroValueOPCODE Invoked");
+        }
 
+        /*
         //Server-Client Methods
         #region Server-Client methods
         //Nem hívódik meg valamiért
@@ -112,9 +121,8 @@ namespace Game
             Locals.user.Username = Locals.client.PacketReader.ReadMessage();
             Locals.user.Id = Locals.client.PacketReader.ReadMessage();
             //Setting up the timer <==> Sync with the server
-            GameTimer.Tick = int.Parse(Locals.client.PacketReader.ReadMessage());
+            //GameTimer.Tick = int.Parse(Locals.client.PacketReader.ReadMessage());
             var u = Locals.user;
-            timer.Start(500);
         }
         private void UserDisconnected()
         {
@@ -147,7 +155,7 @@ namespace Game
         }
 
         #endregion
-
+        */
         private void GameWindow_Loaded(object sender, RoutedEventArgs e)
         {
             Resource.AddImage("MainMenu_Bg", "menu_bg.jpg");

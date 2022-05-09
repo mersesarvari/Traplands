@@ -106,6 +106,7 @@ namespace Server
         }
         public static void BroadcastMessage(string message)
         {
+            Console.WriteLine($"[BroadCastMessage(5)] : {message}");
             foreach (var client in clients)
             {
                 var msgPacket = new PacketBuilder();

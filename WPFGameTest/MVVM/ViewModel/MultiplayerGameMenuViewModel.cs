@@ -80,13 +80,6 @@ namespace Game.MVVM.ViewModel
                 );
 
             //NavigateLobbyCommand = new NavigateToLobbyCommand(lobbyNavigationService, Locals.lobby);
-
-
-
-
-
-
-
         }
         public static void UserJoinedLobbyResponse()
         {

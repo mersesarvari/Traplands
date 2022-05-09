@@ -64,6 +64,7 @@ namespace Server
                             Server.BroadcastMessage("test was succesfull");
                             break;
                         default:
+                            Console.WriteLine($"[INFO] Recieving invalid opcode from the client({opcode})!");
                             break;
                     }                    
                 }

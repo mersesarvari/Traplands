@@ -40,6 +40,10 @@ namespace Game.Logic
                     //service.Navigate();
 
                 }
+                else
+                {
+                    MessageBox.Show("You are not connected");               
+                }
                 
             }
             catch (Exception ex)
