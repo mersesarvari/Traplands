@@ -58,12 +58,12 @@ namespace Game.Logic
             {
                 if (Locals.client.Connected())
                 {
-                    Locals.client.SendCommandToServer("CREATELOBBY", Locals.user.Id, "NULL", currenttick);
-                    JoinLobby(service, username, Locals.user.Id, currenttick);
+                    Locals.client.SendCommandToServer("CREATELOBBY", Locals.user.Id, Locals.user.Id, -1);
+                    //JoinLobby(service, username, Locals.user.Id, currenttick);
                 }
                 else
                 {
-                    MessageBox.Show("Error");
+                    MessageBox.Show("You are not connected to the server");
                 }
                 
             }

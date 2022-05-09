@@ -32,12 +32,12 @@ namespace Server
             {
                 Server.lobbies.Add(new Lobby(userid));
                 Console.WriteLine("[INFO] Lobby Created succesfully");
-                //Server.SendMessage(11, userid.ToString(), "CREATELOBBY/Success");
+                Server.SendMessage(3, userid.ToString(), "CREATELOBBY/Success");
             }
             else
             {
                 Console.WriteLine("[Error]: Lobby cannot be created!");
-                //Server.SendMessage(11,userid.ToString(), "CREATELOBBY/Error");
+                Server.SendMessage(11,userid.ToString(), "CREATELOBBY/Error");
             }
             ;
 
@@ -66,8 +66,9 @@ namespace Server
                         {
                             try
                             {
-                                Server.SendMessage(3, item.Id, "JOINLOBBY" + JsonConvert.SerializeObject(currentlobby));
-                                //Server.SendMessage(3, item.Id, "JOINLOBBY" + "Proba");
+                                //Server.SendMessage(3, item.Id, "JOINLOBBY/" + JsonConvert.SerializeObject(currentlobby));
+                                ;
+                                Server.SendMessage(3, item.Id, "JOINLOBBY" + "Proba");
                                 ;
                             }
                             catch (Exception ex)
@@ -83,7 +84,7 @@ namespace Server
                     {
                         //Print information
                         Console.WriteLine("[Error]: User cannot join this lobby!");
-                        Server.SendMessage(12, userid, "JOINLOBBY/ERROR");
+                        Server.SendMessage(3, userid, "JOINLOBBY/ERROR");
                     }
                 }
                 

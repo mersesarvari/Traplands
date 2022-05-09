@@ -116,6 +116,7 @@ namespace Server
         }
         public static void SendMessage(byte opcode, string userid, string message)
         {
+            ;
             var msgPacket = new PacketBuilder();
             msgPacket.WriteOptCode(opcode);
             msgPacket.WriteMessage(message);

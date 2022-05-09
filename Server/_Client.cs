@@ -35,11 +35,11 @@ namespace Server
                     switch (opcode)
                     {
                         //USER Command
-                        case 9:
+                        case 4:
                             var ucmd = _packetReader.ReadMessage();
                             //Console.WriteLine("Command recieved:"+ucmd);
                             Command.CommandManager(ucmd);
-                            Server.SendMessage(3, ucmd.Split('/')[1], "Proba");
+                            //Server.SendMessage(3, ucmd.Split('/')[1], "Proba");
                             ;
                             break;
                         //Messgae
@@ -49,10 +49,12 @@ namespace Server
                             Server.BroadcastMessage($"[{DateTime.Now}]: [{Username}]: {msg}");
                             break;
                         //Game Command
+                        /*
                         case 7:
                             var gcmd = _packetReader.ReadMessage();
                             Server.BroadcastMessage($"[{DateTime.Now}]: [{Username}]: {gcmd}");
                             break;
+                        */
                         case 10:
                             var dc = _packetReader.ReadMessage();
                             Server.BroadcastDisconnect(dc);
