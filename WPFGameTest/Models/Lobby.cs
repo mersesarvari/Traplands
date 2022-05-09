@@ -14,7 +14,10 @@ namespace Game.Models
         public List<User> Users { get; set; }
         public List<string> Messages { get; set; }
         public Map Map { get; set; }
+        public Lobby()
+        {
 
+        }
         public Lobby(string ownerid)
         {
             LobbyId = ownerid;

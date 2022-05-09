@@ -10,8 +10,9 @@ namespace Game.Models
 {
     public static class Locals
     {        
-        public static Client client= new Client();
-        public static User user=new User();
+        public static Lobby lobby = new();
+        public static Client client= new();
+        public static User user=new();
         public static bool Connected=false;
 
         public static void RegisterEvents()

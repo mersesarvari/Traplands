@@ -9,6 +9,7 @@ using System.Windows;
 using Game.MVVM.Services;
 using Game.MVVM.Stores;
 using Game.MVVM.ViewModel;
+using Game.Models;
 
 namespace Game
 {
@@ -18,9 +19,10 @@ namespace Game
     public partial class App : Application
     {
         private readonly IServiceProvider _serviceProvider;
-
+        
         public App()
         {
+            Locals.RegisterEvents();
             //Console.WriteLine("APP is running");
             
             IServiceCollection services = new ServiceCollection();
