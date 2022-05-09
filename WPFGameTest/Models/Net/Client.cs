@@ -61,7 +61,8 @@ namespace Game.Models
                                 break;
                             case 3:
                                 MessageBox.Show("userJoinedLobbyEvent INVOKED");
-                                userJoinedLobbyEvent?.Invoke();                                
+                                userJoinedLobbyEvent?.Invoke();
+                                ;
                                 break;
                             case 13:
                                 userJoinedGameEvent?.Invoke();
@@ -121,14 +122,17 @@ namespace Game.Models
             }
         }
         public void SendMessageToServer(string message)
-        { 
+        {
+            PacketReader = new PacketReader(_client.GetStream());
             var messagePacket = new PacketBuilder();
             messagePacket.WriteOptCode(5);
             messagePacket.WriteMessage(message);
             _client.Client.Send(messagePacket.GetPacketbytes());
+            ReadPacket();
         }
         public void SendCommandToServer(string commandname, string executor, string command ,int tick)
         {
+            PacketReader = new PacketReader(_client.GetStream());
             string formattedcommand = "";
             string splitter = "";
             if ((command == null || command.Trim()==""))
@@ -141,6 +145,7 @@ namespace Game.Models
             messagePacket.WriteOptCode(9);
             messagePacket.WriteMessage(formattedcommand);
             _client.Client.Send(messagePacket.GetPacketbytes());
+            ReadPacket();
         }
 
 

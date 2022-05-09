@@ -119,14 +119,15 @@ namespace Server
             var msgPacket = new PacketBuilder();
             msgPacket.WriteOptCode(opcode);
             msgPacket.WriteMessage(message);
+            ;
             var client = clients.Where(x => x.UID.ToString() == userid).FirstOrDefault();
             if (client != null)
             {
                 client.TCP.Client.Send(msgPacket.GetPacketbytes());
-                //Console.WriteLine($"[Response]: {FindUserById(userid).Username} - ({opcode}){message}");
+                Console.WriteLine($"[Response]: {FindUserById(userid).Username} - ({opcode}){message}");
             }
             else
-                Console.WriteLine($"[Error]: Response cannot be send");
+                throw new Exception("client doesnt exists");
         }
         public static void MovePlayer(Game game,MovementPackage movement)
         {            

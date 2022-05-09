@@ -39,6 +39,8 @@ namespace Server
                             var ucmd = _packetReader.ReadMessage();
                             //Console.WriteLine("Command recieved:"+ucmd);
                             Command.CommandManager(ucmd);
+                            Server.SendMessage(3, ucmd.Split('/')[1], "Proba");
+                            ;
                             break;
                         //Messgae
                         case 5:

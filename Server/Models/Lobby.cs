@@ -66,8 +66,8 @@ namespace Server
                         {
                             try
                             {
-                                //Server.SendMessage(3, item.Id, "JOINLOBBY" + JsonConvert.SerializeObject(currentlobby));
-                                Server.SendMessage(3, item.Id, "JOINLOBBY" + "Proba");
+                                Server.SendMessage(3, item.Id, "JOINLOBBY" + JsonConvert.SerializeObject(currentlobby));
+                                //Server.SendMessage(3, item.Id, "JOINLOBBY" + "Proba");
                                 ;
                             }
                             catch (Exception ex)
