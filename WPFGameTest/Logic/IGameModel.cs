@@ -1,7 +1,10 @@
 ﻿using System.Collections.Generic;
+using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Shapes;
 using Game.Models;
 using Game.Renderer;
+using WPFGameTest.Logic;
 
 namespace Game.Logic
 {
@@ -16,6 +19,7 @@ namespace Game.Logic
         Player Player { get; set; }
         List<GameObject> Solids { get; set; }
         List<GameObject> Interactables { get; set; }
+        public void SetLevel(string levelName);
     }
 
     public interface IMultiplayer : IGameModel
@@ -28,9 +32,12 @@ namespace Game.Logic
     public interface ILevelEditor : IGameModel
     {
         LevelGrid Grid { get; set; }
-        List<EditorRect> Rectangles { get; set; }
+        List<EditorElement> Rectangles { get; set; }
         List<Line> Lines { get; set; }
-        EditorRect PreviewRect { get; set; }
-        double Zoom { get; set; }
+        EditorElement PreviewRect { get; set; }
+        void Init(FrameworkElement renderTarget, ScrollViewer camera);
+        void LoadElements(IList<EditorElement> elements);
+        void SelectElement(EditorElement element);
+        void SaveLevel(string levelName);
     }
 }

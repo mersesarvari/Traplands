@@ -26,57 +26,23 @@ namespace Game.Logic
         // Game state
         public bool Paused { get; set; }
 
-        MovingTrap mt;
-        MovingTrap mt2;
-
         public Singleplayer()
         {
             AudioManager.SetBackgroundMusic("26-Dark Fantasy Studio- Playing in water.wav");
 
             minTimeBetweenTicks = 1f / tickRate;
+        }
 
-            LevelManager.LoadLevels();
+        public void SetLevel(string key)
+        {
+            currentLevel = LevelManager.GetLevel(key);
 
-            // Get map (or null)
-            currentLevel = LevelManager.GetLevel("tests");
+            currentLevel.Load();
 
-            // Load entities
-            if (currentLevel is not null)
-            {
-                currentLevel.Load();
-
-                spawnPoint = currentLevel.SpawnPoint;
-                Solids = currentLevel.Solids;
-                Interactables = currentLevel.Interactables;
-                Player = new Player("0", "Player1", spawnPoint, new Vector2(44, 44), 8);
-            }
-            else
-            {
-                Solids = new List<GameObject>();
-                Interactables = new List<GameObject>();
-                Player = new Player("0", "Player1", new Vector2(0, 0), new Vector2(44, 44), 8);
-                Solids.Add(new SolidObject(new Vector2(0, 500), new Vector2(1000, 500)));
-            }
-
-            mt = new MovingTrap(new Vector2(100, 400), new Vector2(44, 44));
-            mt.Tag = "Trap";
-
-            mt.AddWaypoint(new Vector2(200, 400));
-            mt.AddWaypoint(new Vector2(200, 444));
-            mt.AddWaypoint(new Vector2(100, 444));
-            mt.AddWaypoint(new Vector2(100, 400));
-
-            Interactables.Add(mt);
-
-            mt2 = new MovingTrap(new Vector2(200, 400), new Vector2(44, 44));
-            mt2.Tag = "Trap";
-
-            mt2.AddWaypoint(new Vector2(300, 400));
-            mt2.AddWaypoint(new Vector2(300, 444));
-            mt2.AddWaypoint(new Vector2(200, 500));
-            mt2.AddWaypoint(new Vector2(200, 300));
-
-            Interactables.Add(mt2);
+            spawnPoint = currentLevel.SpawnPoint;
+            Solids = currentLevel.Solids;
+            Interactables = currentLevel.Interactables;
+            Player = new Player("01", "Player1", spawnPoint, new Vector2(44, 44), 8);
 
             Player.SetSolids(Solids);
             Player.SetInteractables(Interactables);

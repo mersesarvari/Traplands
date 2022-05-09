@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Game.MVVM.ViewModel
 {
-    public class ViewModelBase:INotifyPropertyChanged
+    public class ViewModelBase : ObservableRecipient, INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
 

@@ -40,9 +40,14 @@ namespace Game.Logic
             return false;
         }
 
-        public static bool GetMouseButton(MouseButtonState mouseButton)
+        public static bool GetMouseButtonPressed(MouseButtonState mouseButton)
         {
             return mouseButton == MouseButtonState.Pressed;
+        }
+
+        public static bool GetMouseButtonReleased(MouseButtonState mouseButton)
+        {
+            return mouseButton == MouseButtonState.Released;
         }
     }
 }

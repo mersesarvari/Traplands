@@ -2,6 +2,7 @@
 using System.Windows;
 using System.Windows.Media;
 using Game.Logic;
+using WPFGameTest.Logic;
 
 namespace Game.Renderer
 {
@@ -63,9 +64,15 @@ namespace Game.Renderer
             foreach (var item in model.Rectangles)
             {
                 drawingContext.DrawRectangle(
-                    item.Fill,
+                    item.Rectangle.Fill,
                     null,
-                    new Rect(item.Rect.X, item.Rect.Y, item.Rect.Width, item.Rect.Height));
+                    new Rect(item.Position.X, item.Position.Y, item.Rectangle.Width, item.Rectangle.Height));
+
+                if (item is WaypointRect)
+                {
+                    drawingContext.DrawText(new FormattedText((item as WaypointRect).IdLabel.Content.ToString(), CultureInfo.CurrentCulture, FlowDirection.LeftToRight, new Typeface("Consolas"), 24, Brushes.Black),
+                        new Point(item.Position.X, item.Position.Y));
+                }
             }
 
             foreach (var item in model.Lines)
