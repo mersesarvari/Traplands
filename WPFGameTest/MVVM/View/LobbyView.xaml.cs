@@ -1,5 +1,4 @@
-﻿using Client;
-using Client.Models;
+﻿using Game.Models;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;

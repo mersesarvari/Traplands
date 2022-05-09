@@ -17,10 +17,8 @@ using Game.Helpers;
 using Game.Logic;
 using Game.Renderer;
 using Game.MVVM.ViewModel;
-using Client.Models;
 using Game.Models;
 using Newtonsoft.Json;
-using Client;
 
 namespace Game
 {

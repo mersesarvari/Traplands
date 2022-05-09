@@ -4,9 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Client.Models
+namespace Game.Models
 {
-    public class CharacterController
+    public class Map
     {
+        string map;
     }
 }

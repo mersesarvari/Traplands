@@ -1,5 +1,4 @@
-﻿using Client;
-using Client.Models;
+﻿using Game.Models;
 using Game.MVVM.Commands;
 using Game.MVVM.Services;
 using Game.MVVM.View;
