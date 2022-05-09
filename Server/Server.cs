@@ -116,7 +116,7 @@ namespace Server
                 client.TCP.Client.Send(msgPacket.GetPacketbytes());
             }
         }
-        public static void SendResponse(byte opcode,string userid,string messagename, string message)
+        public static void SendResponse(byte opcode, string messagename, string userid, string message)
         {
             var msgPacket = new PacketBuilder();
             msgPacket.WriteOptCode(opcode);

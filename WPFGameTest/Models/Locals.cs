@@ -18,19 +18,19 @@ namespace Game.Models
         public static void RegisterEvents()
         {
             client.connectedEvent += UserConnected;
-            //client.userCreatedLobbyEvent += Client_userCreatedLobbyEvent;
-            //client.userJoinedLobbyEvent += Client_userJoinedLobbyEvent;
+            client.userJoinedLobbyEvent += Client_userJoinedLobbyEvent;
         }
 
         private static void Client_userJoinedLobbyEvent()
         {
             //MessageBox.Show("USER JOINED LOBBY RESPONSE ARRIVED");
-            /*
+            
             //This method is handling the JoinResponse from the server
             var msgname = Locals.client.PacketReader.ReadMessage();
+            var userid = Locals.client.PacketReader.ReadMessage();
             var msg = Locals.client.PacketReader.ReadMessage();
             MessageBox.Show(msg, msgname);
-            */
+            
         }
 
         private static void Client_userCreatedLobbyEvent()

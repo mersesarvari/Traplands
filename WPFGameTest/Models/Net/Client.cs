@@ -20,11 +20,9 @@ namespace Game.Models
         public event Action userDisconnectedEvent;
         public event Action messageRecievedEvent;
         public event Action userCommandSentEvent;
-        public event Action userCreatedLobbyEvent;
         public event Action userJoinedLobbyEvent;
         public event Action userJoinedGameEvent;
         public event Action userMovedEvent;
-        public event Action zeroopcodeEvent;
 
 
         public Client()
@@ -47,10 +45,9 @@ namespace Game.Models
                                 connectedEvent?.Invoke();
                                 break;
                             case 2:
-                                userCreatedLobbyEvent?.Invoke();
+                                userJoinedLobbyEvent?.Invoke();
                                 break;
                             case 3:
-                                userJoinedLobbyEvent?.Invoke();
                                 break;
                             case 18:
                                 userMovedEvent?.Invoke();

@@ -58,8 +58,8 @@ namespace Server
                             try
                             {
                                 //Server.SendMessage(3, item.Id, "JOINLOBBY/" + JsonConvert.SerializeObject(currentlobby));
-                                Server.BroadcastResponse(3,"JOINLOBBY",JsonConvert.SerializeObject(currentlobby));
-                                ;
+                                Server.SendResponse(2,"JOINLOBBY",userid,JsonConvert.SerializeObject(currentlobby));
+                                
                             }
                             catch (Exception ex)
                             {

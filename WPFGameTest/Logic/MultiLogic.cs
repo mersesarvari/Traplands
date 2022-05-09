@@ -58,8 +58,11 @@ namespace Game.Logic
         {
             if (Locals.client.Connected())
             {
+
+                ;
                 Locals.client.SendCommandToServer("CREATELOBBY", Locals.user.Id, Locals.user.Id);
-                JoinLobby(service, username, Locals.user.Id);
+                ;
+                //JoinLobby(service, username, Locals.user.Id);
                 var lobbychecker = Locals.lobby;
                 ;
             }
