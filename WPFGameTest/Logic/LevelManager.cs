@@ -2,10 +2,14 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Windows.Controls;
 using System.Windows.Media;
+using Game.Helpers;
+using Game.Logic;
 using Game.Models;
 using Game.Renderer;
+using WPFGameTest.Logic;
 
 namespace Game
 {
@@ -19,6 +23,7 @@ namespace Game
     {
         None = 0,
         Spawn,
+        Finish,
         Spike,
         Grass_First,
         Grass_Top_Center,
@@ -34,16 +39,27 @@ namespace Game
         Grass_Mid_Right_Left,
         Grass_Under,
         Grass_Last,
+        Trap_Waypoint,
+        Moving_Trap
     }
 
     public static class LevelManager
     {
         private static Dictionary<string, Level> levels = new Dictionary<string, Level>();
-        public static Dictionary<string, Level> Levels
+
+        private static Level currentLevel = null;
+        public static Level CurrentLevel { get { return currentLevel; } set { currentLevel = value; } }
+
+        public static List<Level> LevelList()
         {
-            get {
-                return levels;
+            List<Level> list = new List<Level>();
+
+            foreach (var pairs in levels)
+            {
+                list.Add(pairs.Value);
             }
+
+            return list;
         }
 
         public static ImageBrush GetCorrectTileImage(ObjectType obj)
@@ -59,21 +75,37 @@ namespace Game
             return level;
         }
 
-        public static void Save(string key, Level value)
+        public static void Save(string key, int[,] Map, Dictionary<Coordinate, EditorElement> editorElements)
         {
-            levels.Add(key, value);
+            string path = Path.Combine(Directory.GetParent(Directory.GetCurrentDirectory()).Parent.Parent.Parent.FullName, "Levels/");
+            string filePath = path + key + ".lvl";
 
-            using (StreamWriter sw = new StreamWriter(key + ".lvl"))
+            using (StreamWriter sw = new StreamWriter(filePath))
             {
-                for (int i = 0; i < value.Map.GetLength(0); i++)
+                for (int i = 0; i < Map.GetLength(0); i++)
                 {
-                    for (int j = 0; j < value.Map.GetLength(1); j++)
+                    for (int j = 0; j < Map.GetLength(1); j++)
                     {
-                        sw.Write(value.Map[j, i] + ";");
+                        if (Map[j, i] == (int)ObjectType.Trap_Waypoint)
+                        {
+                            EditorElement element = null;
+                            editorElements.TryGetValue(new Coordinate(j, i), out element);
+
+                            WaypointRect waypointRect = (WaypointRect)element;
+                            sw.Write(Map[j, i] + ":" + waypointRect.Waypoint.GroupID + ":" + waypointRect.Waypoint.ID + ";");
+                        }
+                        else
+                        {
+                            sw.Write(Map[j, i] + ";");
+                        }
                     }
                     sw.WriteLine();
                 }
             }
+
+            string[] fileLines = File.ReadAllLines(filePath);
+            Level value = new Level(key, fileLines);
+            levels.Add(key, value);
 
             // Save map to image
 
@@ -109,30 +141,12 @@ namespace Game
             // Go through each level file
             foreach (var path in lvls)
             {
-                string[] lines = File.ReadAllLines(path); // Read line by line
-                int[,] levelMap = new int[100, 100];
-
-                for (int i = 0; i < lines.Length; i++)
-                {
-                    string[] splitLine = lines[i].Split(';'); // Split each row into single objectIDs(string)
-
-                    for (int j = 0; j < splitLine.Length; j++)
-                    {
-                        if (splitLine[j].Length != 0) // If it has a value
-                        {
-                            int currentObject = int.Parse(splitLine[j]); // Convert from string to int
-                            levelMap[j, i] = currentObject;
-                        }
-                    }
-                }
-
-                Level level = new Level(levelMap);
                 string name = Path.GetFileNameWithoutExtension(path); // Use the filename without extension as name of the level
+                string[] lines = File.ReadAllLines(path); // Read line by line
 
-                if (Get(name) == null)
-                {
-                    levels.Add(name, level);
-                }
+                Level level = new Level(name, lines);
+
+                levels.Add(name, level);
             }
         }
     }

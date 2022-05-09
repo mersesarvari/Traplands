@@ -5,22 +5,24 @@ using Game.Models;
 
 namespace Game.Logic
 {
+    public class Waypoint
+    {
+        public int ID { get; set; }
+        public int GroupID { get; set; }
+        public Vector2 Position { get; set; }
+        public Waypoint Next { get; set; }
+        public Waypoint Prev { get; set; }
+
+        public Waypoint(int id, int groupId, Vector2 position)
+        {
+            ID = id;
+            GroupID = groupId;
+            Position = position;
+        }
+    }
+
     public class MovingTrap : DynamicObject
     {
-        public class Waypoint
-        {
-            public int ID { get; private set; }
-            public int GroupID { get; private set; }
-            public Vector2 Position { get; set; }
-
-            public Waypoint(int id, int groupId, Vector2 position)
-            {
-                ID = id;
-                GroupID = groupId;
-                Position = position;
-            }
-        }
-
         private static int groupID = 0;
 
         public int MoveSpeed { get; set; }
@@ -28,46 +30,89 @@ namespace Game.Logic
         public List<Waypoint> Waypoints { get; set; }
 
         private Action OnWaypointReached;
-        private int nextWaypoint;
-        private bool goingForward;
         private int xDir, yDir;
+
+        Waypoint currentWp;
+
+        bool goingForward;
 
         public MovingTrap(Vector2 position, Vector2 size, int hitboxOffset = 0) : base(position, size, hitboxOffset)
         {
             // Basic information
+            Tag = "Trap";
             GroupID = groupID++;
             MoveSpeed = 100;
             goingForward = true;
-
-            // Set up first waypoint on the created location
-            Waypoints = new List<Waypoint>();
-            Waypoints.Add(new Waypoint(Waypoints.Count, GroupID, position));
 
             // Fire action when reaching next waypoint
             // Sets up the next location to go to
             OnWaypointReached += () =>
             {
-                if (nextWaypoint == Waypoints.Count - 1)
+                if (goingForward)
                 {
-                    goingForward = false;
+                    if (currentWp.Next != null)
+                    {
+                        currentWp = currentWp.Next;
+                    }
+                    else
+                    {
+                        if (currentWp.Prev != null)
+                        {
+                            currentWp = currentWp.Prev;
+                            goingForward = false;
+                        }
+                    }
                 }
-                else if (nextWaypoint == 0)
+                else
                 {
-                    goingForward = true;
+                    if (currentWp.Prev != null)
+                    {
+                        currentWp = currentWp.Prev;
+                    }
+                    else
+                    {
+                        if (currentWp.Next != null)
+                        {
+                            currentWp = currentWp.Next;
+                            goingForward = true;
+                        }
+                    }
                 }
-
-                nextWaypoint += goingForward ? 1 : -1;
             };
+        }
+
+        public void SetWaypoints(List<Waypoint> waypoints, bool loopBack = false)
+        {
+            for (int i = 0; i < waypoints.Count - 1; i++)
+            {
+                waypoints[i].Next = waypoints[i + 1];
+                waypoints[i + 1].Prev = waypoints[i];
+            }
+
+            if (loopBack)
+            {
+                waypoints[0].Prev = waypoints[waypoints.Count - 1];
+                waypoints[waypoints.Count - 1].Next = waypoints[0];
+            }
+
+            this.Waypoints = waypoints;
+            currentWp = waypoints[0];
         }
 
         public void AddWaypoint(Vector2 position)
         {
-            Waypoints.Add(new Waypoint(Waypoints.Count, GroupID, position));
+            Waypoint wp = new Waypoint(Waypoints.Count, GroupID, position);
+
+            Waypoint prev = Waypoints[Waypoints.Count - 1];
+            prev.Next = wp;
+            wp.Prev = prev;
+
+            Waypoints.Add(wp);
         }
 
         public override void Update(float deltaTime)
         {
-            if (Waypoints.Count > 1) Move(Waypoints[nextWaypoint], deltaTime);
+            Move(currentWp, deltaTime);
         }
 
         public override void MoveX(float amount, Action onCollision)
@@ -82,7 +127,7 @@ namespace Game.Logic
 
                 while (move != 0)
                 {
-                    if (Transform.Position.X != Waypoints[nextWaypoint].Position.X)
+                    if (Transform.Position.X != currentWp.Position.X)
                     {
                         Transform.Position.X += sign;
                         Hitbox.X += sign;
@@ -108,7 +153,7 @@ namespace Game.Logic
 
                 while (move != 0)
                 {
-                    if (Transform.Position.Y != Waypoints[nextWaypoint].Position.Y)
+                    if (Transform.Position.Y != currentWp.Position.Y)
                     {
                         Transform.Position.Y += sign;
                         Hitbox.Y += sign;

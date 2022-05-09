@@ -8,7 +8,7 @@
         xmlns:viewModel="clr-namespace:Game.MVVM.ViewModel"
         xmlns:view="clr-namespace:Game.MVVM.View"
         mc:Ignorable="d"
-        Title="MainWindow" Height="768" Width="1024" KeyDown="GameWindow_KeyDown" KeyUp="GameWindow_KeyUp" SizeChanged="GameWindow_SizeChanged" Visibility="Hidden">
+        Title="MainWindow" Height="768" Width="1024" KeyDown="GameWindow_KeyDown" KeyUp="GameWindow_KeyUp" SizeChanged="GameWindow_SizeChanged" Visibility="Hidden" Loaded="GameWindow_Loaded">
     <!--KeyDown="Window_KeyDown" KeyUp="Window_KeyUp" SizeChanged="GameWindow_SizeChanged"-->
 
     <ContentControl Content="{Binding CurrentViewModel}" Visibility="Visible">

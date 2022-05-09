@@ -27,7 +27,6 @@ namespace Game.MVVM.View
         {
             InitializeComponent();
 
-            MainWindow.game = new Singleplayer();
             MainWindow.renderer = Renderer;
             Renderer.SetupModel(MainWindow.game);
 

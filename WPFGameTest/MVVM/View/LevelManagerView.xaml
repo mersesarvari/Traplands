@@ -11,20 +11,16 @@
             <RowDefinition Height="10*"/>
             <RowDefinition Height="1*"/>
         </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="2*"/>
-            <ColumnDefinition Width="1*"/>
-        </Grid.ColumnDefinitions>
         <StackPanel Grid.Row="0">
             <ListBox ItemsSource="{Binding Levels}" SelectedItem="{Binding SelectedLevel}">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
-                        <Label Content="{Binding Key}"/>
+                        <Label Content="{Binding Name}"/>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>
         </StackPanel>
-        <Label Content="{Binding SelectedLevel.Key}" Grid.Row="1" Grid.Column="1" FontSize="30" Padding="10"/>
+        <Label Content="{Binding SelectedLevel.Name}" Grid.Row="1" Grid.Column="1" FontSize="30" Padding="10"/>
         <Button Command="{Binding NavigateSingleGameCommand}" Content="Play" Grid.Row="1" FontSize="30"
                 Margin="10">
             <Button.Background>

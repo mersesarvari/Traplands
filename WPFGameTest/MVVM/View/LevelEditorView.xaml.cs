@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Game.Logic;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -22,6 +23,12 @@ namespace Game.MVVM.View
         public LevelEditorView()
         {
             InitializeComponent();
+
+            (MainWindow.game as ILevelEditor).Init(Renderer, MainCamera);
+            MainWindow.renderer = Renderer;
+            Renderer.SetupModel(MainWindow.game);
+
+            MainWindow.SetupCamera(MainCamera);
         }
     }
 }

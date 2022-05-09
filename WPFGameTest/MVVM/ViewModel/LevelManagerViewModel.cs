@@ -9,42 +9,41 @@ using System.Windows.Input;
 using Game.Models;
 using Game.MVVM.Commands;
 using Game.MVVM.Services;
+using System.Collections.ObjectModel;
 
 namespace Game.MVVM.ViewModel
 {
-    public class LevelManagerViewModel:ViewModelBase
+    public class LevelManagerViewModel : ViewModelBase
     {
-        private Dictionary<string, Level> levels;
-        public Dictionary<string, Level> Levels
+        private List<Level> levels;
+        public List<Level> Levels
         {
             get { return levels; }
+            set { SetProperty(ref levels, value); }
         }
 
-        private KeyValuePair<string, Level> selectedLevel;
-
-        public KeyValuePair<string, Level> SelectedLevel
+        private Level selectedLevel;
+        public Level SelectedLevel
         {
             get { return selectedLevel; }
             set
             {
-                if (value.Key!=null && value.Value!=null)
-                {
-                    selectedLevel = new KeyValuePair<string, Level>(value.Key, value.Value);
-                }
-                OnPropertyChanged();
-                //(NavigateSingleGameCommand as RelayCommand).NotifyCanExecuteChanged();
+                SetProperty(ref selectedLevel, value);
+                LevelManager.CurrentLevel = SelectedLevel;
+                (NavigateSingleGameCommand as RelayCommand).NotifyCanExecuteChanged();
             }
         }
 
         public ICommand NavigateSingleGameCommand { get; set; }
         public LevelManagerViewModel(INavigationService singleGameNavigationService)
         {
-            NavigateSingleGameCommand = new NavigateCommand(singleGameNavigationService);
-            levels = LevelManager.Levels;
-            //NavigateSingleGameCommand = new RelayCommand(
-            //   () => { new NavigateCommand(singleGameNavigationService); },
-            //   () => selectedLevel.Key != null
-            //   );
+            Levels = LevelManager.LevelList();
+            LevelManager.CurrentLevel = SelectedLevel;
+            NavigateSingleGameCommand =
+               new RelayCommand(
+               () => { singleGameNavigationService.Navigate(); },
+               () => selectedLevel != null
+               );
         }
     }
 }

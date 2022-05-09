@@ -51,28 +51,8 @@ namespace Game
             _Width = this.Width;
             _Height = this.Height;
             #region commented
-            /*
-            Resource.AddImage("MainMenu_Bg", "menu_bg.jpg");
-            Resource.AddImage("Game_Bg", "background.png");
-            Resource.AddImage("Player", "player.png");
-            Resource.AddImage("Coin", "coin.png");
-            Resource.AddImage("Spawn", "orbs_hud.png");
-            Resource.AddImage("Spike", "spike.png");
-            Resource.AddImage("Grass_Top_Center", "grass_topcenter.png");
-            Resource.AddImage("Grass_Top_Right", "grass_topright.png");
-            Resource.AddImage("Grass_Top_Left", "grass_topleft.png");
-            Resource.AddImage("Grass_Under", "grass_under.png");
-            Resource.AddImage("Grass_Mid_Left", "grass_midleft.png");
-            Resource.AddImage("Grass_Mid_Right", "grass_midright.png");
-            Resource.AddImage("Grass_Bottom_Center", "grass_bottomcenter.png");
-            Resource.AddImage("Grass_Bottom_Right", "grass_bottomright.png");
-            Resource.AddImage("Grass_Bottom_Left", "grass_bottomleft.png");
-            Resource.AddImage("Grass_Mid_Right_Left", "grass_midrightleft.png");
-            Resource.AddImage("Grass_Top_Right_Bottom", "grass_toprightbottom.png");
-            Resource.AddImage("Grass_Top_Left_Bottom", "grass_topleftbottom.png");
-            */
+
             #endregion
-            LevelManager.LoadLevels();
 
             // Game loop
             CompositionTargetEx.Rendering += MainLoop;
@@ -97,6 +77,7 @@ namespace Game
             camera.Height = _Height;
             camera.HorizontalScrollBarVisibility = ScrollBarVisibility.Hidden;
             camera.VerticalScrollBarVisibility = ScrollBarVisibility.Hidden;
+            camera.Background = new ImageBrush(Resource.GetImage("Game_Bg"));
 
             CameraController.Instance.Init(camera);
         }
@@ -166,5 +147,29 @@ namespace Game
         }
 
         #endregion
+
+        private void GameWindow_Loaded(object sender, RoutedEventArgs e)
+        {
+            Resource.AddImage("MainMenu_Bg", "menu_bg.jpg");
+            Resource.AddImage("Game_Bg", "background.png");
+            Resource.AddImage("Player", "player.png");
+            Resource.AddImage("Coin", "coin.png");
+            Resource.AddImage("Spawn", "orbs_hud.png");
+            Resource.AddImage("Spike", "spike.png");
+            Resource.AddImage("Grass_Top_Center", "grass_topcenter.png");
+            Resource.AddImage("Grass_Top_Right", "grass_topright.png");
+            Resource.AddImage("Grass_Top_Left", "grass_topleft.png");
+            Resource.AddImage("Grass_Under", "grass_under.png");
+            Resource.AddImage("Grass_Mid_Left", "grass_midleft.png");
+            Resource.AddImage("Grass_Mid_Right", "grass_midright.png");
+            Resource.AddImage("Grass_Bottom_Center", "grass_bottomcenter.png");
+            Resource.AddImage("Grass_Bottom_Right", "grass_bottomright.png");
+            Resource.AddImage("Grass_Bottom_Left", "grass_bottomleft.png");
+            Resource.AddImage("Grass_Mid_Right_Left", "grass_midrightleft.png");
+            Resource.AddImage("Grass_Top_Right_Bottom", "grass_toprightbottom.png");
+            Resource.AddImage("Grass_Top_Left_Bottom", "grass_topleftbottom.png");
+
+            LevelManager.LoadLevels();
+        }
     }
 }
