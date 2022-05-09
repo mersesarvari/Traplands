@@ -32,7 +32,6 @@ namespace Server
             //var ip = IPAddress.Parse("127.0.0.1") + ":5000";
             listener = new TcpListener(IPAddress.Parse(ip), port);
             listener.Start();            
-            timer.Start(tickinterval);
 
             Console.WriteLine($"Server started at: {ip}:{port}");
             //Kliens fogadás
@@ -104,33 +103,34 @@ namespace Server
             //BroadcastMessage($"[{disconnectedUser.Username}] Disconnected!");       
 
         }
-        public static void BroadcastMessage(string message)
+        
+        public static void BroadcastResponse(string messagename, string message)
         {
-            Console.WriteLine($"[BroadCastMessage(5)] : {message}");
+            Console.WriteLine($"[BroadCastMessage(3)] : {message}");
             foreach (var client in clients)
             {
                 var msgPacket = new PacketBuilder();
-                msgPacket.WriteOptCode(5);
+                msgPacket.WriteOptCode(3);
                 msgPacket.WriteMessage(message);
                 client.TCP.Client.Send(msgPacket.GetPacketbytes());
             }
         }
-        public static void SendMessage(byte opcode, string userid,string messagename, string message)
+        public static void SendResponse(string userid,string messagename, string message)
         {
-            ;
             var msgPacket = new PacketBuilder();
-            msgPacket.WriteOptCode(opcode);
+            msgPacket.WriteOptCode(3);
             msgPacket.WriteMessage(messagename);
             msgPacket.WriteMessage(message);
-            ;
             var client = clients.Where(x => x.UID.ToString() == userid).FirstOrDefault();
             if (client != null)
             {
                 client.TCP.Client.Send(msgPacket.GetPacketbytes());
-                Console.WriteLine($"[Response]: {FindUserById(userid).Username} - ({opcode}){messagename}:{message}");
+                Console.WriteLine($"[Response]: {FindUserById(userid).Username} - ({3}){messagename}:{message}");
             }
             else
+            {
                 throw new Exception("client doesnt exists");
+            } 
         }
         public static void MovePlayer(Game game,MovementPackage movement)
         {            

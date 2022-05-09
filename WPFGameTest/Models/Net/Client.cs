@@ -41,7 +41,7 @@ namespace Game.Models
                     try
                     {                        
                         var opcode = PacketReader.ReadByte();                                               ;
-                        MessageBox.Show($"message Recieved OPCODE:{opcode}");
+                        //MessageBox.Show($"message Recieved OPCODE:{opcode}");
                         switch (opcode)
                         {
                             case 1:
@@ -50,24 +50,14 @@ namespace Game.Models
                             case 3:
                                 userCreatedLobbyEvent?.Invoke();
                                 break;
-                            case 4:
-                                userJoinedLobbyEvent?.Invoke();
-                                break;
-                            case 9:
-                                userCommandSentEvent?.Invoke();
-                                break;
-                            case 5:
-                                messageRecievedEvent?.Invoke();
-                                break;
                             case 10:
                                 userDisconnectedEvent?.Invoke();
                                 break;
-                            case 13:
-                                userJoinedGameEvent?.Invoke();
-                                break;
                             case 18:
                                 userMovedEvent?.Invoke();
-                                break;                                
+                                break;
+                            default:
+                                break;
                         }
                     }
                     catch (Exception e)

@@ -23,7 +23,7 @@ namespace Game.Models
             msgBuffer = new byte[length];
             _ns.Read(msgBuffer, 0, length);
 
-            var message = Encoding.ASCII.GetString(msgBuffer);
+            var message = Encoding.UTF8.GetString(msgBuffer);
             return message;
         }
     }

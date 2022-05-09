@@ -33,7 +33,6 @@ namespace Server
                     var opcode = _packetReader.ReadByte();
                     switch (opcode)
                     {
-                        //USER Command
                         case 4:
                             var negy_commandname = _packetReader.ReadMessage();
                             var negy_executor = _packetReader.ReadMessage();
@@ -41,27 +40,9 @@ namespace Server
                             Command.CommandManager(negy_commandname, negy_executor, negy_command);
                             ;
                             break;
-                        //Messgae
-                        case 5:
-                            var msg = _packetReader.ReadMessage();
-                            //Console.WriteLine($"[{DateTime.Now}]: Message recieved from {Username} {msg}");
-                            Server.BroadcastMessage($"[{DateTime.Now}]: [{Username}]: {msg}");
-                            break;
-                        //Game Command
-                        /*
-                        case 7:
-                            var gcmd = _packetReader.ReadMessage();
-                            Server.BroadcastMessage($"[{DateTime.Now}]: [{Username}]: {gcmd}");
-                            break;
-                        */
                         case 10:
                             var dc = _packetReader.ReadMessage();
                             Server.BroadcastDisconnect(dc);
-                            break;
-                        case 2:
-                            Console.WriteLine("Test recieved from the client");
-                            //Server.Tes();
-                            Server.BroadcastMessage("test was succesfull");
                             break;
                         default:
                             Console.WriteLine($"[INFO] Recieving invalid opcode from the client({opcode})!");
@@ -81,5 +62,7 @@ namespace Server
         {
             return Server.players.FirstOrDefault(x => x.Id == client.UID.ToString());
         }
+
+
     }
 }
