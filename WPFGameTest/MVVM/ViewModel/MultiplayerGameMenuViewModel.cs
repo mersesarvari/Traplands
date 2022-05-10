@@ -17,8 +17,8 @@ namespace Game.MVVM.ViewModel
 {
     public class MultiplayerGameMenuViewModel:ViewModelBase
     {
-        public Locals locals;
-        public MultiLogic logic;
+        private Locals locals;
+        private MultiLogic logic;
         public ICommand NavigateMainMenuCommand { get; }
         public ICommand NavigateLobbyCommand { get; }
         public ICommand NavigateMultiGameCommand { get; }
@@ -44,9 +44,10 @@ namespace Game.MVVM.ViewModel
         }
 
 
-        public MultiplayerGameMenuViewModel(INavigationService mainMenuNavigationService, INavigationService lobbyNavigationService, INavigationService multiGameNavigationService, Locals locals, MultiLogic logic)
+        public MultiplayerGameMenuViewModel(INavigationService mainMenuNavigationService, INavigationService lobbyNavigationService, INavigationService multiGameNavigationService, Locals _locals, MultiLogic _logic)
         {
-            this.locals = locals;
+            this.locals = _locals;
+            this.logic = _logic;
             Username = "PLAYER";
             NavigateMainMenuCommand = new NavigateCommand(mainMenuNavigationService);
             NavigateLobbyCommand = new NavigateCommand(lobbyNavigationService);
