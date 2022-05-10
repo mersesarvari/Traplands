@@ -52,9 +52,6 @@ namespace Game.MVVM.ViewModel
             get { return userid; }
             set { SetProperty(ref userid, value); }
         }
-
-
-
         public MultiplayerGameMenuViewModel(INavigationService mainMenuNavigationService, INavigationService lobbyNavigationService, INavigationService multiGameNavigationService)
         {
             MultiLogic logic = new MultiLogic(Messenger);
@@ -85,26 +82,6 @@ namespace Game.MVVM.ViewModel
                 (Disconnect as RelayCommand).NotifyCanExecuteChanged();
             });
 
-        }
-        public void UserJoinedLobbyResponse()
-        {
-            MessageBox.Show("USER JOINED LOBBY RESPONSE ARRIVED");
-            //This method is handling the JoinResponse from the server
-            var msg = MultiLogic.locals.client.PacketReader.ReadMessage();
-            if (msg.Contains('/') && msg.Split('/')[0] == "JOINLOBBY")
-            {
-                var status = msg.Split('/')[1];
-
-
-                if (status != "ERROR" && status != "Success")
-                {
-                    MultiLogic.locals.lobby = JsonConvert.DeserializeObject<Lobby>(status);
-                }
-            }
-            else
-            {
-                MessageBox.Show("Response Message format is bad:" + msg);
-            }
         }
     }
 }
