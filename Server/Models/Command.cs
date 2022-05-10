@@ -20,7 +20,7 @@ namespace Server.Models
                     Lobby.Start(executor, command);
                     break;
                 case "MOVE":
-                    //Game.Move(tick,executor,command[0]);
+                    Game.Move(executor,command);
                     break;
                 default:
                     break;

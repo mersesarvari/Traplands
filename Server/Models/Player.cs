@@ -11,6 +11,7 @@ namespace Server.Models
     {
         public string Id { get; set; }
         public string Username { get; set; }
+        public RenderData RenderData { get; set; }
 
         public Player(ServerClient client)
         {
@@ -19,13 +20,15 @@ namespace Server.Models
         }
 
         [JsonConstructor]
-        public Player()
+        public Player(string id, string username, RenderData renderData)
         {
-
+            Id = id;
+            Username = username;
+            RenderData = renderData;
         }
     }
 
-    public class GamePlayer
+    public class RenderData
     {
         string Fill { get; set; }
         Transform Transform { get; set; }
