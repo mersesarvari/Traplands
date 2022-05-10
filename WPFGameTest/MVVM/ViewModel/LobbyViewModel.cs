@@ -37,10 +37,20 @@ namespace Game.MVVM.ViewModel
 
         public LobbyViewModel(INavigationService multiMenuNavigationService)
         {
-            MessageBox.Show("LobbyViewModel was opened");
-            NavigateMultiMenuCommand= new NavigateCommand(multiMenuNavigationService);
             var l = MultiLogic.locals;
             Users = l.lobby.Users;
+            StartGame = new RelayCommand(
+                () => { MultiLogic.StartGame(MultiLogic.locals.user.Id); }
+                );
+            SetMap = new RelayCommand(
+                () => { MultiLogic.SetMap(); }
+                );
+            NavigateMultiMenuCommand = new NavigateCommand(multiMenuNavigationService);
+
+
+            
+
+
             
 
         }

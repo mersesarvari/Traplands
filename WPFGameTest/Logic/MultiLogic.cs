@@ -10,6 +10,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using Newtonsoft.Json;
 
 namespace Game.Logic
 {
@@ -72,10 +73,24 @@ namespace Game.Logic
         {
             if (locals.client.Connected())
             {
-                locals.client.SendCommandToServer("StartGame", locals.lobby.LobbyId, locals.user.Id, false);
-                Thread.Sleep(1500);
+                locals.client.SendCommandToServer("STARTGAME", locals.lobby.LobbyId, locals.user.Id, true);
+                Thread.Sleep(1000);
                 //Implementálás
                 service.Navigate();
+            }
+            else
+            {
+                MessageBox.Show("You are not connected to the server");
+            }
+        }
+        //Selecting map from the servers database
+        public static void SetMap(string mapname)
+        {
+            if (locals.client.Connected())
+            {
+                locals.client.SendCommandToServer("SETMAP", locals.lobby.LobbyId, mapname, false);
+                Thread.Sleep(1000);
+                //Implementálás
             }
             else
             {
