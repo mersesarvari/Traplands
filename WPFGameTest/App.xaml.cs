@@ -25,6 +25,7 @@ namespace Game
         {
             Locals locals=new Locals();
             MultiLogic logic = new MultiLogic();
+            locals.RegisterEvents();
             
             IServiceCollection services = new ServiceCollection();
 
@@ -72,6 +73,7 @@ namespace Game
                 _serviceProvider.GetRequiredService <INavigationService>();
             mainMenuNavigationService.Navigate();
             
+
             MainWindow = _serviceProvider.GetRequiredService<MainWindow>();
             MainWindow.Visibility = Visibility.Visible;
             MainWindow.Show();

@@ -26,7 +26,7 @@ namespace Game.Models
         public void RegisterEvents()
         {
             client.connectedEvent += UserConnected;
-            //client.userJoinedLobbyEvent += Client_userJoinedLobbyEvent;
+            client.userJoinedLobbyEvent += Client_userJoinedLobbyEvent;
         }
 
         public void Client_userJoinedLobbyEvent()

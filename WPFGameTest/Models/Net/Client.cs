@@ -41,11 +41,10 @@ namespace Game.Models
                         switch (opcode)
                         {
                             case 1:
-                                connectedEvent?.Invoke();
+                                connectedEvent?.Invoke();                                
                                 break;
                             case 2:
-                                userJoinedLobbyEvent?.Invoke();
-                                Console.WriteLine("JoinLobbyEventRecieved");                                
+                                userJoinedLobbyEvent?.Invoke();                             
                                 break;
                             default:
                                 //MessageBox.Show($"Recieved unknown message ({opcode})");
