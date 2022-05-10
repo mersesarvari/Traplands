@@ -35,15 +35,15 @@ namespace Server
         public static void Start(string executor, string command)
         {
             Console.WriteLine("Game Started");
-            var lobby = JsonConvert.DeserializeObject<Lobby>(command);
+            Lobby lobby = JsonConvert.DeserializeObject<Lobby>(command);
+            //AddRealUsers(lobby);
+            ;
+            //1: Selecting and Loading Map from the Lobby variable
 
-            //CREATING A GAME AND ADDING USERS and MAP FROM THE LOBBY, Sending back GAME OBJECT AFTER
+            //2: Returning the Game Data and the Client Commands
 
 
         }
-
-        
-
         public static void Create(string userid)
         {
             var alreadyexists = Server.lobbies.Where(x => x.LobbyId == userid.ToString()).FirstOrDefault();
@@ -55,7 +55,6 @@ namespace Server
             }
 
         }
-
         public static void Join(string userid, string lobbyid)
         {
             //Lobby exists and Found.
@@ -117,6 +116,15 @@ namespace Server
         public void SetMap(string map)
         {
             Map = map;
-        }        
+        }
+
+        public static void AddRealUsers(Lobby lobby)
+        {
+            var old = Server.lobbies.FirstOrDefault(x => x.LobbyId == lobby.LobbyId);
+            for (int i = 0; i < lobby.Users.Count; i++)
+            {
+                lobby.Users[i] = old.Users[i];
+            }
+        }
     }
 }
