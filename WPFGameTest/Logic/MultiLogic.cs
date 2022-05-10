@@ -58,9 +58,7 @@ namespace Game.Logic
                 locals.client.SendCommandToServer("CREATELOBBY", locals.user.Id, locals.user.Id, false);
                 Thread.Sleep(1500);
                 service.Navigate();
-                var checker = MultiLogic.locals;
-                ;
-                
+                var checker = MultiLogic.locals;                
             }
             else
             {
@@ -68,16 +66,16 @@ namespace Game.Logic
             }
         }
 
+
+        //SENDING INFORMATION: MAP, PLAYERLIST, 
         public static void StartGame(INavigationService service, Locals locals, string username, int currenttick)
         {
             if (locals.client.Connected())
             {
-                locals.client.SendCommandToServer("StartGame", locals.user.Id, locals.user.Id, false);
+                locals.client.SendCommandToServer("StartGame", locals.lobby.LobbyId, locals.user.Id, false);
                 Thread.Sleep(1500);
                 //Implementálás
                 service.Navigate();
-                ;
-
             }
             else
             {
