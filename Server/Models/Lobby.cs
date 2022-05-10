@@ -34,7 +34,7 @@ namespace Server
         //TODO
         public static void Start(string executor, string command)
         {
-            Console.WriteLine("Game Started");
+            Console.WriteLine("Game STARTING");
             Lobby lobby = JsonConvert.DeserializeObject<Lobby>(command);
             //AddRealUsers(lobby);
             ;
@@ -117,7 +117,6 @@ namespace Server
         {
             Map = map;
         }
-
         public static void AddRealUsers(Lobby lobby)
         {
             var old = Server.lobbies.FirstOrDefault(x => x.LobbyId == lobby.LobbyId);

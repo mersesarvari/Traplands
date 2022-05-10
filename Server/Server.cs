@@ -7,15 +7,12 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
-using Server.Logic;
 
 namespace Server
 {
     public class Server
     {
-        public static GameTimer timer = new GameTimer();
         public static List<Lobby> lobbies= new List<Lobby>();
-        public static List<Game> games=new List<Game>();
         private static List<ServerClient> clients = new List<ServerClient>();
         public static List<Player> players = new List<Player>();
         private static TcpListener listener;
@@ -103,8 +100,7 @@ namespace Server
             players.Remove(disconnectedClient.ConvertClientToUser(disconnectedClient));
             //BroadcastMessage($"[{disconnectedUser.Username}] Disconnected!");       
 
-        }
-        
+        }        
         public static void BroadcastResponse(byte opcode, string messagename, string message)
         {
             Console.WriteLine($"[BroadCastMessage(3)] : {message}");
@@ -141,8 +137,9 @@ namespace Server
                 throw new Exception("client doesnt exists");
             } 
         }
-        public static void MovePlayer(Game game,MovementPackage movement)
-        {            
+        public static void MovePlayer(/*Game game,MovementPackage movement*/)
+        {          
+            /*
             foreach (var player in game.Players)
             {
                 var msgPacket = new PacketBuilder();
@@ -151,6 +148,7 @@ namespace Server
                 var clnt = FindClient(player.Id);
                 clnt.TCP.Client.Send(msgPacket.GetPacketbytes());
             }
+            */
         }
         #endregion
 
