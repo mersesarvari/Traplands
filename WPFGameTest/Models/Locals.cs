@@ -41,7 +41,7 @@ namespace Game.Models
             var msg = this.client.PacketReader.ReadMessage();            
             var L = JsonConvert.DeserializeObject<Lobby>(msg);
             
-            //MessageBox.Show(msg);
+            MessageBox.Show(msg);
             
         }
         //Server-Client Methods

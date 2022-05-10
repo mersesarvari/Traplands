@@ -35,12 +35,12 @@ namespace Game.MVVM.ViewModel
         {
             this.locals = locals;
             //Load Users
-            LoadItems();
+            //LoadItems();
             NavigateMultiMenuCommand= new NavigateCommand(multiMenuNavigationService);
 
 
         }
-
+        /*
         public void LoadItems()
         {
             var t = locals.user;
@@ -52,6 +52,7 @@ namespace Game.MVVM.ViewModel
                 }
             }
         }
+        */
 
         public void UserJoinedLobbyResponse()
         {
@@ -63,7 +64,6 @@ namespace Game.MVVM.ViewModel
                 if (status != "ERROR" && status != "Success")
                 {
                     locals.lobby = JsonConvert.DeserializeObject<Lobby>(status);
-                    ;
                 }
             }
             else
