@@ -73,6 +73,7 @@ namespace Game.Models
             var L = JsonConvert.DeserializeObject<Lobby>(msg);
             MultiLogic.locals.lobby= L;
             Trace.WriteLine($"Lobby was set in multilogic");
+            MessageBox.Show("Lobby refreshed");
 
         }
         //Server-Client Methods

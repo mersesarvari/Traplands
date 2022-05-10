@@ -22,6 +22,7 @@ namespace Game
         public Starter()
         {
             InitializeComponent();
+            this.Close();
         }
     }
 }

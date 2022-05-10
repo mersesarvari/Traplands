@@ -124,7 +124,7 @@ namespace Server
                 try
                 {
                     client.TCP.Client.Send(msgPacket.GetPacketbytes());
-                    Console.WriteLine($"[Response]: {FindUserById(userid).Username} - [{3}]:{message}");
+                    //Console.WriteLine($"[Response]: {FindUserById(userid).Username} - [{3}]:{message}");
                 }
                 catch (Exception ex)
                 {

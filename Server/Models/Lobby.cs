@@ -56,7 +56,7 @@ namespace Server.Models
             if (alreadyexists == null)
             {
                 Server.lobbies.Add(new Lobby(userid));
-                Console.WriteLine("[INFO] Lobby Created succesfully");
+                Console.WriteLine($"[LOBBY CREATED] : {userid}");
                 //Server.SendResponse(2,userid, "CREATELOBBY","Success");
             }
 
@@ -73,6 +73,11 @@ namespace Server.Models
                 {
                     //Adding User to a pecific lobby
                     currentlobby.Users.Add(Server.FindUserById(userid));
+                    Lobby c = Server.lobbies.FirstOrDefault(x => x.LobbyId == lobbyid);
+                    foreach (var item in c.Users)
+                    {
+                        Console.WriteLine($"[User in the current lobby]: {item.Username}");
+                    }
                     var l = Server.lobbies;
                     //Sneding CODE and LOBBY INFO Back to the Client
 
@@ -82,6 +87,7 @@ namespace Server.Models
                     {
                         try
                         {
+                            Console.WriteLine($"[Response to: {item.Id}]");
                             Server.SendResponse(2, userid, JsonConvert.SerializeObject(currentlobby));
                         }
                         catch (Exception ex)
