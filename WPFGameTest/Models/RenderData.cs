@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace Game.Models
 {
+
     public class RenderData
     {
         string Fill { get; set; }
