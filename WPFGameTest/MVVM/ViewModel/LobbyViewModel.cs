@@ -31,10 +31,11 @@ namespace Game.MVVM.ViewModel
         }
 
 
-        public LobbyViewModel(INavigationService multiMenuNavigationService, Locals locals)
+        public LobbyViewModel(INavigationService multiMenuNavigationService)
         {
-            MultiLogic.locals = locals;
+            MessageBox.Show("LobbyViewModel was opened");
             NavigateMultiMenuCommand= new NavigateCommand(multiMenuNavigationService);
+            var l = MultiLogic.locals;
             ;
 
         }

@@ -44,7 +44,7 @@ namespace Game.Models
             var L = JsonConvert.DeserializeObject<Lobby>(msg);
             MultiLogic.locals.lobby= L;
             ;
-            MessageBox.Show(msg);
+            MessageBox.Show("MultiLogic.lobby was set");
             
         }
         //Server-Client Methods

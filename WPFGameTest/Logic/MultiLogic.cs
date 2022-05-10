@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 
@@ -56,7 +57,10 @@ namespace Game.Logic
             if (locals.client.Connected())
             {
                 locals.client.SendCommandToServer("CREATELOBBY", locals.user.Id, locals.user.Id, false);
+                Thread.Sleep(1500);
                 service.Navigate();
+                var checker = MultiLogic.locals;
+                ;
                 
             }
             else

@@ -55,22 +55,20 @@ namespace Game.MVVM.ViewModel
 
         public MultiplayerGameMenuViewModel(INavigationService mainMenuNavigationService, INavigationService lobbyNavigationService, INavigationService multiGameNavigationService)
         {
-            Locals locals = new Locals(Messenger);
             MultiLogic logic = new MultiLogic(Messenger);
-            MultiLogic.locals = locals;
-            locals.RegisterEvents();
+            MultiLogic.locals.RegisterEvents();
             NavigateMainMenuCommand = new NavigateCommand(mainMenuNavigationService);
             NavigateLobbyCommand = new NavigateCommand(lobbyNavigationService);
             NavigateMultiGameCommand = new NavigateCommand(multiGameNavigationService);
             ConnectServerCommand = new RelayCommand(
-                () => locals.client.ConnectToServer(Username),
-                () => !locals.Connected
+                () => MultiLogic.locals.client.ConnectToServer(Username),
+                () => !MultiLogic.locals.Connected
                 );
             JoinLobbyCommand = new RelayCommand(
-                () => logic.JoinLobby(lobbyNavigationService, locals,Username, LobbyCode)
+                () => logic.JoinLobby(lobbyNavigationService, MultiLogic.locals, Username, LobbyCode)
                 );
             CreateLobbyCommand = new RelayCommand(
-                () => logic.CreateLobby(lobbyNavigationService,locals, Username, 0)
+                () => logic.CreateLobby(lobbyNavigationService, MultiLogic.locals, Username, 0)
                 );
             Disconnect = new RelayCommand(
                 () => { logic.Disconnect(MultiLogic.locals.user.Id); }
