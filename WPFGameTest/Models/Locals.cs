@@ -40,7 +40,7 @@ namespace Game.Models
             //This method is handling the JoinResponse from the server
             var msg = this.client.PacketReader.ReadMessage();            
             var L = JsonConvert.DeserializeObject<Lobby>(msg);
-            ;
+            
             //MessageBox.Show(msg);
             
         }

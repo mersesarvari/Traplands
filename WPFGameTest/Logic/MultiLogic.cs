@@ -38,7 +38,7 @@ namespace Game.Logic
                 {
                     locals.client.SendCommandToServer("JOINLOBBY", locals.user.Id, lobbycode, true);
                     //Valahogyan meg kéne kapnom, hogy sikeres volt e a csatlakozás. Valószínűleg eventen keresztül
-                    //service.Navigate();
+                    service.Navigate();
                 }
                 else
                 {
