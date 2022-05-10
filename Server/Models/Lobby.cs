@@ -22,7 +22,20 @@ namespace Server
             Messages = new List<string>();
 
         }
-        
+        /*
+         * {"LobbyId":"74fa5d54-7f13-4d68-a656-662bd0ec48ea","Users":[{"Id":"74fa5d54-7f13-4d68-a656-662bd0ec48ea","Username":"PLAYER"}],"Messages":[],"Map":null}
+         * 
+         * 
+         * 
+         */
+        public Lobby(string LobbyId, List<Player> Users, List<string> Messages, Map map)
+        { 
+            this.LobbyId = LobbyId;
+            this.Users = Users;
+            this.Messages = Messages;
+            this.Map = map;
+        }
+
         public static void Create(string userid)
         {
             var alreadyexists = Server.lobbies.Where(x => x.LobbyId == userid.ToString()).FirstOrDefault();
@@ -34,55 +47,46 @@ namespace Server
             }
 
         }
-        
+
         public static void Join(string userid, string lobbyid)
         {
-            try
+            //Lobby exists and Found.
+            Lobby currentlobby = Server.lobbies.Where(x => x.LobbyId.ToString() == lobbyid).FirstOrDefault();
+            //Player is already added to that lobby
+            if (currentlobby != null)
             {
-                //Lobby exists and Found.
-                Lobby currentlobby = Server.lobbies.Where(x => x.LobbyId.ToString() == lobbyid).FirstOrDefault();
-                //Player is already added to that lobby
-                if (currentlobby != null)
+                Player alreadyadded = currentlobby.Users.Where(y => y.Id == userid).FirstOrDefault();
+                if (alreadyadded == null && currentlobby != null)
                 {
-                    Player alreadyadded = currentlobby.Users.Where(y => y.Id == userid).FirstOrDefault();
-                    if (alreadyadded == null && currentlobby != null)
+                    //Adding User to a pecific lobby
+                    currentlobby.Users.Add(Server.FindUserById(userid));
+                    var l = Server.lobbies;
+                    //Sneding CODE and LOBBY INFO Back to the Client
+
+                    Console.WriteLine($"[INFO]: {Server.FindUserById(userid).Username} Joined a lobby");
+                    //Sending lobby information to all connected player
+                    foreach (var item in currentlobby.Users)
                     {
-                        //Adding User to a pecific lobby
-                        currentlobby.Users.Add(Server.FindUserById(userid));
-                        var l = Server.lobbies;
-                        //Sneding CODE and LOBBY INFO Back to the Client
-
-                        Console.WriteLine($"[INFO]: {Server.FindUserById(userid).Username} Joined a lobby");
-                        //Sending lobby information to all connected player
-                        foreach (var item in currentlobby.Users)
+                        try
                         {
-                            try
-                            {
-                                Server.SendResponse(2,userid,JsonConvert.SerializeObject(currentlobby));
-                            }
-                            catch (Exception ex)
-                            {
+                            Server.SendResponse(2, userid, JsonConvert.SerializeObject(currentlobby));
+                        }
+                        catch (Exception ex)
+                        {
 
-                                throw new Exception(ex.Message);
-                            }
+                            throw new Exception(ex.Message);
                         }
                     }
-                    else
-                    {
-                        //Print information
-                        Console.WriteLine("[Error]: User cannot join this lobby!");
-                        //Server.SendResponse(userid, "JOINLOBBY","ERROR");
-                    }
                 }
-                
-            }
-            catch (Exception e)
-            {
+                else
+                {
+                    //Print information
+                    Console.WriteLine("[Error]: User cannot join this lobby!");
+                    //Server.SendResponse(userid, "JOINLOBBY","ERROR");
+                }
 
-                throw new Exception("[ERROR] at Lobby.Join: "+e.Message);
-            }
-            
 
+            }
         }
         public static void Leave(Player user, string lobbyid)
         {

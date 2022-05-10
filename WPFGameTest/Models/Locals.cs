@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using Microsoft.Toolkit.Mvvm.Messaging;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +11,7 @@ namespace Game.Models
 {
     public class Locals
     {
+        IMessenger messenger;
         public Lobby lobby;
         public Client client;
         public User user;
@@ -17,39 +19,47 @@ namespace Game.Models
 
 
 
-        public Locals()
+        public Locals(IMessenger messenger)
         {
+
             client = new Client();
             lobby = new Lobby();
             user = new User();
+            this.messenger = messenger;
         }
         public void RegisterEvents()
         {
             client.connectedEvent += UserConnected;
+            client.userDisconnectedEvent += UserDisconnected;
             client.userJoinedLobbyEvent += Client_userJoinedLobbyEvent;
         }
 
         public void Client_userJoinedLobbyEvent()
         {
+            ;
             //This method is handling the JoinResponse from the server
-            var msg = this.client.PacketReader.ReadMessage();
-            MessageBox.Show(msg);
+            var msg = this.client.PacketReader.ReadMessage();            
+            var L = JsonConvert.DeserializeObject<Lobby>(msg);
+            ;
+            //MessageBox.Show(msg);
             
         }
         //Server-Client Methods
         #region Server-Client methods
-        //Nem hívódik meg valamiért
         private void UserConnected()
         {
+
             this.user.Username = client.PacketReader.ReadMessage();
             this.user.Id = client.PacketReader.ReadMessage();
-            var u = this.user;
             MessageBox.Show($"Connection was succesfull: "+this.user.Id);
             this.Connected = true;
-            ;
+            //messenger.Send("User Connected", "SetUser");
         }
+
+
         private void UserDisconnected()
         {
+            ;
             var uid = client.PacketReader.ReadMessage();
             MessageBox.Show("User disconnected");
         }

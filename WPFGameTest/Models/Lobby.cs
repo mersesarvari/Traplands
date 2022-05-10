@@ -25,5 +25,13 @@ namespace Game.Models
             Messages = new List<string>();
 
         }
+
+        public Lobby(string LobbyId, List<User> Users, List<string> Messages, Map map)
+        {
+            this.LobbyId = LobbyId;
+            this.Users = Users;
+            this.Messages = Messages;
+            this.Map = map;
+        }
     }
 }

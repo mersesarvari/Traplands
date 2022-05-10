@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Net.Sockets;
 using System.Numerics;
@@ -37,11 +38,14 @@ namespace Game.Models
                     try
                     {                        
                         var opcode = PacketReader.ReadByte();     
-                        MessageBox.Show($"Recieving from the server ({opcode})");
+                        Trace.WriteLine($"Recieving from the server ({opcode})");
                         switch (opcode)
                         {
+                            case 0:
+                                userDisconnectedEvent?.Invoke();
+                                break;
                             case 1:
-                                connectedEvent?.Invoke();                                
+                                connectedEvent?.Invoke();
                                 break;
                             case 2:
                                 userJoinedLobbyEvent?.Invoke();                             
@@ -53,7 +57,7 @@ namespace Game.Models
                     }
                     catch (Exception e)
                     {
-                        MessageBox.Show($"[Recieve_Error]: {e.Message}");                     
+                        throw new Exception(e.Message);                   
                     }                    
                 }
             });
@@ -81,6 +85,7 @@ namespace Game.Models
         }
         public void DisconnectFromServer(string guid)
         {
+
             if (_client.Connected)
             {
                 PacketReader = new PacketReader(_client.GetStream());
@@ -92,7 +97,6 @@ namespace Game.Models
                     _client.Client.Send(connectPacket.GetPacketbytes());
                 }
                 ReadPacket();
-                PacketReader = null;
             }
         }
         

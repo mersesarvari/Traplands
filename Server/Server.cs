@@ -84,22 +84,23 @@ namespace Server
             broadcastPacket.WriteOptCode(1);
             broadcastPacket.WriteMessage(client.Username);
             broadcastPacket.WriteMessage(client.UID.ToString());
-            broadcastPacket.WriteMessage(GameTimer.Tick.ToString());
             client.TCP.Client.Send(broadcastPacket.GetPacketbytes());
         }
         public static void BroadcastDisconnect(string uid)
         {
-            ServerClient disconnectedClient = clients.Where(x => x.UID.ToString() == uid).FirstOrDefault();
-            clients.Remove(disconnectedClient);
-            players.Remove(disconnectedClient.ConvertClientToUser(disconnectedClient));
+            Console.WriteLine("BroadCastDC Was Called");
+            ServerClient disconnectedClient = clients.Where(x => x.UID.ToString() == uid).FirstOrDefault();                        
             foreach (var client in clients)
             {
-                Console.WriteLine("User count after removing user: " + players.Count);
+                Console.WriteLine("User count after removing user: " + clients.Count);
                 var broadcastPacket = new PacketBuilder();
-                broadcastPacket.WriteOptCode(10);
+                broadcastPacket.WriteOptCode(0);
                 broadcastPacket.WriteMessage(uid.ToString());
                 client.TCP.Client.Send(broadcastPacket.GetPacketbytes());
+                ;
             }
+            clients.Remove(disconnectedClient);
+            players.Remove(disconnectedClient.ConvertClientToUser(disconnectedClient));
             //BroadcastMessage($"[{disconnectedUser.Username}] Disconnected!");       
 
         }

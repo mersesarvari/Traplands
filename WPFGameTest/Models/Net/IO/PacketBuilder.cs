@@ -19,7 +19,7 @@ namespace Game.Models
         {
             var smgLenght = msg.Length;
             _ms.Write(BitConverter.GetBytes(smgLenght));
-            _ms.Write(Encoding.UTF8.GetBytes(msg));
+            _ms.Write(Encoding.ASCII.GetBytes(msg));
         }
 
         public byte[] GetPacketbytes()

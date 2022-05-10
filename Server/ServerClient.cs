@@ -14,11 +14,9 @@ namespace Server
         {
             TCP = client;
             UID = Guid.NewGuid();            
-            //Console.WriteLine("Current games:"+games.Count);
             _packetReader = new PacketReader(TCP.GetStream());
             var opcode = _packetReader.ReadByte();
             Username = _packetReader.ReadMessage();
-
 
             Console.WriteLine($"[{DateTime.Now}]: Client has connected: {Username}");
             Task.Run(() => Process());
@@ -29,6 +27,7 @@ namespace Server
             {
                 try
                 {
+                    ;
                     var opcode = _packetReader.ReadByte();
                     switch (opcode)
                     {
@@ -40,6 +39,7 @@ namespace Server
                             break;
                         case 10:
                             var dc = _packetReader.ReadMessage();
+                            Console.WriteLine($"[Disconnected] :{dc}");
                             Server.BroadcastDisconnect(dc);
                             break;
                         default:
@@ -48,7 +48,7 @@ namespace Server
                     }                    
                 }
                 catch (Exception e)
-                {
+                {                    
                     Console.WriteLine($"[{UID}]: Disconnected!" + e.Message);
                     Server.BroadcastDisconnect(UID.ToString());
                     TCP.Close();

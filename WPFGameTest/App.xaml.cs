@@ -22,11 +22,7 @@ namespace Game
         private readonly IServiceProvider _serviceProvider;
         
         public App()
-        {
-            Locals locals=new Locals();
-            MultiLogic logic = new MultiLogic();
-            locals.RegisterEvents();
-            
+        {            
             IServiceCollection services = new ServiceCollection();
 
             services.AddSingleton<NavigationStore>();
@@ -40,9 +36,7 @@ namespace Game
             services.AddTransient<MultiplayerGameMenuViewModel>(s => new MultiplayerGameMenuViewModel(
                 CreateMainMenuNavigationService(s),
                 CreateLobbyNavigationService(s),
-                CreateMultiGameNavigationService(s),
-                locals,
-                logic
+                CreateMultiGameNavigationService(s)
                 ));
 
             services.AddTransient<LevelEditorViewModel>(s => new LevelEditorViewModel(
@@ -52,7 +46,7 @@ namespace Game
             services.AddTransient<SingleplayerGameViewModel>(s => new SingleplayerGameViewModel(
                 CreateMainMenuNavigationService(s)));
             services.AddTransient<LobbyViewModel>(s => new LobbyViewModel(
-                CreateMultiMenuNavigationService(s), locals));
+                CreateMultiMenuNavigationService(s), MultiLogic.locals));
             services.AddTransient<MultiplayerGameViewModel>(s => new MultiplayerGameViewModel(
                 CreateMultiMenuNavigationService(s)));
 
@@ -77,8 +71,7 @@ namespace Game
             MainWindow = _serviceProvider.GetRequiredService<MainWindow>();
             MainWindow.Visibility = Visibility.Visible;
             MainWindow.Show();
-            MainWindow.Title = "GameMainWindow";
-            
+            MainWindow.Title = "GameMainWindow";            
             base.OnStartup(e);
             
             

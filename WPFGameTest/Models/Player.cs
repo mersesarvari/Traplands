@@ -12,6 +12,7 @@ namespace Game.Models
 {
     public class Player : DynamicObject
     {
+
         private PlayerState State { get; set; }
 
         public Vector2 Spawn { get; set; }
@@ -57,6 +58,7 @@ namespace Game.Models
         public float DashCooldown { get; private set; }
         public float CooldownLeft { get; set; }
 
+        
         public Player(string id, string name,Vector2 position, Vector2 size, int hitboxOffset = 0) : base(position, size, hitboxOffset)
         {
             //setting up player data from the server

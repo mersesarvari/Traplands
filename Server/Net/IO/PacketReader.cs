@@ -23,7 +23,7 @@ namespace Server
             msgBuffer = new byte[length];
             _ns.Read(msgBuffer, 0, length);
 
-            var message = Encoding.UTF8.GetString(msgBuffer);
+            var message = Encoding.ASCII.GetString(msgBuffer);
             return message;
             
         }

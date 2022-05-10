@@ -14,8 +14,6 @@ namespace Server
             {
                 case "CREATELOBBY":
                     Lobby.Create(executor);
-                    break;
-                case "JOINLOBBY":
                     Lobby.Join(executor, command);
                     break;
                 case "MOVE":
