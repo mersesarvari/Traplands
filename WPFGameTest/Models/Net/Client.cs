@@ -52,7 +52,7 @@ namespace Game.Models
                                 userJoinedLobbyEvent?.Invoke();                             
                                 break;
                             case 4:
-                                Trace.WriteLine("Movement recieved");
+                                //Trace.WriteLine("Movement recieved");
                                 updateUserData?.Invoke();
                                 break;
                             default:

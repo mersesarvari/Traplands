@@ -21,8 +21,13 @@ namespace Game.Models
         public bool Connected=false;
 
         public List<string>Maps=new List<string>();
-
-
+        public void RegisterEvents()
+        {
+            client.connectedEvent += UserConnected;
+            client.userDisconnectedEvent += UserDisconnected;
+            client.userJoinedLobbyEvent += Client_userJoinedLobbyEvent;
+            client.updateUserData += UpdateUser;
+        }
 
         public Locals(IMessenger messenger)
         {
@@ -34,13 +39,7 @@ namespace Game.Models
             user = new User();
             this.messenger = messenger;
         }
-        public void RegisterEvents()
-        {
-            client.connectedEvent += UserConnected;
-            client.userDisconnectedEvent += UserDisconnected;
-            client.userJoinedLobbyEvent += Client_userJoinedLobbyEvent;
-            client.updateUserData += UpdateUser;
-        }
+        
 
         public void UpdateUser()
         {
@@ -50,7 +49,7 @@ namespace Game.Models
 
             (MainWindow.game as Multiplayer).UpdatePlayer(L);
 
-            Trace.WriteLine($"Lobby was set in multilogic");
+            //Trace.WriteLine($"Lobby was set in multilogic");
         }
 
         public void Client_userJoinedLobbyEvent()
