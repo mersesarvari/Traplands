@@ -86,16 +86,8 @@ namespace Game.Logic
         //Selecting map from the servers database
         public static void SetMap(string mapname)
         {
-            if (locals.client.Connected())
-            {
-                locals.client.SendCommandToServer("SETMAP", locals.lobby.LobbyId, mapname, false);
-                Thread.Sleep(1000);
-                //Implementálás
-            }
-            else
-            {
-                MessageBox.Show("You are not connected to the server");
-            }
+            //SETTING MAP FOR THE GAME
+            locals.lobby.Map=
         }
 
 

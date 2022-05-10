@@ -22,12 +22,15 @@ namespace Server
             Messages = new List<string>();
 
         }
-        /*
-         * {"LobbyId":"74fa5d54-7f13-4d68-a656-662bd0ec48ea","Users":[{"Id":"74fa5d54-7f13-4d68-a656-662bd0ec48ea","Username":"PLAYER"}],"Messages":[],"Map":null}
-         * 
-         * 
-         * 
-         */
+        //TODO
+        public static void Start(string executor, string command)
+        {
+            var lobby = JsonConvert.DeserializeObject<Lobby>(command);
+            //CREATING A GAME AND ADDING USERS and MAP FROM THE LOBBY, Sending back GAME OBJECT AFTER
+
+
+        }
+
         public Lobby(string LobbyId, List<Player> Users, List<string> Messages, Map map)
         { 
             this.LobbyId = LobbyId;
