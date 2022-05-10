@@ -20,8 +20,6 @@ namespace Game.MVVM.ViewModel
     {
         private MultiLogic logic;
         public ICommand NavigateMainMenuCommand { get; }
-        public ICommand StartGame { get; }
-        public ICommand SetMap { get; }
         public ICommand NavigateLobbyCommand { get; }
         public ICommand NavigateMultiGameCommand { get; }
         public ICommand JoinLobbyCommand { get; set;}

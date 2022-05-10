@@ -19,10 +19,12 @@ namespace Game.MVVM.ViewModel
     {
 
         public ICommand NavigateMultiMenuCommand { get; }
-        public ICommand NavigateGameCommand { get; }
+
+        public ICommand StartGame { get; }
+        public ICommand SetMap { get; }
 
 
-        private List<User> users;
+    private List<User> users;
 
         public List<User> Users
         {
