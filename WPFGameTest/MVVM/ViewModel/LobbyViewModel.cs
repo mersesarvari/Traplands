@@ -20,9 +20,8 @@ namespace Game.MVVM.ViewModel
     {
         private MultiLogic logic;
         public ICommand NavigateMultiMenuCommand { get; }
-        public ICommand NavigateGameCommand { get; }
-        public ICommand StartGame { get; }
-        public ICommand SetMap { get; }
+        public ICommand StartGameCommand { get; }
+        public ICommand SetMapCommand { get; }
 
 
     private List<User> users;
@@ -39,13 +38,13 @@ namespace Game.MVVM.ViewModel
         {
             var l = MultiLogic.locals;
             Users = l.lobby.Users;
-            StartGame = new RelayCommand(
-                () => { MultiLogic.StartGame(game, MultiLogic.locals, MultiLogic.locals.user.Username); }
+            StartGameCommand = new RelayCommand(
+                () => { MultiLogic.StartGame(game, MultiLogic.locals.lobby, MultiLogic.locals.user.Username); }
                 );
-            SetMap = new RelayCommand(
+            SetMapCommand = new RelayCommand(
                 () => { MultiLogic.SetMap("MAP1"); }
                 );
-            NavigateGameCommand = new NavigateCommand(game);
+            NavigateMultiMenuCommand = new NavigateCommand(menu);
 
 
 

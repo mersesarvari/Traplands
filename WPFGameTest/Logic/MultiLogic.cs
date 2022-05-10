@@ -69,11 +69,11 @@ namespace Game.Logic
 
 
         //SENDING INFORMATION: MAP, PLAYERLIST, 
-        public static void StartGame(INavigationService service, Locals locals, string username)
+        public static void StartGame(INavigationService service, Lobby lobby, string username)
         {
             if (locals.client.Connected())
             {
-                locals.client.SendCommandToServer("STARTGAME", locals.lobby.LobbyId, locals.user.Id, true);
+                locals.client.SendCommandToServer("STARTGAME", locals.lobby.LobbyId, JsonConvert.SerializeObject(lobby), false);
                 Thread.Sleep(1000);
                 //Implementálás
                 service.Navigate();
@@ -87,8 +87,10 @@ namespace Game.Logic
         public static void SetMap(string mapname)
         {
             //SETTING MAP FOR THE GAME
-            locals.lobby.Map=
+            //locals.lobby.Map =;
         }
+
+
 
 
 

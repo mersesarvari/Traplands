@@ -13,7 +13,7 @@ namespace Server
         public string LobbyId { get; set; }
         public List<Player> Users { get; set; }
         public List<string> Messages { get; set; }
-        public Map Map { get; set; }
+        public string Map;
 
         public Lobby(string ownerid)
         {
@@ -22,22 +22,27 @@ namespace Server
             Messages = new List<string>();
 
         }
-        //TODO
-        public static void Start(string executor, string command)
+        [JsonConstructor]
+        public Lobby(string LobbyId, List<Player> Users, List<string> Messages, string map)
         {
-            var lobby = JsonConvert.DeserializeObject<Lobby>(command);
-            //CREATING A GAME AND ADDING USERS and MAP FROM THE LOBBY, Sending back GAME OBJECT AFTER
-
-
-        }
-
-        public Lobby(string LobbyId, List<Player> Users, List<string> Messages, Map map)
-        { 
             this.LobbyId = LobbyId;
             this.Users = Users;
             this.Messages = Messages;
             this.Map = map;
         }
+
+        //TODO
+        public static void Start(string executor, string command)
+        {
+            Console.WriteLine("Game Started");
+            var lobby = JsonConvert.DeserializeObject<Lobby>(command);
+
+            //CREATING A GAME AND ADDING USERS and MAP FROM THE LOBBY, Sending back GAME OBJECT AFTER
+
+
+        }
+
+        
 
         public static void Create(string userid)
         {
@@ -87,8 +92,6 @@ namespace Server
                     Console.WriteLine("[Error]: User cannot join this lobby!");
                     //Server.SendResponse(userid, "JOINLOBBY","ERROR");
                 }
-
-
             }
         }
         public static void Leave(Player user, string lobbyid)
@@ -111,13 +114,9 @@ namespace Server
                 throw new Exception("You cant delete user from this lobby because this lobby doesnt exists");
             }
         }        
-        public void SetMap(Map map)
+        public void SetMap(string map)
         {
             Map = map;
         }        
-        public Game StartGame(List<Player> players, Map _map)
-        {            
-            return new Game(LobbyId,_map, players);
-        }
     }
 }
