@@ -57,6 +57,7 @@ namespace Game.Logic
             {
                 locals.client.SendCommandToServer("CREATELOBBY", locals.user.Id, locals.user.Id, false);
                 service.Navigate();
+                
             }
             else
             {

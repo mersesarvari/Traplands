@@ -11,29 +11,8 @@
             <RowDefinition Height="10*"/>
             <RowDefinition Height="1*"/>
             <RowDefinition Height="1*"/>
-            
+
         </Grid.RowDefinitions>
-        <ListBox Grid.Column="0"
-                 ItemsSource="{Binding Users}"
-                 HorizontalContentAlignment="Stretch">
-            <ListBox.ItemTemplate>
-                <DataTemplate>
-                    <Border BorderBrush="Black" BorderThickness="1">
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="1*" />
-                                <ColumnDefinition Width="1*" />
-                            </Grid.ColumnDefinitions>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="1*"/>
-                                <RowDefinition Height="1*"/>
-                            </Grid.RowDefinitions>
-                            <Label Content="{Binding Username}" FontSize="14" FontWeight="Bold"/>
-                        </Grid>
-                    </Border>
-                </DataTemplate>
-            </ListBox.ItemTemplate>
-        </ListBox>
         <Button Command="{Binding NavigateMultiMenuCommand}" Content="Return to Menu" Grid.Row="2" FontSize="30"
                 Margin="200 10 200 10">
             <Button.Background>

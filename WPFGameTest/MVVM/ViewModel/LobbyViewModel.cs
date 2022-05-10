@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
+using Game.Logic;
 using Game.Models;
 using Game.MVVM.Commands;
 using Game.MVVM.Services;
@@ -16,7 +17,6 @@ namespace Game.MVVM.ViewModel
 {
     public class LobbyViewModel:ViewModelBase
     {
-        public Locals locals { get; set; }
 
         public ICommand NavigateMultiMenuCommand { get; }
         public ICommand NavigateGameCommand { get; }
@@ -33,28 +33,10 @@ namespace Game.MVVM.ViewModel
 
         public LobbyViewModel(INavigationService multiMenuNavigationService, Locals locals)
         {
-            this.locals = locals;
+            MultiLogic.locals = locals;
             NavigateMultiMenuCommand= new NavigateCommand(multiMenuNavigationService);
             ;
 
-        }
-
-        public void UserJoinedLobbyResponse()
-        {
-            //This method is handling the JoinResponse from the server
-            var msg = locals.client.PacketReader.ReadMessage();
-            if (msg.Contains('/') && msg.Split('/')[0] == "JOINLOBBY")
-            {
-                var status = msg.Split('/')[1];
-                if (status != "ERROR" && status != "Success")
-                {
-                    locals.lobby = JsonConvert.DeserializeObject<Lobby>(status);
-                }
-            }
-            else
-            {
-                MessageBox.Show("Response Message format is bad:" + msg);
-            }
         }
     }
 }
