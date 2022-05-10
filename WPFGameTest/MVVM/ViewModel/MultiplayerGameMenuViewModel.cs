@@ -62,13 +62,13 @@ namespace Game.MVVM.ViewModel
                 () => !MultiLogic.locals.Connected
                 );
             JoinLobbyCommand = new RelayCommand(
-                () => logic.JoinLobby(lobbyNavigationService, MultiLogic.locals, Username, LobbyCode)
+                () => MultiLogic.JoinLobby(lobbyNavigationService, MultiLogic.locals, Username, LobbyCode)
                 );
             CreateLobbyCommand = new RelayCommand(
-                () => logic.CreateLobby(lobbyNavigationService, MultiLogic.locals, Username, 0)
+                () => MultiLogic.CreateLobby(lobbyNavigationService, MultiLogic.locals, Username, 0)
                 );
             Disconnect = new RelayCommand(
-                () => { logic.Disconnect(MultiLogic.locals.user.Id); }
+                () => { MultiLogic.Disconnect(MultiLogic.locals.user.Id); }
                 );
             Messenger.Register<MultiplayerGameMenuViewModel, string, string>(this, "SetUser", (recepient, msg) =>
             {

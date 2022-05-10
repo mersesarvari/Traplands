@@ -25,12 +25,12 @@ namespace Game.Logic
             this.messenger = messenger;            
         }
 
-        public void Disconnect(string id)
+        public static void Disconnect(string id)
         {
             locals.client.DisconnectFromServer(id);
         }
         //A tickes rész átírandó arra amit a rendes gameban is használunk..
-        public void JoinLobby(INavigationService service,Locals locals, string username,string lobbycode)
+        public static void JoinLobby(INavigationService service,Locals locals, string username,string lobbycode)
         {
             try
             {
@@ -51,7 +51,7 @@ namespace Game.Logic
             }            
         }
         //A tickes rész átírandó arra amit a rendes gameban is használunk..
-        public void CreateLobby(INavigationService service, Locals locals, string username, int currenttick)
+        public static void CreateLobby(INavigationService service, Locals locals, string username, int currenttick)
         {
             if (locals.client.Connected())
             {
@@ -68,7 +68,7 @@ namespace Game.Logic
             }
         }
 
-        public void StartGame(INavigationService service, Locals locals, string username, int currenttick)
+        public static void StartGame(INavigationService service, Locals locals, string username, int currenttick)
         {
             if (locals.client.Connected())
             {

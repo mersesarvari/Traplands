@@ -11,13 +11,14 @@ using Game.Models;
 using Game.MVVM.Commands;
 using Game.MVVM.Services;
 using Game.MVVM.Stores;
+using Microsoft.Toolkit.Mvvm.Input;
 using Newtonsoft.Json;
 
 namespace Game.MVVM.ViewModel
 {
     public class LobbyViewModel:ViewModelBase
     {
-
+        private MultiLogic logic;
         public ICommand NavigateMultiMenuCommand { get; }
 
         public ICommand StartGame { get; }
@@ -40,7 +41,7 @@ namespace Game.MVVM.ViewModel
             NavigateMultiMenuCommand= new NavigateCommand(multiMenuNavigationService);
             var l = MultiLogic.locals;
             Users = l.lobby.Users;
-            ;
+            
 
         }
     }
