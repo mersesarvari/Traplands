@@ -13,29 +13,23 @@ namespace Game.Logic
 {
     public class MultiLogic
     {
-        
-        public static void Connect(string username)
+        private Locals locals;
+        public void Connect(Locals locals, string username)
         {
-            Locals.user.Username = username;            
-            Locals.client.ConnectToServer(Locals.user.Username);
-            Locals.Connected = true;
-            var l = Locals.user;
-            var c = Locals.Connected;
-            ;
-        }
-        public static void ConnectToServer(string username)
-        {            
-            Connect(username);
+            this.locals = locals;
+            locals.user.Username = username;
+            locals.client.ConnectToServer(locals.user.Username);
+            this.locals.Connected = true;
+            
         }
         //A tickes rész átírandó arra amit a rendes gameban is használunk..
-        public static void JoinLobby(INavigationService service, string username,string lobbycode)
+        public void JoinLobby(INavigationService service,Locals locals, string username,string lobbycode)
         {
             try
             {
-                if (Locals.client.Connected())
+                if (locals.client.Connected())
                 {
-                    var l = Locals.user;
-                    Locals.client.SendCommandToServer("JOINLOBBY", Locals.user.Id, lobbycode, true);
+                    locals.client.SendCommandToServer("JOINLOBBY", locals.user.Id, lobbycode, true);
                     //Valahogyan meg kéne kapnom, hogy sikeres volt e a csatlakozás. Valószínűleg eventen keresztül
                     //service.Navigate();
                 }
@@ -51,12 +45,12 @@ namespace Game.Logic
             
         }
         //A tickes rész átírandó arra amit a rendes gameban is használunk..
-        public static void CreateLobby(INavigationService service, string username, int currenttick)
+        public void CreateLobby(INavigationService service, Locals locals, string username, int currenttick)
         {
-            if (Locals.client.Connected())
+            if (locals.client.Connected())
             {
-                Locals.client.SendCommandToServer("CREATELOBBY", Locals.user.Id, Locals.user.Id, false);
-                JoinLobby(service, username, Locals.user.Id);                
+                locals.client.SendCommandToServer("CREATELOBBY", locals.user.Id, locals.user.Id, false);
+                JoinLobby(service, locals, username, locals.user.Id);                
                 ;
             }
             else

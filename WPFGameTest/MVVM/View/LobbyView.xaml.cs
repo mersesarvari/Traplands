@@ -22,17 +22,19 @@ namespace Game.MVVM.View
     /// </summary>
     public partial class LobbyView : UserControl
     {
-        public LobbyView()
+        Locals locals;
+        public LobbyView(Locals locals)
         {
-            Locals.client.userJoinedLobbyEvent += UserJoinedLobbyResponse;
+            this.locals = locals;
+            locals.client.userJoinedLobbyEvent += UserJoinedLobbyResponse;
             InitializeComponent();
 
         }
 
-        public static void UserJoinedLobbyResponse()
+        public void UserJoinedLobbyResponse()
         {
             //This method is handling the JoinResponse from the server
-            var msg = Locals.client.PacketReader.ReadMessage();
+            var msg = locals.client.PacketReader.ReadMessage();
             if (msg.Contains('/') && msg.Split('/')[0] == "JOINLOBBY")
             {
                 var status = msg.Split('/')[1];
@@ -40,7 +42,7 @@ namespace Game.MVVM.View
 
                 if (status != "ERROR" && status != "Success")
                 {
-                    Locals.lobby = JsonConvert.DeserializeObject<Lobby>(status);
+                    locals.lobby = JsonConvert.DeserializeObject<Lobby>(status);
                     ;
                 }
             }

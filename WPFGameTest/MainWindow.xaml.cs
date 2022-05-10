@@ -95,12 +95,6 @@ namespace Game
             Input.heldKeys[(int)e.Key] = false;
         }
 
-        public static void ZeroOpcodeEventHandler()
-        {
-            var d = Locals.client.PacketReader.ReadMessage();
-            MessageBox.Show("ZeroValueOPCODE Invoked");
-        }
-
        
         private void GameWindow_Loaded(object sender, RoutedEventArgs e)
         {

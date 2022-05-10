@@ -10,6 +10,7 @@ using Game.MVVM.Services;
 using Game.MVVM.Stores;
 using Game.MVVM.ViewModel;
 using Game.Models;
+using Game.Logic;
 
 namespace Game
 {
@@ -22,8 +23,8 @@ namespace Game
         
         public App()
         {
-            Locals.RegisterEvents();
-            //Console.WriteLine("APP is running");
+            Locals locals=new Locals();
+            MultiLogic logic = new MultiLogic();
             
             IServiceCollection services = new ServiceCollection();
 
@@ -38,7 +39,9 @@ namespace Game
             services.AddTransient<MultiplayerGameMenuViewModel>(s => new MultiplayerGameMenuViewModel(
                 CreateMainMenuNavigationService(s),
                 CreateLobbyNavigationService(s),
-                CreateMultiGameNavigationService(s)
+                CreateMultiGameNavigationService(s),
+                locals,
+                logic
                 ));
 
             services.AddTransient<LevelEditorViewModel>(s => new LevelEditorViewModel(
@@ -48,7 +51,7 @@ namespace Game
             services.AddTransient<SingleplayerGameViewModel>(s => new SingleplayerGameViewModel(
                 CreateMainMenuNavigationService(s)));
             services.AddTransient<LobbyViewModel>(s => new LobbyViewModel(
-                CreateMultiMenuNavigationService(s)));
+                CreateMultiMenuNavigationService(s), locals));
             services.AddTransient<MultiplayerGameViewModel>(s => new MultiplayerGameViewModel(
                 CreateMultiMenuNavigationService(s)));
 

@@ -8,43 +8,47 @@ using System.Windows;
 
 namespace Game.Models
 {
-    public static class Locals
-    {        
-        public static Lobby lobby = new();
-        public static Client client= new();
-        public static User user=new();
-        public static bool Connected=false;
+    public class Locals
+    {
+        public Lobby lobby;
+        public Client client;
+        public User user;
+        public bool Connected=false;
 
-        public static void RegisterEvents()
+        public Locals()
+        {
+            client = new Client();
+            lobby = new Lobby();
+            user = new User();
+        }
+        public void RegisterEvents()
         {
             client.connectedEvent += UserConnected;
-            client.userJoinedLobbyEvent += Client_userJoinedLobbyEvent;
+            //client.userJoinedLobbyEvent += Client_userJoinedLobbyEvent;
         }
 
-        private static void Client_userJoinedLobbyEvent()
+        public void Client_userJoinedLobbyEvent()
         {
             //This method is handling the JoinResponse from the server
-            var msgname = Locals.client.PacketReader.ReadMessage();
-            var msg = Locals.client.PacketReader.ReadMessage();
-            MessageBox.Show(msg, msgname);
-            ;
+            var msg = this.client.PacketReader.ReadMessage();
+            MessageBox.Show(msg);
             
         }
         //Server-Client Methods
         #region Server-Client methods
         //Nem hívódik meg valamiért
-        private static void UserConnected()
+        private void UserConnected()
         {
-            Locals.user.Username = Locals.client.PacketReader.ReadMessage();
-            Locals.user.Id = Locals.client.PacketReader.ReadMessage();
-            //Setting up the timer <==> Sync with the server
-            //GameTimer.Tick = int.Parse(Locals.client.PacketReader.ReadMessage());
-            var u = Locals.user;
-            MessageBox.Show($"Connection was succesfull: "+Locals.user.Id);
+            this.user.Username = client.PacketReader.ReadMessage();
+            this.user.Id = client.PacketReader.ReadMessage();
+            var u = this.user;
+            MessageBox.Show($"Connection was succesfull: "+this.user.Id);
+            this.Connected = true;
+            ;
         }
-        private static void UserDisconnected()
+        private void UserDisconnected()
         {
-            var uid = Locals.client.PacketReader.ReadMessage();
+            var uid = client.PacketReader.ReadMessage();
             MessageBox.Show("User disconnected");
         }
 

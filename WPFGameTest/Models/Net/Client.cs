@@ -34,11 +34,9 @@ namespace Game.Models
             Task.Run(() => {
                 while (true)
                 {
-                    MessageBox.Show("Task is running");
                     try
                     {                        
                         var opcode = PacketReader.ReadByte();                                               ;
-                        MessageBox.Show($"message Recieved OPCODE:{opcode}");
                         switch (opcode)
                         {
                             case 1:
@@ -49,7 +47,7 @@ namespace Game.Models
                                 Console.WriteLine("JoinLobbyEventRecieved");                                
                                 break;
                             default:
-                                MessageBox.Show($"Recieved unknown message ({opcode})");
+                                //MessageBox.Show($"Recieved unknown message ({opcode})");
                                 break;
                         }
                     }
