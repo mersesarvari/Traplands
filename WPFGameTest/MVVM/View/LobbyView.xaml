@@ -13,6 +13,17 @@
             <RowDefinition Height="1*"/>
 
         </Grid.RowDefinitions>
+        <ListBox Grid.Row="0" ItemsSource="{Binding Users}" HorizontalContentAlignment="Stretch">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <Border BorderBrush="Black" BorderThickness="1">
+                        <Grid>
+                            <Label Content="{Binding Username}" FontSize="30" FontWeight="Bold"/>
+                        </Grid>
+                    </Border>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
         <Button Command="{Binding NavigateMultiMenuCommand}" Content="Return to Menu" Grid.Row="2" FontSize="30"
                 Margin="200 10 200 10">
             <Button.Background>

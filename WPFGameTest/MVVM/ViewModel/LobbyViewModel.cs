@@ -22,13 +22,14 @@ namespace Game.MVVM.ViewModel
         public ICommand NavigateGameCommand { get; }
 
 
-        private ObservableCollection<User> users;
+        private List<User> users;
 
-        public ObservableCollection<User> Users
+        public List<User> Users
         {
             get { return users; }
-            set { users = value; }
+            set { SetProperty(ref users, value); }
         }
+
 
 
         public LobbyViewModel(INavigationService multiMenuNavigationService)
@@ -36,6 +37,7 @@ namespace Game.MVVM.ViewModel
             MessageBox.Show("LobbyViewModel was opened");
             NavigateMultiMenuCommand= new NavigateCommand(multiMenuNavigationService);
             var l = MultiLogic.locals;
+            Users = l.lobby.Users;
             ;
 
         }
