@@ -20,6 +20,7 @@ namespace Game.MVVM.ViewModel
     {
         private MultiLogic logic;
         public ICommand NavigateMultiMenuCommand { get; }
+        public ICommand NavigateGameCommand { get; }
 
         public ICommand StartGame { get; }
         public ICommand SetMap { get; }
@@ -35,23 +36,23 @@ namespace Game.MVVM.ViewModel
 
 
 
-        public LobbyViewModel(INavigationService multiMenuNavigationService)
+        public LobbyViewModel(INavigationService game, INavigationService menu)
         {
             var l = MultiLogic.locals;
             Users = l.lobby.Users;
             StartGame = new RelayCommand(
-                () => { MultiLogic.StartGame(MultiLogic.locals.user.Id); }
+                () => { MultiLogic.StartGame(game, MultiLogic.locals, MultiLogic.locals.user.Username); }
                 );
             SetMap = new RelayCommand(
-                () => { MultiLogic.SetMap(); }
+                () => { MultiLogic.SetMap("MAP1"); }
                 );
-            NavigateMultiMenuCommand = new NavigateCommand(multiMenuNavigationService);
+            NavigateGameCommand = new NavigateCommand(game);
 
 
-            
 
 
-            
+
+
 
         }
     }

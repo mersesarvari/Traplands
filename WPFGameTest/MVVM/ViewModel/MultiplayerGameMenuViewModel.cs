@@ -18,7 +18,7 @@ namespace Game.MVVM.ViewModel
 {
     public class MultiplayerGameMenuViewModel:ViewModelBase
     {
-        private MultiLogic logic;
+        public List<string> Maps;
         public ICommand NavigateMainMenuCommand { get; }
         public ICommand NavigateLobbyCommand { get; }
         public ICommand NavigateMultiGameCommand { get; }
@@ -54,6 +54,10 @@ namespace Game.MVVM.ViewModel
         {
             MultiLogic logic = new MultiLogic(Messenger);
             MultiLogic.locals.RegisterEvents();
+            Maps = new List<string>();
+            Maps.Add("Map1");
+            Maps.Add("Map2");
+            Maps.Add("Map3");
             NavigateMainMenuCommand = new NavigateCommand(mainMenuNavigationService);
             NavigateLobbyCommand = new NavigateCommand(lobbyNavigationService);
             NavigateMultiGameCommand = new NavigateCommand(multiGameNavigationService);

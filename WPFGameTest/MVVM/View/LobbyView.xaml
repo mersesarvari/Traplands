@@ -40,7 +40,8 @@
                 <ColumnDefinition Width="1*"></ColumnDefinition>
                 <ColumnDefinition Width="1*"></ColumnDefinition>
             </Grid.ColumnDefinitions>
-            <Button Command="{Binding NavigateMultiMenuCommand}" Content="Return to Menu" Grid.Row="2" FontSize="30" Grid.Column="0">
+            <Button Command="{Binding NavigateMultiMenuCommand}" 
+                    Content="SET MAP" Grid.Row="2" FontSize="30" Grid.Column="0">
                 <Button.Background>
                     <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
                         <GradientStop Color="LightGreen" Offset="0.3"/>
@@ -48,7 +49,8 @@
                     </LinearGradientBrush>
                 </Button.Background>
             </Button>
-            <Button Command="{Binding NavigateMultiMenuCommand}" Content="Return to Menu" Grid.Row="2" FontSize="30" Grid.Column="1">
+            <Button Command="{Binding NavigateMultiMenuCommand}" 
+                    Content="START" Grid.Row="2" FontSize="30" Grid.Column="1">
                 <Button.Background>
                     <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
                         <GradientStop Color="LightGreen" Offset="0.3"/>
@@ -56,6 +58,9 @@
                     </LinearGradientBrush>
                 </Button.Background>
             </Button>
+            <ComboBox ItemsSource="{Binding Maps}" Grid.Column="2">
+                
+            </ComboBox>
         </Grid>
     </Grid>
 </UserControl>

@@ -16,6 +16,14 @@ namespace Server
                     Lobby.Create(executor);
                     Lobby.Join(executor, command);
                     break;
+                case "SETMAP":
+                    Lobby.Create(executor);
+                    Lobby.Join(executor, command);
+                    break;
+                case "STARTGAME":
+                    Lobby.Create(executor);
+                    Lobby.Join(executor, command);
+                    break;
                 case "MOVE":
                     //Game.Move(tick,executor,command[0]);
                     break;

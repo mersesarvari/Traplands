@@ -46,6 +46,7 @@ namespace Game
             services.AddTransient<SingleplayerGameViewModel>(s => new SingleplayerGameViewModel(
                 CreateMainMenuNavigationService(s)));
             services.AddTransient<LobbyViewModel>(s => new LobbyViewModel(
+                CreateMultiGameNavigationService(s), 
                 CreateMultiMenuNavigationService(s)));
             services.AddTransient<MultiplayerGameViewModel>(s => new MultiplayerGameViewModel(
                 CreateMultiMenuNavigationService(s)));

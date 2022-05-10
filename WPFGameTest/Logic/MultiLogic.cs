@@ -69,7 +69,7 @@ namespace Game.Logic
 
 
         //SENDING INFORMATION: MAP, PLAYERLIST, 
-        public static void StartGame(INavigationService service, Locals locals, string username, int currenttick)
+        public static void StartGame(INavigationService service, Locals locals, string username)
         {
             if (locals.client.Connected())
             {

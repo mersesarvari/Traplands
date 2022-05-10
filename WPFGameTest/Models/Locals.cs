@@ -4,6 +4,7 @@ using Microsoft.Toolkit.Mvvm.Messaging;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,11 +20,15 @@ namespace Game.Models
         public User user;
         public bool Connected=false;
 
+        public List<string>Maps=new List<string>();
+
 
 
         public Locals(IMessenger messenger)
         {
-
+            Maps.Add("MAP1");
+            Maps.Add("MAP2");
+            Maps.Add("MAP3");
             client = new Client();
             lobby = new Lobby();
             user = new User();
@@ -43,9 +48,8 @@ namespace Game.Models
             var msg = this.client.PacketReader.ReadMessage();            
             var L = JsonConvert.DeserializeObject<Lobby>(msg);
             MultiLogic.locals.lobby= L;
-            ;
-            MessageBox.Show("MultiLogic.lobby was set");
-            
+            Trace.WriteLine($"Lobby was set in multilogic");
+
         }
         //Server-Client Methods
         #region Server-Client methods
@@ -54,7 +58,7 @@ namespace Game.Models
 
             this.user.Username = client.PacketReader.ReadMessage();
             this.user.Id = client.PacketReader.ReadMessage();
-            MessageBox.Show($"Connection was succesfull: "+this.user.Id);
+            Trace.WriteLine($"[Connected] :{this.user.Id}");
             this.Connected = true;
             //messenger.Send("User Connected", "SetUser");
         }
@@ -64,7 +68,7 @@ namespace Game.Models
         {
             ;
             var uid = client.PacketReader.ReadMessage();
-            MessageBox.Show("User disconnected");
+            Trace.WriteLine($"[Disconnected]");
         }
 
 
