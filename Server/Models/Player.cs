@@ -30,7 +30,12 @@ namespace Server.Models
 
     public class RenderData
     {
-        string Fill { get; set; }
-        Transform Transform { get; set; }
+        public string FileName { get; set; }
+        public int ImageIndex { get; set; }
+        public Vector2 Position { get; set; }
+        public Vector2 Size { get; set; }
+        public double CenterX { get; set; }
+        public double CenterY { get; set; }
+        public double ScaleX { get; set; }
     }
 }

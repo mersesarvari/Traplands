@@ -9,13 +9,20 @@ namespace Server.Models
 {
     public class Game
     {
-        public List<Player> Player { get; set; }
+        //public List<Player> Player { get; set; }
 
         internal static void Move(string executor, string command)
         {
             Console.WriteLine("MOVE CALLED");
-            var data = JsonConvert.DeserializeObject<Player>(command);
-            ;
+            Player data = JsonConvert.DeserializeObject<Player>(command);
+            foreach (var item in Server.players)
+            {
+                Server.SendResponse(4, item.Id, JsonConvert.SerializeObject(data));
+                if (item.Id != data.Id)
+                {
+                    
+                }
+            }
         }
     }
 }
