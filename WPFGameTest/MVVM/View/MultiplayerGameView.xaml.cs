@@ -22,6 +22,8 @@ namespace Game.MVVM.View
     {
         public MultiplayerGameView()
         {
+            //this.InheritanceBehavior = InheritanceBehavior.SkipAllNow;
+
             InitializeComponent();
 
             MainWindow.renderer = Renderer;

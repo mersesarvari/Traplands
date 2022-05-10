@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -42,9 +43,7 @@ namespace Game.MVVM.ViewModel
             StartGameCommand = new RelayCommand(
                 () => 
                 {
-                    MainWindow.game = new Multiplayer();
-                    (MainWindow.game as Multiplayer).LoadLevel(SelectedLevel.Name);
-                    MultiLogic.StartGame(game, MultiLogic.locals.lobby, MultiLogic.locals.user.Username); 
+                    MultiLogic.StartGame(game, MultiLogic.locals.lobby, MultiLogic.locals.user.Username);
                 }
                 );
             SetMapCommand = new RelayCommand(

@@ -27,8 +27,6 @@ namespace Game.MVVM.View
         public LobbyView()
         {
             InitializeComponent();
-
-            
         }
     }
 }

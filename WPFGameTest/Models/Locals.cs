@@ -27,6 +27,7 @@ namespace Game.Models
             client.userDisconnectedEvent += UserDisconnected;
             client.userJoinedLobbyEvent += Client_userJoinedLobbyEvent;
             client.updateUserData += UpdateUser;
+            client.gameStartedEvent += GameStarted;
         }
 
         public Locals(IMessenger messenger)
@@ -40,6 +41,12 @@ namespace Game.Models
             this.messenger = messenger;
         }
         
+        public void GameStarted()
+        {
+            MainWindow.game = new Multiplayer();
+            (MainWindow.game as Multiplayer).LoadLevel("Level 1");
+            (MainWindow.game as Multiplayer).LoadPlayers(MultiLogic.locals.lobby.Users);
+        }
 
         public void UpdateUser()
         {

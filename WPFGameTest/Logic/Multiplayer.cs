@@ -75,6 +75,8 @@ namespace Game.Logic
             renderData.ScaleX = Player.Transform.ScaleTransform.ScaleX;
             renderData.CenterX = Player.Transform.ScaleTransform.CenterX;
             renderData.CenterY = Player.Transform.ScaleTransform.CenterY;
+            renderData.ImageIndex = Player.AnimActive.GetCurrentImageIndex();
+            renderData.FileName = Player.AnimActive.SpritesheetName;
 
             Solids = currentLevel.Solids;
             Interactables = currentLevel.Interactables;
@@ -86,7 +88,17 @@ namespace Game.Logic
 
         public void LoadPlayers(List<User> players)
         {
-            Players = players;
+            foreach (User user in players)
+            {
+                if (user.Id == localID)
+                {
+                    continue;
+                }
+                else
+                {
+                    Players.Add(user);
+                }
+            }
         }
 
         public void UpdatePlayer(User playerToUpdate)

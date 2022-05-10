@@ -36,6 +36,12 @@ namespace Server.Models
         {
             Console.WriteLine("Game STARTING");
             Lobby lobby = JsonConvert.DeserializeObject<Lobby>(command);
+            ;
+            foreach (var item in lobby.Users)
+            {
+                Server.SendResponse(5, item.Id, JsonConvert.SerializeObject(lobby));
+            }
+
             //AddRealUsers(lobby);
             ;
             //1: Selecting and Loading Map from the Lobby variable

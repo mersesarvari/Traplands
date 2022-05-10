@@ -33,7 +33,7 @@ namespace Game.MVVM.ViewModel
         public string LobbyCode
         {
             get { return lobbyCode; }
-            set { lobbyCode = value; }
+            set { SetProperty(ref lobbyCode, value); }
         }
         private string username="PLAYER";
 

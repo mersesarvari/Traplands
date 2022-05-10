@@ -16,6 +16,9 @@ namespace Server.Models
                     Lobby.Create(executor);
                     Lobby.Join(executor, command);
                     break;
+                case "JOINLOBBY":
+                    Lobby.Join(executor, command);
+                    break;
                 case "STARTGAME":
                     Lobby.Start(executor, command);
                     break;

@@ -17,10 +17,9 @@ namespace Server.Models
             Player data = JsonConvert.DeserializeObject<Player>(command);
             foreach (var item in Server.players)
             {
-                Server.SendResponse(4, item.Id, JsonConvert.SerializeObject(data));
                 if (item.Id != data.Id)
                 {
-                    
+                    Server.SendResponse(4, item.Id, JsonConvert.SerializeObject(data));
                 }
             }
         }

@@ -25,6 +25,7 @@ namespace Game.Models
         public event Action userJoinedGameEvent;
         public event Action userMovedEvent;
         public event Action updateUserData;
+        public event Action gameStartedEvent;
 
         public Client()
         {
@@ -54,6 +55,9 @@ namespace Game.Models
                             case 4:
                                 //Trace.WriteLine("Movement recieved");
                                 updateUserData?.Invoke();
+                                break;
+                            case 5:
+                                gameStartedEvent?.Invoke();
                                 break;
                             default:
                                 //MessageBox.Show($"Recieved unknown message ({opcode})");
