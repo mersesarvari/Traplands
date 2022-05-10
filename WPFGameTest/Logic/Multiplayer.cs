@@ -102,6 +102,7 @@ namespace Game.Logic
             renderData.ScaleX = Player.Transform.ScaleTransform.ScaleX;
             renderData.CenterX = Player.Transform.ScaleTransform.CenterX;
             renderData.CenterY = Player.Transform.ScaleTransform.CenterY;
+            renderData.ImageIndex = Player.AnimActive.GetCurrentImageIndex();
         }
 
         public void ProcessInput()
@@ -128,7 +129,7 @@ namespace Game.Logic
             MultiLogic.locals.user.RenderData = renderData;
 
             var serialized = JsonConvert.SerializeObject(MultiLogic.locals.user);
-
+            ;
             MultiLogic.locals.client.SendCommandToServer("MOVE", localID, serialized, false);
 
             CameraController.Instance.UpdateCamera(Player.Transform.Position);

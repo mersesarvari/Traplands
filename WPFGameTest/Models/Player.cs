@@ -89,13 +89,13 @@ namespace Game.Models
 
             #region Animations
             // Animations + sound effects
-            AnimIdle = new Animation("player_idle.png", 4, 48, 48, 0.2f);
-            AnimRunning = new Animation("player_run.png", 6, 48, 48, 0.1f);
-            AnimJumpup = new Animation("player_jumpup.png", 3, 48, 48, 0.1f);
-            AnimJumpdown = new Animation("player_jumpdown.png", 3, 48, 48, 0.1f);
-            AnimAttack = new Animation("player_attack.png", 4, 48, 48, 0.1f);
-            AnimDash = new Animation("player_run.png", 2, 48, 48, 0.05f);
-            AnimDeath = new Animation("player_death.png", 8, 48, 48, 0.05f);
+            AnimIdle = new Animation(Resource.GetSpritesheet("player_idle"), 0.2f);
+            AnimRunning = new Animation(Resource.GetSpritesheet("player_run"), 0.1f);
+            AnimJumpup = new Animation(Resource.GetSpritesheet("player_jumpup"), 0.1f);
+            AnimJumpdown = new Animation(Resource.GetSpritesheet("player_jumpdown"), 0.1f);
+            AnimAttack = new Animation(Resource.GetSpritesheet("player_attack"), 0.1f);
+            AnimDash = new Animation(Resource.GetSpritesheet("player_dash"), 0.05f);
+            AnimDeath = new Animation(Resource.GetSpritesheet("player_death"), 0.05f);
 
             AnimActive = AnimIdle;
 

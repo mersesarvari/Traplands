@@ -127,6 +127,14 @@ namespace Game
             Resource.AddImage("player_attack", "player_attack.png");
             Resource.AddImage("player_death", "player_death.png");
 
+            Resource.AddSpriteSheet("player_idle","player_idle.png", 4, 48, 48);
+            Resource.AddSpriteSheet("player_run", "player_run.png", 6, 48, 48);
+            Resource.AddSpriteSheet("player_jumpup", "player_jumpup.png", 3, 48, 48);
+            Resource.AddSpriteSheet("player_jumpdown", "player_jumpdown.png", 3, 48, 48);
+            Resource.AddSpriteSheet("player_attack", "player_attack.png", 4, 48, 48);
+            Resource.AddSpriteSheet("player_dash", "player_run.png", 2, 48, 48);
+            Resource.AddSpriteSheet("player_death", "player_death.png", 8, 48, 48);
+
             LevelManager.LoadLevels();
         }
     }

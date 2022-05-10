@@ -73,6 +73,11 @@ namespace Game.Renderer
             OnAnimationOver += () => { IsOver = true; firstFrame = true; };
         }
 
+        public int GetCurrentImageIndex()
+        {
+            return imageIndex;
+        }
+
         public void AddAudio(AudioClip[] audioClips)
         {
             if (audioClips.Length != spriteSheet.Regions.Count)

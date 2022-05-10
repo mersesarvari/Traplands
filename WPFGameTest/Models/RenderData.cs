@@ -12,6 +12,7 @@ namespace Game.Models
     public class RenderData
     {
         public string FileName { get; set; }
+        public int ImageIndex { get; set; }
         public Vector2 Position { get; set; }
         public Vector2 Size { get; set; }
         public double CenterX { get; set; }

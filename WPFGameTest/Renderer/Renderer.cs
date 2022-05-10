@@ -1,6 +1,7 @@
 ﻿using System.Globalization;
 using System.Windows;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
 using Game.Logic;
 using WPFGameTest.Logic;
 
@@ -108,11 +109,18 @@ namespace Game.Renderer
 
             foreach (var item in model.Players)
             {
-                drawingContext.PushTransform(item.RenderData.Transform.ScaleTransform);
+                var scale = new ScaleTransform();
+                scale.ScaleX = item.RenderData.ScaleX;
+                scale.CenterX = item.RenderData.CenterX;
+                scale.CenterY = item.RenderData.CenterY;
+
+                var fill = Resource.GetSpriteSheetImage(item.RenderData.FileName, item.RenderData.ImageIndex);
+
+                drawingContext.PushTransform(scale);
                 drawingContext.DrawRectangle(
-                    item.RenderData.Fill,
+                    fill,
                     null,
-                    new Rect(item.RenderData.Transform.Position.X, item.RenderData.Transform.Position.Y, item.RenderData.Transform.Size.X, item.RenderData.Transform.Size.Y));
+                    new Rect(item.RenderData.Position.X, item.RenderData.Position.Y, item.RenderData.Size.X, item.RenderData.Size.Y));
                 drawingContext.Pop();
             }
 

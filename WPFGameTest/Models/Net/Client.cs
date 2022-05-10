@@ -112,7 +112,7 @@ namespace Game.Models
                 {
                     PacketReader = new PacketReader(_client.GetStream());
                 }                
-                Trace.WriteLine($"Sending Command: {commandname} \n {executor} \n {command}");
+                //Trace.WriteLine($"Sending Command: {commandname} \n {executor} \n {command}");
                 var messagePacket = new PacketBuilder();
                 messagePacket.WriteOptCode(4);
                 messagePacket.WriteMessage(commandname);

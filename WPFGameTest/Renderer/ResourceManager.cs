@@ -37,6 +37,7 @@ namespace Game.Renderer
     {
         private static ResourceManager<ImageSource> images = new ResourceManager<ImageSource>();
         private static ResourceManager<AudioClip> sounds = new ResourceManager<AudioClip>();
+        private static ResourceManager<SpriteSheet> spriteSheets = new ResourceManager<SpriteSheet>();
 
         public static void AddImage(string key, string fileName)
         {
@@ -57,6 +58,24 @@ namespace Game.Renderer
         public static AudioClip GetSound(string key)
         {
             return sounds.Get(key);
+        }
+
+        public static void AddSpriteSheet(string key, string fileName, int numOfImages, int imageWidth, int imageHeight)
+        {
+            BitmapImage imageSource = new BitmapImage(new Uri(Path.Combine(Directory.GetParent(Directory.GetCurrentDirectory()).Parent.Parent.Parent.FullName, @"Graphics\", fileName), UriKind.Relative));
+            SpriteSheet spriteSheet = new SpriteSheet(fileName, numOfImages, imageWidth, imageHeight);
+
+            spriteSheets.Add(key, spriteSheet);
+        }
+
+        public static SpriteSheet GetSpritesheet(string key)
+        {
+            return spriteSheets.Get(key);
+        }
+
+        public static ImageBrush GetSpriteSheetImage(string key, int index)
+        {
+            return new ImageBrush(GetSpritesheet(key).ImageWithIndex(index));
         }
     }
 }
