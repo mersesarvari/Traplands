@@ -21,8 +21,7 @@ namespace Game.Logic
         public MultiLogic(IMessenger messenger)
         {
             locals = new(messenger);
-            this.messenger = messenger;
-            
+            this.messenger = messenger;            
         }
 
         public void Disconnect(string id)

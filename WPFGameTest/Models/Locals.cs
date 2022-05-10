@@ -1,4 +1,5 @@
-﻿using Microsoft.Toolkit.Mvvm.Messaging;
+﻿using Game.Logic;
+using Microsoft.Toolkit.Mvvm.Messaging;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -40,7 +41,8 @@ namespace Game.Models
             //This method is handling the JoinResponse from the server
             var msg = this.client.PacketReader.ReadMessage();            
             var L = JsonConvert.DeserializeObject<Lobby>(msg);
-            
+            MultiLogic.locals.lobby= L;
+            ;
             MessageBox.Show(msg);
             
         }

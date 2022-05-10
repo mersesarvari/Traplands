@@ -34,25 +34,10 @@ namespace Game.MVVM.ViewModel
         public LobbyViewModel(INavigationService multiMenuNavigationService, Locals locals)
         {
             this.locals = locals;
-            //Load Users
-            //LoadItems();
             NavigateMultiMenuCommand= new NavigateCommand(multiMenuNavigationService);
-
+            ;
 
         }
-        /*
-        public void LoadItems()
-        {
-            var t = locals.user;
-            foreach (var item in locals.lobby.Users)
-            {
-                if (!locals.lobby.Users.Contains(item))
-                {
-                    Users.Add(item);
-                }
-            }
-        }
-        */
 
         public void UserJoinedLobbyResponse()
         {
