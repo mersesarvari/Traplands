@@ -16,16 +16,32 @@ namespace Game.Models
         public List<GameObject> Solids { get; private set; }
         public List<GameObject> Interactables { get; private set; }
         public string ImagePath { get; set; }
-        string[] File { get; set; }
+        public float BestTime { get; set; }
+
+        private string[] file;
+        private string filePath;
 
         public Level(string name, string[] file)
         {
             Name = name;
-            File = file;
             SpawnPoint = new Vector2();
             FinishPoint = new Vector2();
             Solids = new List<GameObject>();
             Interactables = new List<GameObject>();
+            this.file = file;
+            filePath = Path.Combine(Directory.GetParent(Directory.GetCurrentDirectory()).Parent.Parent.Parent.FullName, "Levels/" + name + ".lvl");
+            BestTime = float.Parse(file[0]);
+        }
+
+        public void AddNewBestTime(float time)
+        {
+            BestTime = time;
+            file[0] = time.ToString();
+        }
+
+        public void Save()
+        {
+            File.WriteAllLines(filePath, file);
         }
 
         public void Load()
@@ -35,9 +51,11 @@ namespace Game.Models
 
             List<List<Waypoint>> waypoints = new List<List<Waypoint>>();
 
-            for (int i = 0; i < File.Length; i++)
+            BestTime = float.Parse(file[0]);
+
+            for (int i = 1; i < file.Length; i++)
             {
-                string[] splitLine = File[i].Split(';'); // Split each row into single objectIDs(string)
+                string[] splitLine = file[i].Split(';'); // Split each row into single objectIDs(string)
 
                 for (int j = 0; j < splitLine.Length; j++)
                 {
@@ -88,13 +106,20 @@ namespace Game.Models
                             case ObjectType.Spawn:
                                 SpawnPoint = new Vector2(obj.Transform.Position.X, obj.Transform.Position.Y - 9);
                                 obj.Tag = "Spawn";
+                                Interactables.Add(obj);
                                 break;
                             case ObjectType.Finish:
                                 FinishPoint = new Vector2(obj.Transform.Position.X, obj.Transform.Position.Y - 9);
                                 obj.Tag = "Finish";
+                                Interactables.Add(obj);
                                 break;
                             case ObjectType.Spike:
                                 obj.Tag = "Trap";
+                                Interactables.Add(obj);
+                                break;
+                            case ObjectType.Cannon:
+                                obj = new Cannon(new Vector2(ObjectData.BLOCK_WIDTH * j, ObjectData.BLOCK_HEIGHT * i),
+                                    new Vector2(ObjectData.BLOCK_WIDTH, ObjectData.BLOCK_HEIGHT),Direction.Left, false);
                                 Interactables.Add(obj);
                                 break;
                             case > ObjectType.Grass_First and < ObjectType.Grass_Last:

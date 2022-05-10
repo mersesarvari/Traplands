@@ -48,8 +48,8 @@ namespace Game.Renderer
             drawingContext.Pop();
 
             // Testing text rendering for online games
-            drawingContext.DrawText(new FormattedText("Player01", CultureInfo.CurrentCulture, FlowDirection.LeftToRight, new Typeface("Consolas"), 12, Brushes.Red),
-                new Point(model.Player.Transform.Position.X + model.Player.Transform.Size.X / 2 - 20, model.Player.Transform.Position.Y - 15));
+            //drawingContext.DrawText(new FormattedText("Player01", CultureInfo.CurrentCulture, FlowDirection.LeftToRight, new Typeface("Consolas"), 12, Brushes.Red),
+            //    new Point(model.Player.Transform.Position.X + model.Player.Transform.Size.X / 2 - 20, model.Player.Transform.Position.Y - 15));
         }
     }
 

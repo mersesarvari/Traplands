@@ -87,6 +87,21 @@ namespace Game.Helpers
             return new Vector2(a.X - b.X, a.Y - b.Y);
         }
 
+        public static Vector2 operator *(Vector2 a, Vector2 b)
+        {
+            return new Vector2(a.X * b.X, a.Y * b.Y);
+        }
+
+        public static Vector2 operator /(Vector2 a, Vector2 b)
+        {
+            return new Vector2(a.X / b.X, a.Y / b.Y);
+        }
+
+        public static Vector2 operator *(Vector2 a, int b)
+        {
+            return new Vector2(a.X * b, a.Y * b);
+        }
+
         public static float Distance(Vector2 a, Vector2 b)
         {
             return MathF.Sqrt((a.X - b.X) * (a.X - b.X) + (a.Y - b.Y) * (a.Y - b.Y));

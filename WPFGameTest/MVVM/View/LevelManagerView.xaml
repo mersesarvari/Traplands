@@ -11,18 +11,31 @@
             <RowDefinition Height="10*"/>
             <RowDefinition Height="1*"/>
         </Grid.RowDefinitions>
-        <StackPanel Grid.Row="0">
-            <ListBox ItemsSource="{Binding Levels}" SelectedItem="{Binding SelectedLevel}">
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+            </Grid.ColumnDefinitions>
+            <Label Content="Level" Grid.Column="0"/>
+            <Label Content="Best time" Grid.Column="1"/>
+        </Grid>
+        <StackPanel Grid.Row="0" HorizontalAlignment="Stretch">
+            <ListBox ItemsSource="{Binding Levels}" SelectedItem="{Binding SelectedLevel}" HorizontalContentAlignment="Stretch" HorizontalAlignment="Stretch">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
-                        <Label Content="{Binding Name}"/>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="1*"/>
+                                <ColumnDefinition Width="1*"/>
+                            </Grid.ColumnDefinitions>
+                            <Label Content="{Binding Name}" Grid.Column="0"/>
+                            <Label Content="{Binding BestTime}" Grid.Column="1"/>
+                        </Grid>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>
         </StackPanel>
-        <Label Content="{Binding SelectedLevel.Name}" Grid.Row="1" Grid.Column="1" FontSize="30" Padding="10"/>
-        <Button Command="{Binding NavigateSingleGameCommand}" Content="Play" Grid.Row="1" FontSize="30"
-                Margin="10">
+        <Button Command="{Binding NavigateSingleGameCommand}" Content="Play" Grid.Row="1" FontSize="30" Margin="10">
             <Button.Background>
                 <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
                     <GradientStop Color="LightGreen" Offset="0.3"/>

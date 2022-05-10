@@ -33,19 +33,6 @@ namespace Game.Models
             Transform.ScaleTransform = new ScaleTransform();
         }
 
-        public static List<GameObject> solids = new List<GameObject>();
-        public static List<GameObject> interactables = new List<GameObject>();
-
-        public void SetSolids(List<GameObject> solidBodies)
-        {
-            solids = solidBodies;
-        }
-
-        public void SetInteractables(List<GameObject> interactableBodies)
-        {
-            interactables = interactableBodies;
-        }
-
         public virtual void MoveX(float amount, Action onCollision)
         {
             xRemainder += amount;

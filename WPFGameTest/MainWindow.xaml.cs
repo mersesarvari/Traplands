@@ -102,8 +102,9 @@ namespace Game
             Resource.AddImage("Game_Bg", "background.png");
             Resource.AddImage("Player", "player.png");
             Resource.AddImage("Coin", "coin.png");
-            Resource.AddImage("Spawn", "orbs_hud.png");
+            Resource.AddImage("Spawn", "wooden_plate.png");
             Resource.AddImage("Spike", "spike.png");
+            Resource.AddImage("Finish", "door.png");
             Resource.AddImage("Grass_Top_Center", "grass_topcenter.png");
             Resource.AddImage("Grass_Top_Right", "grass_topright.png");
             Resource.AddImage("Grass_Top_Left", "grass_topleft.png");

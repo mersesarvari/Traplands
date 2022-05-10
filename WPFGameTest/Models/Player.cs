@@ -15,6 +15,8 @@ namespace Game.Models
 
         private PlayerState State { get; set; }
 
+        public Action OnFinishPointReached;
+
         public Vector2 Spawn { get; set; }
 
         //Player data from the server
@@ -46,6 +48,7 @@ namespace Game.Models
         public Animation AnimJumpdown { get; private set; }
         public Animation AnimAttack { get; private set; }
         public Animation AnimDash { get; private set; }
+        public Animation AnimDeath { get; private set; }
 
         // Sound effects
         public AudioClip JumpSound { get; private set; }
@@ -61,7 +64,7 @@ namespace Game.Models
         
         public Player(string id, string name,Vector2 position, Vector2 size, int hitboxOffset = 0) : base(position, size, hitboxOffset)
         {
-            //setting up player data from the server
+            // Setting up player data from the server
             PlayerID = id;
             PlayerName = name;
 
@@ -70,6 +73,7 @@ namespace Game.Models
             Spawn = new Vector2(position.X, position.Y);
 
             // Setting up default values
+            Tag = "Player";
             Velocity = new Vector2f();
             MoveSpeed = 300;
             JumpSpeed = 700;
@@ -91,6 +95,7 @@ namespace Game.Models
             AnimJumpdown = new Animation("player_jumpdown.png", 3, 48, 48, 0.1f);
             AnimAttack = new Animation("player_attack.png", 4, 48, 48, 0.1f);
             AnimDash = new Animation("player_run.png", 2, 48, 48, 0.05f);
+            AnimDeath = new Animation("player_death.png", 8, 48, 48, 0.05f);
 
             AnimActive = AnimIdle;
 
@@ -109,12 +114,15 @@ namespace Game.Models
             AnimRunning.AddAudio(new AudioClip[] { null, null, footstepSound, null, null, footstepSound });
 
             // Animation events
-            AnimAttack.OnAnimationStart += () => { CameraController.Instance.Shake(); Dir = 0; attackSound.Play(); };
+            AnimAttack.OnAnimationStart += () => { Dir = 0; attackSound.Play(); };
             AnimAttack.OnAnimationOver += () => { State = new PlayerOnGround(this); };
+
+            AnimDeath.OnAnimationStart += () => { Velocity = new Vector2f(0, 0); CameraController.Instance.Shake(0.1f, 10); AnimDash.Reset(); };
+            AnimDeath.OnAnimationOver += () => { State = new PlayerOnGround(this); Respawn(); MoveSpeed = 400; };
 
             AnimDash.OnAnimationStart += () =>
             {
-                CameraController.Instance.Shake();
+                CameraController.Instance.Shake(0.1f, 2);
                 Fill.Opacity = 0.5;
                 Dir = FacingRight ? 1 : -1;
                 MoveSpeed = 1500;
@@ -133,6 +141,13 @@ namespace Game.Models
                 else State = new PlayerInAir(this);
             };
             #endregion
+
+            // Set player state to idle upon reaching the finish
+            OnFinishPointReached += () =>
+            {
+                State = new PlayerOnGround(this);
+                Velocity.X = 0;
+            };
         }
 
         public override void MoveY(float amount, Action onCollision)
@@ -158,7 +173,11 @@ namespace Game.Models
                 {
                     if (obj.Tag == "Trap")
                     {
-                        Respawn();
+                        Die();
+                    }
+                    else if (obj.Tag == "Finish")
+                    {
+                        OnFinishPointReached?.Invoke();
                     }
                 }
 
@@ -233,7 +252,13 @@ namespace Game.Models
                     {
                         if (obj.Tag == "Trap")
                         {
-                            Respawn();
+                            Die();
+                            CameraController.Instance.Shake(0.1f, 10);
+                        }
+                        else if (obj.Tag == "Finish")
+                        {
+                            // Show window with time and option
+                            OnFinishPointReached?.Invoke();
                         }
                     }
 
@@ -275,6 +300,11 @@ namespace Game.Models
                     WallGrabbing = false;
                 }
             }
+        }
+
+        public void Die()
+        {
+            State = new PlayerDead(this);
         }
 
         public void Respawn()
@@ -320,7 +350,10 @@ namespace Game.Models
                 CooldownLeft = 0;
             }
 
-            AnimActive.Play(this, deltaTime);
+            if (AnimActive != null)
+            {
+                AnimActive.Play(this, deltaTime);
+            }
 
             base.Update(deltaTime);
         }

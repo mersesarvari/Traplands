@@ -40,7 +40,8 @@ namespace Game
         Grass_Under,
         Grass_Last,
         Trap_Waypoint,
-        Moving_Trap
+        Moving_Trap,
+        Cannon
     }
 
     public static class LevelManager
@@ -49,6 +50,8 @@ namespace Game
 
         private static Level currentLevel = null;
         public static Level CurrentLevel { get { return currentLevel; } set { currentLevel = value; } }
+
+        public static List<Level> CampaignLevels = new List<Level>();
 
         public static List<Level> LevelList()
         {
@@ -82,6 +85,7 @@ namespace Game
 
             using (StreamWriter sw = new StreamWriter(filePath))
             {
+                sw.WriteLine("0");
                 for (int i = 0; i < Map.GetLength(0); i++)
                 {
                     for (int j = 0; j < Map.GetLength(1); j++)
@@ -145,6 +149,10 @@ namespace Game
                 string[] lines = File.ReadAllLines(path); // Read line by line
 
                 Level level = new Level(name, lines);
+                if (name.Split(' ')[0] == "Level" || name == "Tutorial")
+                {
+                    CampaignLevels.Add(level);
+                }
 
                 levels.Add(name, level);
             }
