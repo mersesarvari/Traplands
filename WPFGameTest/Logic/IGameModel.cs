@@ -16,10 +16,16 @@ namespace Game.Logic
 
     public interface ISingleplayer : IGameModel
     {
+        float LevelTimer { get; }
+        bool Paused { get; set; }
+        bool GameOver { get; set; }
+        bool Transitioning { get; set; }
+        double TransitionAlpha { get; }
         Player Player { get; set; }
         List<GameObject> Solids { get; set; }
         List<GameObject> Interactables { get; set; }
-        public void SetLevel(string levelName);
+        void SetLevel(string levelName);
+        void SaveLevel();
     }
 
     public interface IMultiplayer : IGameModel

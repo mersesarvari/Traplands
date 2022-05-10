@@ -79,6 +79,12 @@ namespace Game.Renderer
             hasAudio = true;
         }
 
+        public void Reset()
+        {
+            OnAnimationOver?.Invoke();
+            imageIndex = 0;
+        }
+
         public void Play(GameObject user, float deltaTime)
         {
             user.Fill = new ImageBrush(new CroppedBitmap(spriteSheet.Image, spriteSheet.Regions[imageIndex]));

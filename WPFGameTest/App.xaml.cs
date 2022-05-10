@@ -67,7 +67,7 @@ namespace Game
             
             MainWindow = _serviceProvider.GetRequiredService<MainWindow>();
             MainWindow.Visibility = Visibility.Visible;
-            MainWindow.Show();
+            //MainWindow.Show();
             MainWindow.Title = "GameMainWindow";
             
             base.OnStartup(e);

@@ -127,6 +127,20 @@ namespace Game.Logic
 
                 while (move != 0)
                 {
+                    GameObject obj;
+                    IntRect tempRect = new IntRect
+                    {
+                        X = Hitbox.X,
+                        Y = Hitbox.Y + sign,
+                        Width = Hitbox.Width,
+                        Height = Hitbox.Height
+                    };
+
+                    if (Physics.IsColliding(players, tempRect, out obj))
+                    {
+                        (obj as Player).Die();
+                    }
+
                     if (Transform.Position.X != currentWp.Position.X)
                     {
                         Transform.Position.X += sign;
@@ -153,6 +167,20 @@ namespace Game.Logic
 
                 while (move != 0)
                 {
+                    GameObject obj;
+                    IntRect tempRect = new IntRect
+                    {
+                        X = Hitbox.X,
+                        Y = Hitbox.Y + sign,
+                        Width = Hitbox.Width,
+                        Height = Hitbox.Height
+                    };
+
+                    if (Physics.IsColliding(players, tempRect, out obj))
+                    {
+                        (obj as Player).Die();
+                    }
+
                     if (Transform.Position.Y != currentWp.Position.Y)
                     {
                         Transform.Position.Y += sign;

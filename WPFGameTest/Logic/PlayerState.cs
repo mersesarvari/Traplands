@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics;
 using System.Windows.Input;
+using System.Windows.Media;
 using Game.Helpers;
 using Game.Models;
 
@@ -37,12 +38,12 @@ namespace Game.Logic
 
         public override void Enter()
         {
-            
+
         }
 
         public override void Exit()
         {
-            
+
         }
 
         public override PlayerState ProcessInput()
@@ -153,12 +154,12 @@ namespace Game.Logic
 
         public override void Enter()
         {
-            
+
         }
 
         public override void Exit()
         {
-            
+
         }
 
         public override PlayerState ProcessInput()
@@ -227,7 +228,7 @@ namespace Game.Logic
 
             if (!player.Grounded)
             {
-               return base.ProcessInput();
+                return base.ProcessInput();
             }
             else
             {
@@ -350,6 +351,34 @@ namespace Game.Logic
             player.AnimActive = player.AnimDash;
             player.MoveY(0, null);
             player.MoveX(player.Velocity.X * deltaTime, () => { player.Velocity.X = 0; });
+        }
+    }
+
+    public class PlayerDead : PlayerState
+    {
+        public PlayerDead(Player player) : base(player)
+        {
+
+        }
+
+        public override void Enter()
+        {
+            
+        }
+
+        public override void Exit()
+        {
+            
+        }
+
+        public override PlayerState ProcessInput()
+        {
+            return null;
+        }
+
+        public override void Update(float deltaTime)
+        {
+            player.AnimActive = player.AnimDeath;
         }
     }
 }
