@@ -43,6 +43,9 @@ namespace Game.Models
         
         public void GameStarted()
         {
+            var msg = this.client.PacketReader.ReadMessage();
+            ;
+            MultiLogic.locals.lobby = JsonConvert.DeserializeObject<Lobby>(msg);
             MainWindow.game = new Multiplayer();
             (MainWindow.game as Multiplayer).LoadLevel("Level 1");
             (MainWindow.game as Multiplayer).LoadPlayers(MultiLogic.locals.lobby.Users);

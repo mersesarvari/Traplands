@@ -73,7 +73,7 @@ namespace Game.Logic
         {
             if (locals.client.Connected())
             {
-                locals.client.SendCommandToServer("STARTGAME", locals.lobby.LobbyId, JsonConvert.SerializeObject(lobby), true);
+                locals.client.SendCommandToServer("STARTGAME", locals.lobby.LobbyId, JsonConvert.SerializeObject(lobby), false);
                 Thread.Sleep(1000);
                 //Implementálás
                 //service.Navigate();
