@@ -22,7 +22,7 @@ namespace Server
             Messages = new List<string>();
 
         }
-
+        
         public static void Create(string userid)
         {
             var alreadyexists = Server.lobbies.Where(x => x.LobbyId == userid.ToString()).FirstOrDefault();
@@ -30,10 +30,11 @@ namespace Server
             {
                 Server.lobbies.Add(new Lobby(userid));
                 Console.WriteLine("[INFO] Lobby Created succesfully");
-                Server.SendResponse(2,userid.ToString(), "CREATELOBBY","Success");
+                //Server.SendResponse(2,userid, "CREATELOBBY","Success");
             }
 
         }
+        
         public static void Join(string userid, string lobbyid)
         {
             try
@@ -57,9 +58,7 @@ namespace Server
                         {
                             try
                             {
-                                //Server.SendMessage(3, item.Id, "JOINLOBBY/" + JsonConvert.SerializeObject(currentlobby));
-                                Server.SendResponse(2,"JOINLOBBY",userid,JsonConvert.SerializeObject(currentlobby));
-                                
+                                Server.SendResponse(2,userid,JsonConvert.SerializeObject(currentlobby));
                             }
                             catch (Exception ex)
                             {

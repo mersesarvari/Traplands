@@ -116,17 +116,24 @@ namespace Server
                 client.TCP.Client.Send(msgPacket.GetPacketbytes());
             }
         }
-        public static void SendResponse(byte opcode, string messagename, string userid, string message)
+        public static void SendResponse(byte opcode, string userid, string message)
         {
             var msgPacket = new PacketBuilder();
             msgPacket.WriteOptCode(opcode);
-            msgPacket.WriteMessage(messagename);
             msgPacket.WriteMessage(message);
             var client = clients.Where(x => x.UID.ToString() == userid).FirstOrDefault();
             if (client != null)
             {
-                client.TCP.Client.Send(msgPacket.GetPacketbytes());
-                //Console.WriteLine($"[Response]: {FindUserById(userid).Username} - ({3}){messagename}:{message}");
+                try
+                {
+                    client.TCP.Client.Send(msgPacket.GetPacketbytes());
+                    Console.WriteLine($"[Response]: {FindUserById(userid).Username} - [{3}]:{message}");
+                }
+                catch (Exception ex)
+                {
+
+                    throw new Exception(ex.Message);
+                }                
             }
             else
             {

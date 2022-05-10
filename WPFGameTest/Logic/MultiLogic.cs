@@ -35,20 +35,17 @@ namespace Game.Logic
                 if (Locals.client.Connected())
                 {
                     var l = Locals.user;
-                    Locals.client.SendCommandToServer("JOINLOBBY", Locals.user.Id, lobbycode);
+                    Locals.client.SendCommandToServer("JOINLOBBY", Locals.user.Id, lobbycode, true);
                     //Valahogyan meg kéne kapnom, hogy sikeres volt e a csatlakozás. Valószínűleg eventen keresztül
                     //service.Navigate();
-
                 }
                 else
                 {
                     MessageBox.Show("You are not connected");               
-                }
-                
+                }                
             }
             catch (Exception ex)
             {
-
                 throw new Exception(ex.Message);
             }
             
@@ -58,12 +55,8 @@ namespace Game.Logic
         {
             if (Locals.client.Connected())
             {
-
-                ;
-                Locals.client.SendCommandToServer("CREATELOBBY", Locals.user.Id, Locals.user.Id);
-                ;
-                //JoinLobby(service, username, Locals.user.Id);
-                var lobbychecker = Locals.lobby;
+                Locals.client.SendCommandToServer("CREATELOBBY", Locals.user.Id, Locals.user.Id, false);
+                JoinLobby(service, username, Locals.user.Id);                
                 ;
             }
             else

@@ -13,8 +13,7 @@ namespace Server
         public ServerClient(TcpClient client)
         {
             TCP = client;
-            UID = Guid.NewGuid();
-            
+            UID = Guid.NewGuid();            
             //Console.WriteLine("Current games:"+games.Count);
             _packetReader = new PacketReader(TCP.GetStream());
             var opcode = _packetReader.ReadByte();
@@ -38,7 +37,6 @@ namespace Server
                             var negy_executor = _packetReader.ReadMessage();
                             var negy_command = _packetReader.ReadMessage();
                             Command.CommandManager(negy_commandname, negy_executor, negy_command);
-                            ;
                             break;
                         case 10:
                             var dc = _packetReader.ReadMessage();

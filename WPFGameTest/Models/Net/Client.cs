@@ -24,7 +24,6 @@ namespace Game.Models
         public event Action userJoinedGameEvent;
         public event Action userMovedEvent;
 
-
         public Client()
         {
             _client = new TcpClient();
@@ -35,10 +34,11 @@ namespace Game.Models
             Task.Run(() => {
                 while (true)
                 {
+                    MessageBox.Show("Task is running");
                     try
                     {                        
                         var opcode = PacketReader.ReadByte();                                               ;
-                        //MessageBox.Show($"message Recieved OPCODE:{opcode}");
+                        MessageBox.Show($"message Recieved OPCODE:{opcode}");
                         switch (opcode)
                         {
                             case 1:
@@ -46,13 +46,10 @@ namespace Game.Models
                                 break;
                             case 2:
                                 userJoinedLobbyEvent?.Invoke();
-                                break;
-                            case 3:
-                                break;
-                            case 18:
-                                userMovedEvent?.Invoke();
+                                Console.WriteLine("JoinLobbyEventRecieved");                                
                                 break;
                             default:
+                                MessageBox.Show($"Recieved unknown message ({opcode})");
                                 break;
                         }
                     }
@@ -97,24 +94,18 @@ namespace Game.Models
                     _client.Client.Send(connectPacket.GetPacketbytes());
                 }
                 ReadPacket();
+                PacketReader = null;
             }
         }
-        public void SendMessageToServer(string message)
-        {
-            PacketReader = new PacketReader(_client.GetStream());
-            var messagePacket = new PacketBuilder();
-            messagePacket.WriteOptCode(5);
-            messagePacket.WriteMessage(message);
-            _client.Client.Send(messagePacket.GetPacketbytes());
-            ReadPacket();
-        }
-        public void SendCommandToServer(string commandname, string executor, string command)
+        
+        public void SendCommandToServer(string commandname, string executor, string command, bool waitforresponse)
         {
             if (_client.Connected)
             {
-                PacketReader = new PacketReader(_client.GetStream());
-                string formattedcommand = "";
-                string splitter = "";
+                if (waitforresponse)
+                {
+                    PacketReader = new PacketReader(_client.GetStream());
+                }                
                 MessageBox.Show("Sending Command: " + commandname+"\n" + executor + "\n" + command);
                 var messagePacket = new PacketBuilder();
                 messagePacket.WriteOptCode(4);
@@ -122,9 +113,13 @@ namespace Game.Models
                 messagePacket.WriteMessage(executor);
                 messagePacket.WriteMessage(command);
                 _client.Client.Send(messagePacket.GetPacketbytes());
-                ReadPacket();
+                if(waitforresponse)
+                {
+                    ReadPacket();
+                }
+                
             }
-        }
+        }        
 
 
 

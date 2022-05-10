@@ -17,7 +17,6 @@ namespace Server
                     break;
                 case "JOINLOBBY":
                     Lobby.Join(executor, command);
-                    ;
                     break;
                 case "MOVE":
                     //Game.Move(tick,executor,command[0]);

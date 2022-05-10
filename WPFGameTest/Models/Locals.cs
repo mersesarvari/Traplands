@@ -23,28 +23,13 @@ namespace Game.Models
 
         private static void Client_userJoinedLobbyEvent()
         {
-            //MessageBox.Show("USER JOINED LOBBY RESPONSE ARRIVED");
-            
-            //This method is handling the JoinResponse from the server
-            var msgname = Locals.client.PacketReader.ReadMessage();
-            var userid = Locals.client.PacketReader.ReadMessage();
-            var msg = Locals.client.PacketReader.ReadMessage();
-            MessageBox.Show(msg, msgname);
-            
-        }
-
-        private static void Client_userCreatedLobbyEvent()
-        {
-            
-            //MessageBox.Show("USER CREATED LOBBY RESPONSE ARRIVED");
             //This method is handling the JoinResponse from the server
             var msgname = Locals.client.PacketReader.ReadMessage();
             var msg = Locals.client.PacketReader.ReadMessage();
             MessageBox.Show(msg, msgname);
+            ;
             
         }
-
-
         //Server-Client Methods
         #region Server-Client methods
         //Nem hívódik meg valamiért
