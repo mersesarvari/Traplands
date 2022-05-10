@@ -15,6 +15,8 @@ namespace Game.Models
         public User user;
         public bool Connected=false;
 
+
+
         public Locals()
         {
             client = new Client();

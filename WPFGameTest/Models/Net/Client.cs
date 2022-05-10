@@ -31,12 +31,13 @@ namespace Game.Models
 
         private void ReadPacket()
         {
-            Task.Run(() => {
+            Task.Run(() => {                
                 while (true)
                 {
                     try
                     {                        
-                        var opcode = PacketReader.ReadByte();                                               ;
+                        var opcode = PacketReader.ReadByte();     
+                        MessageBox.Show($"Recieving from the server ({opcode})");
                         switch (opcode)
                         {
                             case 1:
