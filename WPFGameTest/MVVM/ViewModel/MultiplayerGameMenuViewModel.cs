@@ -72,9 +72,6 @@ namespace Game.MVVM.ViewModel
             Disconnect = new RelayCommand(
                 () => { logic.Disconnect(MultiLogic.locals.user.Id); }
                 );
-            StartGame = new RelayCommand(
-                () => { logic.Disconnect(MultiLogic.locals.user.Id); }
-                );
             Messenger.Register<MultiplayerGameMenuViewModel, string, string>(this, "SetUser", (recepient, msg) =>
             {
                 UserID = MultiLogic.locals.user.Id;
