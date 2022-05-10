@@ -39,6 +39,18 @@ namespace Game.Models
             client.connectedEvent += UserConnected;
             client.userDisconnectedEvent += UserDisconnected;
             client.userJoinedLobbyEvent += Client_userJoinedLobbyEvent;
+            client.updateUserData += UpdateUser;
+        }
+
+        public void UpdateUser()
+        {
+            //This method is handling the JoinResponse from the server
+            var msg = this.client.PacketReader.ReadMessage();
+            var L = JsonConvert.DeserializeObject<User>(msg);
+
+            (MainWindow.game as Multiplayer).UpdatePlayer(L);
+
+            Trace.WriteLine($"Lobby was set in multilogic");
         }
 
         public void Client_userJoinedLobbyEvent()

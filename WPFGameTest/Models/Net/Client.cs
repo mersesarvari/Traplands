@@ -24,6 +24,7 @@ namespace Game.Models
         public event Action userJoinedLobbyEvent;
         public event Action userJoinedGameEvent;
         public event Action userMovedEvent;
+        public event Action updateUserData;
 
         public Client()
         {
@@ -49,6 +50,9 @@ namespace Game.Models
                                 break;
                             case 2:
                                 userJoinedLobbyEvent?.Invoke();                             
+                                break;
+                            case 4:
+                                updateUserData?.Invoke();
                                 break;
                             default:
                                 //MessageBox.Show($"Recieved unknown message ({opcode})");

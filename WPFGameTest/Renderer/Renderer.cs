@@ -81,4 +81,51 @@ namespace Game.Renderer
             }
         }
     }
+
+    public class MultiplayerRenderer : RendererBase
+    {
+        protected override void OnRender(DrawingContext drawingContext)
+        {
+            base.OnRender(drawingContext);
+
+            IMultiplayer model = Model as IMultiplayer;
+
+            foreach (var item in model.Solids)
+            {
+                drawingContext.DrawRectangle(
+                    item.Fill,
+                    null,
+                    new Rect(item.Transform.Position.X, item.Transform.Position.Y, item.Transform.Size.X, item.Transform.Size.Y));
+            }
+
+            foreach (var item in model.Interactables)
+            {
+                drawingContext.DrawRectangle(
+                    item.Fill,
+                    null,
+                    new Rect(item.Transform.Position.X, item.Transform.Position.Y, item.Transform.Size.X, item.Transform.Size.Y));
+            }
+
+            foreach (var item in model.Players)
+            {
+                drawingContext.PushTransform(item.RenderData.Transform.ScaleTransform);
+                drawingContext.DrawRectangle(
+                    item.RenderData.Fill,
+                    null,
+                    new Rect(item.RenderData.Transform.Position.X, item.RenderData.Transform.Position.Y, item.RenderData.Transform.Size.X, item.RenderData.Transform.Size.Y));
+                drawingContext.Pop();
+            }
+
+            drawingContext.PushTransform(model.Player.Transform.ScaleTransform);
+            drawingContext.DrawRectangle(
+                model.Player.Fill,
+                null,
+                new Rect(model.Player.Transform.Position.X, model.Player.Transform.Position.Y, model.Player.Transform.Size.X, model.Player.Transform.Size.Y));
+            drawingContext.Pop();
+
+            // Testing text rendering for online games
+            //drawingContext.DrawText(new FormattedText("Player01", CultureInfo.CurrentCulture, FlowDirection.LeftToRight, new Typeface("Consolas"), 12, Brushes.Red),
+            //    new Point(model.Player.Transform.Position.X + model.Player.Transform.Size.X / 2 - 20, model.Player.Transform.Position.Y - 15));
+        }
+    }
 }

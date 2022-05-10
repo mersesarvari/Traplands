@@ -13,9 +13,8 @@
             <RowDefinition Height="1*"/>
         </Grid.RowDefinitions>
         <ScrollViewer x:Name="MainCamera" Grid.RowSpan="2">
-
+            <renderer:MultiplayerRenderer x:Name="Renderer" Grid.RowSpan="2" Width="3600" Height="3600"/>
         </ScrollViewer>
-        <!--<renderer:Renderer x:Name="Renderer" Grid.RowSpan="2"/>-->
         <Button Command="{Binding NavigateMultiMenuCommand}" Content="Return to Menu" Grid.Row="1" FontSize="30"
                 Margin="200 10">
             <Button.Background>

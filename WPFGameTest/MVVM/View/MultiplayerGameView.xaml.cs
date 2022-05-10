@@ -23,6 +23,11 @@ namespace Game.MVVM.View
         public MultiplayerGameView()
         {
             InitializeComponent();
+
+            MainWindow.renderer = Renderer;
+            Renderer.SetupModel(MainWindow.game);
+
+            MainWindow.SetupCamera(MainCamera);
         }
     }
 }

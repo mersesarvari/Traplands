@@ -24,7 +24,7 @@ namespace Game.MVVM.ViewModel
         public ICommand SetMapCommand { get; }
 
 
-    private List<User> users;
+        private List<User> users;
 
         public List<User> Users
         {
@@ -32,14 +32,20 @@ namespace Game.MVVM.ViewModel
             set { SetProperty(ref users, value); }
         }
 
-
+        public Level SelectedLevel { get; set; }
 
         public LobbyViewModel(INavigationService game, INavigationService menu)
         {
+            SelectedLevel = LevelManager.GetLevel("Level 1");
             var l = MultiLogic.locals;
             Users = l.lobby.Users;
             StartGameCommand = new RelayCommand(
-                () => { MultiLogic.StartGame(game, MultiLogic.locals.lobby, MultiLogic.locals.user.Username); }
+                () => 
+                {
+                    MainWindow.game = new Multiplayer();
+                    (MainWindow.game as Multiplayer).LoadLevel(SelectedLevel.Name);
+                    MultiLogic.StartGame(game, MultiLogic.locals.lobby, MultiLogic.locals.user.Username); 
+                }
                 );
             SetMapCommand = new RelayCommand(
                 () => { MultiLogic.SetMap("MAP1"); }

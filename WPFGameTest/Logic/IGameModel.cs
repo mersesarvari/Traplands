@@ -30,7 +30,8 @@ namespace Game.Logic
 
     public interface IMultiplayer : IGameModel
     {
-        List<Player> Players { get; set; }
+        Player Player { get; set; }
+        List<User> Players { get; set; }
         List<GameObject> Solids { get; set; }
         List<GameObject> Interactables { get; set; }
     }
