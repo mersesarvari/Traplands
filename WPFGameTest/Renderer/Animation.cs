@@ -14,25 +14,30 @@ using Game.Models;
 
 namespace Game.Renderer
 {
-    public class Animation
+    public class SpriteSheet
     {
-        public class SpriteSheet
+        public List<Int32Rect> Regions { get; private set; }
+        public BitmapImage Image { get; private set; }
+
+        public CroppedBitmap ImageWithIndex(int index)
         {
-            public List<Int32Rect> Regions { get; private set; }
-            public BitmapImage Image { get; private set; }
-            
-            public SpriteSheet(string fileName, int numOfImages, int imageWidth, int imageHeight)
-            {
-                Regions = new List<Int32Rect>();
-                Image = new BitmapImage(new Uri(System.IO.Path.Combine(Directory.GetParent(Directory.GetCurrentDirectory()).Parent.Parent.Parent.FullName, @"Graphics\", fileName), UriKind.Relative));
-                for (int i = 0; i < numOfImages; i++)
-                {
-                    Int32Rect r = new Int32Rect(i * imageWidth, 0, imageWidth, imageHeight);
-                    Regions.Add(r);
-                }
-            }
+            return new CroppedBitmap(Image, Regions[index]);
         }
 
+        public SpriteSheet(string fileName, int numOfImages, int imageWidth, int imageHeight)
+        {
+            Regions = new List<Int32Rect>();
+            Image = new BitmapImage(new Uri(System.IO.Path.Combine(Directory.GetParent(Directory.GetCurrentDirectory()).Parent.Parent.Parent.FullName, @"Graphics\", fileName), UriKind.Relative));
+            for (int i = 0; i < numOfImages; i++)
+            {
+                Int32Rect r = new Int32Rect(i * imageWidth, 0, imageWidth, imageHeight);
+                Regions.Add(r);
+            }
+        }
+    }
+
+    public class Animation
+    {
         public delegate void AnimationEvent();
         public event AnimationEvent OnAnimationOver;
         public event AnimationEvent OnAnimationStart;

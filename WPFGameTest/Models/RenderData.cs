@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Game.Helpers;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,7 +11,11 @@ namespace Game.Models
 
     public class RenderData
     {
-        public Brush Fill { get; set; }
-        public Transform Transform { get; set; }
+        public string FileName { get; set; }
+        public Vector2 Position { get; set; }
+        public Vector2 Size { get; set; }
+        public double CenterX { get; set; }
+        public double CenterY { get; set; }
+        public double ScaleX { get; set; }
     }
 }

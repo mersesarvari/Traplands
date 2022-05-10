@@ -98,6 +98,7 @@ namespace Game
        
         private void GameWindow_Loaded(object sender, RoutedEventArgs e)
         {
+            // Images
             Resource.AddImage("MainMenu_Bg", "menu_bg.jpg");
             Resource.AddImage("Game_Bg", "background.png");
             Resource.AddImage("Player", "player.png");
@@ -117,6 +118,14 @@ namespace Game
             Resource.AddImage("Grass_Mid_Right_Left", "grass_midrightleft.png");
             Resource.AddImage("Grass_Top_Right_Bottom", "grass_toprightbottom.png");
             Resource.AddImage("Grass_Top_Left_Bottom", "grass_topleftbottom.png");
+
+            // Spritesheets
+            Resource.AddImage("player_idle", "player_idle.png");
+            Resource.AddImage("player_run", "player_run.png");
+            Resource.AddImage("player_jumpup", "player_jumpup.png");
+            Resource.AddImage("player_jumpdown", "player_jumpdown.png");
+            Resource.AddImage("player_attack", "player_attack.png");
+            Resource.AddImage("player_death", "player_death.png");
 
             LevelManager.LoadLevels();
         }

@@ -68,10 +68,13 @@ namespace Game.Logic
             Solids = currentLevel.Solids;
             Interactables = currentLevel.Interactables;
             Player = new Player(MultiLogic.locals.user.Id, MultiLogic.locals.user.Username, spawnPoint, new Vector2(ObjectData.PLAYER_WIDTH, ObjectData.PLAYER_HEIGHT), 8);
-            ;
+            
             renderData = new RenderData();
-            renderData.Transform = Player.Transform;
-            renderData.Fill = Player.Fill;
+            renderData.Position = Player.Transform.Position;
+            renderData.Size = Player.Transform.Size;
+            renderData.ScaleX = Player.Transform.ScaleTransform.ScaleX;
+            renderData.CenterX = Player.Transform.ScaleTransform.CenterX;
+            renderData.CenterY = Player.Transform.ScaleTransform.CenterY;
 
             Solids = currentLevel.Solids;
             Interactables = currentLevel.Interactables;
@@ -94,8 +97,11 @@ namespace Game.Logic
 
         private void UpdateRenderData()
         {
-            renderData.Transform = Player.Transform;
-            renderData.Fill = Player.Fill;
+            renderData.Position = Player.Transform.Position;
+            renderData.Size = Player.Transform.Size;
+            renderData.ScaleX = Player.Transform.ScaleTransform.ScaleX;
+            renderData.CenterX = Player.Transform.ScaleTransform.CenterX;
+            renderData.CenterY = Player.Transform.ScaleTransform.CenterY;
         }
 
         public void ProcessInput()
