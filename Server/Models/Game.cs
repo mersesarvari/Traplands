@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Server
+namespace Server.Models
 {
-    public class Map
+    public class Game
     {
-        string[] map;
+        public List<Player> Player { get; set; }
     }
 }

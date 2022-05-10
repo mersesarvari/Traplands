@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 
-namespace Server
+namespace Server.Models
 {
     public class Lobby
     {

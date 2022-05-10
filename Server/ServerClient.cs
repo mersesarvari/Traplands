@@ -1,4 +1,5 @@
-﻿using System.Net.Sockets;
+﻿using Server.Models;
+using System.Net.Sockets;
 
 namespace Server
 {
