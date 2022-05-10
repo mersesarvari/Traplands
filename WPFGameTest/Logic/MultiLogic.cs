@@ -48,8 +48,7 @@ namespace Game.Logic
             catch (Exception ex)
             {
                 throw new Exception(ex.Message);
-            }
-            
+            }            
         }
         //A tickes rész átírandó arra amit a rendes gameban is használunk..
         public void CreateLobby(INavigationService service, Locals locals, string username, int currenttick)
@@ -68,6 +67,25 @@ namespace Game.Logic
                 MessageBox.Show("You are not connected to the server");
             }
         }
+
+        public void StartGame(INavigationService service, Locals locals, string username, int currenttick)
+        {
+            if (locals.client.Connected())
+            {
+                locals.client.SendCommandToServer("StartGame", locals.user.Id, locals.user.Id, false);
+                Thread.Sleep(1500);
+                //Implementálás
+                service.Navigate();
+                ;
+
+            }
+            else
+            {
+                MessageBox.Show("You are not connected to the server");
+            }
+        }
+
+
 
 
     }

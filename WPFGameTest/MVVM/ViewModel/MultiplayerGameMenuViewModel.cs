@@ -20,6 +20,8 @@ namespace Game.MVVM.ViewModel
     {
         private MultiLogic logic;
         public ICommand NavigateMainMenuCommand { get; }
+        public ICommand StartGame { get; }
+        public ICommand SetMap { get; }
         public ICommand NavigateLobbyCommand { get; }
         public ICommand NavigateMultiGameCommand { get; }
         public ICommand JoinLobbyCommand { get; set;}
@@ -71,6 +73,9 @@ namespace Game.MVVM.ViewModel
                 () => logic.CreateLobby(lobbyNavigationService, MultiLogic.locals, Username, 0)
                 );
             Disconnect = new RelayCommand(
+                () => { logic.Disconnect(MultiLogic.locals.user.Id); }
+                );
+            StartGame = new RelayCommand(
                 () => { logic.Disconnect(MultiLogic.locals.user.Id); }
                 );
             Messenger.Register<MultiplayerGameMenuViewModel, string, string>(this, "SetUser", (recepient, msg) =>
