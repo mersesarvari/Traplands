@@ -62,8 +62,8 @@ namespace Game.Renderer
 
         public static void AddSpriteSheet(string key, string fileName, int numOfImages, int imageWidth, int imageHeight)
         {
-            BitmapImage imageSource = new BitmapImage(new Uri(Path.Combine(Directory.GetParent(Directory.GetCurrentDirectory()).Parent.Parent.Parent.FullName, @"Graphics\", fileName), UriKind.Relative));
             SpriteSheet spriteSheet = new SpriteSheet(fileName, numOfImages, imageWidth, imageHeight);
+            spriteSheet.Name = key;
 
             spriteSheets.Add(key, spriteSheet);
         }

@@ -16,6 +16,7 @@ namespace Game.Renderer
 {
     public class SpriteSheet
     {
+        public string Name { get; set; }
         public List<Int32Rect> Regions { get; private set; }
         public BitmapImage Image { get; private set; }
 
@@ -45,6 +46,7 @@ namespace Game.Renderer
         public float TimeBetweenImages { get; set; }
         public bool IsOver { get; set; }
         public bool Looping { get; set; }
+        public string SpritesheetName { get { return spriteSheet.Name; } }
 
         private SpriteSheet spriteSheet;
         private AudioClip[] audioClips;
@@ -53,7 +55,6 @@ namespace Game.Renderer
         private float timeToNewImage = 0;
         private bool hasAudio = false;
         private bool firstFrame = true;
-
 
         public Animation(string filePath, int numOfImages, int imageWidth, int imageHeight, float timeBetweenImages)
         {
