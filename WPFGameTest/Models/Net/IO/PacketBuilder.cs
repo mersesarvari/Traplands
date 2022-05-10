@@ -10,7 +10,6 @@ namespace Game.Models
         public PacketBuilder()
         {
             _ms = new MemoryStream();
-
         }
         public void WriteOptCode(byte opcode)
         {
@@ -19,9 +18,8 @@ namespace Game.Models
         public void WriteMessage(string msg)
         {
             var smgLenght = msg.Length;
-            _ms.Write(BitConverter.GetBytes(msg.Length));
+            _ms.Write(BitConverter.GetBytes(smgLenght));
             _ms.Write(Encoding.UTF8.GetBytes(msg));
-
         }
 
         public byte[] GetPacketbytes()

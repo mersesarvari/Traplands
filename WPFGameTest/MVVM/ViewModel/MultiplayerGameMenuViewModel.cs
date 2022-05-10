@@ -17,6 +17,8 @@ namespace Game.MVVM.ViewModel
 {
     public class MultiplayerGameMenuViewModel:ViewModelBase
     {
+        private Locals locals;
+        private MultiLogic logic;
         public ICommand NavigateMainMenuCommand { get; }
         public ICommand NavigateLobbyCommand { get; }
         public ICommand NavigateMultiGameCommand { get; }
@@ -41,58 +43,33 @@ namespace Game.MVVM.ViewModel
             set { username = value; }
         }
 
-        private bool connected;
 
-        public bool Connected
+        public MultiplayerGameMenuViewModel(INavigationService mainMenuNavigationService, INavigationService lobbyNavigationService, INavigationService multiGameNavigationService, Locals _locals, MultiLogic _logic)
         {
-            get { return Locals.Connected; }
-            set { Locals.Connected = value; }
-        }
-
-        public bool ConnectionCheck()
-        {
-            if (Locals.Connected)
-            {
-                return true;
-            }
-            else return false;
-            ;
-        }
-
-
-        public MultiplayerGameMenuViewModel(INavigationService mainMenuNavigationService, INavigationService lobbyNavigationService, INavigationService multiGameNavigationService)
-        {
-            Locals.client.userJoinedLobbyEvent += UserJoinedLobbyResponse;
+            this.locals = _locals;
+            this.logic = _logic;
             Username = "PLAYER";
             NavigateMainMenuCommand = new NavigateCommand(mainMenuNavigationService);
             NavigateLobbyCommand = new NavigateCommand(lobbyNavigationService);
             NavigateMultiGameCommand = new NavigateCommand(multiGameNavigationService);
-
             ConnectServerCommand = new RelayCommand(
-                () => MultiLogic.ConnectToServer(Username)
-                );
-
+                () => logic.Connect(locals, Username),
+                () => !locals.Connected
+                ) ;
             JoinLobbyCommand = new RelayCommand(
-                () => MultiLogic.JoinLobby(lobbyNavigationService, Username, LobbyCode, 0)
+                () => logic.JoinLobby(lobbyNavigationService, locals,Username, LobbyCode)
                 ); ;
             CreateLobbyCommand = new RelayCommand(
-                () => MultiLogic.CreateLobby(lobbyNavigationService, Username, 0)
+                () => logic.CreateLobby(lobbyNavigationService,locals, Username, 0)
                 );
 
             //NavigateLobbyCommand = new NavigateToLobbyCommand(lobbyNavigationService, Locals.lobby);
-
-
-
-
-
-
-
         }
-        public static void UserJoinedLobbyResponse()
+        public void UserJoinedLobbyResponse()
         {
             MessageBox.Show("USER JOINED LOBBY RESPONSE ARRIVED");
             //This method is handling the JoinResponse from the server
-            var msg = Locals.client.PacketReader.ReadMessage();
+            var msg = locals.client.PacketReader.ReadMessage();
             if (msg.Contains('/') && msg.Split('/')[0] == "JOINLOBBY")
             {
                 var status = msg.Split('/')[1];
@@ -100,12 +77,8 @@ namespace Game.MVVM.ViewModel
 
                 if (status != "ERROR" && status != "Success")
                 {
-                    Locals.lobby = JsonConvert.DeserializeObject<Lobby>(status);
-
-                    ;
+                    locals.lobby = JsonConvert.DeserializeObject<Lobby>(status);
                 }
-                //this is doing the navigation
-
             }
             else
             {

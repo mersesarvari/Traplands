@@ -7,12 +7,15 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using Game.Core;
 using Game.MVVM.Stores;
+using Game.Models;
+using Newtonsoft.Json;
 
 namespace Game.MVVM.ViewModel
 {    
     public class MainWindowViewModel: ViewModelBase
     {
         private readonly NavigationStore _navigationStore;
+        
         public ViewModelBase CurrentViewModel => _navigationStore.CurrentViewModel;
 
         public MainWindowViewModel(NavigationStore navigationStore)
@@ -20,7 +23,6 @@ namespace Game.MVVM.ViewModel
             _navigationStore = navigationStore;
             _navigationStore.CurrentViewModelChanged += OnCurrentViewModelChanged;
         }
-
         private void OnCurrentViewModelChanged()
         {
             OnPropertyChanged(nameof(CurrentViewModel));

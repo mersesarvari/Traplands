@@ -16,7 +16,7 @@ namespace Server
         public static GameTimer timer = new GameTimer();
         public static List<Lobby> lobbies= new List<Lobby>();
         public static List<Game> games=new List<Game>();
-        private static List<_Client> clients = new List<_Client>();
+        private static List<ServerClient> clients = new List<ServerClient>();
         public static List<Player> players = new List<Player>();
         private static TcpListener listener;
 
@@ -32,13 +32,12 @@ namespace Server
             //var ip = IPAddress.Parse("127.0.0.1") + ":5000";
             listener = new TcpListener(IPAddress.Parse(ip), port);
             listener.Start();            
-            timer.Start(tickinterval);
 
             Console.WriteLine($"Server started at: {ip}:{port}");
             //Kliens fogadás
             while (true)
             {
-                var client = new _Client(listener.AcceptTcpClient());
+                var client = new ServerClient(listener.AcceptTcpClient());
                 var user = new Player(client);
                 clients.Add(client);
                 players.Add(user);
@@ -58,7 +57,7 @@ namespace Server
         {
             return players.Where(x => x.Id == id).FirstOrDefault();
         }
-        public static _Client FindClient(string userid)
+        public static ServerClient FindClient(string userid)
         {
             return clients.Where(x => x.UID.ToString() == userid).FirstOrDefault();
         }
@@ -79,7 +78,7 @@ namespace Server
                 }
             }
         }
-        static void SendConnection(_Client client)
+        static void SendConnection(ServerClient client)
         {
             var broadcastPacket = new PacketBuilder();
             broadcastPacket.WriteOptCode(1);
@@ -90,9 +89,9 @@ namespace Server
         }
         public static void BroadcastDisconnect(string uid)
         {
-            _Client disconnectedClient = clients.Where(x => x.UID.ToString() == uid).FirstOrDefault();
+            ServerClient disconnectedClient = clients.Where(x => x.UID.ToString() == uid).FirstOrDefault();
             clients.Remove(disconnectedClient);
-            players.Remove(disconnectedClient.ConvertClientTouser());
+            players.Remove(disconnectedClient.ConvertClientToUser(disconnectedClient));
             foreach (var client in clients)
             {
                 Console.WriteLine("User count after removing user: " + players.Count);
@@ -104,31 +103,42 @@ namespace Server
             //BroadcastMessage($"[{disconnectedUser.Username}] Disconnected!");       
 
         }
-        public static void BroadcastMessage(string message)
+        
+        public static void BroadcastResponse(byte opcode, string messagename, string message)
         {
+            Console.WriteLine($"[BroadCastMessage(3)] : {message}");
             foreach (var client in clients)
             {
                 var msgPacket = new PacketBuilder();
-                msgPacket.WriteOptCode(5);
+                msgPacket.WriteOptCode(opcode);
+                msgPacket.WriteMessage(messagename);
                 msgPacket.WriteMessage(message);
                 client.TCP.Client.Send(msgPacket.GetPacketbytes());
             }
         }
-        public static void SendMessage(byte opcode, string userid, string message)
+        public static void SendResponse(byte opcode, string userid, string message)
         {
-            ;
             var msgPacket = new PacketBuilder();
             msgPacket.WriteOptCode(opcode);
             msgPacket.WriteMessage(message);
-            ;
             var client = clients.Where(x => x.UID.ToString() == userid).FirstOrDefault();
             if (client != null)
             {
-                client.TCP.Client.Send(msgPacket.GetPacketbytes());
-                Console.WriteLine($"[Response]: {FindUserById(userid).Username} - ({opcode}){message}");
+                try
+                {
+                    client.TCP.Client.Send(msgPacket.GetPacketbytes());
+                    Console.WriteLine($"[Response]: {FindUserById(userid).Username} - [{3}]:{message}");
+                }
+                catch (Exception ex)
+                {
+
+                    throw new Exception(ex.Message);
+                }                
             }
             else
+            {
                 throw new Exception("client doesnt exists");
+            } 
         }
         public static void MovePlayer(Game game,MovementPackage movement)
         {            

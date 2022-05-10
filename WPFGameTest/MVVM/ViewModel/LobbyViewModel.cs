@@ -16,7 +16,8 @@ namespace Game.MVVM.ViewModel
 {
     public class LobbyViewModel:ViewModelBase
     {
-        
+        public Locals locals { get; set; }
+
         public ICommand NavigateMultiMenuCommand { get; }
         public ICommand NavigateGameCommand { get; }
 
@@ -30,9 +31,9 @@ namespace Game.MVVM.ViewModel
         }
 
 
-        public LobbyViewModel(INavigationService multiMenuNavigationService)
+        public LobbyViewModel(INavigationService multiMenuNavigationService, Locals locals)
         {
-            
+            this.locals = locals;
             //Load Users
             LoadItems();
             NavigateMultiMenuCommand= new NavigateCommand(multiMenuNavigationService);
@@ -42,28 +43,26 @@ namespace Game.MVVM.ViewModel
 
         public void LoadItems()
         {
-            var t = Locals.user;
-            foreach (var item in Locals.lobby.Users)
+            var t = locals.user;
+            foreach (var item in locals.lobby.Users)
             {
-                if (!Locals.lobby.Users.Contains(item))
+                if (!locals.lobby.Users.Contains(item))
                 {
                     Users.Add(item);
                 }
             }
         }
 
-        public static void UserJoinedLobbyResponse()
+        public void UserJoinedLobbyResponse()
         {
             //This method is handling the JoinResponse from the server
-            var msg = Locals.client.PacketReader.ReadMessage();
+            var msg = locals.client.PacketReader.ReadMessage();
             if (msg.Contains('/') && msg.Split('/')[0] == "JOINLOBBY")
             {
                 var status = msg.Split('/')[1];
-
-
                 if (status != "ERROR" && status != "Success")
                 {
-                    Locals.lobby = JsonConvert.DeserializeObject<Lobby>(status);
+                    locals.lobby = JsonConvert.DeserializeObject<Lobby>(status);
                     ;
                 }
             }

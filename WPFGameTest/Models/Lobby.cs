@@ -11,11 +11,13 @@ namespace Game.Models
     public class Lobby
     {
         public string LobbyId { get; set; }
-        public User Owner { get; set; }
         public List<User> Users { get; set; }
         public List<string> Messages { get; set; }
         public Map Map { get; set; }
+        public Lobby()
+        {
 
+        }
         public Lobby(string ownerid)
         {
             LobbyId = ownerid;
@@ -23,10 +25,5 @@ namespace Game.Models
             Messages = new List<string>();
 
         }
-        public Lobby()
-        {
-
-        }
-
     }
 }

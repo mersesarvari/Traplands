@@ -2,7 +2,7 @@
 
 namespace Server
 {
-    public class _Client
+    public class ServerClient
     {
         public string Username { get; set; }
         public Guid UID { get; set; }
@@ -10,14 +10,12 @@ namespace Server
 
         PacketReader _packetReader;
         
-        public _Client(TcpClient client)
+        public ServerClient(TcpClient client)
         {
             TCP = client;
-            UID = Guid.NewGuid();
-            
+            UID = Guid.NewGuid();            
             //Console.WriteLine("Current games:"+games.Count);
             _packetReader = new PacketReader(TCP.GetStream());
-
             var opcode = _packetReader.ReadByte();
             Username = _packetReader.ReadMessage();
 
@@ -34,32 +32,18 @@ namespace Server
                     var opcode = _packetReader.ReadByte();
                     switch (opcode)
                     {
-                        //USER Command
                         case 4:
-                            var ucmd = _packetReader.ReadMessage();
-                            //Console.WriteLine("Command recieved:"+ucmd);
-                            Command.CommandManager(ucmd);
-                            //Server.SendMessage(3, ucmd.Split('/')[1], "Proba");
-                            ;
+                            var negy_commandname = _packetReader.ReadMessage();
+                            var negy_executor = _packetReader.ReadMessage();
+                            var negy_command = _packetReader.ReadMessage();
+                            Command.CommandManager(negy_commandname, negy_executor, negy_command);
                             break;
-                        //Messgae
-                        case 5:
-                            var msg = _packetReader.ReadMessage();
-                            //Console.WriteLine($"[{DateTime.Now}]: Message recieved from {Username} {msg}");
-                            Server.BroadcastMessage($"[{DateTime.Now}]: [{Username}]: {msg}");
-                            break;
-                        //Game Command
-                        /*
-                        case 7:
-                            var gcmd = _packetReader.ReadMessage();
-                            Server.BroadcastMessage($"[{DateTime.Now}]: [{Username}]: {gcmd}");
-                            break;
-                        */
                         case 10:
                             var dc = _packetReader.ReadMessage();
                             Server.BroadcastDisconnect(dc);
                             break;
                         default:
+                            Console.WriteLine($"[INFO] Recieving invalid opcode from the client({opcode})!");
                             break;
                     }                    
                 }
@@ -72,9 +56,11 @@ namespace Server
                 }
             }
         }
-        public Player ConvertClientTouser()
+        public Player ConvertClientToUser(ServerClient client)
         {
-            return new Player(this);
+            return Server.players.FirstOrDefault(x => x.Id == client.UID.ToString());
         }
+
+
     }
 }

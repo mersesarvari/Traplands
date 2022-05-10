@@ -20,7 +20,6 @@ namespace Server
         {            
             byte[] msgBuffer;
             var length = ReadInt32();
-            //var length = 1024;
             msgBuffer = new byte[length];
             _ns.Read(msgBuffer, 0, length);
 

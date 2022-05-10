@@ -1,6 +1,4 @@
-﻿using Game.Models;
-using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,17 +10,16 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace Game.MVVM.View
+namespace Game
 {
     /// <summary>
-    /// Interaction logic for LobbyView.xaml
+    /// Interaction logic for Starter.xaml
     /// </summary>
-    public partial class LobbyView : UserControl
+    public partial class Starter : Window
     {
-        public LobbyView()
+        public Starter()
         {
             InitializeComponent();
         }

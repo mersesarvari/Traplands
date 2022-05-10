@@ -4,7 +4,7 @@
              xmlns:local="clr-namespace:Game"
              xmlns:viewModel="clr-namespace:Game.MVVM.ViewModel"
              xmlns:view="clr-namespace:Game.MVVM.View"
-             StartupUri="MainWindow.xaml">
+             StartupUri="Starter.xaml">
     <Application.Resources>
         <ResourceDictionary>
             <DataTemplate DataType="{x:Type viewModel:LobbyViewModel}">

@@ -16,12 +16,10 @@ namespace Game.Models
         public PacketReader PacketReader;
 
         public static List<MovementPackage> MovementHistory=new List<MovementPackage>();
-
         public event Action connectedEvent;
         public event Action userDisconnectedEvent;
         public event Action messageRecievedEvent;
         public event Action userCommandSentEvent;
-        public event Action userCreatedLobbyEvent;
         public event Action userJoinedLobbyEvent;
         public event Action userJoinedGameEvent;
         public event Action userMovedEvent;
@@ -33,45 +31,24 @@ namespace Game.Models
 
         private void ReadPacket()
         {
-            Task.Run(() => {
+            Task.Run(() => {                
                 while (true)
                 {
                     try
                     {                        
-                        var opcode = PacketReader.ReadByte();                                               ;
-                        MessageBox.Show($"message Recieved OPCODE:{opcode}");
+                        var opcode = PacketReader.ReadByte();     
+                        MessageBox.Show($"Recieving from the server ({opcode})");
                         switch (opcode)
-                        {                            
+                        {
                             case 1:
-                                MessageBox.Show("connectedEvent INVOKED");
-                                connectedEvent?.Invoke();
+                                connectedEvent?.Invoke();                                
                                 break;
-                            case 9:
-                                userCommandSentEvent?.Invoke();
+                            case 2:
+                                userJoinedLobbyEvent?.Invoke();                             
                                 break;
-                            case 5:
-                                MessageBox.Show("Message Recieved from the Server");
-                                messageRecievedEvent?.Invoke();
+                            default:
+                                //MessageBox.Show($"Recieved unknown message ({opcode})");
                                 break;
-                            case 10:
-                                userDisconnectedEvent?.Invoke();
-                                break;
-                            case 11:
-                                userCreatedLobbyEvent?.Invoke();
-                                break;
-                            case 3:
-                                ;
-                                MessageBox.Show("userJoinedLobbyEvent INVOKED");
-                                //userJoinedLobbyEvent?.Invoke();
-                                ;
-                                break;
-                            case 13:
-                                userJoinedGameEvent?.Invoke();
-                                break;
-                            case 17:
-                                //MessageBox.Show("userMovedEvent Invoked");
-                                userMovedEvent?.Invoke();
-                                break;                                
                         }
                     }
                     catch (Exception e)
@@ -115,31 +92,32 @@ namespace Game.Models
                     _client.Client.Send(connectPacket.GetPacketbytes());
                 }
                 ReadPacket();
+                PacketReader = null;
             }
         }
-        public void SendMessageToServer(string message)
+        
+        public void SendCommandToServer(string commandname, string executor, string command, bool waitforresponse)
         {
-            PacketReader = new PacketReader(_client.GetStream());
-            var messagePacket = new PacketBuilder();
-            messagePacket.WriteOptCode(5);
-            messagePacket.WriteMessage(message);
-            _client.Client.Send(messagePacket.GetPacketbytes());
-            ReadPacket();
-        }
-        public void SendCommandToServer(string commandname, string executor, string command ,int tick)
-        {
-            PacketReader = new PacketReader(_client.GetStream());
-            string formattedcommand = "";
-            string splitter = "";
-            formattedcommand = commandname + "/"+ executor + "/" + command+"/"+tick;
-            ;
-            //MessageBox.Show("Sending Command: " + formattedcommand);
-            var messagePacket = new PacketBuilder();
-            messagePacket.WriteOptCode(4);
-            messagePacket.WriteMessage(formattedcommand);
-            _client.Client.Send(messagePacket.GetPacketbytes());
-            ReadPacket();
-        }
+            if (_client.Connected)
+            {
+                if (waitforresponse)
+                {
+                    PacketReader = new PacketReader(_client.GetStream());
+                }                
+                MessageBox.Show("Sending Command: " + commandname+"\n" + executor + "\n" + command);
+                var messagePacket = new PacketBuilder();
+                messagePacket.WriteOptCode(4);
+                messagePacket.WriteMessage(commandname);
+                messagePacket.WriteMessage(executor);
+                messagePacket.WriteMessage(command);
+                _client.Client.Send(messagePacket.GetPacketbytes());
+                if(waitforresponse)
+                {
+                    ReadPacket();
+                }
+                
+            }
+        }        
 
 
 

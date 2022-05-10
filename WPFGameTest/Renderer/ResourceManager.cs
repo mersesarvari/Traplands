@@ -20,6 +20,7 @@ namespace Game.Renderer
 
         public void Add(string key, T value)
         {
+
             resources.Add(key, value);
         }
 

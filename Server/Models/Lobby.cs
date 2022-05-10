@@ -11,7 +11,6 @@ namespace Server
     public class Lobby
     {
         public string LobbyId { get; set; }
-        public string OwnerId { get; set; }
         public List<Player> Users { get; set; }
         public List<string> Messages { get; set; }
         public Map Map { get; set; }
@@ -21,10 +20,9 @@ namespace Server
             LobbyId = ownerid;
             Users = new List<Player>();
             Messages = new List<string>();
-            OwnerId = ownerid;
 
         }
-
+        
         public static void Create(string userid)
         {
             var alreadyexists = Server.lobbies.Where(x => x.LobbyId == userid.ToString()).FirstOrDefault();
@@ -32,19 +30,13 @@ namespace Server
             {
                 Server.lobbies.Add(new Lobby(userid));
                 Console.WriteLine("[INFO] Lobby Created succesfully");
-                Server.SendMessage(3, userid.ToString(), "CREATELOBBY/Success");
+                //Server.SendResponse(2,userid, "CREATELOBBY","Success");
             }
-            else
-            {
-                Console.WriteLine("[Error]: Lobby cannot be created!");
-                Server.SendMessage(11,userid.ToString(), "CREATELOBBY/Error");
-            }
-            ;
 
         }
+        
         public static void Join(string userid, string lobbyid)
         {
-            ;
             try
             {
                 //Lobby exists and Found.
@@ -66,25 +58,20 @@ namespace Server
                         {
                             try
                             {
-                                //Server.SendMessage(3, item.Id, "JOINLOBBY/" + JsonConvert.SerializeObject(currentlobby));
-                                ;
-                                Server.SendMessage(3, item.Id, "JOINLOBBY" + "Proba");
-                                ;
+                                Server.SendResponse(2,userid,JsonConvert.SerializeObject(currentlobby));
                             }
                             catch (Exception ex)
                             {
 
                                 throw new Exception(ex.Message);
                             }
-
-                            ;
                         }
                     }
                     else
                     {
                         //Print information
                         Console.WriteLine("[Error]: User cannot join this lobby!");
-                        Server.SendMessage(3, userid, "JOINLOBBY/ERROR");
+                        //Server.SendResponse(userid, "JOINLOBBY","ERROR");
                     }
                 }
                 
