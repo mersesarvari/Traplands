@@ -6,42 +6,38 @@
              xmlns:local="clr-namespace:Game.MVVM.View" 
              mc:Ignorable="d" 
              d:DesignHeight="800" d:DesignWidth="1024">
- 
-     <Grid>
+
+    <Grid x:Name="MainGrid">
         <Grid.RowDefinitions>
-            <RowDefinition Height="4*"/>
+            <RowDefinition Height="2*"/>
             <RowDefinition Height="2*"/>
         </Grid.RowDefinitions>
-        <Label Content="Let's Play" FontSize="30" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Grid.Row="0"/>
+        <Image Source="../../Resources/traplands.png" Width="500" Margin="50" HorizontalAlignment="Left" VerticalAlignment="Top" x:Name="Title"/>
         <StackPanel Grid.Row="1">
-            <Button Command="{Binding NavigateMultiGameMenuCommand}" Content="Multiplayer Game Menu"
+            <Button Width="250" FontFamily="Calibri" Foreground="White" BorderThickness="0" Command="{Binding NavigateLevelManagerCommand}" Content="Singleplayer"
                FontSize="20" Padding="10" Margin="200 10 200 10">
                 <Button.Background>
-                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
-                        <GradientStop Color="LightGreen" Offset="0.3"/>
-                        <GradientStop Color="Brown" Offset="1.0"/>
-                    </LinearGradientBrush>
+                    <ImageBrush ImageSource="../../Resources/UI_BUTTON.png"  />
                 </Button.Background>
             </Button>
-            <Button Command="{Binding NavigateLevelEditorCommand}" Content="Level Editor"
+            <Button Width="250" FontFamily="Calibri" Foreground="White" BorderThickness="0" Command="{Binding NavigateMultiGameMenuCommand}" Content="Multiplayer"
+               FontSize="20" Padding="10" Margin="200 10 200 10">
+                <Button.Background>
+                    <ImageBrush ImageSource="../../Resources/UI_BUTTON.png"  />
+                </Button.Background>
+            </Button>
+            <Button Width="250" FontFamily="Calibri" Foreground="White" BorderThickness="0" Command="{Binding NavigateLevelEditorCommand}" Content="Level Editor"
                 FontSize="20" Padding="10" Margin="200 10 200 10">
                 <Button.Background>
-                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
-                        <GradientStop Color="LightGreen" Offset="0.3"/>
-                        <GradientStop Color="Brown" Offset="1.0"/>
-                    </LinearGradientBrush>
+                    <ImageBrush ImageSource="../../Resources/UI_BUTTON.png"  />
                 </Button.Background>
             </Button>
-            <Button Command="{Binding NavigateLevelManagerCommand}" Content="Singleplayer Game"
-               FontSize="20" Padding="10" Margin="200 10 200 10">
+            <Button Width="250" FontFamily="Calibri" Foreground="White" BorderThickness="0" Command="{Binding Exit}" Content="Exit"
+                FontSize="20" Padding="10" Margin="200 100 200 10">
                 <Button.Background>
-                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
-                        <GradientStop Color="LightGreen" Offset="0.3"/>
-                        <GradientStop Color="Brown" Offset="1.0"/>
-                    </LinearGradientBrush>
+                    <ImageBrush ImageSource="../../Resources/UI_BUTTON.png"  />
                 </Button.Background>
             </Button>
         </StackPanel>
-        
-     </Grid>
+    </Grid>
 </UserControl>

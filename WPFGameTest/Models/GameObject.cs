@@ -44,15 +44,20 @@ namespace Game.Models
             players = playerList;
         }
 
+        public virtual void Start()
+        {
+
+        }
+
         public virtual void Update(float deltaTime)
         {
             Transform.ScaleTransform.CenterX = Transform.Position.X + Transform.Size.X * 0.5f;
             Transform.ScaleTransform.CenterY = Transform.Position.Y + Transform.Size.Y * 0.5f;
         }
 
-        public virtual void LateUpdate()
+        public void SetDefaultSprite(ImageSource imgSrc)
         {
-
+            Fill = new ImageBrush(imgSrc);
         }
     }
 }

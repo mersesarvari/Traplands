@@ -18,6 +18,8 @@ namespace Game.Models
         public string ImagePath { get; set; }
         public float BestTime { get; set; }
 
+        public int OrderIndex { get; set; }
+
         private string[] file;
         private string filePath;
 
@@ -63,31 +65,41 @@ namespace Game.Models
                     {
                         int currentObject = -1;
                         string[] splitBlock = splitLine[j].Split(':');
+                        bool facingRight = false;
+
                         if (splitBlock.Length > 1)
                         {
-                            currentObject = int.Parse(splitBlock[0]);
-                            int id = int.Parse(splitBlock[2]);
-                            int groupId = int.Parse(splitBlock[1]);
-
-                            Waypoint waypoint = new Waypoint(id, groupId, new Vector2(ObjectData.BLOCK_WIDTH * j, ObjectData.BLOCK_HEIGHT * i));
-                            bool foundGroup = false;
-                            foreach (var list in waypoints)
+                            if (splitBlock.Length == 2)
                             {
-                                Waypoint wp = list[0];
- 
-                                if (wp.GroupID == groupId)
-                                {
-                                    list.Add(waypoint);
-                                    foundGroup = true;
-                                    break;
-                                }
+                                currentObject = int.Parse(splitBlock[0]);
+                                facingRight = int.Parse(splitBlock[1]) == 1 ? true : false;
                             }
-
-                            if (!foundGroup)
+                            else
                             {
-                                List<Waypoint> newWaypointList = new List<Waypoint>();
-                                newWaypointList.Add(waypoint);
-                                waypoints.Add(newWaypointList);
+                                currentObject = int.Parse(splitBlock[0]);
+                                int id = int.Parse(splitBlock[2]);
+                                int groupId = int.Parse(splitBlock[1]);
+
+                                Waypoint waypoint = new Waypoint(id, groupId, new Vector2(ObjectData.BLOCK_WIDTH * j, ObjectData.BLOCK_HEIGHT * i));
+                                bool foundGroup = false;
+                                foreach (var list in waypoints)
+                                {
+                                    Waypoint wp = list[0];
+ 
+                                    if (wp.GroupID == groupId)
+                                    {
+                                        list.Add(waypoint);
+                                        foundGroup = true;
+                                        break;
+                                    }
+                                }
+
+                                if (!foundGroup)
+                                {
+                                    List<Waypoint> newWaypointList = new List<Waypoint>();
+                                    newWaypointList.Add(waypoint);
+                                    waypoints.Add(newWaypointList);
+                                }
                             }
                         }
 
@@ -119,8 +131,10 @@ namespace Game.Models
                                 break;
                             case ObjectType.Cannon:
                                 obj = new Cannon(new Vector2(ObjectData.BLOCK_WIDTH * j, ObjectData.BLOCK_HEIGHT * i),
-                                    new Vector2(ObjectData.BLOCK_WIDTH, ObjectData.BLOCK_HEIGHT),Direction.Left, false);
+                                    new Vector2(ObjectData.BLOCK_WIDTH, ObjectData.BLOCK_HEIGHT), facingRight ? Direction.Right : Direction.Left, false);
+                                obj.SetDefaultSprite(Resource.GetImage(facingRight ? "Cannon_Right" : "Cannon_Left"));
                                 Interactables.Add(obj);
+                                Solids.Add(obj);
                                 break;
                             case > ObjectType.Grass_First and < ObjectType.Grass_Last:
                                 Solids.Add(obj);
@@ -136,6 +150,7 @@ namespace Game.Models
             {
                 List<Waypoint> orderedList = list.OrderBy(x => x.ID).ToList();
                 MovingTrap movingTrap = new MovingTrap(orderedList[0].Position, new Vector2(ObjectData.BLOCK_WIDTH, ObjectData.BLOCK_HEIGHT));
+                movingTrap.SetDefaultSprite(Resource.GetImage("Spike"));
                 movingTrap.SetWaypoints(orderedList);
 
                 Interactables.Add(movingTrap);

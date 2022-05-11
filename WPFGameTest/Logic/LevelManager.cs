@@ -98,6 +98,15 @@ namespace Game
                             WaypointRect waypointRect = (WaypointRect)element;
                             sw.Write(Map[j, i] + ":" + waypointRect.Waypoint.GroupID + ":" + waypointRect.Waypoint.ID + ";");
                         }
+                        else if (Map[j, i] == (int)ObjectType.Cannon)
+                        {
+                            EditorElement element = null;
+                            editorElements.TryGetValue(new Coordinate(j, i), out element);
+
+                            CannonRect cannonRect = (CannonRect)element;
+                            string val = cannonRect.FacingRight ? "1" : "0";
+                            sw.Write(Map[j, i] + ":" + val + ";");
+                        }
                         else
                         {
                             sw.Write(Map[j, i] + ";");
@@ -149,10 +158,16 @@ namespace Game
                 string[] lines = File.ReadAllLines(path); // Read line by line
 
                 Level level = new Level(name, lines);
-                if (name.Split(' ')[0] == "Level" || name == "Tutorial")
+
+                string[] splitName = name.Split(' ');
+
+                if (splitName[0] == "Level")
                 {
                     CampaignLevels.Add(level);
+                    level.OrderIndex = int.Parse(splitName[1]);
                 }
+
+                CampaignLevels = CampaignLevels.OrderBy(x => x.OrderIndex).ToList();
 
                 levels.Add(name, level);
             }

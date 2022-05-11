@@ -48,7 +48,22 @@ namespace Game.Logic
             } 
         }
 
-        public bool GameOver { get; set; }
+        private bool gameOver;
+        public bool GameOver
+        {
+            get => gameOver;
+            set
+            {
+                gameOver = value;
+                messenger.Send("Game state changed", "GameOver");
+                if (value)
+                {
+                    Paused = value;
+                    levelTimer.Stop();
+                }
+                else levelTimer.Start();
+            }
+        }
 
         // Transition between levels
         private Transition transition;
@@ -88,7 +103,17 @@ namespace Game.Logic
 
             transition = new Transition();
 
-            transition.OnTransitionMiddle += () => { SetLevel(campaignLevels[currentLevelIndex++].Name); };
+            transition.OnTransitionMiddle += () => 
+            { 
+                if (currentLevelIndex == campaignLevels.Count - 1)
+                {
+                    GameOver = true;
+                }
+                else
+                {
+                    SetLevel(campaignLevels[currentLevelIndex++].Name); 
+                }
+            };
             transition.OnTransitionEnd += () => { Transitioning = false; };
         }
 
@@ -109,6 +134,11 @@ namespace Game.Logic
             GameObject.SetInteractables(Interactables);
             GameObject.SetPlayers(new List<GameObject> { Player });
 
+            for (int i = Interactables.Count - 1; i >= 0; i--)
+            {
+                Interactables[i].Start();
+            }
+
             levelTimer.Restart();
             if (!Paused) levelTimer.Start();
             else levelTimer.Stop();
@@ -122,6 +152,7 @@ namespace Game.Logic
             if (currentLevel.BestTime == 0 || newTime <= currentLevel.BestTime)
             {
                 currentLevel.AddNewBestTime((float)levelTimer.Elapsed.TotalSeconds);
+                SaveLevel();
             }
 
             Transitioning = true;
@@ -134,7 +165,7 @@ namespace Game.Logic
 
         public void ProcessInput()
         {
-            if (Input.GetKeyPressed(Key.Escape))
+            if (Input.GetKeyPressed(Key.Escape) && !GameOver)
             {
                 Paused = !Paused;
             }
@@ -163,21 +194,10 @@ namespace Game.Logic
                     timer -= minTimeBetweenTicks;
                 }
 
-                //foreach (var obj in Interactables)
-                //{
-                //    obj.Update(deltaTime);
-                //}
-
-                for (int i = Interactables.Count - 1; i > -1; i--)
+                foreach (var obj in Interactables)
                 {
-                    Interactables[i].Update(deltaTime);
-                    if (Interactables[i].NeedToRemove)
-                    {
-                        Interactables.RemoveAt(i);
-                    }
+                    obj.Update(deltaTime);
                 }
-
-                //Interactables.RemoveAll(x => x.NeedToRemove);
 
                 Player.Update(deltaTime);
 

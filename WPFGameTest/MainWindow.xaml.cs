@@ -103,8 +103,11 @@ namespace Game
             Resource.AddImage("Game_Bg", "background.png");
             Resource.AddImage("Player", "player.png");
             Resource.AddImage("Coin", "coin.png");
+            Resource.AddImage("Cannon_Right", "cannon_right.png");
+            Resource.AddImage("Cannon_Left", "cannon_left.png");
+            Resource.AddImage("Bullet", "bullet.png");
             Resource.AddImage("Spawn", "wooden_plate.png");
-            Resource.AddImage("Spike", "spike.png");
+            Resource.AddImage("Spike", "spikytrap.png");
             Resource.AddImage("Finish", "door.png");
             Resource.AddImage("Grass_Top_Center", "grass_topcenter.png");
             Resource.AddImage("Grass_Top_Right", "grass_topright.png");
@@ -118,6 +121,7 @@ namespace Game
             Resource.AddImage("Grass_Mid_Right_Left", "grass_midrightleft.png");
             Resource.AddImage("Grass_Top_Right_Bottom", "grass_toprightbottom.png");
             Resource.AddImage("Grass_Top_Left_Bottom", "grass_topleftbottom.png");
+            Resource.AddImage("Moving_Trap", "spikytrap.png");
 
             // Spritesheets
             Resource.AddImage("player_idle", "player_idle.png");

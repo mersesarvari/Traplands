@@ -6,41 +6,53 @@
              xmlns:local="clr-namespace:Game.MVVM.View"
              mc:Ignorable="d" 
              d:DesignHeight="800" d:DesignWidth="1024">
-    <Grid>
+    <Grid x:Name="MainGrid">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="1*"/>
+        </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="10*"/>
+            <RowDefinition Height="2*"/>
             <RowDefinition Height="1*"/>
+            <RowDefinition Height="10*"/>
+            <RowDefinition Height="2*"/>
+            <RowDefinition Height="2*"/>
         </Grid.RowDefinitions>
-        <Grid Grid.Row="0">
+        <Label Margin="10" FontFamily="Calibri" Content="Choose a level" Grid.Column="0" Grid.ColumnSpan="2" FontSize="50" HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
+        <Grid Grid.Column="1" Grid.Row="1">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="1*"/>
                 <ColumnDefinition Width="1*"/>
             </Grid.ColumnDefinitions>
-            <Label Content="Level" Grid.Column="0"/>
-            <Label Content="Best time" Grid.Column="1"/>
+            <Label Content="Level" FontSize="22" FontFamily="Calibri" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
+            <Label Content="Best time" FontSize="22" FontFamily="Calibri" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
         </Grid>
-        <StackPanel Grid.Row="0" HorizontalAlignment="Stretch">
-            <ListBox ItemsSource="{Binding Levels}" SelectedItem="{Binding SelectedLevel}" HorizontalContentAlignment="Stretch" HorizontalAlignment="Stretch">
-                <ListBox.ItemTemplate>
-                    <DataTemplate>
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="1*"/>
-                                <ColumnDefinition Width="1*"/>
-                            </Grid.ColumnDefinitions>
-                            <Label Content="{Binding Name}" Grid.Column="0"/>
-                            <Label Content="{Binding BestTime}" Grid.Column="1"/>
-                        </Grid>
-                    </DataTemplate>
-                </ListBox.ItemTemplate>
-            </ListBox>
-        </StackPanel>
-        <Button Command="{Binding NavigateSingleGameCommand}" Content="Play" Grid.Row="1" FontSize="30" Margin="10">
+        <Grid Grid.Column="1" Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+            </Grid.ColumnDefinitions>
+            <StackPanel Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Stretch">
+                <ListBox ItemsSource="{Binding Levels}" SelectedItem="{Binding SelectedLevel}" HorizontalContentAlignment="Stretch" HorizontalAlignment="Stretch">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="1*"/>
+                                    <ColumnDefinition Width="1*"/>
+                                </Grid.ColumnDefinitions>
+                                <Label FontSize="18" FontFamily="Calibri" Content="{Binding Name}" Grid.Column="0"/>
+                                <Label FontSize="18" FontFamily="Calibri" Content="{Binding BestTime}" Grid.Column="1"/>
+                            </Grid>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </StackPanel>
+        </Grid>
+        <Button Foreground="White" FontFamily="Calibri" BorderThickness="0" Command="{Binding NavigateSingleGameCommand}" Margin="20" Grid.Column="1" Grid.Row="3" Content="Play" FontSize="30">
             <Button.Background>
-                <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
-                    <GradientStop Color="LightGreen" Offset="0.3"/>
-                    <GradientStop Color="Brown" Offset="1.0"/>
-                </LinearGradientBrush>
+                <ImageBrush ImageSource="../../Resources/UI_BUTTON.png"  />
             </Button.Background>
         </Button>
     </Grid>

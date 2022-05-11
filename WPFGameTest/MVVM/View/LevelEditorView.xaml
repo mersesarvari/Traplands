@@ -16,7 +16,7 @@
         <ScrollViewer x:Name="MainCamera" Grid.Column="0">
             <renderer:LevelEditorRenderer x:Name="Renderer" Width="4400" Height="4400"/>
         </ScrollViewer>
-        <StackPanel x:Name="EditorPanel" Background="Transparent" Grid.Column="1">
+        <StackPanel x:Name="EditorPanel" Background="#c4826e" Grid.Column="1">
             <ListBox ItemsSource="{Binding Elements}" Background="Transparent" SelectedItem="{Binding SelectedObject}">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
@@ -26,15 +26,28 @@
                                 <ColumnDefinition Width="5*"/>
                             </Grid.ColumnDefinitions>
                             <Rectangle Width="40" Height="40" Fill="{Binding Rectangle.Fill}" Grid.Column="0"></Rectangle>
-                            <Label Content="{Binding Name}" Grid.Column="1"></Label>
+                            <Label Content="{Binding Name}" VerticalAlignment="Center" FontSize="16" FontFamily="Calibri" Grid.Column="1"></Label>
                         </Grid>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>
-            <Label Content="Level name" FontSize="18" Margin="0,10,0,0" Padding="10"></Label>
-            <TextBox Text="{Binding LevelName, UpdateSourceTrigger=PropertyChanged}" Padding="10" Margin="10"></TextBox>
-            <Button Command="{Binding SaveLevel}" Padding="10" Margin="10" >Save and Exit</Button>
-            <Button Command="{Binding ExitWithoutSaving}" Padding="10" Margin="10" >Back</Button>
+            <Button Foreground="White" FontFamily="Calibri" Command="{Binding FlipCannon}" Padding="10" Margin="10, 10, 10, 50">Flip
+                <Button.Background>
+                    <ImageBrush ImageSource="../../Resources/UI_BUTTON.png"  />
+                </Button.Background>
+            </Button>
+            <Label FontFamily="Calibri" Content="Level name" FontSize="18" Margin="0,10,0,0" Padding="10"></Label>
+            <TextBox FontFamily="Calibri" Text="{Binding LevelName, UpdateSourceTrigger=PropertyChanged}" Padding="10" Margin="10"></TextBox>
+            <Button Foreground="White" FontFamily="Calibri" Command="{Binding SaveLevel}" Padding="10" Margin="10">Save and Exit
+                <Button.Background>
+                    <ImageBrush ImageSource="../../Resources/UI_BUTTON.png"  />
+                </Button.Background>
+            </Button>
+            <Button Foreground="White" FontFamily="Calibri" Command="{Binding ExitWithoutSaving}" Padding="10" Margin="10" >Back
+                <Button.Background>
+                    <ImageBrush ImageSource="../../Resources/UI_BUTTON.png"  />
+                </Button.Background>
+            </Button>
         </StackPanel>
         <Grid x:Name="PauseMenu" Background="LightBlue" Width="500" Height="600" HorizontalAlignment="Left" Visibility="Hidden" Margin="262,76,0,76">
             <StackPanel VerticalAlignment="Center" Margin="100">
