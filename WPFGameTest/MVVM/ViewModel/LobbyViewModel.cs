@@ -51,13 +51,6 @@ namespace Game.MVVM.ViewModel
                 () => { MultiLogic.SetMap("MAP1"); }
                 );
             NavigateMultiMenuCommand = new NavigateCommand(menu);
-
-
-
-
-
-
-
         }
     }
 }

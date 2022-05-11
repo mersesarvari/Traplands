@@ -43,7 +43,7 @@ namespace Game.Models
         
         public void GameStarted()
         {
-            var msg = this.client.PacketReader.ReadMessage();
+            var msg = MultiLogic.locals.client.packetReader.ReadMessage();
             
             MultiLogic.locals.lobby = JsonConvert.DeserializeObject<Lobby>(msg);
             MainWindow.game = new Multiplayer();
@@ -57,7 +57,7 @@ namespace Game.Models
         public void UpdateUser()
         {
             //This method is handling the JoinResponse from the server
-            var msg = this.client.PacketReader.ReadMessage();
+            var msg = MultiLogic.locals.client.packetReader.ReadMessage();
             var L = JsonConvert.DeserializeObject<User>(msg);
 
             (MainWindow.game as Multiplayer).UpdatePlayer(L);
@@ -67,22 +67,21 @@ namespace Game.Models
 
         public void Client_userJoinedLobbyEvent()
         {
-            ;
             //This method is handling the JoinResponse from the server
-            var msg = this.client.PacketReader.ReadMessage();            
+            var msg = MultiLogic.locals.client.packetReader.ReadMessage();            
             var L = JsonConvert.DeserializeObject<Lobby>(msg);
             MultiLogic.locals.lobby= L;
             Trace.WriteLine($"Lobby was set in multilogic");
-            MessageBox.Show("Lobby refreshed");
+            MessageBox.Show("Ujser Joined The Lobby");
 
         }
         //Server-Client Methods
         #region Server-Client methods
         private void UserConnected()
         {
-
-            this.user.Username = client.PacketReader.ReadMessage();
-            this.user.Id = client.PacketReader.ReadMessage();
+            ;
+            MultiLogic.locals.user.Username = MultiLogic.locals.client.packetReader.ReadMessage();
+            MultiLogic.locals.user.Id = MultiLogic.locals.client.packetReader.ReadMessage();
             Trace.WriteLine($"[Connected] :{this.user.Id}");
             this.Connected = true;
             //messenger.Send("User Connected", "SetUser");
@@ -92,7 +91,7 @@ namespace Game.Models
         private void UserDisconnected()
         {
             ;
-            var uid = client.PacketReader.ReadMessage();
+            var uid = MultiLogic.locals.client.packetReader.ReadMessage();
             Trace.WriteLine($"[Disconnected]");
         }
 

@@ -26,7 +26,7 @@ namespace Game
             IServiceCollection services = new ServiceCollection();
 
             services.AddSingleton<NavigationStore>();
-            services.AddSingleton<INavigationService>(s => CreateMainMenuNavigationService(s));
+            services.AddSingleton<INavigationService>(s => CreateMainMenuNavigationService(s));            
 
             services.AddTransient<MainmenuViewModel>(s => new MainmenuViewModel(
                 CreateMultiMenuNavigationService(s),

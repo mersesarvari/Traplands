@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Game.Logic;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -14,8 +15,7 @@ namespace Game.Models
     public class Client
     {
         TcpClient _client;
-        public PacketReader PacketReader;
-
+        public PacketReader packetReader;
         public static List<MovementPackage> MovementHistory=new List<MovementPackage>();
         public event Action connectedEvent;
         public event Action userDisconnectedEvent;
@@ -38,9 +38,14 @@ namespace Game.Models
                 while (true)
                 {
                     try
-                    {                        
-                        var opcode = PacketReader.ReadByte();     
-                        Trace.WriteLine($"Recieving from the server ({opcode})");
+                    {
+                        MessageBox.Show("ReadPacket is running");
+                        var opcode = packetReader.ReadByte();
+                        Trace.WriteLine($"Recieving from the server ({opcode}): {MultiLogic.locals.user.Username}");
+                        MessageBox.Show("Client recieved data from the server: " + opcode
+                            + "\n" + MultiLogic.locals.user.Username
+                            + "\n" + MultiLogic.locals.user.Id
+                            );
                         switch (opcode)
                         {
                             case 0:
@@ -50,7 +55,7 @@ namespace Game.Models
                                 connectedEvent?.Invoke();
                                 break;
                             case 2:
-                                userJoinedLobbyEvent?.Invoke();                             
+                                userJoinedLobbyEvent?.Invoke();
                                 break;
                             case 4:
                                 //Trace.WriteLine("Movement recieved");
@@ -60,13 +65,13 @@ namespace Game.Models
                                 gameStartedEvent?.Invoke();
                                 break;
                             default:
-                                //MessageBox.Show($"Recieved unknown message ({opcode})");
+                                MessageBox.Show("Default");
                                 break;
                         }
                     }
-                    catch (Exception e)
+                    catch (Exception ex)
                     {
-                        throw new Exception(e.Message);                   
+                        throw new Exception(ex.Message);
                     }                    
                 }
             });
@@ -76,7 +81,7 @@ namespace Game.Models
             if (!_client.Connected)
             {
                 _client.Connect("127.0.0.1", 5000);
-                PacketReader = new PacketReader(_client.GetStream());
+                packetReader = new PacketReader(_client.GetStream());
 
                 if (!string.IsNullOrEmpty(username))
                 {
@@ -97,7 +102,7 @@ namespace Game.Models
 
             if (_client.Connected)
             {
-                PacketReader = new PacketReader(_client.GetStream());
+                packetReader = new PacketReader(_client.GetStream());
                 if (!string.IsNullOrEmpty(guid))
                 {
                     var connectPacket = new PacketBuilder();
@@ -105,35 +110,29 @@ namespace Game.Models
                     connectPacket.WriteMessage(guid);
                     _client.Client.Send(connectPacket.GetPacketbytes());
                 }
-                ReadPacket();
+                //ReadPacket();
             }
         }
         
         public void SendCommandToServer(string commandname, string executor, string command, bool waitforresponse)
         {
+            ;
             if (_client.Connected)
             {
-                if (waitforresponse)
-                {
-                    PacketReader = new PacketReader(_client.GetStream());
-                }                
                 //Trace.WriteLine($"Sending Command: {commandname} \n {executor} \n {command}");
                 var messagePacket = new PacketBuilder();
                 messagePacket.WriteOptCode(4);
                 messagePacket.WriteMessage(commandname);
                 messagePacket.WriteMessage(executor);
                 messagePacket.WriteMessage(command);
+
                 _client.Client.Send(messagePacket.GetPacketbytes());
+                ;
                 if(waitforresponse)
                 {
-                    ReadPacket();
-                }
-                
+                    //ReadPacket();
+                }                
             }
         }        
-
-
-
-
     }
 }
