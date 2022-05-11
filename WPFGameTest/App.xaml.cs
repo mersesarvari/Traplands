@@ -26,17 +26,25 @@ namespace Game
             IServiceCollection services = new ServiceCollection();
 
             services.AddSingleton<NavigationStore>();
-            services.AddSingleton<INavigationService>(s => CreateMainMenuNavigationService(s));            
+            services.AddSingleton<INavigationService>(s => CreateMainMenuNavigationService(s));
 
+            services.AddTransient<MultiLogic>(logic => new MultiLogic(
+                CreateLobbyNavigationService(logic),
+                CreateMultiGameNavigationService(logic),
+                CreateMultiMenuNavigationService(logic),
+                CreateMainMenuNavigationService(logic)
+
+                ));
             services.AddTransient<MainmenuViewModel>(s => new MainmenuViewModel(
                 CreateMultiMenuNavigationService(s),
                 CreateLevelEditorNavigationService(s),
                 CreateLevelManagerNavigationService(s)
                 ));
             services.AddTransient<MultiplayerGameMenuViewModel>(s => new MultiplayerGameMenuViewModel(
-                CreateMainMenuNavigationService(s),
                 CreateLobbyNavigationService(s),
-                CreateMultiGameNavigationService(s)
+                CreateMultiGameNavigationService(s),
+                CreateMultiMenuNavigationService(s),
+                CreateMainMenuNavigationService(s)
                 ));
 
             services.AddTransient<LevelEditorViewModel>(s => new LevelEditorViewModel(

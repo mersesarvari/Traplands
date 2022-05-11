@@ -16,14 +16,18 @@ namespace Game.Logic
 {
     public class MultiLogic
     {
-
         public static Locals locals;
         public IMessenger messenger;
 
-        public MultiLogic(IMessenger messenger)
+        public MultiLogic(INavigationService lobbyService, INavigationService gameService, INavigationService multimenuService, INavigationService menuService)
         {
-            locals = new(messenger);
+            locals = new(lobbyService, gameService, multimenuService, menuService, messenger);
             this.messenger = messenger;            
+        }
+        public MultiLogic(INavigationService lobbyService, INavigationService gameService, INavigationService multimenuService, INavigationService menuService, IMessenger messenger)
+        {
+            locals = new(lobbyService, gameService, multimenuService, menuService, messenger);
+            this.messenger = messenger;
         }
 
         public static void Disconnect(string id)
@@ -31,15 +35,13 @@ namespace Game.Logic
             locals.client.DisconnectFromServer(id);
         }
         //A tickes rész átírandó arra amit a rendes gameban is használunk..
-        public static void JoinLobby(INavigationService service,Locals locals, string username,string lobbycode)
+        public static void JoinLobby(Locals locals, string username,string lobbycode)
         {
             try
             {
                 if (locals.client.Connected())
                 {
-                    locals.client.SendCommandToServer("JOINLOBBY", locals.user.Id, lobbycode, true);
-                    //Valahogyan meg kéne kapnom, hogy sikeres volt e a csatlakozás. Valószínűleg eventen keresztül
-                    service.Navigate();
+                    locals.client.SendCommandToServer("JOINLOBBY", locals.user.Id, lobbycode);
                 }
                 else
                 {
@@ -51,14 +53,14 @@ namespace Game.Logic
                 throw new Exception(ex.Message);
             }            
         }
-        //A tickes rész átírandó arra amit a rendes gameban is használunk..
-        public static void CreateLobby(INavigationService service, Locals locals, string username, int currenttick)
+        //WORKING
+        public static void CreateLobby(Locals locals, string username, int currenttick)
         {
             if (locals.client.Connected())
             {
-                locals.client.SendCommandToServer("CREATELOBBY", locals.user.Id, locals.user.Id, false);
+                locals.client.SendCommandToServer("CREATELOBBY", locals.user.Id, locals.user.Id);
                 Thread.Sleep(1500);
-                service.Navigate();
+                //service.Navigate();
                 var checker = MultiLogic.locals;                
             }
             else
@@ -69,14 +71,11 @@ namespace Game.Logic
 
 
         //SENDING INFORMATION: MAP, PLAYERLIST, 
-        public static void StartGame(INavigationService service, Lobby lobby, string username)
+        public static void StartGame(Lobby lobby, string username)
         {
             if (locals.client.Connected())
             {
-                locals.client.SendCommandToServer("STARTGAME", locals.lobby.LobbyId, JsonConvert.SerializeObject(lobby), false);
-                Thread.Sleep(1000);
-                //Implementálás
-                //service.Navigate();
+                locals.client.SendCommandToServer("STARTGAME", locals.lobby.LobbyId, JsonConvert.SerializeObject(lobby));
             }
             else
             {

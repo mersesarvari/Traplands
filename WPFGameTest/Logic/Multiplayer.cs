@@ -143,7 +143,7 @@ namespace Game.Logic
 
             var serialized = JsonConvert.SerializeObject(MultiLogic.locals.user);
             
-            MultiLogic.locals.client.SendCommandToServer("MOVE", localID, serialized, false);
+            MultiLogic.locals.client.SendCommandToServer("MOVE", localID, serialized);
 
             CameraController.Instance.UpdateCamera(Player.Transform.Position);
         }

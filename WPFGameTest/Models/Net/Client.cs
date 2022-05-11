@@ -1,4 +1,5 @@
 ﻿using Game.Logic;
+using Game.MVVM.Services;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -27,7 +28,7 @@ namespace Game.Models
         public event Action updateUserData;
         public event Action gameStartedEvent;
 
-        public Client()
+        public Client(INavigationService game, INavigationService menu)
         {
             _client = new TcpClient();
         }        
@@ -39,7 +40,6 @@ namespace Game.Models
                 {
                     try
                     {
-                        MessageBox.Show("ReadPacket is running");
                         var opcode = packetReader.ReadByte();
                         //Trace.WriteLine($"Recieving from the server ({opcode}): {MultiLogic.locals.user.Username}");
                         /*
@@ -60,7 +60,6 @@ namespace Game.Models
                                 userJoinedLobbyEvent?.Invoke();
                                 break;
                             case 4:
-                                //Trace.WriteLine("Movement recieved");
                                 updateUserData?.Invoke();
                                 break;
                             case 5:
@@ -115,7 +114,7 @@ namespace Game.Models
             }
         }
         
-        public void SendCommandToServer(string commandname, string executor, string command, bool waitforresponse)
+        public void SendCommandToServer(string commandname, string executor, string command)
         {
             if (_client.Connected)
             {

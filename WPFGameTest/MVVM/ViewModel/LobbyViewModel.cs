@@ -44,7 +44,7 @@ namespace Game.MVVM.ViewModel
             StartGameCommand = new RelayCommand(
                 () => 
                 {
-                    MultiLogic.StartGame(game, MultiLogic.locals.lobby, MultiLogic.locals.user.Username);
+                    MultiLogic.StartGame(MultiLogic.locals.lobby, MultiLogic.locals.user.Username);
                 }
                 );
             SetMapCommand = new RelayCommand(
