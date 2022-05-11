@@ -73,10 +73,5 @@ namespace Game.Models
             Transform.ScaleTransform.ScaleX *= -1;
             FacingRight = !FacingRight;
         }
-
-        public void SetDefaultSprite(ImageSource imgSrc)
-        {
-            Fill = new ImageBrush(imgSrc);
-        }
     }
 }

@@ -12,6 +12,7 @@ using Game.Models;
 using Game.Renderer;
 using Game;
 using Game.Logic;
+using Microsoft.Toolkit.Mvvm.Messaging;
 
 namespace WPFGameTest.Logic
 {
@@ -51,9 +52,10 @@ namespace WPFGameTest.Logic
             ID = id;
 
             Rectangle = new Rectangle();
-            Rectangle.Fill = new SolidColorBrush(Colors.AntiqueWhite);
+            Rectangle.Fill = new SolidColorBrush(Colors.Red);
+            Rectangle.Fill.Opacity = 0.5;
             Position = new Vector2();
-            Name = "Moving trap waypoint";
+            Name = "Trap waypoint";
             Type = ObjectType.Trap_Waypoint;
         }
 
@@ -85,7 +87,7 @@ namespace WPFGameTest.Logic
 
             WaypointRect rect = new WaypointRect();
             rect.Rectangle = new Rectangle();
-            rect.Rectangle.Fill = new SolidColorBrush(Colors.OrangeRed);
+            rect.Rectangle.Fill = new SolidColorBrush(Colors.Red);
             rect.Rectangle.Fill.Opacity = 0.5;
             rect.Rectangle.Width = size.X;
             rect.Rectangle.Height = size.Y;
@@ -200,14 +202,42 @@ namespace WPFGameTest.Logic
         }
     }
 
+    public class CannonRect : EditorElement
+    {
+        public bool FacingRight { get; set; }
+
+        public CannonRect()
+        {
+            FacingRight = true;
+            Rectangle = new Rectangle();
+            Position = new Vector2();
+            Rectangle.Fill = new ImageBrush(Resource.GetImage("Cannon_Right"));
+            Name = "Cannon";
+            Type = ObjectType.Cannon;
+        }
+
+        public void Flip()
+        {
+            FacingRight = !FacingRight;
+            if (FacingRight)
+            {
+                Rectangle.Fill = new ImageBrush(Resource.GetImage("Cannon_Right"));
+            }
+            else
+            {
+                Rectangle.Fill = new ImageBrush(Resource.GetImage("Cannon_Left"));
+            }
+        }
+    }
+
     public class BlockRect : EditorElement
     {
         public BlockRect()
         {
             Rectangle = new Rectangle();
             Position = new Vector2();
-            Rectangle.Fill = new SolidColorBrush(Colors.Blue);
-            Name = "Block";
+            Rectangle.Fill = new ImageBrush(Resource.GetImage("Grass_Top_Center"));
+            Name = "Terrain";
             Type = ObjectType.Grass_Top_Center;
         }
     }
@@ -218,7 +248,7 @@ namespace WPFGameTest.Logic
         {
             Rectangle = new Rectangle();
             Position = new Vector2();
-            Rectangle.Fill = new SolidColorBrush(Colors.DarkRed);
+            Rectangle.Fill = new ImageBrush(Resource.GetImage("Spike"));
             Name = "Trap";
             Type = ObjectType.Spike;
         }
@@ -230,8 +260,8 @@ namespace WPFGameTest.Logic
         {
             Rectangle = new Rectangle();
             Position = new Vector2();
-            Rectangle.Fill = new SolidColorBrush(Colors.Yellow);
-            Name = "Spawn point";
+            Rectangle.Fill = new ImageBrush(Resource.GetImage("Spawn"));
+            Name = "Spawn";
             Type = ObjectType.Spawn;
         }
     }
@@ -242,8 +272,8 @@ namespace WPFGameTest.Logic
         {
             Rectangle = new Rectangle();
             Position = new Vector2();
-            Rectangle.Fill = new SolidColorBrush(Colors.Pink);
-            Name = "Finish point";
+            Rectangle.Fill = new ImageBrush(Resource.GetImage("Finish"));
+            Name = "Finish";
             Type = ObjectType.Finish;
         }
     }
@@ -255,14 +285,14 @@ namespace WPFGameTest.Logic
         public WaypointGroup ParentGroup { get; set; }
         public Waypoint Waypoint { get; set; }
         public Label IdLabel { get; set; }
-        public bool Start { get; set; }
+        public bool Loopback { get; set; }
 
         public WaypointRect()
         {
             Rectangle = new Rectangle();
-            Rectangle.Fill = new SolidColorBrush(Colors.AntiqueWhite);
+            Rectangle.Fill = new SolidColorBrush(Colors.Red);
             Position = new Vector2();
-            Name = "Moving trap waypoint";
+            Name = "Trap waypoint";
             Type = ObjectType.Trap_Waypoint;
         }
 
@@ -328,17 +358,37 @@ namespace WPFGameTest.Logic
             new Vector2(-1,1)
         };
 
-        // Might be temp
+        // Placing elements
+        ObjectType selectedElement;
+        bool painting;
+
+        // Moving traps
         List<WaypointGroup> WaypointGroups;
         WaypointRect selected;
         WaypointRect releasedOn;
-        ObjectType selectedElement;
-        bool painting;
+
+        // Spawn and finish
         Vector2 spawnPosition;
         Vector2 finishPosition;
 
-        public LevelEditor()
+        private IMessenger messenger;
+
+        // Cannon
+
+        private CannonRect selectedCannon;
+        public CannonRect SelectedCannon 
+        { 
+            get => selectedCannon; 
+            set
+            {
+                selectedCannon = value;
+                messenger.Send("Cannon selected", "CannonSelected");
+            }
+        }
+
+        public LevelEditor(IMessenger messenger)
         {
+            this.messenger = messenger;
             Grid = new LevelGrid(100, 100, ObjectData.BLOCK_WIDTH, ObjectData.BLOCK_HEIGHT);
             Rectangles = new List<EditorElement>();
             WaypointGroups = new List<WaypointGroup>();
@@ -560,6 +610,12 @@ namespace WPFGameTest.Logic
                             ReplaceTile(Get(new Coordinate(finishPosition.X, finishPosition.Y)), finishPosition, matrixPos);
                             finishPosition = matrixPos;
                             break;
+                        case ObjectType.Cannon:
+                            CannonRect cannon = new CannonRect();
+                            cannon.Rectangle.Width = ObjectData.BLOCK_WIDTH;
+                            cannon.Rectangle.Height = ObjectData.BLOCK_HEIGHT;
+                            AddTile(cannon, matrixPos);
+                            break;
                         default:
                             Trace.WriteLine("Nothing is selected.");
                             break;
@@ -573,12 +629,22 @@ namespace WPFGameTest.Logic
                         previewLine.X1 = actualPos.X + Grid.CellSize.X / 2;
                         previewLine.Y1 = actualPos.Y + Grid.CellSize.Y / 2;
                     }
-                    else if (Grid.Map[matrixPos.X, matrixPos.Y] == (int)ObjectType.None) // Cannon later?
+
+                    if (Grid.Map[matrixPos.X, matrixPos.Y] == (int)ObjectType.Cannon)
                     {
-                        //selectedCannon = (Get(new Coordinate(matrixPos.X, matrixPos.Y)) as CannonRect);
+                        SelectedCannon = (Get(new Coordinate(matrixPos.X, matrixPos.Y)) as CannonRect);
+                    }
+                    else
+                    {
+                        SelectedCannon = null;
                     }
                 }
             }
+        }
+
+        public void FlipCannon(CannonRect cannon)
+        {
+            cannon.Flip();
         }
 
         private EditorElement Get(Coordinate cord)
@@ -645,6 +711,10 @@ namespace WPFGameTest.Logic
                     break;
                 case ObjectType.Spike:
                     DeleteFromCollections(matrixPos);
+                    break;
+                case ObjectType.Cannon:
+                    DeleteFromCollections(matrixPos);
+                    SelectedCannon = null;
                     break;
                 default:
                     break;
@@ -718,6 +788,7 @@ namespace WPFGameTest.Logic
             elements.Add(new FinishPoint());
             elements.Add(new BlockRect());
             elements.Add(new TrapRect());
+            elements.Add(new CannonRect());
         }
 
         public void SaveLevel(string levelName)
@@ -728,7 +799,6 @@ namespace WPFGameTest.Logic
         public void SelectElement(EditorElement element)
         {
             selectedElement = element.Type;
-            Trace.WriteLine(element.Type.ToString());
         }
 
         private void ReplaceTile(EditorElement element, Vector2 from, Vector2 to)

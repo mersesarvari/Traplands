@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -174,6 +175,7 @@ namespace Game.Models
                     if (obj.Tag == "Trap")
                     {
                         Die();
+                        CameraController.Instance.Shake(0.1f, 10);
                     }
                     else if (obj.Tag == "Finish")
                     {
@@ -357,5 +359,19 @@ namespace Game.Models
 
             base.Update(deltaTime);
         }
+
+        //public void LateUpdate()
+        //{
+        //    GameObject obj;
+        //    if (Physics.IsColliding(interactables, Hitbox, out obj))
+        //    {
+        //        if (obj.Tag == "Trap")
+        //        {
+        //            Trace.WriteLine("This is called");
+        //            Die();
+        //            CameraController.Instance.Shake(0.1f, 10);
+        //        }
+        //    }
+        //}
     }
 }

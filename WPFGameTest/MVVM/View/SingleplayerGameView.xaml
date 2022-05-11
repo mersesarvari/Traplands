@@ -14,18 +14,26 @@
     </UserControl.Resources>
     <Grid x:Name="MainGrid">
         <ScrollViewer x:Name="MainCamera" Grid.RowSpan="2" Effect="{Binding GamePaused, Converter={StaticResource GamePausedEffect}}">
-            <renderer:SinglePlayerRenderer x:Name="Renderer" Width="4400" Height="4400"/>
+            <renderer:SinglePlayerRenderer x:Name="Renderer" Width="3600" Height="3600"/>
         </ScrollViewer>
-        <Label Content="{Binding LevelTimeElapsed}" ContentStringFormat="{}{0:0.#}" FontSize="24" Padding="10"/>
+        <Label Content="{Binding LevelTimeElapsed}" FontFamily="Calibri" ContentStringFormat="{}{0:0.#}" FontSize="26" Padding="10" Margin="10"/>
         <Grid Width="400" Visibility="{Binding GamePaused, Converter={StaticResource GamePaused}}" HorizontalAlignment="Stretch" x:Name="PauseMenu"  Margin="300,100,300,100">
             <Grid.Background>
                 <SolidColorBrush Color="Black" Opacity="0.5"/>
             </Grid.Background>
             <StackPanel Margin="50" VerticalAlignment="Stretch">
                 <Label Content="Paused" HorizontalContentAlignment="Center" Foreground="White" FontFamily="Helvetica" FontSize="36" Padding="10"/>
-                <Label Content="{Binding LevelTimeElapsed}" Foreground="White" FontFamily="Helvetica" ContentStringFormat="{}{0:0.#}" FontSize="30" Padding="10" HorizontalContentAlignment="Center"/>
-                <Button Height="40" Margin="10" FontSize="16" FontFamily="Helvetica" Content="Resume" BorderThickness="0" Command="{Binding ResumeGame}" />
-                <Button Height="40" Margin="10" FontSize="16" FontFamily="Helvetica" Content="Exit" BorderThickness="0" Command="{Binding NavigateMainMenuCommand}"/>
+                <Label Content="{Binding LevelTimeElapsed}" Foreground="White" FontFamily="Calibri" ContentStringFormat="{}{0:0.#}" FontSize="30" Padding="10" HorizontalContentAlignment="Center"/>
+                <Button Height="40" Margin="10" FontSize="16" Foreground="White" FontFamily="Calibri" Content="Resume" BorderThickness="0" Command="{Binding ResumeGame}">
+                    <Button.Background>
+                        <ImageBrush ImageSource="../../Resources/UI_BUTTON.png"  />
+                    </Button.Background>
+                </Button>
+                <Button Height="40" Margin="10" Foreground="White" FontSize="16" FontFamily="Helvetica" Content="Exit" BorderThickness="0" Command="{Binding NavigateMainMenuCommand}">
+                    <Button.Background>
+                        <ImageBrush ImageSource="../../Resources/UI_BUTTON.png"  />
+                    </Button.Background>
+                </Button>
             </StackPanel>
         </Grid>
         <Grid Background="Black" Opacity="{Binding TransitionAlpha}" Visibility="{Binding Transitioning, Converter={StaticResource GamePaused}}"/>

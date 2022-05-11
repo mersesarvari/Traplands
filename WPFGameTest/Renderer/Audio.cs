@@ -7,7 +7,7 @@ namespace Game.Renderer
     public static class AudioManager
     {
         public static AudioClip backgroundMusic = new AudioClip();
-        public static double defaultVolume = 0.04;
+        public static double defaultVolume = 0.03;
 
         public static void Init()
         {
@@ -58,7 +58,7 @@ namespace Game.Renderer
             {
                 if (value)
                 {
-                    mediaPlayer.MediaEnded += (object sender, EventArgs e) =>
+                    mediaPlayer.MediaEnded += (s, e) =>
                     {
                         mediaPlayer.Play();
                     };
@@ -67,7 +67,7 @@ namespace Game.Renderer
                 {
                     if (Looping)
                     {
-                        mediaPlayer.MediaEnded -= (object sender, EventArgs e) =>
+                        mediaPlayer.MediaEnded -= (s, e) =>
                         {
                             mediaPlayer.Play();
                         };

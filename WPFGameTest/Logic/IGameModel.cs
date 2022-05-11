@@ -42,6 +42,8 @@ namespace Game.Logic
         List<EditorElement> Rectangles { get; set; }
         List<Line> Lines { get; set; }
         EditorElement PreviewRect { get; set; }
+        CannonRect SelectedCannon { get; set; }
+        void FlipCannon(CannonRect cannon);
         void Init(FrameworkElement renderTarget, ScrollViewer camera);
         void LoadElements(IList<EditorElement> elements);
         void SelectElement(EditorElement element);

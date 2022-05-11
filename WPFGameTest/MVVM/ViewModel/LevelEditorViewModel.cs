@@ -47,6 +47,11 @@ namespace Game.MVVM.ViewModel
             }
         }
 
+        public CannonRect SelectedCannon
+        {
+            get { return logic.SelectedCannon; }
+        }
+
         private string levelName;
         public string LevelName
         {
@@ -80,16 +85,24 @@ namespace Game.MVVM.ViewModel
 
         public ICommand SaveLevel { get; set; }
         public ICommand ExitWithoutSaving { get; set; }
+        public ICommand FlipCannon { get; set; }
 
         public LevelEditorViewModel(INavigationService mainMenuNavigationService)
         {
-            this.logic = new LevelEditor();
+            this.logic = new LevelEditor(Messenger);
             MainWindow.game = logic;
             SaveLevel = new RelayCommand(() => { logic.SaveLevel(LevelName); mainMenuNavigationService.Navigate(); }, () => !string.IsNullOrWhiteSpace(LevelName));
             ExitWithoutSaving = new RelayCommand(() => { mainMenuNavigationService.Navigate(); });
+            FlipCannon = new RelayCommand(() => { logic.FlipCannon(SelectedCannon); }, () => SelectedCannon != null);
 
             Elements = new ObservableCollection<EditorElement>();
             logic.LoadElements(Elements);
+
+            Messenger.Register<LevelEditorViewModel, string, string>(this, "CannonSelected", (recepient, msg) =>
+            {
+                OnPropertyChanged(nameof(SelectedCannon));
+                (FlipCannon as RelayCommand).NotifyCanExecuteChanged();
+            });
         }
     }
 }

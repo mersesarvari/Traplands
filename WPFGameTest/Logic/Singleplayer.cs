@@ -48,7 +48,24 @@ namespace Game.Logic
             } 
         }
 
-        public bool GameOver { get; set; }
+        private bool gameOver;
+        public bool GameOver
+        {
+            get => gameOver;
+            set
+            {
+                gameOver = value;
+                messenger.Send("Game state changed", "GameOver");
+                if (value)
+                {
+                    Paused = value;
+                    levelTimer.Stop();
+                }
+                else levelTimer.Start();
+            }
+        }
+
+        private bool firstLoad;
 
         // Transition between levels
         private Transition transition;
@@ -78,8 +95,12 @@ namespace Game.Logic
         {
             this.messenger = messenger;
 
-            campaignLevels = LevelManager.CampaignLevels;
+            firstLoad = true;
 
+            currentLevelIndex = 0;
+
+            campaignLevels = LevelManager.CampaignLevels;
+            
             AudioManager.SetBackgroundMusic("26-Dark Fantasy Studio- Playing in water.wav");
 
             levelTimer = new Stopwatch();
@@ -88,7 +109,6 @@ namespace Game.Logic
 
             transition = new Transition();
 
-            transition.OnTransitionMiddle += () => { SetLevel(campaignLevels[currentLevelIndex++].Name); };
             transition.OnTransitionEnd += () => { Transitioning = false; };
         }
 
@@ -103,15 +123,72 @@ namespace Game.Logic
             Interactables = currentLevel.Interactables;
             Player = new Player("01", "Player1", spawnPoint, new Vector2(ObjectData.PLAYER_WIDTH, ObjectData.PLAYER_HEIGHT), 8);
 
-            Player.OnFinishPointReached += OnFinishPointReached;
+
+            if (currentLevel == campaignLevels[0])
+            {
+                Player.OnFinishPointReached += OnFinishPointReached;
+
+                if (firstLoad)
+                {
+                    transition.OnTransitionMiddle += () =>
+                    {
+                        currentLevelIndex++;
+                        if (currentLevelIndex >= campaignLevels.Count)
+                        {
+                            GameOver = true;
+                        }
+                        else
+                        {
+                            SetLevel(campaignLevels[currentLevelIndex].Name);
+                        }
+                    };
+
+                    firstLoad = false;
+                }
+            }
+            else
+            {
+                Player.OnFinishPointReached += OnSingleLevelFinish;
+
+                if (firstLoad)
+                {
+                    transition.OnTransitionMiddle += () =>
+                    {
+                        GameOver = true;
+                    };
+
+                    firstLoad = false;
+                }
+            }
+
+            
 
             GameObject.SetSolids(Solids);
             GameObject.SetInteractables(Interactables);
             GameObject.SetPlayers(new List<GameObject> { Player });
 
+            for (int i = Interactables.Count - 1; i >= 0; i--)
+            {
+                Interactables[i].Start();
+            }
+
             levelTimer.Restart();
             if (!Paused) levelTimer.Start();
             else levelTimer.Stop();
+        }
+
+        public void OnSingleLevelFinish()
+        {
+            levelTimer.Stop();
+            float newTime = (float)levelTimer.Elapsed.TotalSeconds;
+
+            if (currentLevel.BestTime == 0 || newTime <= currentLevel.BestTime)
+            {
+                currentLevel.AddNewBestTime((float)levelTimer.Elapsed.TotalSeconds);
+                SaveLevel();
+            }
+
+            Transitioning = true;
         }
 
         public void OnFinishPointReached()
@@ -122,6 +199,7 @@ namespace Game.Logic
             if (currentLevel.BestTime == 0 || newTime <= currentLevel.BestTime)
             {
                 currentLevel.AddNewBestTime((float)levelTimer.Elapsed.TotalSeconds);
+                SaveLevel();
             }
 
             Transitioning = true;
@@ -134,7 +212,7 @@ namespace Game.Logic
 
         public void ProcessInput()
         {
-            if (Input.GetKeyPressed(Key.Escape))
+            if (Input.GetKeyPressed(Key.Escape) && !GameOver)
             {
                 Paused = !Paused;
             }
@@ -163,21 +241,10 @@ namespace Game.Logic
                     timer -= minTimeBetweenTicks;
                 }
 
-                //foreach (var obj in Interactables)
-                //{
-                //    obj.Update(deltaTime);
-                //}
-
-                for (int i = Interactables.Count - 1; i > -1; i--)
+                foreach (var obj in Interactables)
                 {
-                    Interactables[i].Update(deltaTime);
-                    if (Interactables[i].NeedToRemove)
-                    {
-                        Interactables.RemoveAt(i);
-                    }
+                    obj.Update(deltaTime);
                 }
-
-                //Interactables.RemoveAll(x => x.NeedToRemove);
 
                 Player.Update(deltaTime);
 
