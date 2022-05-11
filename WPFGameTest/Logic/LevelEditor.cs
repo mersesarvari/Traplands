@@ -52,7 +52,8 @@ namespace WPFGameTest.Logic
             ID = id;
 
             Rectangle = new Rectangle();
-            Rectangle.Fill = new SolidColorBrush(Colors.AntiqueWhite);
+            Rectangle.Fill = new SolidColorBrush(Colors.Red);
+            Rectangle.Fill.Opacity = 0.5;
             Position = new Vector2();
             Name = "Trap waypoint";
             Type = ObjectType.Trap_Waypoint;
@@ -284,12 +285,12 @@ namespace WPFGameTest.Logic
         public WaypointGroup ParentGroup { get; set; }
         public Waypoint Waypoint { get; set; }
         public Label IdLabel { get; set; }
-        public bool Start { get; set; }
+        public bool Loopback { get; set; }
 
         public WaypointRect()
         {
             Rectangle = new Rectangle();
-            Rectangle.Fill = new SolidColorBrush(Colors.AntiqueWhite);
+            Rectangle.Fill = new SolidColorBrush(Colors.Red);
             Position = new Vector2();
             Name = "Trap waypoint";
             Type = ObjectType.Trap_Waypoint;
@@ -713,6 +714,7 @@ namespace WPFGameTest.Logic
                     break;
                 case ObjectType.Cannon:
                     DeleteFromCollections(matrixPos);
+                    SelectedCannon = null;
                     break;
                 default:
                     break;
