@@ -65,6 +65,8 @@ namespace Game.Logic
             }
         }
 
+        private bool firstLoad;
+
         // Transition between levels
         private Transition transition;
         private bool transitioning;
@@ -93,8 +95,12 @@ namespace Game.Logic
         {
             this.messenger = messenger;
 
-            campaignLevels = LevelManager.CampaignLevels;
+            firstLoad = true;
 
+            currentLevelIndex = 0;
+
+            campaignLevels = LevelManager.CampaignLevels;
+            
             AudioManager.SetBackgroundMusic("26-Dark Fantasy Studio- Playing in water.wav");
 
             levelTimer = new Stopwatch();
@@ -103,17 +109,6 @@ namespace Game.Logic
 
             transition = new Transition();
 
-            transition.OnTransitionMiddle += () => 
-            { 
-                if (currentLevelIndex == campaignLevels.Count - 1)
-                {
-                    GameOver = true;
-                }
-                else
-                {
-                    SetLevel(campaignLevels[currentLevelIndex++].Name); 
-                }
-            };
             transition.OnTransitionEnd += () => { Transitioning = false; };
         }
 
@@ -128,7 +123,45 @@ namespace Game.Logic
             Interactables = currentLevel.Interactables;
             Player = new Player("01", "Player1", spawnPoint, new Vector2(ObjectData.PLAYER_WIDTH, ObjectData.PLAYER_HEIGHT), 8);
 
-            Player.OnFinishPointReached += OnFinishPointReached;
+
+            if (currentLevel == campaignLevels[0])
+            {
+                Player.OnFinishPointReached += OnFinishPointReached;
+
+                if (firstLoad)
+                {
+                    transition.OnTransitionMiddle += () =>
+                    {
+                        currentLevelIndex++;
+                        if (currentLevelIndex >= campaignLevels.Count)
+                        {
+                            GameOver = true;
+                        }
+                        else
+                        {
+                            SetLevel(campaignLevels[currentLevelIndex].Name);
+                        }
+                    };
+
+                    firstLoad = false;
+                }
+            }
+            else
+            {
+                Player.OnFinishPointReached += OnSingleLevelFinish;
+
+                if (firstLoad)
+                {
+                    transition.OnTransitionMiddle += () =>
+                    {
+                        GameOver = true;
+                    };
+
+                    firstLoad = false;
+                }
+            }
+
+            
 
             GameObject.SetSolids(Solids);
             GameObject.SetInteractables(Interactables);
@@ -142,6 +175,20 @@ namespace Game.Logic
             levelTimer.Restart();
             if (!Paused) levelTimer.Start();
             else levelTimer.Stop();
+        }
+
+        public void OnSingleLevelFinish()
+        {
+            levelTimer.Stop();
+            float newTime = (float)levelTimer.Elapsed.TotalSeconds;
+
+            if (currentLevel.BestTime == 0 || newTime <= currentLevel.BestTime)
+            {
+                currentLevel.AddNewBestTime((float)levelTimer.Elapsed.TotalSeconds);
+                SaveLevel();
+            }
+
+            Transitioning = true;
         }
 
         public void OnFinishPointReached()
