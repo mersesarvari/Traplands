@@ -62,12 +62,18 @@ namespace Game.Models
             ;
             var msg = MultiLogic.locals.client.packetReader.ReadMessage();            
             MultiLogic.locals.lobby = JsonConvert.DeserializeObject<Lobby>(msg);
-
+            ;
+            Application.Current.Dispatcher.Invoke((Action)delegate {
+                MainWindow.game = new Multiplayer();
+                (MainWindow.game as Multiplayer).LoadLevel("Level 1");
+                (MainWindow.game as Multiplayer).LoadPlayers(MultiLogic.locals.lobby.Users);
+            });
             /*
             MainWindow.game = new Multiplayer();
             (MainWindow.game as Multiplayer).LoadLevel("Level 1");
             (MainWindow.game as Multiplayer).LoadPlayers(MultiLogic.locals.lobby.Users);  
             */
+            //LevelManager.LoadLevels();
             gameService.Navigate();
 
         }
