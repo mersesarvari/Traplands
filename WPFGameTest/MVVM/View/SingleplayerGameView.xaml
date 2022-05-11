@@ -53,6 +53,6 @@
                 </Button>
             </StackPanel>
         </Grid>
-        <!--<Grid Background="Black" Opacity="{Binding TransitionAlpha}" Visibility="{Binding Transitioning, Converter={StaticResource GamePaused}}"/>-->
+        <Grid Background="Black" Opacity="{Binding TransitionAlpha}" Visibility="{Binding Transitioning, Converter={StaticResource GamePaused}}"/>
     </Grid>
 </UserControl>
