@@ -6,8 +6,12 @@
         xmlns:local="clr-namespace:Game.MVVM.View"
         xmlns:renderer="clr-namespace:Game.Renderer"
         xmlns:vms="clr-namespace:Game.MVVM.ViewModel"
+        xmlns:converter="clr-namespace:Game.Converter"
         mc:Ignorable="d"
         d:DesignHeight="800" d:DesignWidth="1024">
+    <UserControl.Resources>
+        <converter:ButtonActiveObjectConverter x:Key="ButtonActive"/>
+    </UserControl.Resources>
     <Grid x:Name="MainGrid">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="4*"/>
@@ -31,7 +35,7 @@
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>
-            <Button Foreground="White" FontFamily="Calibri" Command="{Binding FlipCannon}" Padding="10" Margin="10, 10, 10, 50">Flip
+            <Button Foreground="White" FontFamily="Calibri" Command="{Binding FlipCannon}" Visibility="{Binding SelectedCannon, Converter={StaticResource ButtonActive}}" Padding="10" Margin="10, 10, 10, 50">Flip
                 <Button.Background>
                     <ImageBrush ImageSource="../../Resources/UI_BUTTON.png"  />
                 </Button.Background>

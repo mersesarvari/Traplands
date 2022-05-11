@@ -170,7 +170,6 @@ namespace Game.Logic
         public void Shoot()
         {
             bullets[nextBullet].Shoot();
-            //bullets[nextBullet].Tag = "Trap";
             nextBullet = nextBullet == 0 ? 1 : 0;
             timeToShoot = shootingTime;
         }

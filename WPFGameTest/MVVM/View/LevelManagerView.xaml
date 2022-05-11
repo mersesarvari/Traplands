@@ -4,8 +4,12 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Game.MVVM.View"
+             xmlns:converter="clr-namespace:Game.Converter"
              mc:Ignorable="d" 
              d:DesignHeight="800" d:DesignWidth="1024">
+    <UserControl.Resources>
+        <converter:ButtonActiveObjectConverter x:Key="ButtonActive"/>
+    </UserControl.Resources>
     <Grid x:Name="MainGrid">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="1*"/>
@@ -20,6 +24,11 @@
             <RowDefinition Height="2*"/>
         </Grid.RowDefinitions>
         <Label Margin="10" FontFamily="Calibri" Content="Choose a level" Grid.Column="0" Grid.ColumnSpan="2" FontSize="50" HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
+        <Grid Grid.Column="1" Grid.Row="1" Grid.RowSpan="2" Background="White" Opacity="0.5">
+            <Grid.Effect>
+                <BlurEffect/>
+            </Grid.Effect>
+        </Grid>
         <Grid Grid.Column="1" Grid.Row="1">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="1*"/>
@@ -33,11 +42,11 @@
                 <ColumnDefinition Width="1*"/>
                 <ColumnDefinition Width="1*"/>
             </Grid.ColumnDefinitions>
-            <StackPanel Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Stretch">
-                <ListBox ItemsSource="{Binding Levels}" SelectedItem="{Binding SelectedLevel}" HorizontalContentAlignment="Stretch" HorizontalAlignment="Stretch">
+            <StackPanel Grid.Column="0" Grid.ColumnSpan="2" Background="Transparent" HorizontalAlignment="Stretch">
+                <ListBox Background="Transparent" ItemsSource="{Binding Levels}" SelectedItem="{Binding SelectedLevel}" HorizontalContentAlignment="Stretch" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Stretch">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
-                            <Grid>
+                            <Grid VerticalAlignment="Stretch">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="1*"/>
                                     <ColumnDefinition Width="1*"/>
@@ -50,7 +59,8 @@
                 </ListBox>
             </StackPanel>
         </Grid>
-        <Button Foreground="White" FontFamily="Calibri" BorderThickness="0" Command="{Binding NavigateSingleGameCommand}" Margin="20" Grid.Column="1" Grid.Row="3" Content="Play" FontSize="30">
+        <Button Foreground="White" FontFamily="Calibri" BorderThickness="0" Command="{Binding NavigateSingleGameCommand}" 
+                Margin="20" Grid.Column="1" Grid.Row="3" Content="Play" FontSize="30" Visibility="{Binding SelectedLevel, Converter={StaticResource ButtonActive}}">
             <Button.Background>
                 <ImageBrush ImageSource="../../Resources/UI_BUTTON.png"  />
             </Button.Background>

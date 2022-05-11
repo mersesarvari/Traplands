@@ -73,16 +73,6 @@ namespace Game.MVVM.ViewModel
             return logic;
         }
 
-        public static bool IsInDesignerMode
-        {
-            get
-            {
-                var prop = DesignerProperties.IsInDesignModeProperty;
-                return (bool)DependencyPropertyDescriptor.FromProperty(prop,
-                typeof(FrameworkElement)).Metadata.DefaultValue;
-            }
-        }
-
         public ICommand SaveLevel { get; set; }
         public ICommand ExitWithoutSaving { get; set; }
         public ICommand FlipCannon { get; set; }

@@ -29,6 +29,7 @@ namespace Game.MVVM.ViewModel
             set
             {
                 SetProperty(ref selectedLevel, value);
+                OnPropertyChanged(nameof(SelectedLevel));
                 LevelManager.CurrentLevel = SelectedLevel;
                 (NavigateSingleGameCommand as RelayCommand).NotifyCanExecuteChanged();
             }

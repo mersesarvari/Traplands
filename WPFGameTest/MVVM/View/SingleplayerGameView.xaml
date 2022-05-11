@@ -11,6 +11,7 @@
     <UserControl.Resources>
         <converter:GameVisibilityConverter x:Key="GamePaused"/>
         <converter:GameEffectConverter x:Key="GamePausedEffect"/>
+        <converter:ButtonActiveBoolConverter x:Key="ButtonActive"/>
     </UserControl.Resources>
     <Grid x:Name="MainGrid">
         <ScrollViewer x:Name="MainCamera" Grid.RowSpan="2" Effect="{Binding GamePaused, Converter={StaticResource GamePausedEffect}}">
@@ -18,13 +19,18 @@
         </ScrollViewer>
         <Label Content="{Binding LevelTimeElapsed}" FontFamily="Calibri" ContentStringFormat="{}{0:0.#}" FontSize="26" Padding="10" Margin="10"/>
         <Grid Width="400" Visibility="{Binding GamePaused, Converter={StaticResource GamePaused}}" HorizontalAlignment="Stretch" x:Name="PauseMenu"  Margin="300,100,300,100">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="8*"/>
+            </Grid.RowDefinitions>
             <Grid.Background>
                 <SolidColorBrush Color="Black" Opacity="0.5"/>
             </Grid.Background>
-            <StackPanel Margin="50" VerticalAlignment="Stretch">
-                <Label Content="Paused" HorizontalContentAlignment="Center" Foreground="White" FontFamily="Helvetica" FontSize="36" Padding="10"/>
-                <Label Content="{Binding LevelTimeElapsed}" Foreground="White" FontFamily="Calibri" ContentStringFormat="{}{0:0.#}" FontSize="30" Padding="10" HorizontalContentAlignment="Center"/>
-                <Button Height="40" Margin="10" FontSize="16" Foreground="White" FontFamily="Calibri" Content="Resume" BorderThickness="0" Command="{Binding ResumeGame}">
+            <Label Grid.Row="0" Content="Paused" HorizontalContentAlignment="Center" Foreground="White" FontFamily="Helvetica" FontSize="36" Padding="10"/>
+            <Label Grid.Row="1" Content="{Binding LevelTimeElapsed}" Foreground="White" FontFamily="Calibri" ContentStringFormat="{}{0:0.#}" FontSize="30" Padding="10" HorizontalContentAlignment="Center"/>
+            <StackPanel Grid.Row="2" Margin="50" VerticalAlignment="Center">
+                <Button Visibility="{Binding GameOver, Converter={StaticResource ButtonActive}}" Height="40" Margin="10,10,10,50" FontSize="16" Foreground="White" FontFamily="Calibri" Content="Resume" BorderThickness="0" Command="{Binding ResumeGame}">
                     <Button.Background>
                         <ImageBrush ImageSource="../../Resources/UI_BUTTON.png"  />
                     </Button.Background>

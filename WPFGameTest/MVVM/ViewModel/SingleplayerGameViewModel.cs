@@ -46,6 +46,7 @@ namespace Game.MVVM.ViewModel
             Messenger.Register<SingleplayerGameViewModel, string, string>(this, "GamePaused", (recepient, msg) =>
             {
                 OnPropertyChanged(nameof(GamePaused));
+                OnPropertyChanged(nameof(GameOver));
                 (ResumeGame as RelayCommand).NotifyCanExecuteChanged();
             });
 
