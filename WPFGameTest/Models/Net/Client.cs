@@ -41,11 +41,13 @@ namespace Game.Models
                     {
                         MessageBox.Show("ReadPacket is running");
                         var opcode = packetReader.ReadByte();
-                        Trace.WriteLine($"Recieving from the server ({opcode}): {MultiLogic.locals.user.Username}");
+                        //Trace.WriteLine($"Recieving from the server ({opcode}): {MultiLogic.locals.user.Username}");
+                        /*
                         MessageBox.Show("Client recieved data from the server: " + opcode
                             + "\n" + MultiLogic.locals.user.Username
                             + "\n" + MultiLogic.locals.user.Id
                             );
+                        */
                         switch (opcode)
                         {
                             case 0:
@@ -110,13 +112,11 @@ namespace Game.Models
                     connectPacket.WriteMessage(guid);
                     _client.Client.Send(connectPacket.GetPacketbytes());
                 }
-                //ReadPacket();
             }
         }
         
         public void SendCommandToServer(string commandname, string executor, string command, bool waitforresponse)
         {
-            ;
             if (_client.Connected)
             {
                 //Trace.WriteLine($"Sending Command: {commandname} \n {executor} \n {command}");
@@ -125,13 +125,7 @@ namespace Game.Models
                 messagePacket.WriteMessage(commandname);
                 messagePacket.WriteMessage(executor);
                 messagePacket.WriteMessage(command);
-
-                _client.Client.Send(messagePacket.GetPacketbytes());
-                ;
-                if(waitforresponse)
-                {
-                    //ReadPacket();
-                }                
+                _client.Client.Send(messagePacket.GetPacketbytes());            
             }
         }        
     }
