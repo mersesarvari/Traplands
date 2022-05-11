@@ -20,16 +20,27 @@
         <Label Content="{Binding LevelTimeElapsed}" FontFamily="Calibri" ContentStringFormat="{}{0:0.#}" FontSize="26" Padding="10" Margin="10"/>
         <Grid Width="400" Visibility="{Binding GamePaused, Converter={StaticResource GamePaused}}" HorizontalAlignment="Stretch" x:Name="PauseMenu"  Margin="300,100,300,100">
             <Grid.RowDefinitions>
-                <RowDefinition Height="1*"/>
-                <RowDefinition Height="1*"/>
+                <RowDefinition Height="3*"/>
+                <RowDefinition Height="2*"/>
                 <RowDefinition Height="8*"/>
             </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="1*"/>
+            </Grid.ColumnDefinitions>
             <Grid.Background>
-                <SolidColorBrush Color="Black" Opacity="0.5"/>
+                <SolidColorBrush Color="#ccb693" />
             </Grid.Background>
-            <Label Grid.Row="0" Content="Paused" HorizontalContentAlignment="Center" Foreground="White" FontFamily="Helvetica" FontSize="36" Padding="10"/>
-            <Label Grid.Row="1" Content="{Binding LevelTimeElapsed}" Foreground="White" FontFamily="Calibri" ContentStringFormat="{}{0:0.#}" FontSize="30" Padding="10" HorizontalContentAlignment="Center"/>
-            <StackPanel Grid.Row="2" Margin="50" VerticalAlignment="Center">
+            <Grid.Effect>
+                <DropShadowEffect/>
+            </Grid.Effect>
+            <Grid Grid.ColumnSpan="2" Grid.RowSpan="3">
+                
+            </Grid>
+            <Label Grid.Row="0" VerticalAlignment="Center" Grid.ColumnSpan="2" Content="{Binding GameState}" HorizontalContentAlignment="Center" Foreground="Black" FontFamily="Helvetica" FontSize="36" Padding="10"/>
+            <Label Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left" Content="{Binding LevelTimeElapsed}" Foreground="Black" FontFamily="Calibri" ContentStringFormat="{}{0:0.#}" FontSize="30" Padding="10" HorizontalContentAlignment="Center"/>
+            <Label Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Right" Content="Time elapsed: " Foreground="Black" FontFamily="Calibri" FontSize="30" Padding="10" HorizontalContentAlignment="Center"/>
+            <StackPanel Grid.Row="2" Grid.ColumnSpan="2" Margin="50" VerticalAlignment="Center">
                 <Button Visibility="{Binding GameOver, Converter={StaticResource ButtonActive}}" Height="40" Margin="10,10,10,50" FontSize="16" Foreground="White" FontFamily="Calibri" Content="Resume" BorderThickness="0" Command="{Binding ResumeGame}">
                     <Button.Background>
                         <ImageBrush ImageSource="../../Resources/UI_BUTTON.png"  />
@@ -42,6 +53,6 @@
                 </Button>
             </StackPanel>
         </Grid>
-        <Grid Background="Black" Opacity="{Binding TransitionAlpha}" Visibility="{Binding Transitioning, Converter={StaticResource GamePaused}}"/>
+        <!--<Grid Background="Black" Opacity="{Binding TransitionAlpha}" Visibility="{Binding Transitioning, Converter={StaticResource GamePaused}}"/>-->
     </Grid>
 </UserControl>

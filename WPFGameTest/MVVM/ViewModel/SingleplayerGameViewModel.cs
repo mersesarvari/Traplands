@@ -19,6 +19,8 @@ namespace Game.MVVM.ViewModel
         public ICommand NavigateMainMenuCommand { get; set; }
         public ICommand ResumeGame { get; set; }
 
+        public string GameState { get { return logic.GameOver ? "Finish" : "Paused"; } }
+
         public float LevelTimeElapsed { get { return logic.LevelTimer; } }
 
         public bool GamePaused { get { return logic.Paused; } }
@@ -47,6 +49,7 @@ namespace Game.MVVM.ViewModel
             {
                 OnPropertyChanged(nameof(GamePaused));
                 OnPropertyChanged(nameof(GameOver));
+                OnPropertyChanged(nameof(GameState));
                 (ResumeGame as RelayCommand).NotifyCanExecuteChanged();
             });
 

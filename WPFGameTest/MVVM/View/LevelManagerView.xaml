@@ -17,13 +17,13 @@
             <ColumnDefinition Width="1*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="2*"/>
+            <RowDefinition Height="4*"/>
             <RowDefinition Height="1*"/>
             <RowDefinition Height="10*"/>
             <RowDefinition Height="2*"/>
             <RowDefinition Height="2*"/>
         </Grid.RowDefinitions>
-        <Label Margin="10" FontFamily="Calibri" Content="Choose a level" Grid.Column="0" Grid.ColumnSpan="2" FontSize="50" HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
+        <Label Margin="50" FontFamily="Calibri" VerticalAlignment="Center" Grid.RowSpan="2" Content="Choose a level" Grid.Column="0" Grid.ColumnSpan="2" FontSize="50" HorizontalAlignment="Left"/>
         <Grid Grid.Column="1" Grid.Row="1" Grid.RowSpan="2" Background="White" Opacity="0.5">
             <Grid.Effect>
                 <BlurEffect/>
@@ -42,22 +42,24 @@
                 <ColumnDefinition Width="1*"/>
                 <ColumnDefinition Width="1*"/>
             </Grid.ColumnDefinitions>
-            <StackPanel Grid.Column="0" Grid.ColumnSpan="2" Background="Transparent" HorizontalAlignment="Stretch">
-                <ListBox Background="Transparent" ItemsSource="{Binding Levels}" SelectedItem="{Binding SelectedLevel}" HorizontalContentAlignment="Stretch" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Stretch">
-                    <ListBox.ItemTemplate>
-                        <DataTemplate>
-                            <Grid VerticalAlignment="Stretch">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="1*"/>
-                                    <ColumnDefinition Width="1*"/>
-                                </Grid.ColumnDefinitions>
-                                <Label FontSize="18" FontFamily="Calibri" Content="{Binding Name}" Grid.Column="0"/>
-                                <Label FontSize="18" FontFamily="Calibri" Content="{Binding BestTime}" Grid.Column="1"/>
-                            </Grid>
-                        </DataTemplate>
-                    </ListBox.ItemTemplate>
-                </ListBox>
-            </StackPanel>
+            <ScrollViewer Grid.Column="0" Grid.ColumnSpan="2" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Auto">
+                <StackPanel CanVerticallyScroll="True"  Background="Transparent" HorizontalAlignment="Stretch">
+                    <ListBox Background="Transparent" ItemsSource="{Binding Levels}" SelectedItem="{Binding SelectedLevel}" HorizontalContentAlignment="Stretch" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Stretch">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <Grid VerticalAlignment="Stretch">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="1*"/>
+                                        <ColumnDefinition Width="1*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Label FontSize="18" FontFamily="Calibri" Content="{Binding Name}" Grid.Column="0"/>
+                                    <Label FontSize="18" FontFamily="Calibri" Content="{Binding BestTime}" Grid.Column="1"/>
+                                </Grid>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                </StackPanel>
+            </ScrollViewer>
         </Grid>
         <Button Foreground="White" FontFamily="Calibri" BorderThickness="0" Command="{Binding NavigateSingleGameCommand}" 
                 Margin="20" Grid.Column="1" Grid.Row="3" Content="Play" FontSize="30" Visibility="{Binding SelectedLevel, Converter={StaticResource ButtonActive}}">
