@@ -33,7 +33,6 @@ namespace Game
                 CreateMultiGameNavigationService(logic),
                 CreateMultiMenuNavigationService(logic),
                 CreateMainMenuNavigationService(logic)
-
                 ));
             services.AddTransient<MainmenuViewModel>(s => new MainmenuViewModel(
                 CreateMultiMenuNavigationService(s),

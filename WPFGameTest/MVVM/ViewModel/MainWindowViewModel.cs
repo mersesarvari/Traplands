@@ -9,6 +9,7 @@ using Game.Core;
 using Game.MVVM.Stores;
 using Game.Models;
 using Newtonsoft.Json;
+using Game.Logic;
 
 namespace Game.MVVM.ViewModel
 {    
@@ -21,7 +22,7 @@ namespace Game.MVVM.ViewModel
         public MainWindowViewModel(NavigationStore navigationStore)
         {
             _navigationStore = navigationStore;
-            _navigationStore.CurrentViewModelChanged += OnCurrentViewModelChanged;
+            _navigationStore.CurrentViewModelChanged += OnCurrentViewModelChanged;            
         }
         private void OnCurrentViewModelChanged()
         {

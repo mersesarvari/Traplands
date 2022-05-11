@@ -85,17 +85,18 @@ namespace Server
         }
         public static void BroadcastDisconnect(string uid)
         {
-            Console.WriteLine("BroadCast DC Was Called");
             //ServerClient disconnectedClient = clients.Where(x => x.UID.ToString() == uid).First();                        
             foreach (var client in clients)
             {
-                Console.WriteLine("User count after removing user: " + clients.Count);
+                
                 var packetBuilder = new PacketBuilder();
                 packetBuilder.WriteOptCode(0);
                 packetBuilder.WriteMessage(uid.ToString());
                 client.TCP.Client.Send(packetBuilder.GetPacketbytes());
+                clients.Remove(Server.FindClient(uid.ToString()));
+                players.Remove(Server.FindUserById(uid.ToString()));
+                Console.WriteLine("User count after removing user: " + clients.Count);
             }    
-
         }        
         public static void BroadcastResponse(byte opcode, string messagename, string message)
         {

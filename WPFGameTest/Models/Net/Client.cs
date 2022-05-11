@@ -20,15 +20,11 @@ namespace Game.Models
         public static List<MovementPackage> MovementHistory=new List<MovementPackage>();
         public event Action connectedEvent;
         public event Action userDisconnectedEvent;
-        public event Action messageRecievedEvent;
-        public event Action userCommandSentEvent;
         public event Action userJoinedLobbyEvent;
-        public event Action userJoinedGameEvent;
-        public event Action userMovedEvent;
         public event Action updateUserData;
         public event Action gameStartedEvent;
 
-        public Client(INavigationService game, INavigationService menu)
+        public Client()
         {
             _client = new TcpClient();
         }        
@@ -41,13 +37,6 @@ namespace Game.Models
                     try
                     {
                         var opcode = packetReader.ReadByte();
-                        //Trace.WriteLine($"Recieving from the server ({opcode}): {MultiLogic.locals.user.Username}");
-                        /*
-                        MessageBox.Show("Client recieved data from the server: " + opcode
-                            + "\n" + MultiLogic.locals.user.Username
-                            + "\n" + MultiLogic.locals.user.Id
-                            );
-                        */
                         switch (opcode)
                         {
                             case 0:

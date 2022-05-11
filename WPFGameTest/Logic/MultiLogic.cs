@@ -21,13 +21,13 @@ namespace Game.Logic
 
         public MultiLogic(INavigationService lobbyService, INavigationService gameService, INavigationService multimenuService, INavigationService menuService)
         {
-            locals = new(lobbyService, gameService, multimenuService, menuService, messenger);
-            this.messenger = messenger;            
+            locals = new(lobbyService, gameService, multimenuService, menuService);
+            //this.messenger = messenger;            
         }
         public MultiLogic(INavigationService lobbyService, INavigationService gameService, INavigationService multimenuService, INavigationService menuService, IMessenger messenger)
         {
-            locals = new(lobbyService, gameService, multimenuService, menuService, messenger);
-            this.messenger = messenger;
+            locals = new(lobbyService, gameService, multimenuService, menuService);
+            //this.messenger = messenger;
         }
 
         public static void Disconnect(string id)
@@ -59,8 +59,6 @@ namespace Game.Logic
             if (locals.client.Connected())
             {
                 locals.client.SendCommandToServer("CREATELOBBY", locals.user.Id, locals.user.Id);
-                Thread.Sleep(1500);
-                //service.Navigate();
                 var checker = MultiLogic.locals;                
             }
             else
@@ -68,9 +66,7 @@ namespace Game.Logic
                 MessageBox.Show("You are not connected to the server");
             }
         }
-
-
-        //SENDING INFORMATION: MAP, PLAYERLIST, 
+       
         public static void StartGame(Lobby lobby, string username)
         {
             if (locals.client.Connected())
@@ -82,7 +78,7 @@ namespace Game.Logic
                 MessageBox.Show("You are not connected to the server");
             }
         }
-        //Selecting map from the servers database
+
         public static void SetMap(string mapname)
         {
             //SETTING MAP FOR THE GAME

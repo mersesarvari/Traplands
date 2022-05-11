@@ -58,9 +58,6 @@
                     </LinearGradientBrush>
                 </Button.Background>
             </Button>
-            <ComboBox ItemsSource="{Binding Maps}" Grid.Column="2">
-                
-            </ComboBox>
         </Grid>
     </Grid>
 </UserControl>

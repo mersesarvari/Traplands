@@ -19,7 +19,6 @@ namespace Game.MVVM.ViewModel
 {
     public class LobbyViewModel:ViewModelBase
     {
-        private MultiLogic logic;
         public ICommand NavigateMultiMenuCommand { get; }
         public ICommand StartGameCommand { get; }
         public ICommand SetMapCommand { get; }
