@@ -36,19 +36,20 @@ namespace Server.Models
         {
             Console.WriteLine("Game STARTING");
             Lobby lobby = JsonConvert.DeserializeObject<Lobby>(command);
-            ;
+            
             foreach (var item in lobby.Users)
             {
-                Server.SendResponse(5, item.Id, JsonConvert.SerializeObject(lobby));
+                var currentclient = Server.FindClient(item.Id);
+                if (currentclient != null)
+                {
+                    Server.SendResponse(5, currentclient, JsonConvert.SerializeObject(lobby));
+                }
+                else
+                {
+                    throw new Exception("curentclient was null");
+                }
+                
             }
-
-            //AddRealUsers(lobby);
-            ;
-            //1: Selecting and Loading Map from the Lobby variable
-
-            //2: Returning the Game Data and the Client Commands
-
-
         }
         public static void Create(string userid)
         {
@@ -65,36 +66,36 @@ namespace Server.Models
         {
             //Lobby exists and Found.
             Lobby currentlobby = Server.lobbies.Where(x => x.LobbyId.ToString() == lobbyid).FirstOrDefault();
+            ;
             //Player is already added to that lobby
             if (currentlobby != null)
             {
-                Player alreadyadded = currentlobby.Users.Where(y => y.Id == userid).FirstOrDefault();
-                if (alreadyadded == null && currentlobby != null)
+
+                bool alreadyadded = currentlobby.Users.Where(y => y.Id == userid).FirstOrDefault() != null;
+                if (alreadyadded == false && currentlobby != null)
                 {
                     //Adding User to a pecific lobby
                     currentlobby.Users.Add(Server.FindUserById(userid));
-                    Lobby c = Server.lobbies.FirstOrDefault(x => x.LobbyId == lobbyid);
-                    foreach (var item in c.Users)
+
+                    //KIIRATAS
+                    foreach (var item in currentlobby.Users)
                     {
                         Console.WriteLine($"[User in the current lobby]: {item.Username}");
                     }
-                    var l = Server.lobbies;
-                    //Sneding CODE and LOBBY INFO Back to the Client
-
                     Console.WriteLine($"[INFO]: {Server.FindUserById(userid).Username} Joined a lobby");
                     //Sending lobby information to all connected player
                     foreach (var item in currentlobby.Users)
                     {
-                        try
+                        var currentclient = Server.FindClient(item.Id);
+                        if (currentclient != null)
                         {
-                            Console.WriteLine($"[Response to: {item.Id}]");
-                            Server.SendResponse(2, userid, JsonConvert.SerializeObject(currentlobby));
+                            Server.SendResponse(2, currentclient, JsonConvert.SerializeObject(currentlobby));
+                            Console.WriteLine($"[({2})Response to: {currentclient.UID}]");
                         }
-                        catch (Exception ex)
+                        else
                         {
-
-                            throw new Exception(ex.Message);
-                        }
+                            throw new Exception("curentclient was null");
+                        }  
                     }
                 }
                 else

@@ -50,26 +50,26 @@ namespace Game.MVVM.ViewModel
             get { return userid; }
             set { SetProperty(ref userid, value); }
         }
-        public MultiplayerGameMenuViewModel(INavigationService mainMenuNavigationService, INavigationService lobbyNavigationService, INavigationService multiGameNavigationService)
+        public MultiplayerGameMenuViewModel(INavigationService lobbyService, INavigationService gameService, INavigationService multimenuService, INavigationService menuService)
         {
-            MultiLogic logic = new MultiLogic(Messenger);
+            MultiLogic logic = new MultiLogic(lobbyService, gameService, multimenuService, menuService);
             MultiLogic.locals.RegisterEvents();
             Maps = new List<string>();
             Maps.Add("Map1");
             Maps.Add("Map2");
             Maps.Add("Map3");
-            NavigateMainMenuCommand = new NavigateCommand(mainMenuNavigationService);
-            NavigateLobbyCommand = new NavigateCommand(lobbyNavigationService);
-            NavigateMultiGameCommand = new NavigateCommand(multiGameNavigationService);
+            NavigateMainMenuCommand = new NavigateCommand(menuService);
+            NavigateLobbyCommand = new NavigateCommand(lobbyService);
+            NavigateMultiGameCommand = new NavigateCommand(gameService);
             ConnectServerCommand = new RelayCommand(
                 () => MultiLogic.locals.client.ConnectToServer(Username),
                 () => !MultiLogic.locals.Connected
                 );
             JoinLobbyCommand = new RelayCommand(
-                () => MultiLogic.JoinLobby(lobbyNavigationService, MultiLogic.locals, Username, LobbyCode)
+                () => MultiLogic.JoinLobby(MultiLogic.locals, Username, LobbyCode)
                 );
             CreateLobbyCommand = new RelayCommand(
-                () => MultiLogic.CreateLobby(lobbyNavigationService, MultiLogic.locals, Username, 0)
+                () => MultiLogic.CreateLobby(MultiLogic.locals, Username, 0)
                 );
             Disconnect = new RelayCommand(
                 () => { MultiLogic.Disconnect(MultiLogic.locals.user.Id); }

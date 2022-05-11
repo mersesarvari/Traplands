@@ -13,7 +13,7 @@ namespace Server
     public class Server
     {
         public static List<Lobby> lobbies= new List<Lobby>();
-        private static List<ServerClient> clients = new List<ServerClient>();
+        public static List<ServerClient> clients = new List<ServerClient>();
         public static List<Player> players = new List<Player>();
         private static TcpListener listener;
 
@@ -40,7 +40,7 @@ namespace Server
                 players.Add(user);
 
                 /* Send back Username and Id to the current client */
-                SendConnection(client); ;
+                SendConnection(client);
             }
         }
         /// <summary>
@@ -85,70 +85,51 @@ namespace Server
         }
         public static void BroadcastDisconnect(string uid)
         {
-            Console.WriteLine("BroadCastDC Was Called");
-            ServerClient disconnectedClient = clients.Where(x => x.UID.ToString() == uid).FirstOrDefault();                        
+            //ServerClient disconnectedClient = clients.Where(x => x.UID.ToString() == uid).First();                        
             foreach (var client in clients)
             {
+                
+                var packetBuilder = new PacketBuilder();
+                packetBuilder.WriteOptCode(0);
+                packetBuilder.WriteMessage(uid.ToString());
+                client.TCP.Client.Send(packetBuilder.GetPacketbytes());
+                clients.Remove(Server.FindClient(uid.ToString()));
+                players.Remove(Server.FindUserById(uid.ToString()));
                 Console.WriteLine("User count after removing user: " + clients.Count);
-                var broadcastPacket = new PacketBuilder();
-                broadcastPacket.WriteOptCode(0);
-                broadcastPacket.WriteMessage(uid.ToString());
-                client.TCP.Client.Send(broadcastPacket.GetPacketbytes());
-                ;
-            }
-            clients.Remove(disconnectedClient);
-            players.Remove(disconnectedClient.ConvertClientToUser(disconnectedClient));
-            //BroadcastMessage($"[{disconnectedUser.Username}] Disconnected!");       
-
+            }    
         }        
         public static void BroadcastResponse(byte opcode, string messagename, string message)
         {
             Console.WriteLine($"[BroadCastMessage(3)] : {message}");
             foreach (var client in clients)
             {
-                var msgPacket = new PacketBuilder();
-                msgPacket.WriteOptCode(opcode);
-                msgPacket.WriteMessage(messagename);
-                msgPacket.WriteMessage(message);
-                client.TCP.Client.Send(msgPacket.GetPacketbytes());
+                var packetBuilder = new PacketBuilder();
+                packetBuilder.WriteOptCode(opcode);
+                packetBuilder.WriteMessage(messagename);
+                client.TCP.Client.Send(packetBuilder.GetPacketbytes());
             }
         }
-        public static void SendResponse(byte opcode, string userid, string message)
+        public static void SendResponse(byte opcode, ServerClient client, string message)
         {
-            var msgPacket = new PacketBuilder();
-            msgPacket.WriteOptCode(opcode);
-            msgPacket.WriteMessage(message);
-            var client = clients.Where(x => x.UID.ToString() == userid).FirstOrDefault();
-            if (client != null)
+            if (client == null)
             {
-                try
-                {
-                    client.TCP.Client.Send(msgPacket.GetPacketbytes());
-                    //Console.WriteLine($"[Response]: {FindUserById(userid).Username} - [{3}]:{message}");
-                }
-                catch (Exception ex)
-                {
+                throw new Exception("client was null");
+            }
+            var packetBuilder = new PacketBuilder();
+            packetBuilder.WriteOptCode(opcode);
+            packetBuilder.WriteMessage(message);
+            try
+            {
+                client.TCP.Client.Send(packetBuilder.GetPacketbytes());
+                Console.WriteLine("SendResponse: "+client.TCP.GetHashCode()+"|"+opcode);
+                //Console.WriteLine($"[Response]: {FindUserById(userid).Username} - [{3}]:{message}");
+            }
+            catch (Exception ex)
+            {
 
-                    throw new Exception(ex.Message);
-                }                
+                throw new Exception(ex.Message);
             }
-            else
-            {
-                throw new Exception("client doesnt exists");
-            } 
-        }
-        public static void MovePlayer(/*Game game,MovementPackage movement*/)
-        {          
-            /*
-            foreach (var player in game.Players)
-            {
-                var msgPacket = new PacketBuilder();
-                msgPacket.WriteOptCode(6);
-                msgPacket.WriteMessage(JsonConvert.SerializeObject(movement));
-                var clnt = FindClient(player.Id);
-                clnt.TCP.Client.Send(msgPacket.GetPacketbytes());
-            }
-            */
+
         }
         #endregion
 

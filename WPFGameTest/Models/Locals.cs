@@ -1,4 +1,6 @@
 ﻿using Game.Logic;
+using Game.MVVM.Commands;
+using Game.MVVM.Services;
 using Game.MVVM.View;
 using Microsoft.Toolkit.Mvvm.Messaging;
 using Newtonsoft.Json;
@@ -7,8 +9,10 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Threading;
 
 namespace Game.Models
 {
@@ -19,6 +23,13 @@ namespace Game.Models
         public Client client;
         public User user;
         public bool Connected=false;
+        
+        INavigationService lobbyService;
+        INavigationService gameService;
+        INavigationService multimenuService;
+        INavigationService menuService;
+        IMultiplayer multiplayer;
+        
 
         public List<string>Maps=new List<string>();
         public void RegisterEvents()
@@ -30,74 +41,79 @@ namespace Game.Models
             client.gameStartedEvent += GameStarted;
         }
 
-        public Locals(IMessenger messenger)
+        public Locals(INavigationService lobbyService, INavigationService gameService, INavigationService multimenuService, INavigationService menuService)
         {
+            this.lobbyService = lobbyService;
+            this.gameService = gameService;
+            this.multimenuService = multimenuService;
+            this.menuService = menuService;
+
+
             Maps.Add("MAP1");
             Maps.Add("MAP2");
             Maps.Add("MAP3");
             client = new Client();
             lobby = new Lobby();
             user = new User();
-            this.messenger = messenger;
         }
         
         public void GameStarted()
         {
-            var msg = this.client.PacketReader.ReadMessage();
-            
+            ;
+            var msg = MultiLogic.locals.client.packetReader.ReadMessage();            
             MultiLogic.locals.lobby = JsonConvert.DeserializeObject<Lobby>(msg);
+            ;
+            Application.Current.Dispatcher.Invoke((Action)delegate {
+                MainWindow.game = new Multiplayer();
+                (MainWindow.game as Multiplayer).LoadLevel("Level 1");
+                (MainWindow.game as Multiplayer).LoadPlayers(MultiLogic.locals.lobby.Users);
+            });
+            /*
             MainWindow.game = new Multiplayer();
             (MainWindow.game as Multiplayer).LoadLevel("Level 1");
-            (MainWindow.game as Multiplayer).LoadPlayers(MultiLogic.locals.lobby.Users);
-            MessageBox.Show("GageStartedEventStarted");
-            //Have to ADD NAVIGATION
+            (MainWindow.game as Multiplayer).LoadPlayers(MultiLogic.locals.lobby.Users);  
+            */
+            //LevelManager.LoadLevels();
+            gameService.Navigate();
 
         }
 
         public void UpdateUser()
         {
             //This method is handling the JoinResponse from the server
-            var msg = this.client.PacketReader.ReadMessage();
+            var msg = MultiLogic.locals.client.packetReader.ReadMessage();
+            /*
             var L = JsonConvert.DeserializeObject<User>(msg);
-
             (MainWindow.game as Multiplayer).UpdatePlayer(L);
+            */
 
             //Trace.WriteLine($"Lobby was set in multilogic");
         }
 
         public void Client_userJoinedLobbyEvent()
         {
-            ;
             //This method is handling the JoinResponse from the server
-            var msg = this.client.PacketReader.ReadMessage();            
+            var msg = MultiLogic.locals.client.packetReader.ReadMessage();            
             var L = JsonConvert.DeserializeObject<Lobby>(msg);
-            MultiLogic.locals.lobby= L;
+            MultiLogic.locals.lobby= L;            
             Trace.WriteLine($"Lobby was set in multilogic");
-            MessageBox.Show("Lobby refreshed");
+            //MessageBox.Show("User Joined The Lobby");
+            lobbyService.Navigate();
 
         }
-        //Server-Client Methods
-        #region Server-Client methods
         private void UserConnected()
         {
-
-            this.user.Username = client.PacketReader.ReadMessage();
-            this.user.Id = client.PacketReader.ReadMessage();
+            MultiLogic.locals.user.Username = MultiLogic.locals.client.packetReader.ReadMessage();
+            MultiLogic.locals.user.Id = MultiLogic.locals.client.packetReader.ReadMessage();
             Trace.WriteLine($"[Connected] :{this.user.Id}");
             this.Connected = true;
-            //messenger.Send("User Connected", "SetUser");
         }
-
-
         private void UserDisconnected()
         {
-            ;
-            var uid = client.PacketReader.ReadMessage();
+            var uid = MultiLogic.locals.client.packetReader.ReadMessage();
             Trace.WriteLine($"[Disconnected]");
+            menuService.Navigate();
         }
-
-
-        #endregion
         
     }
 }

@@ -28,7 +28,6 @@ namespace Server
             {
                 try
                 {
-                    ;
                     var opcode = _packetReader.ReadByte();
                     switch (opcode)
                     {
@@ -51,7 +50,7 @@ namespace Server
                 catch (Exception e)
                 {                    
                     Console.WriteLine($"[{UID}]: Disconnected!" + e.Message);
-                    Server.BroadcastDisconnect(UID.ToString());
+                    Server.BroadcastDisconnect(UID.ToString());                    
                     TCP.Close();
                     break;
                 }

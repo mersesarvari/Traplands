@@ -17,10 +17,17 @@ namespace Server.Models
             Player data = JsonConvert.DeserializeObject<Player>(command);
             foreach (var item in Server.players)
             {
-                if (item.Id != data.Id)
+                var currentclient = Server.FindClient(item.Id);
+                if (currentclient != null)
                 {
-                    Server.SendResponse(4, item.Id, JsonConvert.SerializeObject(data));
+                    Server.SendResponse(4, currentclient, JsonConvert.SerializeObject(data));
+                    Console.WriteLine($"[({2})Response to: {item.Id}]");
                 }
+                else
+                {
+                    throw new Exception("curentclient was null");
+                }
+
             }
         }
     }
