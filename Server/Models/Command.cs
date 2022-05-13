@@ -20,7 +20,7 @@ namespace Server.Models
                     Lobby.Join(executor, command);
                     break;
                 case "STARTGAME":
-                    Lobby.Start(executor, command);
+                    Game.Start(executor, command);
                     break;
                 case "MOVE":
                     Game.Move(executor,command);

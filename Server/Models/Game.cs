@@ -21,15 +21,39 @@ namespace Server.Models
                 if (currentclient != null)
                 {
                     Server.SendResponse(4, currentclient, JsonConvert.SerializeObject(data));
-                    Console.WriteLine($"[({2})Response to: {item.Id}]");
+                    Console.WriteLine($"[({4})Response to: {item.Id}]");
                 }
                 else
                 {
                     throw new Exception("curentclient was null");
                 }
-
             }
         }
+
+        public static void Start(string executor, string command)
+        {
+            ;
+            Console.WriteLine("Game STARTING");
+            Lobby lobby = JsonConvert.DeserializeObject<Lobby>(command);
+            Console.WriteLine("Current players in game:");
+            foreach (var item in lobby.Users)
+            {
+                Console.WriteLine($"{item.Id}");
+            }
+            foreach (var item in lobby.Users)
+            {
+                var currentclient = Server.FindClient(item.Id);
+                if (currentclient != null)
+                {
+                    Server.SendResponse(5, currentclient, JsonConvert.SerializeObject(lobby));
+                }
+                else
+                {
+                    throw new Exception("curentclient was null");
+                }
+            }
+        }
+
         //executor is clientID and command is LobbyID
         public static void LeaveGame(string executor, string command)
         {
