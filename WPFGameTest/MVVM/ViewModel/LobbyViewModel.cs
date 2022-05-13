@@ -34,15 +34,9 @@ namespace Game.MVVM.ViewModel
 
         public Level SelectedLevel { get; set; }
 
-        public static void StartGame()
-        {
-            
-        }
-
         public LobbyViewModel(INavigationService game, INavigationService menu)
         {
-            //MultiLogic.locals.RegisterEvents();
-            MultiLogic.locals.RegisterMessenger(Messenger);
+            MultiLogic.locals.RegisterLobbyViewMessenger(Messenger);
             SelectedLevel = LevelManager.GetLevel("Level 1");
             var l = MultiLogic.locals;
             Users = l.lobby.Users;

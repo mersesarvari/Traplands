@@ -18,7 +18,10 @@ namespace Game.Models
 {
     public class Locals
     {
-        IMessenger messenger;
+        IMessenger lobbyViewMessenger;
+        IMessenger multiViewMessenger;
+
+
         public Lobby lobby;
         public List<Lobby> Lobbies;
         public Client client;
@@ -58,16 +61,17 @@ namespace Game.Models
             lobby = new Lobby();
             user = new User();
             Lobbies = new List<Lobby>();
-        }
+    }
+
         public void RegisterMessenger(IMessenger messenger)
         {
-            this.messenger = messenger;
+            multiViewMessenger = messenger;
         }
         public void GameStarted()
         {
             var msg = MultiLogic.locals.client.packetReader.ReadMessage();
             MultiLogic.locals.lobby = JsonConvert.DeserializeObject<Lobby>(msg);
-            messenger.Send("Game started", "GameStarted");
+            lobbyViewMessenger.Send("Game started", "GameStarted");
         }
 
         public void UpdateUser()
@@ -82,7 +86,8 @@ namespace Game.Models
             //This method is handling the JoinResponse from the server
             var msg = MultiLogic.locals.client.packetReader.ReadMessage();            
             var L = JsonConvert.DeserializeObject<Lobby>(msg);
-            MultiLogic.locals.lobby= L;            
+            MultiLogic.locals.lobby= L;
+            MultiLogic.locals.Lobbies.Add(L);
             Trace.WriteLine($"Lobby was set in multilogic");
             //MessageBox.Show("User Joined The Lobby");
             lobbyService.Navigate();
@@ -94,9 +99,11 @@ namespace Game.Models
             MultiLogic.locals.user.Id = MultiLogic.locals.client.packetReader.ReadMessage();
             var lobbiesstring = MultiLogic.locals.client.packetReader.ReadMessage();
             MultiLogic.locals.Lobbies = JsonConvert.DeserializeObject<List<Lobby>>(lobbiesstring);
-            ;
+
             Trace.WriteLine($"[Connected] :{this.user.Id}");
-            this.Connected = true;
+            MultiLogic.locals.Connected = true;
+
+            multiViewMessenger.Send("User connected", "UserConnected");
         }
         private void UserDisconnected()
         {

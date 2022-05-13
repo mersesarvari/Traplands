@@ -28,15 +28,7 @@
                     </LinearGradientBrush>
                 </Button.Background>
             </Button>
-            <Button Command="{Binding Disconnect}" Content="Disconnect" FontSize="30"
-                    Margin="200 10 200 10">
-                <Button.Background>
-                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
-                        <GradientStop Color="LightGreen" Offset="0.3"/>
-                        <GradientStop Color="Brown" Offset="1.0"/>
-                    </LinearGradientBrush>
-                </Button.Background>
-            </Button>
+
             <Button Command="{Binding CreateLobbyCommand}" Content="Create Game" FontSize="30" Margin="200 10 200 10">
 
                 <Button.Background>
@@ -46,8 +38,22 @@
                     </LinearGradientBrush>
                 </Button.Background>
             </Button>
-            <Label Content="Lobby ID:" FontSize="30" HorizontalAlignment="Center" Padding="10" Margin="10"/>
-            <TextBox Text="{Binding LobbyCode, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" TextWrapping="Wrap" Height="50" HorizontalAlignment="Stretch" Margin="200 10 200 10"/>
+            <StackPanel CanVerticallyScroll="True" HorizontalAlignment="Stretch">
+                <ListBox Grid.Row="0" ItemsSource="{Binding Lobbies}" SelectedItem="{Binding SelectedLobby}" HorizontalContentAlignment="Stretch">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <Border BorderBrush="Black" BorderThickness="1">
+                                <Grid>
+                                    <Label Content="{Binding LobbyId}" FontSize="30" FontWeight="Bold"/>
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </StackPanel>
+
+            <!--<Label Content="Lobby ID:" FontSize="30" HorizontalAlignment="Center" Padding="10" Margin="10"/>
+            <TextBox Text="{Binding LobbyCode, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" TextWrapping="Wrap" Height="50" HorizontalAlignment="Stretch" Margin="200 10 200 10"/>-->
             <Button Command="{Binding JoinLobbyCommand}" Content="Join Game" FontSize="30"
                     Margin="200 10 200 10">
                 <Button.Background>
