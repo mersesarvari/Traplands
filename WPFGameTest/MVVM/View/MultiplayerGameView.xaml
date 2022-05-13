@@ -45,7 +45,7 @@
                         <ImageBrush ImageSource="../../Resources/UI_BUTTON.png"  />
                     </Button.Background>
                 </Button>
-                <Button Height="40" Margin="10" Foreground="White" FontSize="16" FontFamily="Helvetica" Content="Disconnect" BorderThickness="0" Command="{Binding NavigateMainMenuCommand}">
+                <Button Height="40" Margin="10" Foreground="White" FontSize="16" FontFamily="Helvetica" Content="Disconnect" BorderThickness="0" Command="{Binding LeaveGame}">
                     <Button.Background>
                         <ImageBrush ImageSource="../../Resources/UI_BUTTON.png"  />
                     </Button.Background>

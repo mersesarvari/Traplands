@@ -29,6 +29,7 @@ namespace Game.MVVM.ViewModel
         public bool Transitioning { get { return logic.Transitioning; } }
 
         public ICommand NavigateMultiMenuCommand { get; }
+        public ICommand ResumeGame { get; set; }
         public ICommand DisconnectFromServer { get; set; }
         public ICommand LeaveGame { get; set; }
 
@@ -37,6 +38,8 @@ namespace Game.MVVM.ViewModel
             this.logic = (MainWindow.game as Multiplayer);
             (MainWindow.game as Multiplayer).SetMessenger(Messenger);
             NavigateMultiMenuCommand = new NavigateCommand(multiMenuNavigationService);
+
+            ResumeGame = new RelayCommand(() => { logic.Paused = false; }, () => !GameOver);
 
             LeaveGame = new RelayCommand(() => 
             { 
@@ -47,6 +50,25 @@ namespace Game.MVVM.ViewModel
             {
                 MultiLogic.Disconnect(MultiLogic.locals.user.Id);
                 multiMenuNavigationService.Navigate();
+            });
+
+            Messenger.Register<MultiplayerGameViewModel, string, string>(this, "LevelTimerUpdate", (recepient, msg) =>
+            {
+                OnPropertyChanged(nameof(LevelTimeElapsed));
+            });
+
+            Messenger.Register<MultiplayerGameViewModel, string, string>(this, "GamePaused", (recepient, msg) =>
+            {
+                OnPropertyChanged(nameof(GamePaused));
+                OnPropertyChanged(nameof(GameOver));
+                OnPropertyChanged(nameof(GameState));
+                (ResumeGame as RelayCommand).NotifyCanExecuteChanged();
+            });
+
+            Messenger.Register<MultiplayerGameViewModel, string, string>(this, "Transition", (recepient, msg) =>
+            {
+                OnPropertyChanged(nameof(TransitionAlpha));
+                OnPropertyChanged(nameof(Transitioning));
             });
         }
     }
