@@ -20,6 +20,7 @@ namespace Game.Models
     {
         IMessenger messenger;
         public Lobby lobby;
+        public List<Lobby> Lobbies;
         public Client client;
         public User user;
         public bool Connected=false;
@@ -56,7 +57,8 @@ namespace Game.Models
             client = new Client();
             lobby = new Lobby();
             user = new User();
-        }
+            Lobbies = new List<Lobby>();
+    }
 
         public void RegisterMessenger(IMessenger messenger)
         {
@@ -65,24 +67,16 @@ namespace Game.Models
 
         public void GameStarted()
         {
-            ;
             var msg = MultiLogic.locals.client.packetReader.ReadMessage();
-
             MultiLogic.locals.lobby = JsonConvert.DeserializeObject<Lobby>(msg);
-
             messenger.Send("Game started", "GameStarted");
         }
 
         public void UpdateUser()
         {
-            //This method is handling the JoinResponse from the server
-            var msg = MultiLogic.locals.client.packetReader.ReadMessage();
-            
+            var msg = MultiLogic.locals.client.packetReader.ReadMessage();            
             var L = JsonConvert.DeserializeObject<User>(msg);
             (MainWindow.game as Multiplayer).UpdatePlayer(L);
-            
-
-            //Trace.WriteLine($"Lobby was set in multilogic");
         }
 
         public void Client_userJoinedLobbyEvent()
@@ -100,6 +94,9 @@ namespace Game.Models
         {
             MultiLogic.locals.user.Username = MultiLogic.locals.client.packetReader.ReadMessage();
             MultiLogic.locals.user.Id = MultiLogic.locals.client.packetReader.ReadMessage();
+            var lobbiesstring = MultiLogic.locals.client.packetReader.ReadMessage();
+            MultiLogic.locals.Lobbies = JsonConvert.DeserializeObject<List<Lobby>>(lobbiesstring);
+            ;
             Trace.WriteLine($"[Connected] :{this.user.Id}");
             this.Connected = true;
         }
