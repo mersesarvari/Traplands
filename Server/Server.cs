@@ -84,8 +84,7 @@ namespace Server
             client.TCP.Client.Send(broadcastPacket.GetPacketbytes());
         }
         public static void BroadcastDisconnect(string uid)
-        {
-            //ServerClient disconnectedClient = clients.Where(x => x.UID.ToString() == uid).First();                        
+        {                   
             foreach (var client in clients)
             {                
                 var packetBuilder = new PacketBuilder();
@@ -130,6 +129,7 @@ namespace Server
             }
 
         }
+        
         #endregion
 
     }

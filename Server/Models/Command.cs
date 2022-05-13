@@ -29,7 +29,7 @@ namespace Server.Models
                     Game.LeaveGame(executor, command);
                     break;
                 case "DISCONNECT":
-                    Game.Disconnect(executor, command);
+                    Server.(executor, command);
                     break;
                 default:
                     break;
