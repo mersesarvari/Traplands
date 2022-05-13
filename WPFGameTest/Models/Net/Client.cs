@@ -23,6 +23,7 @@ namespace Game.Models
         public event Action userJoinedLobbyEvent;
         public event Action updateUserData;
         public event Action gameStartedEvent;
+        public event Action gameLeftEvent;
 
         public Client()
         {
@@ -53,6 +54,9 @@ namespace Game.Models
                                 break;
                             case 5:
                                 gameStartedEvent?.Invoke();
+                                break;
+                            case 6:
+                                gameLeftEvent?.Invoke();
                                 break;
                             default:
                                 MessageBox.Show("Default");
@@ -89,7 +93,6 @@ namespace Game.Models
         }
         public void DisconnectFromServer(string guid)
         {
-
             if (_client.Connected)
             {
                 packetReader = new PacketReader(_client.GetStream());

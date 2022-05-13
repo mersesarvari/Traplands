@@ -39,6 +39,7 @@ namespace Game.Models
             client.userJoinedLobbyEvent += Client_userJoinedLobbyEvent;
             client.updateUserData += UpdateUser;
             client.gameStartedEvent += GameStarted;
+            client.gameLeftEvent += GameLeft;
         }
 
         public Locals(INavigationService lobbyService, INavigationService gameService, INavigationService multimenuService, INavigationService menuService)
@@ -68,8 +69,7 @@ namespace Game.Models
                 MainWindow.game = new Multiplayer();
                 (MainWindow.game as Multiplayer).LoadLevel("Level 1");
                 //Ez a sor ami nem engedi elindulni a programot
-                //(MainWindow.game as Multiplayer).LoadPlayers(MultiLogic.locals.lobby.Users);
-
+                (MainWindow.game as Multiplayer).LoadPlayers(MultiLogic.locals.lobby.Users);
             });
             /*
             MainWindow.game = new Multiplayer();
@@ -118,5 +118,11 @@ namespace Game.Models
             menuService.Navigate();
         }
         
+        private void GameLeft()
+        {
+            var uid = MultiLogic.locals.client.packetReader.ReadMessage();
+            Trace.WriteLine($"[Left game]");
+            menuService.Navigate();
+        }
     }
 }

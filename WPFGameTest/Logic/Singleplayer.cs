@@ -11,44 +11,29 @@ using System.Windows.Input;
 
 namespace Game.Logic
 {
-    public class Singleplayer : ISingleplayer
+    public abstract class GameplayBase : IGameplayBase
     {
-        public Action OnFinishPointReachedEvent;
-
-        private IMessenger messenger;
+        protected IMessenger messenger;
 
         // Game objects
         public Player Player { get; set; }
         public List<GameObject> Solids { get; set; }
         public List<GameObject> Interactables { get; set; }
 
-        private List<Level> campaignLevels;
-        private int currentLevelIndex;
-
-        // Level data
-        private Vector2 spawnPoint;
-        private Level currentLevel;
-
-        // Fixed tickrate variables
-        const int tickRate = 60;
-        float timer;
-        float minTimeBetweenTicks;
-
-        // Game state
-        private bool paused;
-        public bool Paused 
-        { 
-            get => paused; 
-            set 
-            { 
-                paused = value; 
+        protected bool paused;
+        public bool Paused
+        {
+            get => paused;
+            set
+            {
+                paused = value;
                 messenger.Send("Game state changed", "GamePaused");
                 if (value) levelTimer.Stop();
                 else levelTimer.Start();
-            } 
+            }
         }
 
-        private bool gameOver;
+        protected bool gameOver;
         public bool GameOver
         {
             get => gameOver;
@@ -65,13 +50,11 @@ namespace Game.Logic
             }
         }
 
-        private bool firstLoad;
-
         // Transition between levels
-        private Transition transition;
-        private bool transitioning;
-        public bool Transitioning 
-        { 
+        protected Transition transition;
+        protected bool transitioning;
+        public bool Transitioning
+        {
             get => transitioning;
             set
             {
@@ -88,8 +71,41 @@ namespace Game.Logic
         public double TransitionAlpha { get => transition.Alpha; }
 
         // Timer for level completition time
-        private Stopwatch levelTimer;
+        protected Stopwatch levelTimer;
         public float LevelTimer { get { return (float)levelTimer.Elapsed.TotalSeconds; } }
+
+        public GameplayBase()
+        {
+            AudioManager.SetBackgroundMusic("26-Dark Fantasy Studio- Playing in water.wav");
+
+            levelTimer = new Stopwatch();
+
+            transition = new Transition();
+
+            transition.OnTransitionEnd += () => { Transitioning = false; };
+        }
+
+        public abstract void ProcessInput();
+        public abstract void Update(float deltaTime);
+    }
+
+    public class Singleplayer : GameplayBase, ISingleplayer
+    {
+        public Action OnFinishPointReachedEvent;
+
+        private List<Level> campaignLevels;
+        private int currentLevelIndex;
+
+        // Level data
+        private Vector2 spawnPoint;
+        private Level currentLevel;
+
+        // Fixed tickrate variables
+        const int tickRate = 60;
+        float timer;
+        float minTimeBetweenTicks;
+
+        private bool firstLoad;
 
         public Singleplayer(IMessenger messenger)
         {
@@ -101,15 +117,7 @@ namespace Game.Logic
 
             campaignLevels = LevelManager.CampaignLevels;
             
-            AudioManager.SetBackgroundMusic("26-Dark Fantasy Studio- Playing in water.wav");
-
-            levelTimer = new Stopwatch();
-
             minTimeBetweenTicks = 1f / tickRate;
-
-            transition = new Transition();
-
-            transition.OnTransitionEnd += () => { Transitioning = false; };
         }
 
         public void SetLevel(string key)
@@ -148,7 +156,7 @@ namespace Game.Logic
             }
             else
             {
-                Player.OnFinishPointReached += OnSingleLevelFinish;
+                Player.OnFinishPointReached += OnFinishPointReached;
 
                 if (firstLoad)
                 {
@@ -160,8 +168,6 @@ namespace Game.Logic
                     firstLoad = false;
                 }
             }
-
-            
 
             GameObject.SetSolids(Solids);
             GameObject.SetInteractables(Interactables);
@@ -175,20 +181,6 @@ namespace Game.Logic
             levelTimer.Restart();
             if (!Paused) levelTimer.Start();
             else levelTimer.Stop();
-        }
-
-        public void OnSingleLevelFinish()
-        {
-            levelTimer.Stop();
-            float newTime = (float)levelTimer.Elapsed.TotalSeconds;
-
-            if (currentLevel.BestTime == 0 || newTime <= currentLevel.BestTime)
-            {
-                currentLevel.AddNewBestTime((float)levelTimer.Elapsed.TotalSeconds);
-                SaveLevel();
-            }
-
-            Transitioning = true;
         }
 
         public void OnFinishPointReached()
@@ -210,7 +202,7 @@ namespace Game.Logic
             currentLevel.Save();
         }
 
-        public void ProcessInput()
+        public override void ProcessInput()
         {
             if (Input.GetKeyPressed(Key.Escape) && !GameOver)
             {
@@ -228,7 +220,7 @@ namespace Game.Logic
             }
         }
 
-        public void Update(float deltaTime)
+        public override void Update(float deltaTime)
         {
             if (!Paused)
             {

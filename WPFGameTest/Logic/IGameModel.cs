@@ -14,7 +14,7 @@ namespace Game.Logic
         void Update(float deltaTime);
     }
 
-    public interface ISingleplayer : IGameModel
+    public interface IGameplayBase : IGameModel
     {
         float LevelTimer { get; }
         bool Paused { get; set; }
@@ -24,16 +24,17 @@ namespace Game.Logic
         Player Player { get; set; }
         List<GameObject> Solids { get; set; }
         List<GameObject> Interactables { get; set; }
+    }
+
+    public interface ISingleplayer : IGameplayBase
+    {
         void SetLevel(string levelName);
         void SaveLevel();
     }
 
-    public interface IMultiplayer : IGameModel
+    public interface IMultiplayer : IGameplayBase
     {
-        Player Player { get; set; }
         List<User> Players { get; set; }
-        List<GameObject> Solids { get; set; }
-        List<GameObject> Interactables { get; set; }
     }
 
     public interface ILevelEditor : IGameModel

@@ -1,5 +1,6 @@
 ﻿using Game.Helpers;
 using Game.Models;
+using Microsoft.Toolkit.Mvvm.Messaging;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -12,24 +13,11 @@ using System.Windows.Media;
 
 namespace Game.Logic
 {
-    public struct InputPayload
+    public class Multiplayer : GameplayBase, IMultiplayer
     {
-        public bool pressingRight;
-        public bool pressingUp;
-        public bool pressingLeft;
-        public bool pressingDash;
-    }
-
-    public class Multiplayer : IMultiplayer
-    {
-        public Player Player { get; set; }
         public List<User> Players { get; set; }
-        public List<GameObject> Solids { get; set; }
-        public List<GameObject> Interactables { get; set; }
 
         string localID;
-
-        InputPayload input;
 
         private Level currentLevel;
 
@@ -57,6 +45,11 @@ namespace Game.Logic
             renderData = new RenderData();
 
             User user = new User(MultiLogic.locals.user.Id, MultiLogic.locals.user.Username, renderData);
+        }
+
+        public void SetMessenger(IMessenger messenger)
+        {
+            this.messenger = messenger;
         }
 
         public void LoadLevel(string levelName)
@@ -88,6 +81,11 @@ namespace Game.Logic
 
         public void LoadPlayers(List<User> players)
         {
+            if (!Paused && messenger != null)
+            {
+                messenger.Send("Update elapsed time", "LevelTimerUpdate");
+            }
+
             foreach (User user in players)
             {
                 if (user.Id == localID)
@@ -101,10 +99,17 @@ namespace Game.Logic
             }
         }
 
+        public void NotifyPlayerLeft(string username)
+        {
+            User player = Players.FirstOrDefault(x => x.Username == username);
+            Players.Remove(player);
+        }
+
         public void UpdatePlayer(User playerToUpdate)
         {
             User player = Players.FirstOrDefault(x => x.Id == playerToUpdate.Id);
-            playerToUpdate.RenderData = playerToUpdate.RenderData;
+            if (player != null)
+                playerToUpdate.RenderData = playerToUpdate.RenderData;
         }
 
         private void UpdateRenderData()
@@ -118,17 +123,17 @@ namespace Game.Logic
             renderData.FileName = Player.AnimActive.SpritesheetName;
         }
 
-        public void ProcessInput()
+        public override void ProcessInput()
         {
             if (Input.GetKeyPressed(Key.Escape))
             {
-                //Paused = !Paused;
+                Paused = !Paused;
             }
 
             Player.ProcessInput();
         }
 
-        public void Update(float deltaTime)
+        public override void Update(float deltaTime)
         {
             foreach (var obj in Interactables)
             {

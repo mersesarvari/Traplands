@@ -34,6 +34,7 @@ namespace Game.Logic
         {
             locals.client.DisconnectFromServer(id);
         }
+
         //A tickes rész átírandó arra amit a rendes gameban is használunk..
         public static void JoinLobby(Locals locals, string username,string lobbycode)
         {
@@ -77,6 +78,11 @@ namespace Game.Logic
             {
                 MessageBox.Show("You are not connected to the server");
             }
+        }
+
+        public static void LeaveGame(Lobby lobby, string userId)
+        {
+            locals.client.SendCommandToServer("LEAVEGAME", userId, JsonConvert.SerializeObject(lobby));
         }
 
         public static void SetMap(string mapname)
