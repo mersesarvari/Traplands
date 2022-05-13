@@ -5,9 +5,11 @@
     <TargetFramework>net6.0-windows</TargetFramework>
     <Nullable>enable</Nullable>
     <UseWPF>true</UseWPF>
+    <ApplicationIcon>spikytrap.ico</ApplicationIcon>
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Resources\clock.png" />
     <None Remove="Resources\menu_bg.jpg" />
     <None Remove="Resources\traplands.png" />
     <None Remove="Resources\UI_BUTTON.png" />
@@ -23,12 +25,17 @@
   </ItemGroup>
 	
   <ItemGroup>
+    <Content Include="spikytrap.ico" />
+  </ItemGroup>
+	
+  <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="6.0.0" />
     <PackageReference Include="Microsoft.Toolkit.Mvvm" Version="7.1.2" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
   </ItemGroup>
 	
   <ItemGroup>
+    <Resource Include="Resources\clock.png" />
     <Resource Include="Resources\menu_bg.jpg" />
     <Resource Include="Resources\traplands.png" />
     <Resource Include="Resources\UI_BUTTON.png" />

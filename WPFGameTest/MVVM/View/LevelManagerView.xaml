@@ -53,7 +53,7 @@
                                         <ColumnDefinition Width="1*"/>
                                     </Grid.ColumnDefinitions>
                                     <Label FontSize="18" FontFamily="Calibri" Content="{Binding Name}" Grid.Column="0"/>
-                                    <Label FontSize="18" FontFamily="Calibri" Content="{Binding BestTime}" Grid.Column="1"/>
+                                    <Label FontSize="18" FontFamily="Calibri" Content="{Binding BestTime}" ContentStringFormat="{}{0:0.##} s" Grid.Column="1"/>
                                 </Grid>
                             </DataTemplate>
                         </ListBox.ItemTemplate>

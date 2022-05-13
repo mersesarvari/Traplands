@@ -35,19 +35,19 @@
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>
-            <Button Foreground="White" FontFamily="Calibri" Command="{Binding FlipCannon}" Visibility="{Binding SelectedCannon, Converter={StaticResource ButtonActive}}" Padding="10" Margin="10, 10, 10, 50">Flip
+            <Button Foreground="White" FontFamily="Calibri" Command="{Binding FlipCannon}" BorderThickness="0" Visibility="{Binding SelectedCannon, Converter={StaticResource ButtonActive}}" Padding="10" Margin="10, 10, 10, 50">Flip
                 <Button.Background>
                     <ImageBrush ImageSource="../../Resources/UI_BUTTON.png"  />
                 </Button.Background>
             </Button>
             <Label FontFamily="Calibri" Content="Level name" FontSize="18" Margin="0,10,0,0" Padding="10"></Label>
             <TextBox FontFamily="Calibri" Text="{Binding LevelName, UpdateSourceTrigger=PropertyChanged}" Padding="10" Margin="10"></TextBox>
-            <Button Foreground="White" FontFamily="Calibri" Command="{Binding SaveLevel}" Padding="10" Margin="10">Save and Exit
+            <Button BorderThickness="0" Foreground="White" FontFamily="Calibri" Command="{Binding SaveLevel}" Padding="10" Margin="10">Save and Exit
                 <Button.Background>
                     <ImageBrush ImageSource="../../Resources/UI_BUTTON.png"  />
                 </Button.Background>
             </Button>
-            <Button Foreground="White" FontFamily="Calibri" Command="{Binding ExitWithoutSaving}" Padding="10" Margin="10" >Back
+            <Button Foreground="White" BorderThickness="0" FontFamily="Calibri" Command="{Binding ExitWithoutSaving}" Padding="10" Margin="10" >Back
                 <Button.Background>
                     <ImageBrush ImageSource="../../Resources/UI_BUTTON.png"  />
                 </Button.Background>
