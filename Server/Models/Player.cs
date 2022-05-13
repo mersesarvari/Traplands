@@ -13,7 +13,7 @@ namespace Server.Models
         public string Username { get; set; }
         public RenderData RenderData { get; set; }
 
-        public Player(ServerClient client)
+        public Player(Socket client)
         {
             Id = client.UID.ToString();
             Username = client.Username;

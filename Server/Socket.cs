@@ -3,7 +3,7 @@ using System.Net.Sockets;
 
 namespace Server
 {
-    public class ServerClient
+    public class Socket
     {
         public string Username { get; set; }
         public Guid UID { get; set; }
@@ -11,15 +11,13 @@ namespace Server
 
         PacketReader _packetReader;
         
-        public ServerClient(TcpClient client)
+        public Socket(TcpClient client)
         {
             TCP = client;
             UID = Guid.NewGuid();            
             _packetReader = new PacketReader(TCP.GetStream());
             var opcode = _packetReader.ReadByte();
             Username = _packetReader.ReadMessage();
-
-            Console.WriteLine($"[{DateTime.Now}]: Client has connected: {Username}");
             Task.Run(() => Process());
         }        
         void Process()
@@ -38,25 +36,27 @@ namespace Server
                             Command.CommandManager(negy_commandname, negy_executor, negy_command);
                             break;
                         case 10:
+                            
                             var dc = _packetReader.ReadMessage();
                             Console.WriteLine($"[Disconnected] :{dc}");
                             Server.BroadcastDisconnect(dc);
+                            TCP.Close();                            
                             break;
                         default:
-                            Console.WriteLine($"[INFO] Recieving invalid opcode from the client({opcode})!");
+                            Console.WriteLine($"[INFO] Invalid OPCODE({opcode})!");
                             break;
                     }                    
                 }
                 catch (Exception e)
                 {                    
-                    Console.WriteLine($"[{UID}]: Disconnected!" + e.Message);
+                    //Console.WriteLine($"[Disconnected] : {UID}" + e.Message);
                     Server.BroadcastDisconnect(UID.ToString());                    
                     TCP.Close();
                     break;
                 }
             }
         }
-        public Player ConvertClientToUser(ServerClient client)
+        public Player ConvertClientToUser(Socket client)
         {
             return Server.players.FirstOrDefault(x => x.Id == client.UID.ToString());
         }

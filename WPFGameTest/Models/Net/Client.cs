@@ -32,15 +32,17 @@ namespace Game.Models
 
         private void ReadPacket()
         {
-            Task.Run(() => {                
-                while (true)
+            Task.Run(() => {       
+                //true volt;
+                while (_client.Connected)
                 {
                     try
                     {
+                        
                         var opcode = packetReader.ReadByte();
                         switch (opcode)
                         {
-                            case 0:
+                            case 10:
                                 userDisconnectedEvent?.Invoke();
                                 break;
                             case 1:
@@ -59,13 +61,13 @@ namespace Game.Models
                                 gameLeftEvent?.Invoke();
                                 break;
                             default:
-                                MessageBox.Show("Default");
                                 break;
                         }
                     }
                     catch (Exception ex)
                     {
-                        throw new Exception(ex.Message);
+                        MessageBox.Show($"[Error]: readpacket threw an error: \n {ex.Message}");
+                        break;
                     }                    
                 }
             });

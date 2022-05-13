@@ -25,6 +25,9 @@ namespace Server.Models
                 case "MOVE":
                     Game.Move(executor,command);
                     break;
+                case "LEAVEGAME":
+                    Game.LeaveGame(executor, command);
+                    break;
                 default:
                     break;
             }

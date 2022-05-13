@@ -13,11 +13,10 @@ namespace Server
     public class Server
     {
         public static List<Lobby> lobbies= new List<Lobby>();
-        public static List<ServerClient> clients = new List<ServerClient>();
+        public static List<Socket> clients = new List<Socket>();
         public static List<Player> players = new List<Player>();
         private static TcpListener listener;
 
-        #region
         /// <summary>
         /// Method to Start the server
         /// </summary>
@@ -34,10 +33,11 @@ namespace Server
             //Kliens fogadás
             while (true)
             {
-                var client = new ServerClient(listener.AcceptTcpClient());
+                var client = new Socket(listener.AcceptTcpClient());
                 var user = new Player(client);
                 clients.Add(client);
                 players.Add(user);
+                Console.WriteLine($"Client Added: {client.UID} CLIENTS: {clients.Count}");
 
                 /* Send back Username and Id to the current client */
                 SendConnection(client);
@@ -54,11 +54,10 @@ namespace Server
         {
             return players.Where(x => x.Id == id).FirstOrDefault();
         }
-        public static ServerClient FindClient(string userid)
+        public static Socket FindClient(string userid)
         {
             return clients.Where(x => x.UID.ToString() == userid).FirstOrDefault();
         }
-        #endregion serverMethods
 
         #region Server Responses to Client
         static void BroadcastConnection()
@@ -75,7 +74,7 @@ namespace Server
                 }
             }
         }
-        static void SendConnection(ServerClient client)
+        static void SendConnection(Socket client)
         {
             var broadcastPacket = new PacketBuilder();
             broadcastPacket.WriteOptCode(1);
@@ -84,19 +83,17 @@ namespace Server
             client.TCP.Client.Send(broadcastPacket.GetPacketbytes());
         }
         public static void BroadcastDisconnect(string uid)
-        {
-            //ServerClient disconnectedClient = clients.Where(x => x.UID.ToString() == uid).First();                        
+        {                   
             foreach (var client in clients)
-            {
-                
+            {                
                 var packetBuilder = new PacketBuilder();
-                packetBuilder.WriteOptCode(0);
+                packetBuilder.WriteOptCode(10);
                 packetBuilder.WriteMessage(uid.ToString());
                 client.TCP.Client.Send(packetBuilder.GetPacketbytes());
                 clients.Remove(Server.FindClient(uid.ToString()));
                 players.Remove(Server.FindUserById(uid.ToString()));
-                Console.WriteLine("User count after removing user: " + clients.Count);
-            }    
+                Console.WriteLine("Current user count " + clients.Count);
+            }
         }        
         public static void BroadcastResponse(byte opcode, string messagename, string message)
         {
@@ -109,7 +106,7 @@ namespace Server
                 client.TCP.Client.Send(packetBuilder.GetPacketbytes());
             }
         }
-        public static void SendResponse(byte opcode, ServerClient client, string message)
+        public static void SendResponse(byte opcode, Socket client, string message)
         {
             if (client == null)
             {
@@ -131,6 +128,7 @@ namespace Server
             }
 
         }
+        
         #endregion
 
     }

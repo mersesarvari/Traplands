@@ -35,8 +35,7 @@ namespace Server.Models
         public static void Start(string executor, string command)
         {
             Console.WriteLine("Game STARTING");
-            Lobby lobby = JsonConvert.DeserializeObject<Lobby>(command);
-            
+            Lobby lobby = JsonConvert.DeserializeObject<Lobby>(command);            
             foreach (var item in lobby.Users)
             {
                 var currentclient = Server.FindClient(item.Id);
@@ -47,8 +46,7 @@ namespace Server.Models
                 else
                 {
                     throw new Exception("curentclient was null");
-                }
-                
+                }                
             }
         }
         public static void Create(string userid)
