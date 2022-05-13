@@ -35,7 +35,12 @@ namespace Server.Models
         public static void Start(string executor, string command)
         {
             Console.WriteLine("Game STARTING");
-            Lobby lobby = JsonConvert.DeserializeObject<Lobby>(command);            
+            Lobby lobby = JsonConvert.DeserializeObject<Lobby>(command);
+            Console.WriteLine("Current players in game:");
+            foreach (var item in lobby.Users)
+            {
+                Console.WriteLine($"{item.Id}");
+            }
             foreach (var item in lobby.Users)
             {
                 var currentclient = Server.FindClient(item.Id);
