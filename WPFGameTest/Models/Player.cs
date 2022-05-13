@@ -62,7 +62,6 @@ namespace Game.Models
         public float DashCooldown { get; private set; }
         public float CooldownLeft { get; set; }
 
-        
         public Player(string id, string name,Vector2 position, Vector2 size, int hitboxOffset = 0) : base(position, size, hitboxOffset)
         {
             // Setting up player data from the server
