@@ -81,22 +81,26 @@ namespace Game.Logic
 
         public void LoadPlayers(List<User> players)
         {
-            if (!Paused && messenger != null)
+            try
             {
-                messenger.Send("Update elapsed time", "LevelTimerUpdate");
-            }
+                if (!Paused && messenger != null)
+                {
+                    messenger.Send("Update elapsed time", "LevelTimerUpdate");
+                }
 
-            foreach (User user in players)
-            {
-                if (user.Id == localID)
+                foreach (User user in players)
                 {
-                    continue;
-                }
-                else
-                {
-                    Players.Add(user);
+                    if (user.Id == localID)
+                    {
+                        continue;
+                    }
+                    else
+                    {
+                        Players.Add(user);
+                    }
                 }
             }
+            catch (Exception e){ };
         }
 
         public void NotifyPlayerLeft(string username)
