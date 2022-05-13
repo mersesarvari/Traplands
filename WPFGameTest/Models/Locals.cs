@@ -63,7 +63,15 @@ namespace Game.Models
             user = new User();
             Lobbies = new List<Lobby>();
         }
+        public void RegisterLobbyViewMessenger(IMessenger messenger)
+        {
+            lobbyViewMessenger = messenger;
+        }
 
+        public void RegisterMultiViewMessenger(IMessenger messenger)
+        {
+            multiViewMessenger = messenger;
+        }
         private void RegisterMessenger(IMessenger messenger)
         {
             multiViewMessenger = messenger;
