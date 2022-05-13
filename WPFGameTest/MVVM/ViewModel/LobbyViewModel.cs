@@ -41,7 +41,8 @@ namespace Game.MVVM.ViewModel
 
         public LobbyViewModel(INavigationService game, INavigationService menu)
         {
-            MultiLogic.locals.RegisterEvents();
+            //MultiLogic.locals.RegisterEvents();
+            MultiLogic.locals.RegisterMessenger(Messenger);
             SelectedLevel = LevelManager.GetLevel("Level 1");
             var l = MultiLogic.locals;
             Users = l.lobby.Users;
@@ -49,14 +50,21 @@ namespace Game.MVVM.ViewModel
                 () => 
                 {
                     MultiLogic.StartGame(MultiLogic.locals.lobby, MultiLogic.locals.user.Username);
-                    Thread.Sleep(1000);
-                    game.Navigate();
                 }
                 );
             SetMapCommand = new RelayCommand(
                 () => { MultiLogic.SetMap("MAP1"); }
                 );
             NavigateMultiMenuCommand = new NavigateCommand(menu);
+
+
+            Messenger.Register<LobbyViewModel, string, string>(this, "GameStarted", (recepient, msg) =>
+            {
+                Application.Current.Dispatcher.Invoke((Action)delegate
+                {
+                    game.Navigate();
+                });
+            });
         }
     }
 }

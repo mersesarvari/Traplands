@@ -36,7 +36,7 @@ namespace Game.Logic
             Players = new List<User>();
             Solids = new List<GameObject>();
             Interactables = new List<GameObject>();
-            //Player = new Player("01", "Player1", spawnPoint, new Vector2(ObjectData.PLAYER_WIDTH, ObjectData.PLAYER_HEIGHT), 8);
+            Player = new Player("01", "Player1", spawnPoint, new Vector2(ObjectData.PLAYER_WIDTH, ObjectData.PLAYER_HEIGHT), 8);
 
             localID = MultiLogic.locals.user.Id;
 
@@ -83,7 +83,10 @@ namespace Game.Logic
         {
             foreach (User user in MultiLogic.locals.lobby.Users)
             {
-                Players.Add(user);
+                if (user.Id != localID)
+                {
+                    Players.Add(user);
+                }
             }
         }
 
