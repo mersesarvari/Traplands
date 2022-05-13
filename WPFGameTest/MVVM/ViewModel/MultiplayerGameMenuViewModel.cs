@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
@@ -28,12 +29,11 @@ namespace Game.MVVM.ViewModel
         public ICommand Disconnect { get; set; }
         public ICommand ConnectServerCommand { get; set; }
 
-        private string lobbyCode;
+        public bool IsConnected { get { return MultiLogic.locals.Connected; } }
 
         public string LobbyCode
         {
-            get { return lobbyCode; }
-            set { SetProperty(ref lobbyCode, value); }
+            get { return SelectedLobby == null ? "0" : SelectedLobby.LobbyId; }
         }
         private string username="PLAYER";
 
@@ -50,11 +50,39 @@ namespace Game.MVVM.ViewModel
             get { return userid; }
             set { SetProperty(ref userid, value); }
         }
+
+        private List<Lobby> lobbies;
+
+        public List<Lobby> Lobbies
+        {
+            get { return lobbies; }
+            set 
+            {
+                SetProperty(ref lobbies, value);
+            }
+        }
+
+        private Lobby selectedLobby;
+        public Lobby SelectedLobby
+        {
+            get { return selectedLobby; }
+            set
+            {
+                SetProperty(ref selectedLobby, value);
+                OnPropertyChanged(nameof(SelectedLobby));
+                (JoinLobbyCommand as RelayCommand).NotifyCanExecuteChanged();
+            }
+        }
+
         public MultiplayerGameMenuViewModel(INavigationService lobbyService, INavigationService gameService, INavigationService multimenuService, INavigationService menuService)
         {
             ;
             MultiLogic logic = new MultiLogic(lobbyService, gameService, multimenuService, menuService);
             MultiLogic.locals.RegisterEvents();
+            MultiLogic.locals.RegisterMultiViewMessenger(Messenger);
+
+            Lobbies = MultiLogic.locals.Lobbies;
+            
             Maps = new List<string>();
             Maps.Add("Map1");
             Maps.Add("Map2");
@@ -63,14 +91,25 @@ namespace Game.MVVM.ViewModel
             NavigateLobbyCommand = new NavigateCommand(lobbyService);
             NavigateMultiGameCommand = new NavigateCommand(gameService);
             ConnectServerCommand = new RelayCommand(
-                () => MultiLogic.locals.client.ConnectToServer(Username),
-                () => !MultiLogic.locals.Connected
+                () =>
+                {
+                    MultiLogic.locals.client.ConnectToServer(Username);
+                    Thread.Sleep(1000);
+                    Lobbies = MultiLogic.locals.Lobbies;
+                },
+                () => !IsConnected
                 );
             JoinLobbyCommand = new RelayCommand(
-                () => MultiLogic.JoinLobby(MultiLogic.locals, Username, LobbyCode)
+                () => MultiLogic.JoinLobby(MultiLogic.locals, Username, LobbyCode),
+                () => SelectedLobby != null
                 );
             CreateLobbyCommand = new RelayCommand(
-                () => MultiLogic.CreateLobby(MultiLogic.locals, Username, 0)
+                () => 
+                { 
+                    MultiLogic.CreateLobby(MultiLogic.locals, Username, 0);
+                    Thread.Sleep(1000);
+                    Lobbies = MultiLogic.locals.Lobbies;
+                }
                 );
             Disconnect = new RelayCommand(
                 () => { MultiLogic.Disconnect(MultiLogic.locals.user.Id); }
@@ -82,6 +121,15 @@ namespace Game.MVVM.ViewModel
                 (Disconnect as RelayCommand).NotifyCanExecuteChanged();
             });
 
+            Messenger.Register<MultiplayerGameMenuViewModel, string, string>(this, "UserConnected", (recepient, msg) =>
+            {
+                Application.Current.Dispatcher.Invoke((Action)delegate
+                {
+                    OnPropertyChanged(nameof(Lobbies));
+                    OnPropertyChanged(nameof(IsConnected));
+                    (ConnectServerCommand as RelayCommand).NotifyCanExecuteChanged();
+                });
+            });
         }
     }
 }
