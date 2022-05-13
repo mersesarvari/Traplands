@@ -17,7 +17,6 @@ namespace Server
         public static List<Player> players = new List<Player>();
         private static TcpListener listener;
 
-        #region
         /// <summary>
         /// Method to Start the server
         /// </summary>
@@ -38,6 +37,7 @@ namespace Server
                 var user = new Player(client);
                 clients.Add(client);
                 players.Add(user);
+                Console.WriteLine($"Client Added: {client.UID} CLIENTS: {clients.Count}");
 
                 /* Send back Username and Id to the current client */
                 SendConnection(client);
@@ -58,7 +58,6 @@ namespace Server
         {
             return clients.Where(x => x.UID.ToString() == userid).FirstOrDefault();
         }
-        #endregion serverMethods
 
         #region Server Responses to Client
         static void BroadcastConnection()
@@ -93,7 +92,7 @@ namespace Server
                 client.TCP.Client.Send(packetBuilder.GetPacketbytes());
                 clients.Remove(Server.FindClient(uid.ToString()));
                 players.Remove(Server.FindUserById(uid.ToString()));
-                Console.WriteLine("User count after removing user: " + clients.Count);
+                Console.WriteLine("Current user count " + clients.Count);
             }    
         }        
         public static void BroadcastResponse(byte opcode, string messagename, string message)

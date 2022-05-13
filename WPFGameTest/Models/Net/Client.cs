@@ -36,10 +36,12 @@ namespace Game.Models
                 {
                     try
                     {
+                        
                         var opcode = packetReader.ReadByte();
                         switch (opcode)
                         {
                             case 0:
+                                ;
                                 userDisconnectedEvent?.Invoke();
                                 break;
                             case 1:
@@ -55,7 +57,6 @@ namespace Game.Models
                                 gameStartedEvent?.Invoke();
                                 break;
                             default:
-                                MessageBox.Show("Default");
                                 break;
                         }
                     }

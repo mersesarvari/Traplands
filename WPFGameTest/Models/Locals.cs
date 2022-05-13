@@ -113,9 +113,13 @@ namespace Game.Models
         }
         private void UserDisconnected()
         {
-            var uid = MultiLogic.locals.client.packetReader.ReadMessage();
+            //var uid = MultiLogic.locals.client.packetReader.ReadMessage();
             Trace.WriteLine($"[Disconnected]");
-            menuService.Navigate();
+            Application.Current.Dispatcher.Invoke((Action)delegate {
+                menuService.Navigate();
+
+            });
+
         }
         
     }

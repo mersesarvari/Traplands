@@ -18,8 +18,6 @@ namespace Server
             _packetReader = new PacketReader(TCP.GetStream());
             var opcode = _packetReader.ReadByte();
             Username = _packetReader.ReadMessage();
-
-            Console.WriteLine($"[Connected]: {Username}");
             Task.Run(() => Process());
         }        
         void Process()
@@ -49,7 +47,7 @@ namespace Server
                 }
                 catch (Exception e)
                 {                    
-                    Console.WriteLine($"[Disconnected] : {UID}" + e.Message);
+                    //Console.WriteLine($"[Disconnected] : {UID}" + e.Message);
                     Server.BroadcastDisconnect(UID.ToString());                    
                     TCP.Close();
                     break;
