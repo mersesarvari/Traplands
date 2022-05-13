@@ -80,6 +80,7 @@ namespace Server
             broadcastPacket.WriteOptCode(1);
             broadcastPacket.WriteMessage(client.Username);
             broadcastPacket.WriteMessage(client.UID.ToString());
+            broadcastPacket.WriteMessage(JsonConvert.SerializeObject(Server.lobbies));
             client.TCP.Client.Send(broadcastPacket.GetPacketbytes());
         }
         public static void BroadcastDisconnect(string uid)
