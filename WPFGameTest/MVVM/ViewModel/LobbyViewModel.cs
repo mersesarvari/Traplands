@@ -41,7 +41,6 @@ namespace Game.MVVM.ViewModel
 
         public LobbyViewModel(INavigationService game, INavigationService menu)
         {
-            MultiLogic.locals.RegisterEvents();
             SelectedLevel = LevelManager.GetLevel("Level 1");
             var l = MultiLogic.locals;
             Users = l.lobby.Users;
