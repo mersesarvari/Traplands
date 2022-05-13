@@ -30,5 +30,17 @@ namespace Server.Models
 
             }
         }
+        //executor is clientID and command is LobbyID
+        public static void LeaveGame(string executor, string command)
+        {
+            var currentclient = Server.FindClient(executor);
+            Lobby lobby = JsonConvert.DeserializeObject<Lobby>(command);
+            if (lobby != null)
+            {
+                lobby.Users.Remove(Server.FindUserById(executor));
+                Console.WriteLine($"[LeftGame]: {executor}");
+                Server.SendResponse(5, currentclient, executor);
+            }
+        }
     }
 }

@@ -3,7 +3,7 @@ using System.Net.Sockets;
 
 namespace Server
 {
-    public class ServerClient
+    public class Socket
     {
         public string Username { get; set; }
         public Guid UID { get; set; }
@@ -11,7 +11,7 @@ namespace Server
 
         PacketReader _packetReader;
         
-        public ServerClient(TcpClient client)
+        public Socket(TcpClient client)
         {
             TCP = client;
             UID = Guid.NewGuid();            
@@ -56,7 +56,7 @@ namespace Server
                 }
             }
         }
-        public Player ConvertClientToUser(ServerClient client)
+        public Player ConvertClientToUser(Socket client)
         {
             return Server.players.FirstOrDefault(x => x.Id == client.UID.ToString());
         }

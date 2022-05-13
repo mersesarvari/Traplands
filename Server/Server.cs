@@ -13,7 +13,7 @@ namespace Server
     public class Server
     {
         public static List<Lobby> lobbies= new List<Lobby>();
-        public static List<ServerClient> clients = new List<ServerClient>();
+        public static List<Socket> clients = new List<Socket>();
         public static List<Player> players = new List<Player>();
         private static TcpListener listener;
 
@@ -34,7 +34,7 @@ namespace Server
             //Kliens fogadás
             while (true)
             {
-                var client = new ServerClient(listener.AcceptTcpClient());
+                var client = new Socket(listener.AcceptTcpClient());
                 var user = new Player(client);
                 clients.Add(client);
                 players.Add(user);
@@ -54,7 +54,7 @@ namespace Server
         {
             return players.Where(x => x.Id == id).FirstOrDefault();
         }
-        public static ServerClient FindClient(string userid)
+        public static Socket FindClient(string userid)
         {
             return clients.Where(x => x.UID.ToString() == userid).FirstOrDefault();
         }
@@ -75,7 +75,7 @@ namespace Server
                 }
             }
         }
-        static void SendConnection(ServerClient client)
+        static void SendConnection(Socket client)
         {
             var broadcastPacket = new PacketBuilder();
             broadcastPacket.WriteOptCode(1);
@@ -87,8 +87,7 @@ namespace Server
         {
             //ServerClient disconnectedClient = clients.Where(x => x.UID.ToString() == uid).First();                        
             foreach (var client in clients)
-            {
-                
+            {                
                 var packetBuilder = new PacketBuilder();
                 packetBuilder.WriteOptCode(0);
                 packetBuilder.WriteMessage(uid.ToString());
@@ -109,7 +108,7 @@ namespace Server
                 client.TCP.Client.Send(packetBuilder.GetPacketbytes());
             }
         }
-        public static void SendResponse(byte opcode, ServerClient client, string message)
+        public static void SendResponse(byte opcode, Socket client, string message)
         {
             if (client == null)
             {
