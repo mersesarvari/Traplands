@@ -68,7 +68,7 @@ namespace Game.Models
                 MainWindow.game = new Multiplayer();
                 (MainWindow.game as Multiplayer).LoadLevel("Level 1");
                 //Ez a sor ami nem engedi elindulni a programot
-                //(MainWindow.game as Multiplayer).LoadPlayers(MultiLogic.locals.lobby.Users);
+                (MainWindow.game as Multiplayer).LoadPlayers(MultiLogic.locals.lobby.Users);
 
             });
             /*
