@@ -58,13 +58,11 @@ namespace Game.Models
             lobby = new Lobby();
             user = new User();
             Lobbies = new List<Lobby>();
-    }
-
+        }
         public void RegisterMessenger(IMessenger messenger)
         {
             this.messenger = messenger;
         }
-
         public void GameStarted()
         {
             var msg = MultiLogic.locals.client.packetReader.ReadMessage();
@@ -110,13 +108,21 @@ namespace Game.Models
 
             });
 
-        }
-        
+        }        
         private void GameLeft()
         {
             var uid = MultiLogic.locals.client.packetReader.ReadMessage();
             Trace.WriteLine($"[Left game]");
             menuService.Navigate();
+        }
+
+        public void MessageRecieved()
+        {
+            var UserName = MultiLogic.locals.client.packetReader.ReadMessage();
+            var Message = MultiLogic.locals.client.packetReader.ReadMessage();
+            lobby.Messages.Add()
+            Trace.WriteLine($"[Connected] :{this.user.Id}");
+            this.Connected = true;
         }
     }
 }

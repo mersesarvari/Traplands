@@ -12,18 +12,19 @@ namespace Server.Models
     {
         public string LobbyId { get; set; }
         public List<Player> Users { get; set; }
-        public List<string> Messages { get; set; }
+        public List<Message> Messages { get; set; }
+
         public string Map;
 
         public Lobby(string ownerid)
         {
             LobbyId = ownerid;
             Users = new List<Player>();
-            Messages = new List<string>();
+            Messages = new List<Message>();
 
         }
         [JsonConstructor]
-        public Lobby(string LobbyId, List<Player> Users, List<string> Messages, string map)
+        public Lobby(string LobbyId, List<Player> Users, List<Message> Messages, string map)
         {
             this.LobbyId = LobbyId;
             this.Users = Users;

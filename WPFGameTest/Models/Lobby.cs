@@ -12,7 +12,7 @@ namespace Game.Models
     {
         public string LobbyId { get; set; }
         public List<User> Users { get; set; }
-        public List<string> Messages { get; set; }
+        public List<Message> Messages { get; set; }
         public string Map { get; set; }
         public Lobby()
         {
@@ -22,11 +22,11 @@ namespace Game.Models
         {
             LobbyId = ownerid;
             Users = new List<User>();
-            Messages = new List<string>();
+            Messages = new List<Message>();
 
         }
         [JsonConstructor]
-        public Lobby(string LobbyId, List<User> Users, List<string> Messages, string map)
+        public Lobby(string LobbyId, List<User> Users, List<Message> Messages, string map)
         {
             this.LobbyId = LobbyId;
             this.Users = Users;
