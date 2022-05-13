@@ -28,9 +28,6 @@ namespace Server.Models
                 case "LEAVEGAME":
                     Game.LeaveGame(executor, command);
                     break;
-                case "DISCONNECT":
-                    Server.BroadcastDisconnect(executor);
-                    break;
                 default:
                     break;
             }
