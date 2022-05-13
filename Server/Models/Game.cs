@@ -39,7 +39,7 @@ namespace Server.Models
             {
                 lobby.Users.Remove(Server.FindUserById(executor));
                 Console.WriteLine($"[LeftGame]: {executor}");
-                Server.SendResponse(5, currentclient, executor);
+                Server.SendResponse(6, currentclient, executor);
             }
         }
     }

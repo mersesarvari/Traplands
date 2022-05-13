@@ -35,8 +35,7 @@ namespace Server
                             var negy_command = _packetReader.ReadMessage();
                             Command.CommandManager(negy_commandname, negy_executor, negy_command);
                             break;
-                        case 10:
-                            
+                        case 10:                            
                             var dc = _packetReader.ReadMessage();
                             Console.WriteLine($"[Disconnected] :{dc}");
                             Server.BroadcastDisconnect(dc);
