@@ -52,6 +52,7 @@ namespace Game.MVVM.ViewModel
         }
         public MultiplayerGameMenuViewModel(INavigationService lobbyService, INavigationService gameService, INavigationService multimenuService, INavigationService menuService)
         {
+            ;
             MultiLogic logic = new MultiLogic(lobbyService, gameService, multimenuService, menuService);
             MultiLogic.locals.RegisterEvents();
             Maps = new List<string>();

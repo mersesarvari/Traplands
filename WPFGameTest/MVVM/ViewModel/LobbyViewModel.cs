@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
@@ -23,7 +24,6 @@ namespace Game.MVVM.ViewModel
         public ICommand StartGameCommand { get; }
         public ICommand SetMapCommand { get; }
 
-
         private List<User> users;
 
         public List<User> Users
@@ -33,6 +33,11 @@ namespace Game.MVVM.ViewModel
         }
 
         public Level SelectedLevel { get; set; }
+
+        public static void StartGame()
+        {
+            
+        }
 
         public LobbyViewModel(INavigationService game, INavigationService menu)
         {
@@ -44,6 +49,8 @@ namespace Game.MVVM.ViewModel
                 () => 
                 {
                     MultiLogic.StartGame(MultiLogic.locals.lobby, MultiLogic.locals.user.Username);
+                    Thread.Sleep(1000);
+                    game.Navigate();
                 }
                 );
             SetMapCommand = new RelayCommand(

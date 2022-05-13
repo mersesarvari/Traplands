@@ -13,7 +13,7 @@ namespace Server.Models
 
         internal static void Move(string executor, string command)
         {
-            Console.WriteLine("MOVE CALLED");
+            //Console.WriteLine("MOVE CALLED");
             Player data = JsonConvert.DeserializeObject<Player>(command);
             foreach (var item in Server.players)
             {
@@ -21,7 +21,7 @@ namespace Server.Models
                 if (currentclient != null)
                 {
                     Server.SendResponse(4, currentclient, JsonConvert.SerializeObject(data));
-                    Console.WriteLine($"[({2})Response to: {item.Id}]");
+                    //Console.WriteLine($"[({2})Response to: {item.Id}]");
                 }
                 else
                 {

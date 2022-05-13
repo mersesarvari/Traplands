@@ -70,6 +70,10 @@ namespace Game.Logic
        
         public static void StartGame(Lobby lobby, string username)
         {
+            foreach (var user in lobby.Users)
+            {
+                user.RenderData = new RenderData();
+            }
             if (locals.client.Connected())
             {
                 locals.client.SendCommandToServer("STARTGAME", locals.lobby.LobbyId, JsonConvert.SerializeObject(lobby));

@@ -36,7 +36,7 @@ namespace Game.Logic
             Players = new List<User>();
             Solids = new List<GameObject>();
             Interactables = new List<GameObject>();
-            Player = new Player("01", "Player1", spawnPoint, new Vector2(ObjectData.PLAYER_WIDTH, ObjectData.PLAYER_HEIGHT), 8);
+            //Player = new Player("01", "Player1", spawnPoint, new Vector2(ObjectData.PLAYER_WIDTH, ObjectData.PLAYER_HEIGHT), 8);
 
             localID = MultiLogic.locals.user.Id;
 
@@ -79,28 +79,12 @@ namespace Game.Logic
             GameObject.SetPlayers(new List<GameObject> { Player });
         }
 
-        public void LoadPlayers(List<User> players)
+        public void LoadPlayers()
         {
-            try
+            foreach (User user in MultiLogic.locals.lobby.Users)
             {
-                if (!Paused && messenger != null)
-                {
-                    messenger.Send("Update elapsed time", "LevelTimerUpdate");
-                }
-
-                foreach (User user in players)
-                {
-                    if (user.Id == localID)
-                    {
-                        continue;
-                    }
-                    else
-                    {
-                        Players.Add(user);
-                    }
-                }
+                Players.Add(user);
             }
-            catch (Exception e){ };
         }
 
         public void NotifyPlayerLeft(string username)
@@ -112,8 +96,11 @@ namespace Game.Logic
         public void UpdatePlayer(User playerToUpdate)
         {
             User player = Players.FirstOrDefault(x => x.Id == playerToUpdate.Id);
+            
             if (player != null)
-                playerToUpdate.RenderData = playerToUpdate.RenderData;
+            {
+                player.RenderData = playerToUpdate.RenderData;
+            }
         }
 
         private void UpdateRenderData()
@@ -134,11 +121,21 @@ namespace Game.Logic
                 Paused = !Paused;
             }
 
+            if (Input.GetKeyPressed(Key.Space))
+            {
+                Trace.WriteLine(Player.Transform.Position.X + " - " + Player.Transform.Position.Y);
+            }
+
             Player.ProcessInput();
         }
 
         public override void Update(float deltaTime)
         {
+            if (!Paused)
+            {
+                messenger.Send("Update elapsed time", "LevelTimerUpdate");
+            }
+
             foreach (var obj in Interactables)
             {
                 obj.Update(deltaTime);
@@ -149,7 +146,7 @@ namespace Game.Logic
             UpdateRenderData();
 
             MultiLogic.locals.user.RenderData = renderData;
-
+            
             var serialized = JsonConvert.SerializeObject(MultiLogic.locals.user);
             
             MultiLogic.locals.client.SendCommandToServer("MOVE", localID, serialized);
