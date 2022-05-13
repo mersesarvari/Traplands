@@ -8,7 +8,6 @@ using System.Windows.Media;
 
 namespace Game.Models
 {
-
     public class RenderData
     {
         public string FileName { get; set; }
@@ -18,5 +17,12 @@ namespace Game.Models
         public double CenterX { get; set; }
         public double CenterY { get; set; }
         public double ScaleX { get; set; }
+
+        public RenderData()
+        {
+            Position = new Vector2();
+            Size = new Vector2();
+            FileName = "player_idle";
+        }
     }
 }

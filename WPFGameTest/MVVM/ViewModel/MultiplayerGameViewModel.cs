@@ -14,7 +14,7 @@ namespace Game.MVVM.ViewModel
 {
     public class MultiplayerGameViewModel : ViewModelBase
     {
-        IMultiplayer logic;
+        Multiplayer logic;
 
         public string GameState { get { return logic.GameOver ? "Finish" : "Paused"; } }
 
@@ -35,8 +35,13 @@ namespace Game.MVVM.ViewModel
 
         public MultiplayerGameViewModel(INavigationService multiMenuNavigationService)
         {
-            this.logic = (MainWindow.game as Multiplayer);
-            (MainWindow.game as Multiplayer).SetMessenger(Messenger);
+            logic = new Multiplayer();
+            MainWindow.game = logic;
+            logic.SetMessenger(Messenger);
+            logic.LoadLevel("Level 1");
+            //Ez a sor ami nem engedi elindulni a programot
+            logic.LoadPlayers();
+            
             NavigateMultiMenuCommand = new NavigateCommand(multiMenuNavigationService);
 
             ResumeGame = new RelayCommand(() => { logic.Paused = false; }, () => !GameOver);
@@ -52,24 +57,24 @@ namespace Game.MVVM.ViewModel
                 multiMenuNavigationService.Navigate();
             });
 
-            Messenger.Register<MultiplayerGameViewModel, string, string>(this, "LevelTimerUpdate", (recepient, msg) =>
-            {
-                OnPropertyChanged(nameof(LevelTimeElapsed));
-            });
+            //Messenger.Register<MultiplayerGameViewModel, string, string>(this, "LevelTimerUpdate", (recepient, msg) =>
+            //{
+            //    OnPropertyChanged(nameof(LevelTimeElapsed));
+            //});
 
-            Messenger.Register<MultiplayerGameViewModel, string, string>(this, "GamePaused", (recepient, msg) =>
-            {
-                OnPropertyChanged(nameof(GamePaused));
-                OnPropertyChanged(nameof(GameOver));
-                OnPropertyChanged(nameof(GameState));
-                (ResumeGame as RelayCommand).NotifyCanExecuteChanged();
-            });
+            //Messenger.Register<MultiplayerGameViewModel, string, string>(this, "GamePaused", (recepient, msg) =>
+            //{
+            //    OnPropertyChanged(nameof(GamePaused));
+            //    OnPropertyChanged(nameof(GameOver));
+            //    OnPropertyChanged(nameof(GameState));
+            //    (ResumeGame as RelayCommand).NotifyCanExecuteChanged();
+            //});
 
-            Messenger.Register<MultiplayerGameViewModel, string, string>(this, "Transition", (recepient, msg) =>
-            {
-                OnPropertyChanged(nameof(TransitionAlpha));
-                OnPropertyChanged(nameof(Transitioning));
-            });
+            //Messenger.Register<MultiplayerGameViewModel, string, string>(this, "Transition", (recepient, msg) =>
+            //{
+            //    OnPropertyChanged(nameof(TransitionAlpha));
+            //    OnPropertyChanged(nameof(Transitioning));
+            //});
         }
     }
 }

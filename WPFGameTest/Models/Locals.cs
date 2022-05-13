@@ -57,27 +57,23 @@ namespace Game.Models
             lobby = new Lobby();
             user = new User();
         }
-        
+
         public void GameStarted()
         {
             ;
-            var msg = MultiLogic.locals.client.packetReader.ReadMessage();            
+            var msg = MultiLogic.locals.client.packetReader.ReadMessage();
+
             MultiLogic.locals.lobby = JsonConvert.DeserializeObject<Lobby>(msg);
-            ;
-            bool firstcall = true;
-            Application.Current.Dispatcher.Invoke((Action)delegate {
-                MainWindow.game = new Multiplayer();
-                (MainWindow.game as Multiplayer).LoadLevel("Level 1");
-                //Ez a sor ami nem engedi elindulni a programot
-                //(MainWindow.game as Multiplayer).LoadPlayers(MultiLogic.locals.lobby.Users);
-            });
+            //Application.Current.Dispatcher.Invoke((Action)delegate {
+            //    gameService.Navigate();
+            //});
+            
             /*
             MainWindow.game = new Multiplayer();
             (MainWindow.game as Multiplayer).LoadLevel("Level 1");
             (MainWindow.game as Multiplayer).LoadPlayers(MultiLogic.locals.lobby.Users);  
             */
             //LevelManager.LoadLevels();
-            gameService.Navigate();
 
         }
 
@@ -85,10 +81,10 @@ namespace Game.Models
         {
             //This method is handling the JoinResponse from the server
             var msg = MultiLogic.locals.client.packetReader.ReadMessage();
-            /*
+            
             var L = JsonConvert.DeserializeObject<User>(msg);
             (MainWindow.game as Multiplayer).UpdatePlayer(L);
-            */
+            
 
             //Trace.WriteLine($"Lobby was set in multilogic");
         }

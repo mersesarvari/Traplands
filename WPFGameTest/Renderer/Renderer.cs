@@ -122,18 +122,17 @@ namespace Game.Renderer
                     null,
                     new Rect(item.RenderData.Position.X, item.RenderData.Position.Y, item.RenderData.Size.X, item.RenderData.Size.Y));
                 drawingContext.Pop();
+
+                drawingContext.DrawText(new FormattedText(item.Username, CultureInfo.CurrentCulture, FlowDirection.LeftToRight, new Typeface("Consolas"), 12, Brushes.Red),
+                new Point(model.Player.Transform.Position.X + model.Player.Transform.Size.X / 2 - 20, model.Player.Transform.Position.Y - 15));
             }
 
-            drawingContext.PushTransform(model.Player.Transform.ScaleTransform);
-            drawingContext.DrawRectangle(
-                model.Player.Fill,
-                null,
-                new Rect(model.Player.Transform.Position.X, model.Player.Transform.Position.Y, model.Player.Transform.Size.X, model.Player.Transform.Size.Y));
-            drawingContext.Pop();
-
-            // Testing text rendering for online games
-            //drawingContext.DrawText(new FormattedText("Player01", CultureInfo.CurrentCulture, FlowDirection.LeftToRight, new Typeface("Consolas"), 12, Brushes.Red),
-            //    new Point(model.Player.Transform.Position.X + model.Player.Transform.Size.X / 2 - 20, model.Player.Transform.Position.Y - 15));
+            //drawingContext.PushTransform(model.Player.Transform.ScaleTransform);
+            //drawingContext.DrawRectangle(
+            //    model.Player.Fill,
+            //    null,
+            //    new Rect(model.Player.Transform.Position.X, model.Player.Transform.Position.Y, model.Player.Transform.Size.X, model.Player.Transform.Size.Y));
+            //drawingContext.Pop();
         }
     }
 }

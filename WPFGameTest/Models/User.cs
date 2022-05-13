@@ -14,7 +14,9 @@ namespace Game.Models
 
         public User()
         {
-
+            Id = "-1";
+            Username = "asd";
+            RenderData = new RenderData();
         }
 
         public User(string id, string username, RenderData renderData)
