@@ -95,6 +95,19 @@ namespace Game.Logic
             //locals.lobby.Map =;
         }
 
+        public void SendMessage(Message message)
+        {
+            if (locals.client.Connected())
+            {
+                locals.client.SendCommandToServer("SENDMESSAGE", locals.lobby.LobbyId, JsonConvert.SerializeObject(message));
+            }
+            else
+            {
+                MessageBox.Show("You are not connected to the server");
+            }
+            
+        }
+
 
 
 

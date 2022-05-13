@@ -72,7 +72,6 @@ namespace Server.Models
                         if (currentclient != null)
                         {
                             Server.SendResponse(2, currentclient, JsonConvert.SerializeObject(currentlobby));
-                            Console.WriteLine($"[({2})Response to: {currentclient.UID}]");
                         }
                         else
                         {

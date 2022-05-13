@@ -44,6 +44,7 @@ namespace Game.Models
             client.updateUserData += UpdateUser;
             client.gameStartedEvent += GameStarted;
             client.gameLeftEvent += GameLeft;
+            client.messageRecievedEvent += MessageRecieved;
         }
 
         public Locals(INavigationService lobbyService, INavigationService gameService, INavigationService multimenuService, INavigationService menuService)
@@ -61,27 +62,25 @@ namespace Game.Models
             lobby = new Lobby();
             user = new User();
             Lobbies = new List<Lobby>();
-    }
+        }
 
-        public void RegisterMessenger(IMessenger messenger)
+        private void RegisterMessenger(IMessenger messenger)
         {
             multiViewMessenger = messenger;
         }
-        public void GameStarted()
+        private void GameStarted()
         {
             var msg = MultiLogic.locals.client.packetReader.ReadMessage();
             MultiLogic.locals.lobby = JsonConvert.DeserializeObject<Lobby>(msg);
             lobbyViewMessenger.Send("Game started", "GameStarted");
         }
-
-        public void UpdateUser()
+        private void UpdateUser()
         {
             var msg = MultiLogic.locals.client.packetReader.ReadMessage();            
             var L = JsonConvert.DeserializeObject<User>(msg);
             (MainWindow.game as Multiplayer).UpdatePlayer(L);
         }
-
-        public void Client_userJoinedLobbyEvent()
+        private void Client_userJoinedLobbyEvent()
         {
             //This method is handling the JoinResponse from the server
             var msg = MultiLogic.locals.client.packetReader.ReadMessage();            
@@ -115,19 +114,18 @@ namespace Game.Models
 
             });
 
-        }        
+        }
         private void GameLeft()
         {
             var uid = MultiLogic.locals.client.packetReader.ReadMessage();
             Trace.WriteLine($"[Left game]");
             menuService.Navigate();
         }
-
-        public void MessageRecieved()
+        private void MessageRecieved()
         {
-            var UserName = MultiLogic.locals.client.packetReader.ReadMessage();
+            var ID = MultiLogic.locals.client.packetReader.ReadMessage();
             var Message = MultiLogic.locals.client.packetReader.ReadMessage();
-            lobby.Messages.Add()
+            lobby.Messages.Add(new Message(ID, Message));
             Trace.WriteLine($"[Connected] :{this.user.Id}");
             this.Connected = true;
         }

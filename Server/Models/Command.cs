@@ -27,6 +27,9 @@ namespace Server.Models
                     break;
                 case "LEAVEGAME":
                     Game.LeaveGame(executor, command);
+                    break;                    
+               case "SENDMESSAGE":
+                    Message.SendMessageToLobby(executor, command);
                     break;
                 default:
                     break;
