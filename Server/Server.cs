@@ -87,13 +87,13 @@ namespace Server
             foreach (var client in clients)
             {                
                 var packetBuilder = new PacketBuilder();
-                packetBuilder.WriteOptCode(0);
+                packetBuilder.WriteOptCode(10);
                 packetBuilder.WriteMessage(uid.ToString());
                 client.TCP.Client.Send(packetBuilder.GetPacketbytes());
                 clients.Remove(Server.FindClient(uid.ToString()));
                 players.Remove(Server.FindUserById(uid.ToString()));
                 Console.WriteLine("Current user count " + clients.Count);
-            }    
+            }
         }        
         public static void BroadcastResponse(byte opcode, string messagename, string message)
         {

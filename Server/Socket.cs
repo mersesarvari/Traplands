@@ -36,12 +36,14 @@ namespace Server
                             Command.CommandManager(negy_commandname, negy_executor, negy_command);
                             break;
                         case 10:
+                            
                             var dc = _packetReader.ReadMessage();
                             Console.WriteLine($"[Disconnected] :{dc}");
                             Server.BroadcastDisconnect(dc);
+                            TCP.Close();                            
                             break;
                         default:
-                            Console.WriteLine($"[INFO] Recieving invalid opcode from the client({opcode})!");
+                            Console.WriteLine($"[INFO] Invalid OPCODE({opcode})!");
                             break;
                     }                    
                 }
