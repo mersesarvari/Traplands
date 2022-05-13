@@ -124,15 +124,18 @@ namespace Game.Renderer
                 drawingContext.Pop();
 
                 drawingContext.DrawText(new FormattedText(item.Username, CultureInfo.CurrentCulture, FlowDirection.LeftToRight, new Typeface("Consolas"), 12, Brushes.Red),
-                new Point(model.Player.Transform.Position.X + model.Player.Transform.Size.X / 2 - 20, model.Player.Transform.Position.Y - 15));
+                new Point(item.RenderData.Position.X + item.RenderData.Size.X / 2 - 20, item.RenderData.Position.Y - 15));
             }
 
-            //drawingContext.PushTransform(model.Player.Transform.ScaleTransform);
-            //drawingContext.DrawRectangle(
-            //    model.Player.Fill,
-            //    null,
-            //    new Rect(model.Player.Transform.Position.X, model.Player.Transform.Position.Y, model.Player.Transform.Size.X, model.Player.Transform.Size.Y));
-            //drawingContext.Pop();
+            drawingContext.PushTransform(model.Player.Transform.ScaleTransform);
+            drawingContext.DrawRectangle(
+                model.Player.Fill,
+                null,
+                new Rect(model.Player.Transform.Position.X, model.Player.Transform.Position.Y, model.Player.Transform.Size.X, model.Player.Transform.Size.Y));
+            drawingContext.Pop();
+
+            drawingContext.DrawText(new FormattedText(MultiLogic.locals.user.Username, CultureInfo.CurrentCulture, FlowDirection.LeftToRight, new Typeface("Consolas"), 12, Brushes.Aquamarine),
+                new Point(model.Player.Transform.Position.X + model.Player.Transform.Size.X / 2 - 20, model.Player.Transform.Position.Y - 15));
         }
     }
 }
