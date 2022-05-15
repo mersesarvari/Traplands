@@ -12,6 +12,9 @@
         <converter:ButtonActiveBoolConverter x:Key="ButtonActiveConverter"/>
         <converter:IdToNameConverter x:Key="IdToName"/>
         <converter:StringToColorConverter x:Key="StringToColor"/>
+        <converter:BorderRadiusConverter x:Key="BorderRadius"/>
+        <converter:OrientationConverter x:Key="Orientation"/>
+        <converter:ColumnSpanConverter x:Key="ColumnSpan"/>
         <Style x:Key="arcade" TargetType="Button">
             <Setter Property="OverridesDefaultStyle" Value="True"/>
             <Setter Property="FontFamily" Value="../../Resources/ARCADECLASSIC.ttf #ARCADECLASSIC"/>
@@ -81,9 +84,13 @@
         <ListBox Background="Transparent" BorderThickness="0" Margin="10" Grid.Row="2" Grid.Column="0" ItemsSource="{Binding Users}" HorizontalContentAlignment="Stretch">
             <ListBox.ItemTemplate>
                 <DataTemplate>
-                    <Grid>
-                        <Label Content="{Binding Username}" FontSize="18"/>
-                    </Grid>
+                    <Border HorizontalAlignment="Stretch"
+                            Background="{Binding Id, Converter={StaticResource StringToColor}}" 
+                            BorderBrush="{Binding Id, Converter={StaticResource StringToColor}}" 
+                            BorderThickness="1,1,1,1"
+                            CornerRadius="10,10,10,10">
+                        <Label Foreground="White" Content="{Binding Username}" FontSize="18"/>
+                    </Border>
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
@@ -100,17 +107,34 @@
             </Grid.RowDefinitions>
             <!--<Label Content="{Binding Username}" FontSize="18"/>-->
             <ListBox ItemsSource="{Binding Messages}" BorderThickness="0" Background="Transparent" Margin="10" HorizontalContentAlignment="Stretch">
+                <ListBox.ItemContainerStyle>
+                    <Style TargetType="{x:Type ListBoxItem}">
+                        <Setter Property="Focusable" Value="False"/>
+                    </Style>
+                </ListBox.ItemContainerStyle>
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <Grid>
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="1*"/>
-                                <ColumnDefinition Width="1*"/>
+                                <ColumnDefinition Width="2*"/>
                                 <ColumnDefinition Width="5*"/>
+                                <ColumnDefinition Width="2*"/>
                             </Grid.ColumnDefinitions>
-                            <Label Foreground="{Binding ownerid, Converter={StaticResource StringToColor}}" Content="{Binding ownerid, Converter={StaticResource IdToName}}" Grid.Column="0" FontSize="18"/>
+                            <Border HorizontalAlignment="Stretch"
+                                    Grid.Column="{Binding ownerid, Converter={StaticResource ColumnSpan}}"  
+                                    Grid.ColumnSpan="2" 
+                                    Background="{Binding ownerid, Converter={StaticResource StringToColor}}" 
+                                    BorderBrush="{Binding ownerid, Converter={StaticResource StringToColor}}" 
+                                    BorderThickness="1,1,1,1"
+                                    CornerRadius="{Binding ownerid, Converter={StaticResource BorderRadius}}">
+                            </Border>
+                            <!--<Label HorizontalAlignment="{Binding ownerid, Converter={StaticResource Orientation}}" Foreground="White" Content="{Binding ownerid, Converter={StaticResource IdToName}}" Grid.Column="1" FontSize="18"/>-->
                             <!--<Label Content="{Binding Source={x:Static system:DateTime.Now}, StringFormat={0:HH:mm}}" Grid.Column="1" FontSize="18"/>-->
-                            <Label Content="{Binding message}" Grid.Column="2" FontSize="18"/>
+                            <Label HorizontalContentAlignment="{Binding ownerid, Converter={StaticResource Orientation}}" 
+                                   HorizontalAlignment="{Binding ownerid, Converter={StaticResource Orientation}}" 
+                                   Foreground="White" Content="{Binding message}" 
+                                   Grid.Column="{Binding ownerid, Converter={StaticResource ColumnSpan}}" 
+                                   Grid.ColumnSpan="2" FontSize="18"/>
                         </Grid>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
