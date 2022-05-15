@@ -10,11 +10,13 @@ namespace Game.Models
     {
         public string ownerid { get; set; }
         public string message { get; set; }
+        public string color { get; set; }
 
         public Message(string ownerid, string message)
         {
             this.ownerid = ownerid;
             this.message = message;
+            this.color = "";
         }
     }
 }

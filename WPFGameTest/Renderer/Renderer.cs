@@ -114,6 +114,8 @@ namespace Game.Renderer
                 scale.CenterX = item.RenderData.CenterX;
                 scale.CenterY = item.RenderData.CenterY;
 
+                SolidColorBrush color = new SolidColorBrush((Color)ColorConverter.ConvertFromString(item.Color));
+
                 var fill = Resource.GetSpriteSheetImage(item.RenderData.FileName, item.RenderData.ImageIndex);
 
                 drawingContext.PushTransform(scale);
@@ -123,7 +125,7 @@ namespace Game.Renderer
                     new Rect(item.RenderData.Position.X, item.RenderData.Position.Y, item.RenderData.Size.X, item.RenderData.Size.Y));
                 drawingContext.Pop();
 
-                drawingContext.DrawText(new FormattedText(item.Username, CultureInfo.CurrentCulture, FlowDirection.LeftToRight, new Typeface("Consolas"), 12, Brushes.Red),
+                drawingContext.DrawText(new FormattedText(item.Username, CultureInfo.CurrentCulture, FlowDirection.LeftToRight, new Typeface("Consolas"), 12, color),
                 new Point(item.RenderData.Position.X + item.RenderData.Size.X / 2 - 20, item.RenderData.Position.Y - 15));
             }
 
@@ -134,7 +136,9 @@ namespace Game.Renderer
                 new Rect(model.Player.Transform.Position.X, model.Player.Transform.Position.Y, model.Player.Transform.Size.X, model.Player.Transform.Size.Y));
             drawingContext.Pop();
 
-            drawingContext.DrawText(new FormattedText(MultiLogic.locals.user.Username, CultureInfo.CurrentCulture, FlowDirection.LeftToRight, new Typeface("Consolas"), 12, Brushes.Aquamarine),
+            SolidColorBrush playerColor = new SolidColorBrush((Color)ColorConverter.ConvertFromString(model.Player.PlayerColor));
+
+            drawingContext.DrawText(new FormattedText(model.Player.PlayerName, CultureInfo.CurrentCulture, FlowDirection.LeftToRight, new Typeface("Consolas"), 12, playerColor),
                 new Point(model.Player.Transform.Position.X + model.Player.Transform.Size.X / 2 - 20, model.Player.Transform.Position.Y - 15));
         }
     }

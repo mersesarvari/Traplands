@@ -79,7 +79,7 @@ namespace Game.Models
                 }
             });
         }
-        public void ConnectToServer(string username)
+        public void ConnectToServer(string username, string color)
         {
             if (!_client.Connected)
             {
@@ -91,6 +91,7 @@ namespace Game.Models
                     var connectPacket = new PacketBuilder();
                     connectPacket.WriteOptCode(0);
                     connectPacket.WriteMessage(username);
+                    connectPacket.WriteMessage(color);
                     _client.Client.Send(connectPacket.GetPacketbytes());
                 }
                 ReadPacket();

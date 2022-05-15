@@ -11,6 +11,7 @@
     <UserControl.Resources>
         <converter:ButtonActiveBoolConverter x:Key="ButtonActiveConverter"/>
         <converter:IdToNameConverter x:Key="IdToName"/>
+        <converter:StringToColorConverter x:Key="StringToColor"/>
         <Style x:Key="arcade" TargetType="Button">
             <Setter Property="OverridesDefaultStyle" Value="True"/>
             <Setter Property="FontFamily" Value="../../Resources/ARCADECLASSIC.ttf #ARCADECLASSIC"/>
@@ -107,7 +108,7 @@
                                 <ColumnDefinition Width="1*"/>
                                 <ColumnDefinition Width="5*"/>
                             </Grid.ColumnDefinitions>
-                            <Label Content="{Binding ownerid, Converter={StaticResource IdToName}}" Grid.Column="0" FontSize="18"/>
+                            <Label Foreground="{Binding ownerid, Converter={StaticResource StringToColor}}" Content="{Binding ownerid, Converter={StaticResource IdToName}}" Grid.Column="0" FontSize="18"/>
                             <!--<Label Content="{Binding Source={x:Static system:DateTime.Now}, StringFormat={0:HH:mm}}" Grid.Column="1" FontSize="18"/>-->
                             <Label Content="{Binding message}" Grid.Column="2" FontSize="18"/>
                         </Grid>

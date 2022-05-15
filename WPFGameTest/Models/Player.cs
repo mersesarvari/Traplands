@@ -20,9 +20,10 @@ namespace Game.Models
 
         public Vector2 Spawn { get; set; }
 
-        //Player data from the server
+        // Player data from the server
         public string PlayerName { get; set; }
         public string PlayerID { get; set; }
+        public string PlayerColor { get; set; }
 
         // Movement attributes
         public int Dir { get; set; }
@@ -62,11 +63,12 @@ namespace Game.Models
         public float DashCooldown { get; private set; }
         public float CooldownLeft { get; set; }
 
-        public Player(string id, string name,Vector2 position, Vector2 size, int hitboxOffset = 0) : base(position, size, hitboxOffset)
+        public Player(string id, string name, string color, Vector2 position, Vector2 size, int hitboxOffset = 0) : base(position, size, hitboxOffset)
         {
             // Setting up player data from the server
             PlayerID = id;
             PlayerName = name;
+            PlayerColor = color;
 
             State = new PlayerOnGround(this);
 

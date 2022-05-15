@@ -129,7 +129,7 @@ namespace Game.Logic
             spawnPoint = currentLevel.SpawnPoint;
             Solids = currentLevel.Solids;
             Interactables = currentLevel.Interactables;
-            Player = new Player("01", "Player1", spawnPoint, new Vector2(ObjectData.PLAYER_WIDTH, ObjectData.PLAYER_HEIGHT), 8);
+            Player = new Player("01", "Player1", "", spawnPoint, new Vector2(ObjectData.PLAYER_WIDTH, ObjectData.PLAYER_HEIGHT), 8);
 
             if (currentLevel == campaignLevels[0])
             {

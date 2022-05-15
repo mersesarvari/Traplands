@@ -20,6 +20,7 @@ namespace Server.Models
         {
             Id = client.UID.ToString();
             Username = client.Username;
+            Color = client.Color;
         }
 
         [JsonConstructor]

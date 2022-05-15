@@ -79,7 +79,7 @@ namespace Game.Models
         {
             multiViewMessenger = messenger;
         }
-        private void RegisterMessenger(IMessenger messenger)
+        public void SetupCollection(IList<Message> messages)
         {
             lobby.Messages = messages;
         }
@@ -114,6 +114,7 @@ namespace Game.Models
         {
             MultiLogic.locals.user.Username = MultiLogic.locals.client.packetReader.ReadMessage();
             MultiLogic.locals.user.Id = MultiLogic.locals.client.packetReader.ReadMessage();
+            MultiLogic.locals.user.Color = MultiLogic.locals.client.packetReader.ReadMessage();
             var lobbiesstring = MultiLogic.locals.client.packetReader.ReadMessage();
             MultiLogic.locals.Lobbies = JsonConvert.DeserializeObject<List<Lobby>>(lobbiesstring);
 

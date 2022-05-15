@@ -36,15 +36,13 @@ namespace Game.Logic
             Players = new List<User>();
             Solids = new List<GameObject>();
             Interactables = new List<GameObject>();
-            Player = new Player("01", "Player1", spawnPoint, new Vector2(ObjectData.PLAYER_WIDTH, ObjectData.PLAYER_HEIGHT), 8);
+            Player = new Player("01", "Player1", "",spawnPoint, new Vector2(ObjectData.PLAYER_WIDTH, ObjectData.PLAYER_HEIGHT), 8);
 
             localID = MultiLogic.locals.user.Id;
 
             minTimeBetweenTicks = 1 / tickRate;
 
             renderData = new RenderData();
-
-            User user = new User(MultiLogic.locals.user.Id, MultiLogic.locals.user.Username, renderData);
         }
 
         public void SetMessenger(IMessenger messenger)
@@ -60,7 +58,7 @@ namespace Game.Logic
             spawnPoint = currentLevel.SpawnPoint;
             Solids = currentLevel.Solids;
             Interactables = currentLevel.Interactables;
-            Player = new Player(MultiLogic.locals.user.Id, MultiLogic.locals.user.Username, spawnPoint, new Vector2(ObjectData.PLAYER_WIDTH, ObjectData.PLAYER_HEIGHT), 8);
+            Player = new Player(MultiLogic.locals.user.Id, MultiLogic.locals.user.Username, MultiLogic.locals.user.Color, spawnPoint, new Vector2(ObjectData.PLAYER_WIDTH, ObjectData.PLAYER_HEIGHT), 8);
             
             renderData = new RenderData();
             renderData.Position = Player.Transform.Position;

@@ -129,7 +129,7 @@ namespace Game.MVVM.ViewModel
             ConnectServerCommand = new RelayCommand(
                 () =>
                 {
-                    MultiLogic.locals.client.ConnectToServer(Username);
+                    MultiLogic.locals.client.ConnectToServer(Username, SelectedColor.Color.ToString());
                     Thread.Sleep(300);
                     Lobbies = MultiLogic.locals.Lobbies;
                     Trace.WriteLine(SelectedColor.Color.ToString());

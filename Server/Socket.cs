@@ -7,6 +7,7 @@ namespace Server
     {
         public string Username { get; set; }
         public Guid UID { get; set; }
+        public string Color { get; set; }
         public TcpClient TCP { get; set; }
 
         PacketReader _packetReader;
@@ -18,6 +19,7 @@ namespace Server
             _packetReader = new PacketReader(TCP.GetStream());
             var opcode = _packetReader.ReadByte();
             Username = _packetReader.ReadMessage();
+            Color = _packetReader.ReadMessage();
             Task.Run(() => Process());
         }        
         void Process()
