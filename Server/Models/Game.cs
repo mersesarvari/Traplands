@@ -9,11 +9,8 @@ namespace Server.Models
 {
     public class Game
     {
-        //public List<Player> Player { get; set; }
-
-        internal static void Move(string executor, string command)
+        public static void Move(string executor, string command)
         {
-            //Console.WriteLine("MOVE CALLED");
             Player data = JsonConvert.DeserializeObject<Player>(command);
             foreach (var item in Server.players)
             {
@@ -21,7 +18,6 @@ namespace Server.Models
                 if (currentclient != null)
                 {
                     Server.SendResponse(4, currentclient, JsonConvert.SerializeObject(data));
-                    //Console.WriteLine($"[({2})Response to: {item.Id}]");
                 }
                 else
                 {
@@ -29,7 +25,6 @@ namespace Server.Models
                 }
             }
         }
-
         public static void Start(string executor, string command)
         {
             Console.WriteLine("Game STARTING");
@@ -52,7 +47,6 @@ namespace Server.Models
                 }
             }
         }
-
         //executor is clientID and command is LobbyID
         public static void LeaveGame(string executor, string command)
         {

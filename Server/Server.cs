@@ -10,22 +10,15 @@ using Newtonsoft.Json;
 
 namespace Server
 {
-    public class Server
+    public static class Server
     {
         public static List<Lobby> lobbies= new List<Lobby>();
         public static List<Socket> clients = new List<Socket>();
         public static List<Player> players = new List<Player>();
         private static TcpListener listener;
 
-        /// <summary>
-        /// Method to Start the server
-        /// </summary>
-        /// <param name="ip"> Ip of our server</param>
-        /// <param name="port">Port of our server</param>
-        /// <param name="tickinterval"> Interval of the server timer in Miliseconds</param>
         public static void Start(string ip, int port, int tickinterval)
         {            
-            //var ip = IPAddress.Parse("127.0.0.1") + ":5000";
             listener = new TcpListener(IPAddress.Parse(ip), port);
             listener.Start();            
 
@@ -43,9 +36,6 @@ namespace Server
                 SendConnection(client);
             }
         }
-        /// <summary>
-        /// Method to stop the Server
-        /// </summary>
         public static void Stop()
         {
             listener.Stop();
@@ -58,9 +48,8 @@ namespace Server
         {
             return clients.Where(x => x.UID.ToString() == userid).FirstOrDefault();
         }
-
         #region Server Responses to Client
-        static void BroadcastConnection()
+        public static void BroadcastConnection()
         {
             foreach (var client in clients)
             {
@@ -74,8 +63,7 @@ namespace Server
                 }
             }
         }
-
-        static void SendConnection(Socket client)
+        public static void SendConnection(Socket client)
         {
             var broadcastPacket = new PacketBuilder();
             broadcastPacket.WriteOptCode(1);
@@ -84,7 +72,6 @@ namespace Server
             broadcastPacket.WriteMessage(JsonConvert.SerializeObject(Server.lobbies));
             client.TCP.Client.Send(broadcastPacket.GetPacketbytes());
         }
-
         public static void BroadcastDisconnect(string uid)
         {                   
             foreach (var client in clients)
@@ -97,8 +84,7 @@ namespace Server
                 players.Remove(Server.FindUserById(uid.ToString()));
                 Console.WriteLine("Current user count " + clients.Count);
             }
-        }    
-        
+        }            
         public static void BroadcastResponse(byte opcode, string messagename, string message)
         {
             Console.WriteLine($"[BroadCastMessage(3)] : {message}");
@@ -110,7 +96,13 @@ namespace Server
                 client.TCP.Client.Send(packetBuilder.GetPacketbytes());
             }
         }
-
+        /// <summary>
+        /// Sending respomse to a client
+        /// </summary>
+        /// <param name="opcode"> the opcode that the clinet can categorize
+        /// <param name="client"> the client who have to recieve the message</param>
+        /// <param name="message"></param>
+        /// <exception cref="Exception"></exception>
         public static void SendResponse(byte opcode, Socket client, string message)
         {
             if (client == null)
@@ -125,13 +117,39 @@ namespace Server
             try
             {
                 client.TCP.Client.Send(packetBuilder.GetPacketbytes());
-                Console.WriteLine("SendResponse: "+client.TCP.GetHashCode()+"|"+opcode);
+                //Console.WriteLine("SendResponse: "+client.TCP.GetHashCode()+"|"+opcode);
                 //Console.WriteLine($"[Response]: {FindUserById(userid).Username} - [{3}]:{message}");
             }
             catch (Exception ex)
             {
-
                 throw new Exception(ex.Message);
+            }
+        }
+        public static void CommandManager(string commandname, string executor, string command)
+        {
+            switch (commandname)
+            {
+                case "CREATELOBBY":
+                    Lobby.Create(executor);
+                    Lobby.Join(executor, command);
+                    break;
+                case "JOINLOBBY":
+                    Lobby.Join(executor, command);
+                    break;
+                case "STARTGAME":
+                    Game.Start(executor, command);
+                    break;
+                case "MOVE":
+                    Game.Move(executor, command);
+                    break;
+                case "LEAVEGAME":
+                    Game.LeaveGame(executor, command);
+                    break;
+                case "SENDMESSAGE":
+                    Message.SendMessageToLobby(executor, command);
+                    break;
+                default:
+                    break;
             }
         }
         #endregion

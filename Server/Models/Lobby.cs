@@ -23,6 +23,7 @@ namespace Server.Models
             Messages = new List<Message>();
 
         }
+        //Constructor for the JSON Serialization
         [JsonConstructor]
         public Lobby(string LobbyId, List<Player> Users, List<Message> Messages, string map)
         {
@@ -31,8 +32,7 @@ namespace Server.Models
             this.Messages = Messages;
             this.Map = map;
         }
-
-        //TODO        
+    
         public static void Create(string userid)
         {
             var alreadyexists = Server.lobbies.Where(x => x.LobbyId == userid.ToString()).FirstOrDefault();
@@ -40,32 +40,25 @@ namespace Server.Models
             {
                 Server.lobbies.Add(new Lobby(userid));
                 Console.WriteLine($"[LOBBY CREATED] : {userid}");
-                //Server.SendResponse(2,userid, "CREATELOBBY","Success");
             }
 
         }
         public static void Join(string userid, string lobbyid)
         {
-            //Lobby exists and Found.
             Lobby currentlobby = Server.lobbies.Where(x => x.LobbyId.ToString() == lobbyid).FirstOrDefault();
-            ;
-            //Player is already added to that lobby
             if (currentlobby != null)
             {
 
                 bool alreadyadded = currentlobby.Users.Where(y => y.Id == userid).FirstOrDefault() != null;
                 if (alreadyadded == false && currentlobby != null)
                 {
-                    //Adding User to a pecific lobby
                     currentlobby.Users.Add(Server.FindUserById(userid));
-
-                    //KIIRATAS
                     foreach (var item in currentlobby.Users)
                     {
                         Console.WriteLine($"[User in the current lobby]: {item.Username}");
                     }
                     Console.WriteLine($"[INFO]: {Server.FindUserById(userid).Username} Joined a lobby");
-                    //Sending lobby information to all connected player
+                    //SENDING RESPONSE TP ALL PLAYER IN THE LOBBY
                     foreach (var item in currentlobby.Users)
                     {
                         var currentclient = Server.FindClient(item.Id);
@@ -81,9 +74,7 @@ namespace Server.Models
                 }
                 else
                 {
-                    //Print information
                     Console.WriteLine("[Error]: User cannot join this lobby!");
-                    //Server.SendResponse(userid, "JOINLOBBY","ERROR");
                 }
             }
         }

@@ -98,7 +98,6 @@ namespace Server.Models
         {
             return new Vector2(a.X * b, a.Y * b);
         }
-
         public static float Distance(Vector2 a, Vector2 b)
         {
             return MathF.Sqrt((a.X - b.X) * (a.X - b.X) + (a.Y - b.Y) * (a.Y - b.Y));
