@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
+using System.Windows.Media;
 using Game.Logic;
 using Game.Models;
 using Game.MVVM.Commands;
@@ -36,7 +38,7 @@ namespace Game.MVVM.ViewModel
             get { return SelectedLobby == null ? "0" : SelectedLobby.LobbyId; }
         }
 
-        private string username = "Player";
+        private string username = "Name";
 
         public string Username
         {
@@ -75,6 +77,27 @@ namespace Game.MVVM.ViewModel
             }
         }
 
+        private List<SolidColorBrush> colors;
+        public List<SolidColorBrush> ColorList
+        {
+            get { return colors; }
+            set
+            {
+                SetProperty(ref colors, value);
+            }
+        }
+
+        private SolidColorBrush selectedColor;
+        public SolidColorBrush SelectedColor
+        {
+            get { return selectedColor; }
+            set
+            {
+                SetProperty(ref selectedColor, value);
+                OnPropertyChanged(nameof(SelectedLobby));
+            }
+        }
+
         public MultiplayerGameMenuViewModel(INavigationService lobbyService, INavigationService gameService, INavigationService multimenuService, INavigationService menuService)
         {
             // MultiLogic should not be created again if its already created
@@ -84,6 +107,16 @@ namespace Game.MVVM.ViewModel
                 MultiLogic.locals.RegisterEvents();
                 MultiLogic.locals.RegisterMultiViewMessenger(Messenger);
             }
+
+            ColorList = new List<SolidColorBrush>();
+            ColorList.Add(new SolidColorBrush(Colors.IndianRed));
+            ColorList.Add(new SolidColorBrush(Colors.LightBlue));
+            ColorList.Add(new SolidColorBrush(Colors.ForestGreen));
+            ColorList.Add(new SolidColorBrush(Colors.Purple));
+            ColorList.Add(new SolidColorBrush(Colors.Yellow));
+            ColorList.Add(new SolidColorBrush(Colors.Orange));
+
+            SelectedColor = new SolidColorBrush(Colors.Black);
 
             Lobbies = MultiLogic.locals.Lobbies;
             
@@ -101,6 +134,7 @@ namespace Game.MVVM.ViewModel
                     MultiLogic.locals.client.ConnectToServer(Username);
                     Thread.Sleep(300);
                     Lobbies = MultiLogic.locals.Lobbies;
+                    Trace.WriteLine(SelectedColor.Color.ToString());
                 },
                 () => !IsConnected
                 );

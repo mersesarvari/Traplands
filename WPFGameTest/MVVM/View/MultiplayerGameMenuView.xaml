@@ -33,6 +33,13 @@
             <Setter Property="BorderThickness" Value="0"/>
             <Setter Property="FontSize" Value="22"/>
         </Style>
+        <Style x:Key="input" TargetType="TextBox">
+            <Setter Property="FontFamily" Value="../../Resources/Minecraftia.ttf #Minecraftia"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="Black"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="FontSize" Value="22"/>
+        </Style>
     </UserControl.Resources>
     <Grid>
         <Grid.Background>
@@ -55,7 +62,6 @@
                 <BlurEffect/>
             </Grid.Effect>
         </Grid>
-        <Label Content="Lobbies" Grid.Row="1" Grid.Column="0" FontSize="22" FontFamily="Calibri" HorizontalAlignment="Center" VerticalAlignment="Bottom"/>
         <Label Content="Lobbies" Grid.Row="1" Grid.Column="1" FontSize="22" FontFamily="Calibri" HorizontalAlignment="Center" VerticalAlignment="Bottom"/>
         <ListBox Background="Transparent" Margin="10" Grid.Row="2" Grid.Column="1" ItemsSource="{Binding Lobbies}" SelectedItem="{Binding SelectedLobby}" BorderThickness="0" HorizontalContentAlignment="Stretch">
             <ListBox.ItemTemplate>
@@ -77,18 +83,29 @@
         <!--<Label Content="{Binding UserID}" FontSize="30"></Label>-->
         <Grid Grid.Column="1">
             <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="3*"/>
                 <ColumnDefinition Width="1*"/>
-                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="3*"/>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition Height="1*"/>
                 <RowDefinition Height="1*"/>
             </Grid.RowDefinitions>
-        <Label Content="Name:" VerticalAlignment="Bottom" VerticalContentAlignment="Bottom" FontSize="30" HorizontalAlignment="Left" Grid.Column="0" Margin="10" />
-        <TextBox Text="{Binding Username, Mode=TwoWay}" Margin="10" Grid.Column="0" Grid.Row="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
-        <Button Grid.Column="1" Grid.Row="1" Command="{Binding ConnectServerCommand}" Margin="10" Style="{StaticResource arcade}" Content="Connect" FontSize="30">
-
-        </Button>
+            <Grid Grid.Column="0" Grid.Row="1" Margin="10" Background="White" Opacity="0.3">
+                <Grid.Effect>
+                    <BlurEffect/>
+                </Grid.Effect>
+            </Grid>
+            <!--<Label Content="Name:" VerticalAlignment="Bottom" VerticalContentAlignment="Bottom" FontSize="30" HorizontalAlignment="Left" Grid.Column="0" Margin="10" />-->
+            <TextBox VerticalContentAlignment="Center" Style="{StaticResource input}" Text="{Binding Username, Mode=TwoWay}" Margin="10" Grid.Column="0" Grid.Row="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
+            <ComboBox IsSynchronizedWithCurrentItem="True" Background="Black" Margin="0,10,10,10" SelectedIndex="0" ItemsSource="{Binding ColorList}" Grid.Column="1" Grid.Row="1" SelectedItem="{Binding SelectedColor}">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <Rectangle Height="40" Width="60" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Fill="{Binding}"></Rectangle>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+            <Button Grid.Column="2" Grid.Row="1" Command="{Binding ConnectServerCommand}" Margin="10" Style="{StaticResource arcade}" Content="Connect" FontSize="30"/>
         </Grid>
 
         <!--<Label Content="Lobby ID:" FontSize="30" HorizontalAlignment="Center" Padding="10" Margin="10"/>
