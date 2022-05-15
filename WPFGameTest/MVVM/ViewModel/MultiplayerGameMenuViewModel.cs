@@ -25,17 +25,18 @@ namespace Game.MVVM.ViewModel
         public ICommand NavigateMultiGameCommand { get; }
         public ICommand JoinLobbyCommand { get; set;}
         public ICommand CreateLobbyCommand { get; set; }
-        public ICommand SetUsernameCommand { get; set; }
-        public ICommand Disconnect { get; set; }
         public ICommand ConnectServerCommand { get; set; }
+        public ICommand RefreshLobbies { get; set; }
 
         public bool IsConnected { get { return MultiLogic.locals.Connected; } }
+        public bool NotConnected { get { return !MultiLogic.locals.Connected; } }
 
         public string LobbyCode
         {
             get { return SelectedLobby == null ? "0" : SelectedLobby.LobbyId; }
         }
-        private string username="PLAYER";
+
+        private string username = "Player";
 
         public string Username
         {
@@ -76,25 +77,29 @@ namespace Game.MVVM.ViewModel
 
         public MultiplayerGameMenuViewModel(INavigationService lobbyService, INavigationService gameService, INavigationService multimenuService, INavigationService menuService)
         {
-            ;
-            MultiLogic logic = new MultiLogic(lobbyService, gameService, multimenuService, menuService);
-            MultiLogic.locals.RegisterEvents();
-            MultiLogic.locals.RegisterMultiViewMessenger(Messenger);
+            // MultiLogic should not be created again if its already created
+            if (MultiLogic.locals == null)
+            {
+                MultiLogic logic = new MultiLogic(lobbyService, gameService, multimenuService, menuService);
+                MultiLogic.locals.RegisterEvents();
+                MultiLogic.locals.RegisterMultiViewMessenger(Messenger);
+            }
 
             Lobbies = MultiLogic.locals.Lobbies;
             
-            Maps = new List<string>();
-            Maps.Add("Map1");
-            Maps.Add("Map2");
-            Maps.Add("Map3");
             NavigateMainMenuCommand = new NavigateCommand(menuService);
             NavigateLobbyCommand = new NavigateCommand(lobbyService);
             NavigateMultiGameCommand = new NavigateCommand(gameService);
+
+            OnPropertyChanged(nameof(Lobbies));
+            OnPropertyChanged(nameof(IsConnected));
+            OnPropertyChanged(nameof(NotConnected));
+
             ConnectServerCommand = new RelayCommand(
                 () =>
                 {
                     MultiLogic.locals.client.ConnectToServer(Username);
-                    Thread.Sleep(1000);
+                    Thread.Sleep(300);
                     Lobbies = MultiLogic.locals.Lobbies;
                 },
                 () => !IsConnected
@@ -107,18 +112,23 @@ namespace Game.MVVM.ViewModel
                 () => 
                 { 
                     MultiLogic.CreateLobby(MultiLogic.locals, Username, 0);
-                    Thread.Sleep(1000);
+                    Thread.Sleep(300);
                     Lobbies = MultiLogic.locals.Lobbies;
                 }
                 );
-            Disconnect = new RelayCommand(
-                () => { MultiLogic.Disconnect(MultiLogic.locals.user.Id); }
+
+            RefreshLobbies = new RelayCommand(
+                () =>
+                {
+                    Lobbies = MultiLogic.locals.Lobbies;
+                    OnPropertyChanged(nameof(Lobbies));
+                }
                 );
+
             Messenger.Register<MultiplayerGameMenuViewModel, string, string>(this, "SetUser", (recepient, msg) =>
             {
                 UserID = MultiLogic.locals.user.Id;
                 Username = MultiLogic.locals.user.Username;
-                (Disconnect as RelayCommand).NotifyCanExecuteChanged();
             });
 
             Messenger.Register<MultiplayerGameMenuViewModel, string, string>(this, "UserConnected", (recepient, msg) =>
@@ -127,6 +137,7 @@ namespace Game.MVVM.ViewModel
                 {
                     OnPropertyChanged(nameof(Lobbies));
                     OnPropertyChanged(nameof(IsConnected));
+                    OnPropertyChanged(nameof(NotConnected));
                     (ConnectServerCommand as RelayCommand).NotifyCanExecuteChanged();
                 });
             });

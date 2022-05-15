@@ -74,6 +74,7 @@ namespace Server
                 }
             }
         }
+
         static void SendConnection(Socket client)
         {
             var broadcastPacket = new PacketBuilder();
@@ -83,6 +84,7 @@ namespace Server
             broadcastPacket.WriteMessage(JsonConvert.SerializeObject(Server.lobbies));
             client.TCP.Client.Send(broadcastPacket.GetPacketbytes());
         }
+
         public static void BroadcastDisconnect(string uid)
         {                   
             foreach (var client in clients)
@@ -95,7 +97,8 @@ namespace Server
                 players.Remove(Server.FindUserById(uid.ToString()));
                 Console.WriteLine("Current user count " + clients.Count);
             }
-        }        
+        }    
+        
         public static void BroadcastResponse(byte opcode, string messagename, string message)
         {
             Console.WriteLine($"[BroadCastMessage(3)] : {message}");
@@ -107,15 +110,18 @@ namespace Server
                 client.TCP.Client.Send(packetBuilder.GetPacketbytes());
             }
         }
+
         public static void SendResponse(byte opcode, Socket client, string message)
         {
             if (client == null)
             {
                 throw new Exception("client was null");
             }
+
             var packetBuilder = new PacketBuilder();
             packetBuilder.WriteOptCode(opcode);
             packetBuilder.WriteMessage(message);
+
             try
             {
                 client.TCP.Client.Send(packetBuilder.GetPacketbytes());
@@ -127,10 +133,7 @@ namespace Server
 
                 throw new Exception(ex.Message);
             }
-
         }
-        
         #endregion
-
     }
 }

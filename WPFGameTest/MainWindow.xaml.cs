@@ -98,6 +98,13 @@ namespace Game
        
         private void GameWindow_Loaded(object sender, RoutedEventArgs e)
         {
+            AudioClip select = new AudioClip("select.wav");
+            AudioClip ui = new AudioClip("ui_reward.wav");
+            select.Volume = 0.2;
+            ui.Volume = 0.1;
+            AddHandler(Button.ClickEvent, new RoutedEventHandler((s, e) => { ui.Play(); }));
+            //AddHandler(Button.MouseEnterEvent, new RoutedEventHandler((s, e) => { AudioManager.Play(); }));
+
             // Images
             Resource.AddImage("MainMenu_Bg", "menu_bg.jpg");
             Resource.AddImage("Game_Bg", "background.png");

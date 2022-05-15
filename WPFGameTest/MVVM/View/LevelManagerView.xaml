@@ -62,7 +62,13 @@
             </ScrollViewer>
         </Grid>
         <Button Foreground="White" FontFamily="Calibri" BorderThickness="0" Command="{Binding NavigateSingleGameCommand}" 
-                Margin="20" Grid.Column="1" Grid.Row="3" Content="Play" FontSize="30" Visibility="{Binding SelectedLevel, Converter={StaticResource ButtonActive}}">
+                Margin="50,10,50,10" Grid.Column="1" Grid.Row="4" Content="Play" FontSize="30" Visibility="{Binding SelectedLevel, Converter={StaticResource ButtonActive}}">
+            <Button.Background>
+                <ImageBrush ImageSource="../../Resources/UI_BUTTON.png"  />
+            </Button.Background>
+        </Button>
+        <Button Foreground="White" FontFamily="Calibri" BorderThickness="0" Command="{Binding NavigateMenuCommand}" 
+                Margin="10" Grid.Column="0" Grid.Row="4" Content="Back" FontSize="20">
             <Button.Background>
                 <ImageBrush ImageSource="../../Resources/UI_BUTTON.png"  />
             </Button.Background>

@@ -9,8 +9,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Resources\ARCADECLASSIC.TTF" />
     <None Remove="Resources\clock.png" />
     <None Remove="Resources\menu_bg.jpg" />
+    <None Remove="Resources\Minecraftia.ttf" />
     <None Remove="Resources\traplands.png" />
     <None Remove="Resources\UI_BUTTON.png" />
   </ItemGroup>
@@ -35,8 +37,10 @@
   </ItemGroup>
 	
   <ItemGroup>
+    <Resource Include="Resources\ARCADECLASSIC.TTF" />
     <Resource Include="Resources\clock.png" />
     <Resource Include="Resources\menu_bg.jpg" />
+    <Resource Include="Resources\Minecraftia.ttf" />
     <Resource Include="Resources\traplands.png" />
     <Resource Include="Resources\UI_BUTTON.png" />
   </ItemGroup>

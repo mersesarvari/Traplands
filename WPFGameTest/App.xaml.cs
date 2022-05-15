@@ -49,7 +49,8 @@ namespace Game
             services.AddTransient<LevelEditorViewModel>(s => new LevelEditorViewModel(
                 CreateMainMenuNavigationService(s)));
             services.AddTransient<LevelManagerViewModel>(s => new LevelManagerViewModel(
-                CreateSingleGameNavigationService(s)));
+                CreateSingleGameNavigationService(s),
+                CreateMainMenuNavigationService(s)));
             services.AddTransient<SingleplayerGameViewModel>(s => new SingleplayerGameViewModel(
                 CreateMainMenuNavigationService(s)));
             services.AddTransient<LobbyViewModel>(s => new LobbyViewModel(

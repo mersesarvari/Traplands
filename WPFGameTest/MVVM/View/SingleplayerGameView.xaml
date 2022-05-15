@@ -12,6 +12,9 @@
         <converter:GameVisibilityConverter x:Key="GamePaused"/>
         <converter:GameEffectConverter x:Key="GamePausedEffect"/>
         <converter:ButtonActiveBoolConverter x:Key="ButtonActive"/>
+        <Style x:Key="minecraftia" TargetType="Button">
+            <Setter Property="FontFamily" Value="../../Resources/Minecraftia.ttf #Minecraftia"/>
+        </Style>
     </UserControl.Resources>
     <Grid x:Name="MainGrid">
         <ScrollViewer x:Name="MainCamera" Grid.RowSpan="2" Effect="{Binding GamePaused, Converter={StaticResource GamePausedEffect}}">

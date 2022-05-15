@@ -36,7 +36,9 @@ namespace Game.MVVM.ViewModel
         }
 
         public ICommand NavigateSingleGameCommand { get; set; }
-        public LevelManagerViewModel(INavigationService singleGameNavigationService)
+        public ICommand NavigateMenuCommand { get; set; }
+
+        public LevelManagerViewModel(INavigationService singleGameNavigationService, INavigationService menuNavigationService)
         {
             Levels = LevelManager.LevelList();
             LevelManager.CurrentLevel = SelectedLevel;
@@ -44,6 +46,11 @@ namespace Game.MVVM.ViewModel
                new RelayCommand(
                () => { singleGameNavigationService.Navigate(); },
                () => selectedLevel != null
+               );
+
+            NavigateMenuCommand =
+               new RelayCommand(
+               () => { menuNavigationService.Navigate(); }
                );
         }
     }

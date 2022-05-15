@@ -4,74 +4,99 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Game.MVVM.View"
+             xmlns:converter="clr-namespace:Game.Converter"
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
              mc:Ignorable="d" 
              d:DesignHeight="800" d:DesignWidth="1024">
+    <UserControl.Resources>
+        <converter:ButtonActiveBoolConverter x:Key="ButtonActive"/>
+        <Style x:Key="arcade" TargetType="Button">
+            <Setter Property="FontFamily" Value="../../Resources/ARCADECLASSIC.ttf #ARCADECLASSIC"/>
+            <Setter Property="Background">
+                <Setter.Value>
+                    <ImageBrush ImageSource="../../Resources/UI_BUTTON.png"  />
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="FontSize" Value="26"/>
+        </Style>
+        <Style x:Key="minecraftia" TargetType="Button">
+            <Setter Property="FontFamily" Value="../../Resources/Minecraftia.ttf #Minecraftia"/>
+            <Setter Property="Background">
+                <Setter.Value>
+                    <ImageBrush ImageSource="../../Resources/UI_BUTTON.png"  />
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="FontSize" Value="22"/>
+        </Style>
+    </UserControl.Resources>
     <Grid>
+        <Grid.Background>
+            <ImageBrush ImageSource="../../Resources/menu_bg.jpg"  />
+        </Grid.Background>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="3*"/>
+            <ColumnDefinition Width="1*"/>
+        </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="10*"/>
+            <RowDefinition Height="4*"/>
             <RowDefinition Height="1*"/>
+            <RowDefinition Height="10*"/>
+            <RowDefinition Height="2*"/>
+            <RowDefinition Height="2*"/>
         </Grid.RowDefinitions>
-        <StackPanel Grid.Row="0">
-            
-            <Label Content="Enter your username:&#xD;&#xA;" FontSize="30" HorizontalAlignment="Center" 
-                   Height="70" Padding="10" Margin="0 100 0 0" />
-            <Label Content="{Binding UserID}" FontSize="30"></Label>
-            <TextBox Text="{Binding Username, Mode=TwoWay}" TextWrapping="Wrap" Height="50" HorizontalAlignment="Stretch" Margin="200 10 200 10"/>
-            <Button Command="{Binding ConnectServerCommand}" Content="CONNECT" FontSize="30"
-                    Margin="200 10 200 10">
-                <Button.Background>
-                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
-                        <GradientStop Color="LightGreen" Offset="0.3"/>
-                        <GradientStop Color="Brown" Offset="1.0"/>
-                    </LinearGradientBrush>
-                </Button.Background>
-            </Button>
+        <Grid Margin="10" Grid.Column="1" Grid.Row="1" Grid.RowSpan="2" Background="White" Opacity="0.5">
+            <Grid.Effect>
+                <BlurEffect/>
+            </Grid.Effect>
+        </Grid>
+        <Label Content="Lobbies" Grid.Row="1" Grid.Column="0" FontSize="22" FontFamily="Calibri" HorizontalAlignment="Center" VerticalAlignment="Bottom"/>
+        <Label Content="Lobbies" Grid.Row="1" Grid.Column="1" FontSize="22" FontFamily="Calibri" HorizontalAlignment="Center" VerticalAlignment="Bottom"/>
+        <ListBox Background="Transparent" Margin="10" Grid.Row="2" Grid.Column="1" ItemsSource="{Binding Lobbies}" SelectedItem="{Binding SelectedLobby}" BorderThickness="0" HorizontalContentAlignment="Stretch">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <Border BorderBrush="Black" BorderThickness="1">
+                        <Grid>
+                            <Label Content="{Binding LobbyId}" FontSize="18"/>
+                        </Grid>
+                    </Border>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+        <Button Width="200" Command="{Binding CreateLobbyCommand}" Visibility="{Binding NotConnected, Converter={StaticResource ButtonActive}}"
+                HorizontalAlignment="Left" Style="{StaticResource arcade}" Margin="10" Grid.Column="1" Grid.Row="3" Content="Create  lobby">
+        </Button>
+        <Button Width="150" Command="{Binding RefreshLobbies}" Visibility="{Binding NotConnected, Converter={StaticResource ButtonActive}}"
+                HorizontalAlignment="Center" Style="{StaticResource arcade}" Margin="10" Grid.Column="1" Grid.Row="3" Content="Refresh">
+        </Button>
+        <!--<Label Content="{Binding UserID}" FontSize="30"></Label>-->
+        <Grid Grid.Column="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="1*"/>
+            </Grid.RowDefinitions>
+        <Label Content="Name:" VerticalAlignment="Bottom" VerticalContentAlignment="Bottom" FontSize="30" HorizontalAlignment="Left" Grid.Column="0" Margin="10" />
+        <TextBox Text="{Binding Username, Mode=TwoWay}" Margin="10" Grid.Column="0" Grid.Row="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
+        <Button Grid.Column="1" Grid.Row="1" Command="{Binding ConnectServerCommand}" Margin="10" Style="{StaticResource arcade}" Content="Connect" FontSize="30">
 
-            <Button Command="{Binding CreateLobbyCommand}" Content="Create Game" FontSize="30" Margin="200 10 200 10">
+        </Button>
+        </Grid>
 
-                <Button.Background>
-                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
-                        <GradientStop Color="LightGreen" Offset="0.3"/>
-                        <GradientStop Color="Brown" Offset="1.0"/>
-                    </LinearGradientBrush>
-                </Button.Background>
-            </Button>
-            <StackPanel CanVerticallyScroll="True" HorizontalAlignment="Stretch">
-                <ListBox Grid.Row="0" ItemsSource="{Binding Lobbies}" SelectedItem="{Binding SelectedLobby}" HorizontalContentAlignment="Stretch">
-                    <ListBox.ItemTemplate>
-                        <DataTemplate>
-                            <Border BorderBrush="Black" BorderThickness="1">
-                                <Grid>
-                                    <Label Content="{Binding LobbyId}" FontSize="30" FontWeight="Bold"/>
-                                </Grid>
-                            </Border>
-                        </DataTemplate>
-                    </ListBox.ItemTemplate>
-                </ListBox>
-            </StackPanel>
+        <!--<Label Content="Lobby ID:" FontSize="30" HorizontalAlignment="Center" Padding="10" Margin="10"/>
+        <TextBox Text="{Binding LobbyCode, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" TextWrapping="Wrap" Height="50" HorizontalAlignment="Stretch" Margin="200 10 200 10"/>-->
+        <Button Margin="10" Grid.Column="1" HorizontalAlignment="Right" Style="{StaticResource arcade}" Width="200" Grid.Row="3" Command="{Binding JoinLobbyCommand}" Content="Join  Lobby">
+        </Button>
 
-            <!--<Label Content="Lobby ID:" FontSize="30" HorizontalAlignment="Center" Padding="10" Margin="10"/>
-            <TextBox Text="{Binding LobbyCode, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" TextWrapping="Wrap" Height="50" HorizontalAlignment="Stretch" Margin="200 10 200 10"/>-->
-            <Button Command="{Binding JoinLobbyCommand}" Content="Join Game" FontSize="30"
-                    Margin="200 10 200 10">
-                <Button.Background>
-                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
-                        <GradientStop Color="LightGreen" Offset="0.3"/>
-                        <GradientStop Color="Brown" Offset="1.0"/>
-                    </LinearGradientBrush>
-                </Button.Background>
-            </Button>
-        </StackPanel>
-        <Button Command="{Binding NavigateMainMenuCommand}" Content="Return to Menu" FontSize="30" Grid.Row="1" 
-                Margin="200 10 200 10">
-            <Button.Background>
-                <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
-                    <GradientStop Color="LightGreen" Offset="0.3"/>
-                    <GradientStop Color="Brown" Offset="1.0"/>
-                </LinearGradientBrush>
-            </Button.Background>
+        <Button Margin="10" Command="{Binding NavigateMainMenuCommand}" Style="{StaticResource arcade}" Content="Back" FontSize="30" Grid.Row="4">
         </Button>
     </Grid>
 </UserControl>

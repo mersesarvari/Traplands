@@ -24,6 +24,8 @@ namespace Game.MVVM.ViewModel
         public ICommand StartGameCommand { get; }
         public ICommand SetMapCommand { get; }
 
+        public bool NotLobbyOwner { get { return MultiLogic.locals.lobby.LobbyId == MultiLogic.locals.user.Id ? false : true; } }
+
         private List<User> users;
 
         public List<User> Users

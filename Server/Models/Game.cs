@@ -21,7 +21,7 @@ namespace Server.Models
                 if (currentclient != null)
                 {
                     Server.SendResponse(4, currentclient, JsonConvert.SerializeObject(data));
-                    Console.WriteLine($"[({2})Response to: {item.Id}]");
+                    //Console.WriteLine($"[({2})Response to: {item.Id}]");
                 }
                 else
                 {
@@ -32,7 +32,6 @@ namespace Server.Models
 
         public static void Start(string executor, string command)
         {
-            ;
             Console.WriteLine("Game STARTING");
             Lobby lobby = JsonConvert.DeserializeObject<Lobby>(command);
             Console.WriteLine("Current players in game:");
