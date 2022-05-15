@@ -11,34 +11,55 @@
              d:DesignHeight="800" d:DesignWidth="1024">
     <UserControl.Resources>
         <converter:ButtonActiveBoolConverter x:Key="ButtonActive"/>
-        <Style x:Key="arcade" TargetType="Button">
-            <Setter Property="FontFamily" Value="../../Resources/ARCADECLASSIC.ttf #ARCADECLASSIC"/>
-            <Setter Property="Background">
-                <Setter.Value>
-                    <ImageBrush ImageSource="../../Resources/UI_BUTTON.png"  />
-                </Setter.Value>
-            </Setter>
-            <Setter Property="Foreground" Value="White"/>
-            <Setter Property="BorderThickness" Value="0"/>
-            <Setter Property="FontSize" Value="26"/>
-        </Style>
-        <Style x:Key="minecraftia" TargetType="Button">
-            <Setter Property="FontFamily" Value="../../Resources/Minecraftia.ttf #Minecraftia"/>
-            <Setter Property="Background">
-                <Setter.Value>
-                    <ImageBrush ImageSource="../../Resources/UI_BUTTON.png"  />
-                </Setter.Value>
-            </Setter>
-            <Setter Property="Foreground" Value="White"/>
-            <Setter Property="BorderThickness" Value="0"/>
-            <Setter Property="FontSize" Value="22"/>
-        </Style>
         <Style x:Key="input" TargetType="TextBox">
             <Setter Property="FontFamily" Value="../../Resources/Minecraftia.ttf #Minecraftia"/>
             <Setter Property="Background" Value="Transparent"/>
             <Setter Property="Foreground" Value="Black"/>
             <Setter Property="BorderThickness" Value="1"/>
             <Setter Property="FontSize" Value="22"/>
+        </Style>
+        <Style x:Key="arcade" TargetType="Button">
+            <Setter Property="OverridesDefaultStyle" Value="True"/>
+            <Setter Property="FontFamily" Value="../../Resources/ARCADECLASSIC.ttf #ARCADECLASSIC"/>
+            <Setter Property="FontSize" Value="26"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Background">
+                <Setter.Value>
+                    <ImageBrush ImageSource="../../Resources/UI_BUTTON.png"  />
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Name="border" 
+        				Background="{TemplateBinding Background}">
+                            <Grid>
+                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" Name="content"/>
+                            </Grid>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Foreground" Value="#FF4788c8" />
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="content" Property="RenderTransform">
+                                    <Setter.Value>
+                                        <TranslateTransform Y="1.0" />
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter Property="Foreground" Value="Gray" />
+                                <Setter Property="Background">
+                                    <Setter.Value>
+                                        <ImageBrush ImageSource="../../Resources/UI_BUTTON_DIS.png"/>
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
         </Style>
     </UserControl.Resources>
     <Grid>
@@ -97,8 +118,8 @@
                 </Grid.Effect>
             </Grid>
             <!--<Label Content="Name:" VerticalAlignment="Bottom" VerticalContentAlignment="Bottom" FontSize="30" HorizontalAlignment="Left" Grid.Column="0" Margin="10" />-->
-            <TextBox VerticalContentAlignment="Center" Style="{StaticResource input}" Text="{Binding Username, Mode=TwoWay}" Margin="10" Grid.Column="0" Grid.Row="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
-            <ComboBox IsSynchronizedWithCurrentItem="True" Background="Black" Margin="0,10,10,10" SelectedIndex="0" ItemsSource="{Binding ColorList}" Grid.Column="1" Grid.Row="1" SelectedItem="{Binding SelectedColor}">
+            <TextBox IsEnabled="{Binding NotConnected}" VerticalContentAlignment="Center" Style="{StaticResource input}" Text="{Binding Username, Mode=TwoWay}" Margin="10" Grid.Column="0" Grid.Row="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
+            <ComboBox IsEnabled="{Binding NotConnected}" IsSynchronizedWithCurrentItem="True" Background="Black" Margin="0,10,10,10" SelectedIndex="0" ItemsSource="{Binding ColorList}" Grid.Column="1" Grid.Row="1" SelectedItem="{Binding SelectedColor}">
                 <ComboBox.ItemTemplate>
                     <DataTemplate>
                         <Rectangle Height="40" Width="60" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Fill="{Binding}"></Rectangle>

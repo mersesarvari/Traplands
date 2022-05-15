@@ -9,6 +9,49 @@
              d:DesignHeight="800" d:DesignWidth="1024">
     <UserControl.Resources>
         <converter:ButtonActiveObjectConverter x:Key="ButtonActive"/>
+        <Style x:Key="arcade" TargetType="Button">
+            <Setter Property="OverridesDefaultStyle" Value="True"/>
+            <Setter Property="FontFamily" Value="../../Resources/ARCADECLASSIC.ttf #ARCADECLASSIC"/>
+            <Setter Property="FontSize" Value="24"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Background">
+                <Setter.Value>
+                    <ImageBrush ImageSource="../../Resources/UI_BUTTON.png"  />
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Name="border" 
+        				Background="{TemplateBinding Background}">
+                            <Grid>
+                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" Name="content"/>
+                            </Grid>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Foreground" Value="#FF4788c8" />
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="content" Property="RenderTransform">
+                                    <Setter.Value>
+                                        <TranslateTransform Y="1.0" />
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter Property="Foreground" Value="Gray" />
+                                <Setter Property="Background">
+                                    <Setter.Value>
+                                        <ImageBrush ImageSource="../../Resources/UI_BUTTON_DIS.png"/>
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
     </UserControl.Resources>
     <Grid x:Name="MainGrid">
         <Grid.ColumnDefinitions>
@@ -61,17 +104,11 @@
                 </StackPanel>
             </ScrollViewer>
         </Grid>
-        <Button Foreground="White" FontFamily="Calibri" BorderThickness="0" Command="{Binding NavigateSingleGameCommand}" 
-                Margin="50,10,50,10" Grid.Column="1" Grid.Row="4" Content="Play" FontSize="30" Visibility="{Binding SelectedLevel, Converter={StaticResource ButtonActive}}">
-            <Button.Background>
-                <ImageBrush ImageSource="../../Resources/UI_BUTTON.png"  />
-            </Button.Background>
+        <Button Style="{StaticResource arcade}" Command="{Binding NavigateSingleGameCommand}" 
+                Margin="50,10,50,10" Grid.Column="1" Grid.Row="4" Content="Play">
         </Button>
-        <Button Foreground="White" FontFamily="Calibri" BorderThickness="0" Command="{Binding NavigateMenuCommand}" 
-                Margin="10" Grid.Column="0" Grid.Row="4" Content="Back" FontSize="20">
-            <Button.Background>
-                <ImageBrush ImageSource="../../Resources/UI_BUTTON.png"  />
-            </Button.Background>
+        <Button Style="{StaticResource arcade}" Command="{Binding NavigateMenuCommand}" 
+                Margin="10" Grid.Column="0" Grid.Row="4" Content="Back">
         </Button>
     </Grid>
 </UserControl>
