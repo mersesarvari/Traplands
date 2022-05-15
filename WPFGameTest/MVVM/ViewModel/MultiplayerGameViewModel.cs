@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Game.Logic;
+using Game.Models;
 using Game.MVVM.Commands;
 using Game.MVVM.Services;
 using Game.MVVM.Stores;
@@ -48,12 +49,12 @@ namespace Game.MVVM.ViewModel
 
             LeaveGame = new RelayCommand(() => 
             { 
-                MultiLogic.LeaveGame(MultiLogic.locals.lobby, MultiLogic.locals.user.Id);
+                Lobby.Leave(MultiLogic.locals.lobby, MultiLogic.locals.user.Id);
             });
 
             DisconnectFromServer = new RelayCommand(() =>
             {
-                MultiLogic.Disconnect(MultiLogic.locals.user.Id);
+                Client.Disconnect(MultiLogic.locals.user.Id);
                 multiMenuNavigationService.Navigate();
             });
 

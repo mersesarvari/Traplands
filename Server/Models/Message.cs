@@ -29,6 +29,7 @@ namespace Server.Models
                 if (currentclient != null)
                 {
                     Server.SendResponse(7, currentclient, JsonConvert.SerializeObject(message));
+                    Console.WriteLine("Send message server answer");
                 }
                 else
                 {

@@ -55,7 +55,6 @@ namespace Game.MVVM.ViewModel
         }
 
         private List<Lobby> lobbies;
-
         public List<Lobby> Lobbies
         {
             get { return lobbies; }
@@ -140,13 +139,13 @@ namespace Game.MVVM.ViewModel
                 () => !IsConnected
                 );
             JoinLobbyCommand = new RelayCommand(
-                () => MultiLogic.JoinLobby(MultiLogic.locals, Username, LobbyCode),
+                () => Lobby.Join(MultiLogic.locals, Username, LobbyCode),
                 () => SelectedLobby != null
                 );
             CreateLobbyCommand = new RelayCommand(
                 () => 
                 { 
-                    MultiLogic.CreateLobby(MultiLogic.locals, Username, 0);
+                    Lobby.Create(MultiLogic.locals, Username, 0);
                     Thread.Sleep(300);
                     Lobbies = MultiLogic.locals.Lobbies;
                 }

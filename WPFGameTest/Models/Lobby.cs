@@ -14,7 +14,7 @@ namespace Game.Models
     {
         public string LobbyId { get; set; }
         public List<User> Users { get; set; }
-        public List<Message> Messages { get; set; }
+        public IList<Message> Messages { get; set; }
         public string Map { get; set; }
         public Lobby()
         {
@@ -85,7 +85,7 @@ namespace Game.Models
         {
             MultiLogic.locals.client.SendCommandToServer("LEAVEGAME", userId, JsonConvert.SerializeObject(lobby));
         }
-        public void SendMessage(Message message)
+        public static void SendMessage(Message message)
         {
             if (MultiLogic.locals.client.Connected())
             {

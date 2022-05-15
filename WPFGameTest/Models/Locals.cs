@@ -2,10 +2,12 @@
 using Game.MVVM.Commands;
 using Game.MVVM.Services;
 using Game.MVVM.View;
+using Game.MVVM.ViewModel;
 using Microsoft.Toolkit.Mvvm.Messaging;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
@@ -60,30 +62,36 @@ namespace Game.Models
             user = new User();
             Lobbies = new List<Lobby>();
         }
+
         public void RegisterLobbyViewMessenger(IMessenger messenger)
         {
             lobbyViewMessenger = messenger;
         }
+
         public void RegisterMultiViewMessenger(IMessenger messenger)
         {
             multiViewMessenger = messenger;
         }
-        private void RegisterMessenger(IMessenger messenger)
+
+        public void SetupCollection(IList<Message> messages)
         {
-            multiViewMessenger = messenger;
+            lobby.Messages = messages;
         }
+
         private void GameStarted()
         {
             var msg = MultiLogic.locals.client.packetReader.ReadMessage();
             MultiLogic.locals.lobby = JsonConvert.DeserializeObject<Lobby>(msg);
             lobbyViewMessenger.Send("Game started", "GameStarted");
         }
+
         private void UpdateUser()
         {
             var msg = MultiLogic.locals.client.packetReader.ReadMessage();            
             var L = JsonConvert.DeserializeObject<User>(msg);
             (MainWindow.game as Multiplayer).UpdatePlayer(L);
         }
+
         private void Client_userJoinedLobbyEvent()
         {
             //This method is handling the JoinResponse from the server
@@ -95,6 +103,7 @@ namespace Game.Models
             //MessageBox.Show("User Joined The Lobby");
             lobbyService.Navigate();
         }
+
         private void UserConnected()
         {
             MultiLogic.locals.user.Username = MultiLogic.locals.client.packetReader.ReadMessage();
@@ -107,6 +116,7 @@ namespace Game.Models
 
             multiViewMessenger.Send("User connected", "UserConnected");
         }
+
         private void UserDisconnected()
         {
             var userid = MultiLogic.locals.client.packetReader.ReadMessage();
@@ -116,19 +126,26 @@ namespace Game.Models
                 menuService.Navigate();
             });
         }
+
         private void GameLeft()
         {
             var uid = MultiLogic.locals.client.packetReader.ReadMessage();
             Trace.WriteLine($"[Left game]");
             menuService.Navigate();
         }
+
         private void MessageRecieved()
         {
-            var ID = MultiLogic.locals.client.packetReader.ReadMessage();
-            var Message = MultiLogic.locals.client.packetReader.ReadMessage();
-            lobby.Messages.Add(new Message(ID, Message));
-            Trace.WriteLine($"[Connected] :{this.user.Id}");
-            this.Connected = true;
+            var msg = MultiLogic.locals.client.packetReader.ReadMessage();
+            var messageAsObject = JsonConvert.DeserializeObject<Message>(msg);
+
+            Application.Current.Dispatcher.Invoke((Action)delegate
+            {
+                lobby.Messages.Add(messageAsObject);
+            });
+
+            Trace.WriteLine($"[Message] :{msg}");
+            lobbyViewMessenger.Send("Message recieved", "MessageRecieved");
         }
     }
 }

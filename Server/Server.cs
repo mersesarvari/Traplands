@@ -146,6 +146,7 @@ namespace Server
                     Game.LeaveGame(executor, command);
                     break;
                 case "SENDMESSAGE":
+                    Console.WriteLine("Send message command received");
                     Message.SendMessageToLobby(executor, command);
                     break;
                 default:
