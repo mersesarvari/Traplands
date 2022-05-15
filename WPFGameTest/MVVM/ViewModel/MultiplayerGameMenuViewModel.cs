@@ -99,7 +99,6 @@ namespace Game.MVVM.ViewModel
         }
         public MultiplayerGameMenuViewModel(INavigationService lobbyService, INavigationService gameService, INavigationService multimenuService, INavigationService menuService)
         {
-            // MultiLogic should not be created again if its already created
             if (MultiLogic.locals == null)
             {
                 MultiLogic.locals = new Locals(lobbyService, gameService, multimenuService, menuService);
