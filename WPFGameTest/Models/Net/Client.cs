@@ -25,19 +25,21 @@ namespace Game.Models
         public event Action gameStartedEvent;
         public event Action gameLeftEvent;
         public event Action messageRecievedEvent;
+        public event Action gameFinishedEvent;
 
         public Client()
         {
             _client = new TcpClient();
-        }        
+        }
 
         private void ReadPacket()
         {
-            Task.Run(() => {       
+            Task.Run(() =>
+            {
                 while (_client.Connected)
                 {
                     try
-                    {                        
+                    {
                         var opcode = packetReader.ReadByte();
                         switch (opcode)
                         {
@@ -62,6 +64,9 @@ namespace Game.Models
                             case 7:
                                 messageRecievedEvent?.Invoke();
                                 break;
+                            case 9:
+                                gameFinishedEvent?.Invoke();
+                                break;
                             default:
                                 break;
                         }
@@ -70,7 +75,7 @@ namespace Game.Models
                     {
                         MessageBox.Show($"[Error]: readpacket threw an error: \n {ex.Message}");
                         break;
-                    }                    
+                    }
                 }
             });
         }
@@ -92,7 +97,7 @@ namespace Game.Models
             }
         }
         public bool Connected()
-        { 
+        {
             return _client.Connected;
         }
         public static void Disconnect(string id)
@@ -112,7 +117,7 @@ namespace Game.Models
                     _client.Client.Send(connectPacket.GetPacketbytes());
                 }
             }
-        }        
+        }
         public void SendCommandToServer(string commandname, string executor, string command)
         {
             if (_client.Connected)
@@ -123,9 +128,9 @@ namespace Game.Models
                 messagePacket.WriteMessage(commandname);
                 messagePacket.WriteMessage(executor);
                 messagePacket.WriteMessage(command);
-                _client.Client.Send(messagePacket.GetPacketbytes());            
+                _client.Client.Send(messagePacket.GetPacketbytes());
             }
-        }        
-        
+        }
+
     }
 }

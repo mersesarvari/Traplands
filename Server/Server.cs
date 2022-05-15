@@ -149,6 +149,9 @@ namespace Server
                     Console.WriteLine("Send message command received");
                     Message.SendMessageToLobby(executor, command);
                     break;
+                case "WIN":
+                    Game.Finished(executor, command);
+                    break;
                 default:
                     break;
             }

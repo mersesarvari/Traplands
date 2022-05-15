@@ -11,7 +11,7 @@ using Newtonsoft.Json;
 namespace Game.Models
 {
     public class Lobby
-    {
+    {        
         public string LobbyId { get; set; }
         public List<User> Users { get; set; }
         public IList<Message> Messages { get; set; }
@@ -19,7 +19,7 @@ namespace Game.Models
         public Lobby()
         {
 
-        }        
+        }
         public Lobby(string ownerid)
         {
             LobbyId = ownerid;
@@ -96,6 +96,18 @@ namespace Game.Models
                 MessageBox.Show("You are not connected to the server");
             }
 
+        }
+
+        public void YouWonTheGame()
+        {
+            if (MultiLogic.locals.client.Connected())
+            {
+                MultiLogic.locals.client.SendCommandToServer("WIN", MultiLogic.locals.user.Id, JsonConvert.SerializeObject(MultiLogic.locals.lobby));
+            }
+            else
+            {
+                MessageBox.Show("You are not connected to the server");
+            }
         }
     }
 }

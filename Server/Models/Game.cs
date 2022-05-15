@@ -59,5 +59,22 @@ namespace Server.Models
                 Server.SendResponse(6, currentclient, executor);
             }
         }
+        public static void Finished(string executor, string command)
+        {
+            Console.WriteLine("Game Won");
+            Lobby lobby = JsonConvert.DeserializeObject<Lobby>(command);
+            foreach (var item in lobby.Users)
+            {
+                var currentclient = Server.FindClient(item.Id);
+                if (currentclient != null)
+                {
+                    Server.SendResponse(9, currentclient, JsonConvert.SerializeObject(lobby));
+                }
+                else
+                {
+                    throw new Exception("curentclient was null");
+                }
+            }
+        }
     }
 }

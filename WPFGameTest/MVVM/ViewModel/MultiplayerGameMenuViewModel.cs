@@ -96,13 +96,11 @@ namespace Game.MVVM.ViewModel
                 OnPropertyChanged(nameof(SelectedLobby));
             }
         }
-
         public MultiplayerGameMenuViewModel(INavigationService lobbyService, INavigationService gameService, INavigationService multimenuService, INavigationService menuService)
         {
-            // MultiLogic should not be created again if its already created
             if (MultiLogic.locals == null)
             {
-                MultiLogic logic = new MultiLogic(lobbyService, gameService, multimenuService, menuService);
+                MultiLogic.locals = new Locals(lobbyService, gameService, multimenuService, menuService);
                 MultiLogic.locals.RegisterEvents();
                 MultiLogic.locals.RegisterMultiViewMessenger(Messenger);
             }

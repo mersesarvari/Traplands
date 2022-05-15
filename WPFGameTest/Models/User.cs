@@ -12,6 +12,8 @@ namespace Game.Models
         public string  Username { get; set; }
         public RenderData RenderData { get; set; }
 
+        public string Color { get; set; }
+
         public User()
         {
             Id = "-1";
@@ -19,11 +21,12 @@ namespace Game.Models
             RenderData = new RenderData();
         }
 
-        public User(string id, string username, RenderData renderData)
+        public User(string id, string username, RenderData renderData, string Color)
         {
             Id = id;
             Username = username;
             RenderData = renderData;
+            this.Color = Color;
         }
     }
 }

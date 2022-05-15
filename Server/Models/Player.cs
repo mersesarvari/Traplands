@@ -14,6 +14,8 @@ namespace Server.Models
         public string Username { get; set; }
         public RenderData RenderData { get; set; }
 
+        public string Color { get; set; }
+
         public Player(Socket client)
         {
             Id = client.UID.ToString();
@@ -21,11 +23,12 @@ namespace Server.Models
         }
 
         [JsonConstructor]
-        public Player(string id, string username, RenderData renderData)
+        public Player(string id, string username, RenderData renderData, string Color)
         {
             Id = id;
             Username = username;
             RenderData = renderData;
+            this.Color = Color;
         }
     }
 

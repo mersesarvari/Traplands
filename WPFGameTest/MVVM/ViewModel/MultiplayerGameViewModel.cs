@@ -16,19 +16,12 @@ namespace Game.MVVM.ViewModel
     public class MultiplayerGameViewModel : ViewModelBase
     {
         Multiplayer logic;
-
         public string GameState { get { return logic.GameOver ? "Finish" : "Paused"; } }
-
         public float LevelTimeElapsed { get { return logic.LevelTimer; } }
-
         public bool GamePaused { get { return logic.Paused; } }
-
         public bool GameOver { get { return logic.GameOver; } }
-
         public double TransitionAlpha { get { return logic.TransitionAlpha; } }
-
         public bool Transitioning { get { return logic.Transitioning; } }
-
         public ICommand NavigateMultiMenuCommand { get; }
         public ICommand ResumeGame { get; set; }
         public ICommand DisconnectFromServer { get; set; }
