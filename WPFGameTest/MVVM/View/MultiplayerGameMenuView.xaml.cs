@@ -24,7 +24,6 @@ namespace Game.MVVM.View
         public MultiplayerGameMenuView()
         {
             InitializeComponent();
-            //Locals.RegisterEvents();
         }
     }
 }

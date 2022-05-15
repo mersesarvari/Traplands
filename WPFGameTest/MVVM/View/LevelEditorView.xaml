@@ -11,6 +11,49 @@
         d:DesignHeight="800" d:DesignWidth="1024">
     <UserControl.Resources>
         <converter:ButtonActiveObjectConverter x:Key="ButtonActive"/>
+        <Style x:Key="arcade" TargetType="Button">
+            <Setter Property="OverridesDefaultStyle" Value="True"/>
+            <Setter Property="FontFamily" Value="../../Resources/ARCADECLASSIC.ttf #ARCADECLASSIC"/>
+            <Setter Property="FontSize" Value="24"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Background">
+                <Setter.Value>
+                    <ImageBrush ImageSource="../../Resources/UI_BUTTON.png"  />
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Name="border" 
+        				Background="{TemplateBinding Background}">
+                            <Grid>
+                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" Name="content"/>
+                            </Grid>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Foreground" Value="#FF4788c8" />
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="content" Property="RenderTransform">
+                                    <Setter.Value>
+                                        <TranslateTransform Y="1.0" />
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter Property="Foreground" Value="Gray" />
+                                <Setter Property="Background">
+                                    <Setter.Value>
+                                        <ImageBrush ImageSource="../../Resources/UI_BUTTON_DIS.png"/>
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
     </UserControl.Resources>
     <Grid x:Name="MainGrid">
         <Grid.ColumnDefinitions>
@@ -35,30 +78,12 @@
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>
-            <Button Foreground="White" FontFamily="Calibri" Command="{Binding FlipCannon}" BorderThickness="0" Visibility="{Binding SelectedCannon, Converter={StaticResource ButtonActive}}" Padding="10" Margin="10, 10, 10, 50">Flip
-                <Button.Background>
-                    <ImageBrush ImageSource="../../Resources/UI_BUTTON.png"  />
-                </Button.Background>
-            </Button>
+            <Button Style="{StaticResource arcade}" Height="50" Command="{Binding FlipCannon}" Visibility="{Binding SelectedCannon, Converter={StaticResource ButtonActive}}" Padding="10" Margin="10, 10, 10, 50">Flip</Button>
             <Label FontFamily="Calibri" Content="Level name" FontSize="18" Margin="0,10,0,0" Padding="10"></Label>
             <TextBox FontFamily="Calibri" Text="{Binding LevelName, UpdateSourceTrigger=PropertyChanged}" Padding="10" Margin="10"></TextBox>
-            <Button BorderThickness="0" Foreground="White" FontFamily="Calibri" Command="{Binding SaveLevel}" Padding="10" Margin="10">Save and Exit
-                <Button.Background>
-                    <ImageBrush ImageSource="../../Resources/UI_BUTTON.png"  />
-                </Button.Background>
-            </Button>
-            <Button Foreground="White" BorderThickness="0" FontFamily="Calibri" Command="{Binding ExitWithoutSaving}" Padding="10" Margin="10" >Back
-                <Button.Background>
-                    <ImageBrush ImageSource="../../Resources/UI_BUTTON.png"  />
-                </Button.Background>
+            <Button Style="{StaticResource arcade}" Height="50" Command="{Binding SaveLevel}" Padding="10" Margin="10">Save and Exit</Button>
+            <Button Style="{StaticResource arcade}" Height="50" Command="{Binding ExitWithoutSaving}" Padding="10" Margin="10" >Back
             </Button>
         </StackPanel>
-        <Grid x:Name="PauseMenu" Background="LightBlue" Width="500" Height="600" HorizontalAlignment="Left" Visibility="Hidden" Margin="262,76,0,76">
-            <StackPanel VerticalAlignment="Center" Margin="100">
-                <Button x:Name="btn1" Height="40" Margin="10" Content="Resume" Foreground="White" BorderThickness="0" />
-                <Button Height="40" Margin="10" Content="Options"/>
-                <Button Height="40" Margin="10" Content="Exit"/>
-            </StackPanel>
-        </Grid>
     </Grid>
 </UserControl>

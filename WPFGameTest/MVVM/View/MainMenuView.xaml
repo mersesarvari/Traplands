@@ -7,9 +7,49 @@
              mc:Ignorable="d" 
              d:DesignHeight="800" d:DesignWidth="1024">
     <UserControl.Resources>
-    <Style x:Key="minecraftia" TargetType="Button">
-        <Setter Property="FontFamily" Value="../../Resources/Minecraftia.ttf #Minecraftia"/>
-    </Style>
+        <Style x:Key="arcade" TargetType="Button">
+            <Setter Property="OverridesDefaultStyle" Value="True"/>
+            <Setter Property="FontFamily" Value="../../Resources/ARCADECLASSIC.ttf #ARCADECLASSIC"/>
+            <Setter Property="FontSize" Value="26"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Background">
+                <Setter.Value>
+                    <ImageBrush ImageSource="../../Resources/UI_BUTTON.png"  />
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Name="border" 
+        				Background="{TemplateBinding Background}">
+                            <Grid>
+                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" Name="content"/>
+                            </Grid>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Foreground" Value="#FF4788c8" />
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="content" Property="RenderTransform">
+                                    <Setter.Value>
+                                        <TranslateTransform Y="1.0" />
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter Property="Foreground" Value="Gray" />
+                                <Setter Property="Background">
+                                    <Setter.Value>
+                                        <ImageBrush ImageSource="../../Resources/UI_BUTTON_DIS.png"/>
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
     </UserControl.Resources>
     <Grid x:Name="MainGrid">
         <Grid.RowDefinitions>
@@ -18,29 +58,17 @@
         </Grid.RowDefinitions>
         <Image Source="../../Resources/traplands.png" Width="500" Margin="50" HorizontalAlignment="Left" VerticalAlignment="Top" x:Name="Title"/>
         <StackPanel Grid.Row="1">
-            <Button Width="250" Style="{StaticResource minecraftia}" Foreground="White" BorderThickness="0" Command="{Binding NavigateLevelManagerCommand}" Content="Singleplayer"
-               FontSize="20" Padding="10" Margin="200 10 200 10">
-                <Button.Background>
-                    <ImageBrush ImageSource="../../Resources/UI_BUTTON.png"  />
-                </Button.Background>
+            <Button Width="250" Style="{StaticResource arcade}"  Command="{Binding NavigateLevelManagerCommand}" Content="Singleplayer"
+               Height="50" Margin="200 10 200 10">
             </Button>
-            <Button Width="250" Style="{StaticResource minecraftia}" Foreground="White" BorderThickness="0" Command="{Binding NavigateMultiGameMenuCommand}" Content="Multiplayer"
-               FontSize="20" Padding="10" Margin="200 10 200 10">
-                <Button.Background>
-                    <ImageBrush ImageSource="../../Resources/UI_BUTTON.png"  />
-                </Button.Background>
+            <Button Height="50" Width="250" Style="{StaticResource arcade}" Command="{Binding NavigateMultiGameMenuCommand}" Content="Multiplayer"
+                 Margin="200 10 200 10">
             </Button>
-            <Button Width="250" Style="{StaticResource minecraftia}" Foreground="White" BorderThickness="0" Command="{Binding NavigateLevelEditorCommand}" Content="Level Editor"
-                FontSize="20" Padding="10" Margin="200 10 200 10">
-                <Button.Background>
-                    <ImageBrush ImageSource="../../Resources/UI_BUTTON.png"  />
-                </Button.Background>
+            <Button Height="50" Width="250" Style="{StaticResource arcade}" Command="{Binding NavigateLevelEditorCommand}" Content="Level Editor"
+                  Margin="200 10 200 10">
             </Button>
-            <Button Width="250" Style="{StaticResource minecraftia}" Foreground="White" BorderThickness="0" Command="{Binding Exit}" Content="Exit"
-                FontSize="20" Padding="10" Margin="200 100 200 10">
-                <Button.Background>
-                    <ImageBrush ImageSource="../../Resources/UI_BUTTON.png"  />
-                </Button.Background>
+            <Button Height="50" Width="250" Style="{StaticResource arcade}" Command="{Binding Exit}" Content="Exit"
+                 Margin="200 100 200 10">
             </Button>
         </StackPanel>
     </Grid>

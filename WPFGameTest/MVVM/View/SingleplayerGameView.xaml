@@ -12,8 +12,51 @@
         <converter:GameVisibilityConverter x:Key="GamePaused"/>
         <converter:GameEffectConverter x:Key="GamePausedEffect"/>
         <converter:ButtonActiveBoolConverter x:Key="ButtonActive"/>
-        <Style x:Key="minecraftia" TargetType="Button">
+        <Style x:Key="labelArcade" TargetType="Label">
             <Setter Property="FontFamily" Value="../../Resources/Minecraftia.ttf #Minecraftia"/>
+        </Style>
+        <Style x:Key="arcade" TargetType="Button">
+            <Setter Property="OverridesDefaultStyle" Value="True"/>
+            <Setter Property="FontFamily" Value="../../Resources/ARCADECLASSIC.ttf #ARCADECLASSIC"/>
+            <Setter Property="FontSize" Value="26"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Background">
+                <Setter.Value>
+                    <ImageBrush ImageSource="../../Resources/UI_BUTTON.png"  />
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Name="border" 
+        				Background="{TemplateBinding Background}">
+                            <Grid>
+                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" Name="content"/>
+                            </Grid>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Foreground" Value="#FF4788c8" />
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="content" Property="RenderTransform">
+                                    <Setter.Value>
+                                        <TranslateTransform Y="1.0" />
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter Property="Foreground" Value="Gray" />
+                                <Setter Property="Background">
+                                    <Setter.Value>
+                                        <ImageBrush ImageSource="../../Resources/UI_BUTTON_DIS.png"/>
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
         </Style>
     </UserControl.Resources>
     <Grid x:Name="MainGrid">
@@ -42,17 +85,11 @@
             <Image Source="../../Resources/clock.png" Grid.Row="1" Width="30" HorizontalAlignment="Right"></Image>
             <Label Grid.Row="0" VerticalAlignment="Center" Grid.ColumnSpan="3" Content="{Binding GameState}" HorizontalContentAlignment="Center" Foreground="Black" FontFamily="Helvetica" FontSize="36" Padding="10"/>
             <Label Grid.Row="1" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Left" Content="{Binding LevelTimeElapsed}" Foreground="Black" FontFamily="Calibri" ContentStringFormat="{}{0:0.#}" FontSize="28" Padding="10" HorizontalContentAlignment="Left"/>
-            <Label Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Right" Content="Time (seconds):" Foreground="Black" FontFamily="Calibri" FontSize="28" Padding="10" HorizontalContentAlignment="Center"/>
+            <Label Style="{StaticResource labelArcade}" Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Right" Content="Time (seconds):" Foreground="Black" FontSize="18" Padding="10" HorizontalContentAlignment="Center"/>
             <StackPanel Grid.Row="2" Grid.ColumnSpan="3" Margin="50" VerticalAlignment="Center">
-                <Button Visibility="{Binding GameOver, Converter={StaticResource ButtonActive}}" Height="40" Margin="10,10,10,50" FontSize="16" Foreground="White" FontFamily="Calibri" Content="Resume" BorderThickness="0" Command="{Binding ResumeGame}">
-                    <Button.Background>
-                        <ImageBrush ImageSource="../../Resources/UI_BUTTON.png"  />
-                    </Button.Background>
+                <Button Style="{StaticResource arcade}" Visibility="{Binding GameOver, Converter={StaticResource ButtonActive}}" Height="40" Margin="10,10,10,50" Content="Resume" Command="{Binding ResumeGame}">
                 </Button>
-                <Button Height="40" Margin="10" Foreground="White" FontSize="16" FontFamily="Helvetica" Content="Exit" BorderThickness="0" Command="{Binding NavigateMainMenuCommand}">
-                    <Button.Background>
-                        <ImageBrush ImageSource="../../Resources/UI_BUTTON.png"  />
-                    </Button.Background>
+                <Button Style="{StaticResource arcade}" Height="40" Margin="10" Content="Exit" Command="{Binding NavigateMainMenuCommand}">
                 </Button>
             </StackPanel>
         </Grid>

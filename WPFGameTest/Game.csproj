@@ -15,6 +15,7 @@
     <None Remove="Resources\Minecraftia.ttf" />
     <None Remove="Resources\traplands.png" />
     <None Remove="Resources\UI_BUTTON.png" />
+    <None Remove="Resources\UI_BUTTON_DIS.png" />
   </ItemGroup>
 	
   <ItemGroup>
@@ -43,6 +44,7 @@
     <Resource Include="Resources\Minecraftia.ttf" />
     <Resource Include="Resources\traplands.png" />
     <Resource Include="Resources\UI_BUTTON.png" />
+    <Resource Include="Resources\UI_BUTTON_DIS.png" />
   </ItemGroup>
 
 </Project>

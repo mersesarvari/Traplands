@@ -109,6 +109,7 @@ namespace Game.MVVM.ViewModel
             }
 
             ColorList = new List<SolidColorBrush>();
+            ColorList.Add(new SolidColorBrush(Colors.Black));
             ColorList.Add(new SolidColorBrush(Colors.IndianRed));
             ColorList.Add(new SolidColorBrush(Colors.LightBlue));
             ColorList.Add(new SolidColorBrush(Colors.ForestGreen));
@@ -116,7 +117,7 @@ namespace Game.MVVM.ViewModel
             ColorList.Add(new SolidColorBrush(Colors.Yellow));
             ColorList.Add(new SolidColorBrush(Colors.Orange));
 
-            SelectedColor = new SolidColorBrush(Colors.Black);
+            SelectedColor = ColorList[0];
 
             Lobbies = MultiLogic.locals.Lobbies;
             
