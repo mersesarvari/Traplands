@@ -13,7 +13,6 @@ namespace Game.Models
 {
     public class Player : DynamicObject
     {
-
         private PlayerState State { get; set; }
 
         public Action OnFinishPointReached;
@@ -119,12 +118,13 @@ namespace Game.Models
             AnimAttack.OnAnimationStart += () => { Dir = 0; attackSound.Play(); };
             AnimAttack.OnAnimationOver += () => { State = new PlayerOnGround(this); };
 
-            AnimDeath.OnAnimationStart += () => { Velocity = new Vector2f(0, 0); CameraController.Instance.Shake(0.1f, 10); AnimDash.Reset(); };
+            AnimDeath.OnAnimationStart += () => { AnimDeath.Reset(); Velocity = new Vector2f(0, 0); CameraController.Instance.Shake(0.1f, 15); };
             AnimDeath.OnAnimationOver += () => { State = new PlayerOnGround(this); Respawn(); MoveSpeed = 400; };
 
             AnimDash.OnAnimationStart += () =>
             {
-                CameraController.Instance.Shake(0.1f, 2);
+                AnimDash.Reset();
+                CameraController.Instance.Shake(0.1f, 5);
                 Fill.Opacity = 0.5;
                 Dir = FacingRight ? 1 : -1;
                 MoveSpeed = 1500;
@@ -147,8 +147,12 @@ namespace Game.Models
             // Set player state to idle upon reaching the finish
             OnFinishPointReached += () =>
             {
+                Velocity.X = Dir * 100;
+                Velocity.Y = Velocity.Y > 0 ? Velocity.Y : -Velocity.Y;
+                xRemainder = 0;
+                yRemainder = 0;
+                Dir = 0;
                 State = new PlayerOnGround(this);
-                Velocity.X = 0;
             };
         }
 
@@ -176,7 +180,6 @@ namespace Game.Models
                     if (obj.Tag == "Trap")
                     {
                         Die();
-                        CameraController.Instance.Shake(0.1f, 10);
                     }
                     else if (obj.Tag == "Finish")
                     {
@@ -256,7 +259,6 @@ namespace Game.Models
                         if (obj.Tag == "Trap")
                         {
                             Die();
-                            CameraController.Instance.Shake(0.1f, 10);
                         }
                         else if (obj.Tag == "Finish")
                         {

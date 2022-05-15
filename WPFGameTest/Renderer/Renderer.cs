@@ -2,6 +2,7 @@
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Shapes;
 using Game.Logic;
 using WPFGameTest.Logic;
 
@@ -129,14 +130,20 @@ namespace Game.Renderer
                 new Point(item.RenderData.Position.X + item.RenderData.Size.X / 2 - 20, item.RenderData.Position.Y - 15));
             }
 
+            SolidColorBrush playerColor = new SolidColorBrush((Color)ColorConverter.ConvertFromString(model.Player.PlayerColor));
+            //Rectangle rect = new Rectangle();
+            //rect.Width = model.Player.Transform.Size.X;
+            //rect.Height = model.Player.Transform.Size.Y;
+            //rect.Fill = new SolidColorBrush(Colors.Red);
+            //rect.Opacity = 0.2;
+            //rect.OpacityMask = model.Player.Fill;
+
             drawingContext.PushTransform(model.Player.Transform.ScaleTransform);
             drawingContext.DrawRectangle(
                 model.Player.Fill,
                 null,
                 new Rect(model.Player.Transform.Position.X, model.Player.Transform.Position.Y, model.Player.Transform.Size.X, model.Player.Transform.Size.Y));
             drawingContext.Pop();
-
-            SolidColorBrush playerColor = new SolidColorBrush((Color)ColorConverter.ConvertFromString(model.Player.PlayerColor));
 
             drawingContext.DrawText(new FormattedText(model.Player.PlayerName, CultureInfo.CurrentCulture, FlowDirection.LeftToRight, new Typeface("Consolas"), 12, playerColor),
                 new Point(model.Player.Transform.Position.X + model.Player.Transform.Size.X / 2 - 20, model.Player.Transform.Position.Y - 15));

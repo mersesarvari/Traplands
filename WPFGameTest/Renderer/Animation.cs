@@ -92,7 +92,7 @@ namespace Game.Renderer
 
         public void Reset()
         {
-            OnAnimationOver?.Invoke();
+            //OnAnimationOver?.Invoke();
             imageIndex = 0;
         }
 

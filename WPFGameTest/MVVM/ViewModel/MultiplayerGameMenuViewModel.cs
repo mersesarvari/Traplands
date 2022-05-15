@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
@@ -54,8 +55,8 @@ namespace Game.MVVM.ViewModel
             set { SetProperty(ref userid, value); }
         }
 
-        private List<Lobby> lobbies;
-        public List<Lobby> Lobbies
+        private ObservableCollection<Lobby> lobbies;
+        public ObservableCollection<Lobby> Lobbies
         {
             get { return lobbies; }
             set 
@@ -116,7 +117,7 @@ namespace Game.MVVM.ViewModel
 
             SelectedColor = ColorList[0];
 
-            Lobbies = MultiLogic.locals.Lobbies;
+            Lobbies = new ObservableCollection<Lobby>(MultiLogic.locals.Lobbies);
             
             NavigateMainMenuCommand = new NavigateCommand(menuService);
             NavigateLobbyCommand = new NavigateCommand(lobbyService);
@@ -131,7 +132,7 @@ namespace Game.MVVM.ViewModel
                 {
                     MultiLogic.locals.client.ConnectToServer(Username, SelectedColor.Color.ToString());
                     Thread.Sleep(300);
-                    Lobbies = MultiLogic.locals.Lobbies;
+                    Lobbies = new ObservableCollection<Lobby>(MultiLogic.locals.Lobbies);
                     Trace.WriteLine(SelectedColor.Color.ToString());
                 },
                 () => !IsConnected
@@ -144,15 +145,13 @@ namespace Game.MVVM.ViewModel
                 () => 
                 { 
                     Lobby.Create(MultiLogic.locals, Username, 0);
-                    Thread.Sleep(300);
-                    Lobbies = MultiLogic.locals.Lobbies;
                 }
                 );
 
             RefreshLobbies = new RelayCommand(
                 () =>
                 {
-                    Lobbies = MultiLogic.locals.Lobbies;
+                    Lobbies = new ObservableCollection<Lobby>(MultiLogic.locals.Lobbies);
                     OnPropertyChanged(nameof(Lobbies));
                 }
                 );

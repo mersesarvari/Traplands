@@ -119,10 +119,10 @@
             </Grid>
             <!--<Label Content="Name:" VerticalAlignment="Bottom" VerticalContentAlignment="Bottom" FontSize="30" HorizontalAlignment="Left" Grid.Column="0" Margin="10" />-->
             <TextBox IsEnabled="{Binding NotConnected}" VerticalContentAlignment="Center" Style="{StaticResource input}" Text="{Binding Username, Mode=TwoWay}" Margin="10" Grid.Column="0" Grid.Row="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
-            <ComboBox IsEnabled="{Binding NotConnected}" IsSynchronizedWithCurrentItem="True" Background="Black" Margin="0,10,10,10" SelectedIndex="0" ItemsSource="{Binding ColorList}" Grid.Column="1" Grid.Row="1" SelectedItem="{Binding SelectedColor}">
+            <ComboBox IsEnabled="{Binding NotConnected}" IsSynchronizedWithCurrentItem="True"  Margin="0,10,10,10" SelectedIndex="0" ItemsSource="{Binding ColorList}" Grid.Column="1" Grid.Row="1" SelectedItem="{Binding SelectedColor}">
                 <ComboBox.ItemTemplate>
                     <DataTemplate>
-                        <Rectangle Height="40" Width="60" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Fill="{Binding}"></Rectangle>
+                        <Rectangle Height="40" Width="60" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Fill="{Binding Color}"></Rectangle>
                     </DataTemplate>
                 </ComboBox.ItemTemplate>
             </ComboBox>
