@@ -25,6 +25,7 @@ namespace Game.Models
         public event Action gameStartedEvent;
         public event Action gameLeftEvent;
         public event Action messageRecievedEvent;
+        public event Action gameFinishedEvent;
 
         public Client()
         {
@@ -62,6 +63,9 @@ namespace Game.Models
                                 break;
                             case 7:
                                 messageRecievedEvent?.Invoke();
+                                break;
+                            case 9:
+                                gameFinishedEvent?.Invoke();
                                 break;
                             default:
                                 break;

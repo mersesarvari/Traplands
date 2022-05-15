@@ -20,7 +20,8 @@ namespace Game.Models
     {
         IMessenger lobbyViewMessenger;
         IMessenger multiViewMessenger;
-
+        IMessenger multigameViewMessenger;
+        public static string Winner { get; set; }
         public Lobby lobby;
         public List<Lobby> Lobbies;
         public Client client;
@@ -44,6 +45,7 @@ namespace Game.Models
             client.gameStartedEvent += GameStarted;
             client.gameLeftEvent += GameLeft;
             client.messageRecievedEvent += MessageRecieved;
+            client.gameFinishedEvent += GameFinished;
         }
 
         public Locals(INavigationService lobbyService, INavigationService gameService, INavigationService multimenuService, INavigationService menuService)
@@ -66,6 +68,10 @@ namespace Game.Models
             lobbyViewMessenger = messenger;
         }
         public void RegisterMultiViewMessenger(IMessenger messenger)
+        {
+            multiViewMessenger = messenger;
+        }
+        public void RegisterMultiGameViewMessenger(IMessenger messenger)
         {
             multiViewMessenger = messenger;
         }
@@ -130,6 +136,14 @@ namespace Game.Models
             lobby.Messages.Add(new Message(ID, Message));
             Trace.WriteLine($"[Connected] :{this.user.Id}");
             this.Connected = true;
+        }
+
+        private void GameFinished()
+        {
+            var rawID = MultiLogic.locals.client.packetReader.ReadMessage();
+            var rawLobby = MultiLogic.locals.client.packetReader.ReadMessage();
+            Winner = rawID;
+            multigameViewMessenger.Send("Game Finished", "GameFinished");
         }
     }
 }

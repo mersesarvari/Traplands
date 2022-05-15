@@ -148,6 +148,9 @@ namespace Server
                 case "SENDMESSAGE":
                     Message.SendMessageToLobby(executor, command);
                     break;
+                case "WIN":
+                    Game.Finished(executor, command);
+                    break;
                 default:
                     break;
             }
