@@ -17,7 +17,7 @@ namespace Game.Models
     {
         TcpClient _client;
         public PacketReader packetReader;
-        public static List<MovementPackage> MovementHistory=new List<MovementPackage>();
+        //public static List<MovementPackage> MovementHistory=new List<MovementPackage>();
         public event Action connectedEvent;
         public event Action userDisconnectedEvent;
         public event Action userJoinedLobbyEvent;
@@ -34,12 +34,10 @@ namespace Game.Models
         private void ReadPacket()
         {
             Task.Run(() => {       
-                //true volt;
                 while (_client.Connected)
                 {
                     try
-                    {
-                        
+                    {                        
                         var opcode = packetReader.ReadByte();
                         switch (opcode)
                         {
@@ -110,8 +108,7 @@ namespace Game.Models
                     _client.Client.Send(connectPacket.GetPacketbytes());
                 }
             }
-        }
-        
+        }        
         public void SendCommandToServer(string commandname, string executor, string command)
         {
             if (_client.Connected)

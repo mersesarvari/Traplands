@@ -101,7 +101,6 @@ namespace Game.Models
             //MessageBox.Show("User Joined The Lobby");
             lobbyService.Navigate();
         }
-
         private void UserConnected()
         {
             MultiLogic.locals.user.Username = MultiLogic.locals.client.packetReader.ReadMessage();

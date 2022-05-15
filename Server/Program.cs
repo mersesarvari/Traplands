@@ -10,7 +10,6 @@ namespace Server // Note: actual namespace depends on the project name.
 {
     public class Program
     {
-
         public static void Main(string[] args)
         {
             Server.Start("127.0.0.1", 5000, 500);

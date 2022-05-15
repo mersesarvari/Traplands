@@ -33,7 +33,7 @@ namespace Server
                             var negy_commandname = _packetReader.ReadMessage();
                             var negy_executor = _packetReader.ReadMessage();
                             var negy_command = _packetReader.ReadMessage();
-                            Command.CommandManager(negy_commandname, negy_executor, negy_command);
+                            Server.CommandManager(negy_commandname, negy_executor, negy_command);
                             break;
                         case 10:                            
                             var dc = _packetReader.ReadMessage();
@@ -48,7 +48,6 @@ namespace Server
                 }
                 catch (Exception e)
                 {                    
-                    //Console.WriteLine($"[Disconnected] : {UID}" + e.Message);
                     Server.BroadcastDisconnect(UID.ToString());                    
                     TCP.Close();
                     break;
@@ -59,7 +58,5 @@ namespace Server
         {
             return Server.players.FirstOrDefault(x => x.Id == client.UID.ToString());
         }
-
-
     }
 }
