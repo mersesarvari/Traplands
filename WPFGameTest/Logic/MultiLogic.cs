@@ -34,8 +34,6 @@ namespace Game.Logic
         {
             locals.client.DisconnectFromServer(id);
         }
-
-        //A tickes rész átírandó arra amit a rendes gameban is használunk..
         public static void JoinLobby(Locals locals, string username,string lobbycode)
         {
             try
@@ -54,7 +52,6 @@ namespace Game.Logic
                 throw new Exception(ex.Message);
             }            
         }
-        //WORKING
         public static void CreateLobby(Locals locals, string username, int currenttick)
         {
             if (locals.client.Connected())
@@ -66,8 +63,7 @@ namespace Game.Logic
             {
                 MessageBox.Show("You are not connected to the server");
             }
-        }
-       
+        }       
         public static void StartGame(Lobby lobby, string username)
         {
             foreach (var user in lobby.Users)
@@ -83,18 +79,15 @@ namespace Game.Logic
                 MessageBox.Show("You are not connected to the server");
             }
         }
-
         public static void LeaveGame(Lobby lobby, string userId)
         {
             locals.client.SendCommandToServer("LEAVEGAME", userId, JsonConvert.SerializeObject(lobby));
         }
-
         public static void SetMap(string mapname)
         {
             //SETTING MAP FOR THE GAME
             //locals.lobby.Map =;
         }
-
         public void SendMessage(Message message)
         {
             if (locals.client.Connected())
