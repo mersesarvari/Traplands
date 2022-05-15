@@ -97,13 +97,12 @@ namespace Game.MVVM.ViewModel
                 OnPropertyChanged(nameof(SelectedLobby));
             }
         }
-
         public MultiplayerGameMenuViewModel(INavigationService lobbyService, INavigationService gameService, INavigationService multimenuService, INavigationService menuService)
         {
             // MultiLogic should not be created again if its already created
             if (MultiLogic.locals == null)
             {
-                MultiLogic logic = new MultiLogic(lobbyService, gameService, multimenuService, menuService);
+                MultiLogic.locals = new Locals(lobbyService, gameService, multimenuService, menuService);
                 MultiLogic.locals.RegisterEvents();
                 MultiLogic.locals.RegisterMultiViewMessenger(Messenger);
             }
@@ -140,13 +139,13 @@ namespace Game.MVVM.ViewModel
                 () => !IsConnected
                 );
             JoinLobbyCommand = new RelayCommand(
-                () => MultiLogic.JoinLobby(MultiLogic.locals, Username, LobbyCode),
+                () => Lobby.Join(MultiLogic.locals, Username, LobbyCode),
                 () => SelectedLobby != null
                 );
             CreateLobbyCommand = new RelayCommand(
                 () => 
                 { 
-                    MultiLogic.CreateLobby(MultiLogic.locals, Username, 0);
+                    Lobby.Create(MultiLogic.locals, Username, 0);
                     Thread.Sleep(300);
                     Lobbies = MultiLogic.locals.Lobbies;
                 }

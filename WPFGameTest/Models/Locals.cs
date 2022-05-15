@@ -25,15 +25,16 @@ namespace Game.Models
         public List<Lobby> Lobbies;
         public Client client;
         public User user;
-        public bool Connected=false;
-        
+        public bool Connected = false;
+
         INavigationService lobbyService;
         INavigationService gameService;
         INavigationService multimenuService;
         INavigationService menuService;
         IMultiplayer multiplayer;
+
+        public List<string> Maps = new List<string>();
         
-        public List<string>Maps=new List<string>();
         public void RegisterEvents()
         {
             client.connectedEvent += UserConnected;
@@ -80,16 +81,16 @@ namespace Game.Models
         }
         private void UpdateUser()
         {
-            var msg = MultiLogic.locals.client.packetReader.ReadMessage();            
+            var msg = MultiLogic.locals.client.packetReader.ReadMessage();
             var L = JsonConvert.DeserializeObject<User>(msg);
             (MainWindow.game as Multiplayer).UpdatePlayer(L);
         }
         private void Client_userJoinedLobbyEvent()
         {
             //This method is handling the JoinResponse from the server
-            var msg = MultiLogic.locals.client.packetReader.ReadMessage();            
+            var msg = MultiLogic.locals.client.packetReader.ReadMessage();
             var L = JsonConvert.DeserializeObject<Lobby>(msg);
-            MultiLogic.locals.lobby= L;
+            MultiLogic.locals.lobby = L;
             MultiLogic.locals.Lobbies.Add(L);
             Trace.WriteLine($"Lobby was set in multilogic");
             //MessageBox.Show("User Joined The Lobby");
@@ -111,7 +112,7 @@ namespace Game.Models
         {
             var userid = MultiLogic.locals.client.packetReader.ReadMessage();
             Trace.WriteLine($"[Disconnected]");
-            Application.Current.Dispatcher.Invoke((Action)delegate 
+            Application.Current.Dispatcher.Invoke((Action)delegate
             {
                 menuService.Navigate();
             });

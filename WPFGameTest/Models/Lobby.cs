@@ -19,7 +19,7 @@ namespace Game.Models
         public Lobby()
         {
 
-        }        
+        }
         public Lobby(string ownerid)
         {
             LobbyId = ownerid;

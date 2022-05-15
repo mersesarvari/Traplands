@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Game.Logic;
+using Game.Models;
 using Game.MVVM.Commands;
 using Game.MVVM.Services;
 using Game.MVVM.Stores;
@@ -15,19 +16,12 @@ namespace Game.MVVM.ViewModel
     public class MultiplayerGameViewModel : ViewModelBase
     {
         Multiplayer logic;
-
         public string GameState { get { return logic.GameOver ? "Finish" : "Paused"; } }
-
         public float LevelTimeElapsed { get { return logic.LevelTimer; } }
-
         public bool GamePaused { get { return logic.Paused; } }
-
         public bool GameOver { get { return logic.GameOver; } }
-
         public double TransitionAlpha { get { return logic.TransitionAlpha; } }
-
         public bool Transitioning { get { return logic.Transitioning; } }
-
         public ICommand NavigateMultiMenuCommand { get; }
         public ICommand ResumeGame { get; set; }
         public ICommand DisconnectFromServer { get; set; }
@@ -48,12 +42,12 @@ namespace Game.MVVM.ViewModel
 
             LeaveGame = new RelayCommand(() => 
             { 
-                MultiLogic.LeaveGame(MultiLogic.locals.lobby, MultiLogic.locals.user.Id);
+                Lobby.Leave(MultiLogic.locals.lobby, MultiLogic.locals.user.Id);
             });
 
             DisconnectFromServer = new RelayCommand(() =>
             {
-                MultiLogic.Disconnect(MultiLogic.locals.user.Id);
+                Client.Disconnect(MultiLogic.locals.user.Id);
                 multiMenuNavigationService.Navigate();
             });
 

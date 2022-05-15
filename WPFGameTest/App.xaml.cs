@@ -11,6 +11,7 @@ using Game.MVVM.Stores;
 using Game.MVVM.ViewModel;
 using Game.Models;
 using Game.Logic;
+using Ninject;
 
 namespace Game
 {
@@ -22,10 +23,12 @@ namespace Game
         private readonly IServiceProvider _serviceProvider;
         
         public App()
-        {            
+        {
             IServiceCollection services = new ServiceCollection();
 
             services.AddSingleton<NavigationStore>();
+            //Saját rész
+
             services.AddSingleton<INavigationService>(s => CreateMainMenuNavigationService(s));
 
             services.AddTransient<MultiLogic>(logic => new MultiLogic(
@@ -40,7 +43,7 @@ namespace Game
                 CreateLevelEditorNavigationService(s),
                 CreateLevelManagerNavigationService(s)
                 ));
-            services.AddTransient<MultiplayerGameMenuViewModel>(s => new MultiplayerGameMenuViewModel(
+            services.AddTransient<MultiplayerGameMenuViewModel>(s => new MultiplayerGameMenuViewModel(                
                 CreateLobbyNavigationService(s),
                 CreateMultiGameNavigationService(s),
                 CreateMultiMenuNavigationService(s),
@@ -60,8 +63,7 @@ namespace Game
             services.AddTransient<MultiplayerGameViewModel>(s => new MultiplayerGameViewModel(
                 CreateMultiMenuNavigationService(s)));
 
-            services.AddSingleton<MainWindowViewModel>();
-            
+            services.AddSingleton<MainWindowViewModel>();            
             services.AddSingleton<MainWindow>(s => new MainWindow()
             {
                 DataContext = s.GetRequiredService<MainWindowViewModel>()
@@ -84,10 +86,8 @@ namespace Game
             MainWindow.Title = "Traplands";
             
             base.OnStartup(e);
-            
-            
         }
-
+        #region Navigatons
         private INavigationService CreateMainMenuNavigationService(IServiceProvider serviceProvider)
         {
             return new NavigationService<MainmenuViewModel>(
@@ -119,7 +119,6 @@ namespace Game
                 serviceProvider.GetRequiredService<NavigationStore>(),
                 () => serviceProvider.GetRequiredService<SingleplayerGameViewModel>());
         }
-
         private INavigationService CreateLobbyNavigationService(IServiceProvider serviceProvider)
         {
             return new NavigationService<LobbyViewModel>(
@@ -132,7 +131,7 @@ namespace Game
                 serviceProvider.GetRequiredService<NavigationStore>(),
                 () => serviceProvider.GetRequiredService<MultiplayerGameViewModel>());
         }
-
+        #endregion
 
 
     }
