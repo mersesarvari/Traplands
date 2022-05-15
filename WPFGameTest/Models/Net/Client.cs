@@ -95,6 +95,10 @@ namespace Game.Models
         { 
             return _client.Connected;
         }
+        public static void Disconnect(string id)
+        {
+            MultiLogic.locals.client.DisconnectFromServer(id);
+        }
         public void DisconnectFromServer(string guid)
         {
             if (_client.Connected)
@@ -122,5 +126,6 @@ namespace Game.Models
                 _client.Client.Send(messagePacket.GetPacketbytes());            
             }
         }        
+        
     }
 }

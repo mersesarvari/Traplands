@@ -34,6 +34,7 @@ namespace Game
                 CreateMultiMenuNavigationService(logic),
                 CreateMainMenuNavigationService(logic)
                 ));
+            //Locals Meghat'roy'sa
             services.AddTransient<MainmenuViewModel>(s => new MainmenuViewModel(
                 CreateMultiMenuNavigationService(s),
                 CreateLevelEditorNavigationService(s),
