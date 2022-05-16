@@ -109,7 +109,7 @@
             </ScrollViewer>
         </Grid>
         <Button Style="{StaticResource arcade}" Command="{Binding NavigateSingleGameCommand}" 
-                Margin="50,10,50,10" Grid.Column="1" Grid.Row="4" Content="Play  Custom Level">
+                Margin="50,10,50,10" Grid.Column="1" Grid.Row="4" Content="Play  Custom  Level">
         </Button>
         <Button Style="{StaticResource arcade}" Command="{Binding PlayCampaign}" 
                 Margin="10" Grid.Column="2" Grid.Row="4" Content="Play Campaign">
