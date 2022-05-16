@@ -166,7 +166,6 @@ namespace Game.Models
 
             while (move != 0)
             {
-                GameObject obj;
                 IntRect tempRect = new IntRect
                 {
                     X = Hitbox.X,
@@ -175,19 +174,7 @@ namespace Game.Models
                     Height = Hitbox.Height
                 };
 
-                if (Physics.IsColliding(interactables, tempRect, out obj))
-                {
-                    if (obj.Tag == "Trap")
-                    {
-                        Die();
-                    }
-                    else if (obj.Tag == "Finish")
-                    {
-                        OnFinishPointReached?.Invoke();
-                    }
-                }
-
-                if (!Physics.IsColliding(solids, tempRect, out obj))
+                if (!Physics.IsColliding(solids, tempRect))
                 {
                     //  We don't collide with anyting solid
                     Transform.Position.Y += sign;
@@ -244,8 +231,6 @@ namespace Game.Models
 
                 while (move != 0)
                 {
-                    GameObject obj;
-
                     IntRect tempRect = new IntRect
                     {
                         X = Hitbox.X + sign,
@@ -254,20 +239,7 @@ namespace Game.Models
                         Height = Hitbox.Height
                     };
 
-                    if (Physics.IsColliding(interactables, tempRect, out obj))
-                    {
-                        if (obj.Tag == "Trap")
-                        {
-                            Die();
-                        }
-                        else if (obj.Tag == "Finish")
-                        {
-                            // Show window with time and option
-                            OnFinishPointReached?.Invoke();
-                        }
-                    }
-
-                    if (!Physics.IsColliding(solids, tempRect, out obj))
+                    if (!Physics.IsColliding(solids, tempRect))
                     {
                         //  We don't collide with anyting solid
                         Transform.Position.X += sign;
@@ -363,18 +335,26 @@ namespace Game.Models
             base.Update(deltaTime);
         }
 
-        //public void LateUpdate()
-        //{
-        //    GameObject obj;
-        //    if (Physics.IsColliding(interactables, Hitbox, out obj))
-        //    {
-        //        if (obj.Tag == "Trap")
-        //        {
-        //            Trace.WriteLine("This is called");
-        //            Die();
-        //            CameraController.Instance.Shake(0.1f, 10);
-        //        }
-        //    }
-        //}
+        public void LateUpdate()
+        {
+            GameObject obj;
+
+            if (Physics.IsColliding(interactables, Hitbox, out obj))
+            {
+                if (obj.Tag == "Trap")
+                {
+                    Die();
+                }
+                else if (obj.Tag == "Bird")
+                {
+                    (obj as Bird).FlyAway(Dir);
+                }
+                else if (obj.Tag == "Finish")
+                {
+                    // Show window with time and option
+                    OnFinishPointReached?.Invoke();
+                }
+            }
+        }
     }
 }

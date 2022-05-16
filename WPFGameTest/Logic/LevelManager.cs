@@ -41,7 +41,8 @@ namespace Game
         Grass_Last,
         Trap_Waypoint,
         Moving_Trap,
-        Cannon
+        Cannon,
+        Trap_Spike
     }
 
     public static class LevelManager
@@ -118,6 +119,12 @@ namespace Game
 
             string[] fileLines = File.ReadAllLines(filePath);
             Level value = new Level(key, fileLines);
+
+            if (Get(key) != null)
+            {
+                levels.Remove(key);
+            }
+
             levels.Add(key, value);
 
             // Save map to image

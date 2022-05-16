@@ -129,6 +129,9 @@ namespace Game
             Resource.AddImage("Grass_Top_Right_Bottom", "grass_toprightbottom.png");
             Resource.AddImage("Grass_Top_Left_Bottom", "grass_topleftbottom.png");
             Resource.AddImage("Moving_Trap", "spikytrap.png");
+            Resource.AddImage("Stone", "stone.png");
+            Resource.AddImage("Flowers", "flowers_props.png");
+            Resource.AddImage("Grass_Props", "grass_props.png");
 
             // Spritesheets
             Resource.AddImage("player_idle", "player_idle.png");
@@ -145,6 +148,11 @@ namespace Game
             Resource.AddSpriteSheet("player_attack", "player_attack.png", 4, 48, 48);
             Resource.AddSpriteSheet("player_dash", "player_run.png", 2, 48, 48);
             Resource.AddSpriteSheet("player_death", "player_death.png", 8, 48, 48);
+
+            Resource.AddSpriteSheet("bird_idle", "bird_idle.png", 8, 16, 16);
+            Resource.AddSpriteSheet("bird_flying", "bird_flying.png", 3, 16, 16);
+
+            Resource.AddSpriteSheet("trap_spikes", "trap_spikes.png", 7, 48, 48);
 
             LevelManager.LoadLevels();
         }

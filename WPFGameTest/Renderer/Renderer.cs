@@ -34,6 +34,14 @@ namespace Game.Renderer
                     new Rect(item.Transform.Position.X, item.Transform.Position.Y, item.Transform.Size.X, item.Transform.Size.Y));
             }
 
+            foreach (var item in model.Props)
+            {
+                drawingContext.DrawRectangle(
+                    item.Fill,
+                    null,
+                    new Rect(item.Transform.Position.X, item.Transform.Position.Y, item.Transform.Size.X, item.Transform.Size.Y));
+            }
+
             foreach (var item in model.Interactables)
             {
                 drawingContext.DrawRectangle(
@@ -93,6 +101,14 @@ namespace Game.Renderer
             IMultiplayer model = Model as IMultiplayer;
 
             foreach (var item in model.Solids)
+            {
+                drawingContext.DrawRectangle(
+                    item.Fill,
+                    null,
+                    new Rect(item.Transform.Position.X, item.Transform.Position.Y, item.Transform.Size.X, item.Transform.Size.Y));
+            }
+
+            foreach (var item in model.Props)
             {
                 drawingContext.DrawRectangle(
                     item.Fill,

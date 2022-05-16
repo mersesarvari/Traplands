@@ -17,8 +17,14 @@ namespace Game.Logic
 
         // Game objects
         public Player Player { get; set; }
+        public List<GameObject> Props { get; set; }
         public List<GameObject> Solids { get; set; }
         public List<GameObject> Interactables { get; set; }
+
+        // Fixed tickrate variables
+        protected const int tickRate = 50;
+        protected float timer;
+        protected float minTimeBetweenTicks;
 
         protected bool paused;
         public bool Paused
@@ -83,6 +89,8 @@ namespace Game.Logic
             transition = new Transition();
 
             transition.OnTransitionEnd += () => { Transitioning = false; };
+
+            minTimeBetweenTicks = 1f / tickRate;
         }
 
         public abstract void ProcessInput();
@@ -100,11 +108,6 @@ namespace Game.Logic
         private Vector2 spawnPoint;
         private Level currentLevel;
 
-        // Fixed tickrate variables
-        const int tickRate = 60;
-        float timer;
-        float minTimeBetweenTicks;
-
         private bool firstLoad;
 
         public Singleplayer(IMessenger messenger)
@@ -116,8 +119,6 @@ namespace Game.Logic
             currentLevelIndex = 0;
 
             campaignLevels = LevelManager.CampaignLevels;
-            
-            minTimeBetweenTicks = 1f / tickRate;
         }
 
         public void SetLevel(string key)
@@ -129,6 +130,7 @@ namespace Game.Logic
             spawnPoint = currentLevel.SpawnPoint;
             Solids = currentLevel.Solids;
             Interactables = currentLevel.Interactables;
+            Props = currentLevel.Props;
             Player = new Player("01", "Player1", "", spawnPoint, new Vector2(ObjectData.PLAYER_WIDTH, ObjectData.PLAYER_HEIGHT), 8);
 
             if (currentLevel == campaignLevels[0])
@@ -168,6 +170,7 @@ namespace Game.Logic
                 }
             }
 
+            GameObject.SetProps(Props);
             GameObject.SetSolids(Solids);
             GameObject.SetInteractables(Interactables);
             GameObject.SetPlayers(new List<GameObject> { Player });
@@ -227,17 +230,18 @@ namespace Game.Logic
 
                 timer += deltaTime;
 
-                while (timer >= minTimeBetweenTicks)
-                {
-                    timer -= minTimeBetweenTicks;
-                }
-
                 foreach (var obj in Interactables)
                 {
                     obj.Update(deltaTime);
                 }
 
                 Player.Update(deltaTime);
+
+                while (timer >= minTimeBetweenTicks)
+                {
+                    timer -= minTimeBetweenTicks;
+                    Player.LateUpdate();
+                }
 
                 CameraController.Instance.UpdateCamera(Player.Transform.Position);
             }

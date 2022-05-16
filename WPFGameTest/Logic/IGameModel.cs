@@ -22,6 +22,7 @@ namespace Game.Logic
         bool Transitioning { get; set; }
         double TransitionAlpha { get; }
         Player Player { get; set; }
+        List<GameObject> Props { get; set; }
         List<GameObject> Solids { get; set; }
         List<GameObject> Interactables { get; set; }
     }
@@ -49,5 +50,6 @@ namespace Game.Logic
         void LoadElements(IList<EditorElement> elements);
         void SelectElement(EditorElement element);
         void SaveLevel(string levelName);
+        void LoadLevel(Level level);
     }
 }

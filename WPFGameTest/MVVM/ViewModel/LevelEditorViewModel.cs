@@ -16,6 +16,7 @@ using System.Windows.Controls;
 using Microsoft.Toolkit.Mvvm.Input;
 using WPFGameTest.Logic;
 using Microsoft.Toolkit.Mvvm.DependencyInjection;
+using Game.Models;
 
 namespace Game.MVVM.ViewModel
 {
@@ -63,6 +64,26 @@ namespace Game.MVVM.ViewModel
             }
         }
 
+        private List<Level> levels;
+        public List<Level> Levels
+        {
+            get { return levels; }
+            set { SetProperty(ref levels, value); }
+        }
+
+        private Level selectedLevel;
+        public Level SelectedLevel
+        {
+            get { return selectedLevel; }
+            set
+            {
+                SetProperty(ref selectedLevel, value);
+                OnPropertyChanged(nameof(SelectedLevel));
+                LevelManager.CurrentLevel = SelectedLevel;
+                (LoadLevel as RelayCommand).NotifyCanExecuteChanged();
+            }
+        }
+
         public void SetupLogic(FrameworkElement renderTarget, ScrollViewer camera)
         {
             logic.Init(renderTarget, camera);
@@ -76,6 +97,7 @@ namespace Game.MVVM.ViewModel
         public ICommand SaveLevel { get; set; }
         public ICommand ExitWithoutSaving { get; set; }
         public ICommand FlipCannon { get; set; }
+        public ICommand LoadLevel { get; set; }
 
         public LevelEditorViewModel(INavigationService mainMenuNavigationService)
         {
@@ -84,6 +106,9 @@ namespace Game.MVVM.ViewModel
             SaveLevel = new RelayCommand(() => { logic.SaveLevel(LevelName); mainMenuNavigationService.Navigate(); }, () => !string.IsNullOrWhiteSpace(LevelName));
             ExitWithoutSaving = new RelayCommand(() => { mainMenuNavigationService.Navigate(); });
             FlipCannon = new RelayCommand(() => { logic.FlipCannon(SelectedCannon); }, () => SelectedCannon != null);
+            LoadLevel = new RelayCommand(() => { logic.LoadLevel(SelectedLevel); LevelName = SelectedLevel.Name; }, () => SelectedLevel != null);
+
+            Levels = LevelManager.LevelList();
 
             Elements = new ObservableCollection<EditorElement>();
             logic.LoadElements(Elements);

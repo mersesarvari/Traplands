@@ -23,11 +23,6 @@ namespace Game.Logic
 
         private Vector2 spawnPoint;
 
-        // Fixed tickrate variables
-        const int tickRate = 60;
-        float timer;
-        float minTimeBetweenTicks;
-
         RenderData renderData;
 
         public Multiplayer()
@@ -39,8 +34,6 @@ namespace Game.Logic
             Player = new Player("01", "Player1", "",spawnPoint, new Vector2(ObjectData.PLAYER_WIDTH, ObjectData.PLAYER_HEIGHT), 8);
 
             localID = MultiLogic.locals.user.Id;
-
-            minTimeBetweenTicks = 1 / tickRate;
 
             renderData = new RenderData();
         }
@@ -56,6 +49,7 @@ namespace Game.Logic
             currentLevel.Load();
 
             spawnPoint = currentLevel.SpawnPoint;
+            Props = currentLevel.Props;
             Solids = currentLevel.Solids;
             Interactables = currentLevel.Interactables;
             Player = new Player(MultiLogic.locals.user.Id, MultiLogic.locals.user.Username, MultiLogic.locals.user.Color, spawnPoint, new Vector2(ObjectData.PLAYER_WIDTH, ObjectData.PLAYER_HEIGHT), 8);
@@ -72,6 +66,7 @@ namespace Game.Logic
             Solids = currentLevel.Solids;
             Interactables = currentLevel.Interactables;
 
+            GameObject.SetProps(Props);
             GameObject.SetSolids(Solids);
             GameObject.SetInteractables(Interactables);
             GameObject.SetPlayers(new List<GameObject> { Player });
@@ -137,12 +132,20 @@ namespace Game.Logic
                 messenger.Send("Update elapsed time", "LevelTimerUpdate");
             }
 
+            timer += deltaTime;
+
             foreach (var obj in Interactables)
             {
                 obj.Update(deltaTime);
             }
 
             Player.Update(deltaTime);
+
+            while (timer >= minTimeBetweenTicks)
+            {
+                timer -= minTimeBetweenTicks;
+                Player.LateUpdate();
+            }
 
             UpdateRenderData();
 

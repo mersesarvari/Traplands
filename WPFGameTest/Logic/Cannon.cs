@@ -52,7 +52,6 @@ namespace Game.Logic
 
                 while (move != 0)
                 {
-                    GameObject obj;
                     IntRect tempRect = new IntRect
                     {
                         X = Hitbox.X + sign,
@@ -60,11 +59,6 @@ namespace Game.Logic
                         Width = Hitbox.Width,
                         Height = Hitbox.Height
                     };
-
-                    if (Physics.IsColliding(players, tempRect, out obj))
-                    {
-                        (obj as Player).Die();
-                    }
 
                     if (!Physics.IsColliding(solids, tempRect))
                     {

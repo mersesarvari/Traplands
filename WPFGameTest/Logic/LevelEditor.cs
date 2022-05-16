@@ -27,7 +27,7 @@ namespace WPFGameTest.Logic
         }
     }
 
-    public abstract class EditorElement : ObservableObject
+    public class EditorElement : ObservableObject
     {
         public Rectangle Rectangle { get; set; }
         public Vector2 Position { get; set; }
@@ -216,6 +216,16 @@ namespace WPFGameTest.Logic
             Type = ObjectType.Cannon;
         }
 
+        public CannonRect(bool facingRight)
+        {
+            FacingRight = facingRight;
+            Rectangle = new Rectangle();
+            Position = new Vector2();
+            Rectangle.Fill = facingRight ? new ImageBrush(Resource.GetImage("Cannon_Right")) : new ImageBrush(Resource.GetImage("Cannon_Left"));
+            Name = "Cannon";
+            Type = ObjectType.Cannon;
+        }
+
         public void Flip()
         {
             FacingRight = !FacingRight;
@@ -227,6 +237,18 @@ namespace WPFGameTest.Logic
             {
                 Rectangle.Fill = new ImageBrush(Resource.GetImage("Cannon_Left"));
             }
+        }
+    }
+
+    public class SpikeTrapRect : EditorElement
+    {
+        public SpikeTrapRect()
+        {
+            Rectangle = new Rectangle();
+            Position = new Vector2();
+            Rectangle.Fill = new ImageBrush(Resource.GetImage("Stone"));
+            Name = "Raising spikes";
+            Type = ObjectType.Trap_Spike;
         }
     }
 
@@ -342,7 +364,7 @@ namespace WPFGameTest.Logic
         private int moveSpeed = 500;
 
         // Placing tiles
-        private Dictionary<Coordinate, EditorElement> rects = new Dictionary<Coordinate, EditorElement>();
+        private Dictionary<Coordinate, EditorElement> rects;
         private bool isDeleting = false;
 
         private Vector2[] dirs =
@@ -363,7 +385,7 @@ namespace WPFGameTest.Logic
         bool painting;
 
         // Moving traps
-        List<WaypointGroup> WaypointGroups;
+        public List<WaypointGroup> WaypointGroups;
         WaypointRect selected;
         WaypointRect releasedOn;
 
@@ -389,6 +411,12 @@ namespace WPFGameTest.Logic
         public LevelEditor(IMessenger messenger)
         {
             this.messenger = messenger;
+            Init();
+        }
+
+        private void Init()
+        {
+            rects = new Dictionary<Coordinate, EditorElement>();
             Grid = new LevelGrid(100, 100, ObjectData.BLOCK_WIDTH, ObjectData.BLOCK_HEIGHT);
             Rectangles = new List<EditorElement>();
             WaypointGroups = new List<WaypointGroup>();
@@ -561,7 +589,7 @@ namespace WPFGameTest.Logic
                             }
 
                             wpg.SetupCollections(Lines, Rectangles);
-                            WaypointRect rect = wpg.AddWaypoint(actualPos, Grid.CellSize);
+                            WaypointRect rect = wpg.AddWaypoint(matrixPos, Grid.CellSize);
 
                             WaypointGroups.Add(wpg);
 
@@ -616,6 +644,12 @@ namespace WPFGameTest.Logic
                             cannon.Rectangle.Height = ObjectData.BLOCK_HEIGHT;
                             AddTile(cannon, matrixPos);
                             break;
+                        case ObjectType.Trap_Spike:
+                            SpikeTrapRect spikeTrap = new SpikeTrapRect();
+                            spikeTrap.Rectangle.Width = ObjectData.BLOCK_WIDTH;
+                            spikeTrap.Rectangle.Height = ObjectData.BLOCK_HEIGHT;
+                            AddTile(spikeTrap, matrixPos);
+                            break;
                         default:
                             Trace.WriteLine("Nothing is selected.");
                             break;
@@ -639,6 +673,55 @@ namespace WPFGameTest.Logic
                         SelectedCannon = null;
                     }
                 }
+            }
+        }
+
+        public void PlaceSingleTile(Vector2 matrixPos, EditorElement element)
+        {
+            switch (element.Type)
+            {
+               case > ObjectType.Grass_First and < ObjectType.Grass_Last:
+                    BlockRect block = new BlockRect();
+                    block.Rectangle.Width = ObjectData.BLOCK_WIDTH;
+                    block.Rectangle.Height = ObjectData.BLOCK_HEIGHT;
+
+                    AddTile(block, new Vector2(matrixPos.X + dir.X, matrixPos.Y + dir.Y));
+
+                    // Update tile and it's neighbours
+                    UpdateTile(matrixPos.X, matrixPos.Y);
+                    UpdateTile(matrixPos.X + 1, matrixPos.Y);
+                    UpdateTile(matrixPos.X - 1, matrixPos.Y);
+                    UpdateTile(matrixPos.X, matrixPos.Y + 1);
+                    UpdateTile(matrixPos.X, matrixPos.Y - 1);
+                    break;
+                case ObjectType.Spike:
+                    TrapRect spike = new TrapRect();
+                    spike.Rectangle.Width = ObjectData.BLOCK_WIDTH;
+                    spike.Rectangle.Height = ObjectData.BLOCK_HEIGHT;
+                    AddTile(spike, matrixPos);
+                    break;
+                case ObjectType.Spawn:
+                    ReplaceTile(Get(new Coordinate(spawnPosition.X, spawnPosition.Y)), spawnPosition, matrixPos);
+                    spawnPosition = matrixPos;
+                    break;
+                case ObjectType.Finish:
+                    ReplaceTile(Get(new Coordinate(finishPosition.X, finishPosition.Y)), finishPosition, matrixPos);
+                    finishPosition = matrixPos;
+                    break;
+                case ObjectType.Cannon:
+                    CannonRect cannon = element as CannonRect;
+                    cannon.Rectangle.Width = ObjectData.BLOCK_WIDTH;
+                    cannon.Rectangle.Height = ObjectData.BLOCK_HEIGHT;
+                    AddTile(cannon, matrixPos);
+                    break;
+                case ObjectType.Trap_Spike:
+                    SpikeTrapRect spikeTrap = new SpikeTrapRect();
+                    spikeTrap.Rectangle.Width = ObjectData.BLOCK_WIDTH;
+                    spikeTrap.Rectangle.Height = ObjectData.BLOCK_HEIGHT;
+                    AddTile(spikeTrap, matrixPos);
+                    break;
+                default:
+                    break;
             }
         }
 
@@ -716,6 +799,9 @@ namespace WPFGameTest.Logic
                     DeleteFromCollections(matrixPos);
                     SelectedCannon = null;
                     break;
+                case ObjectType.Trap_Spike:
+                    DeleteFromCollections(matrixPos);
+                    break;
                 default:
                     break;
             }
@@ -783,17 +869,24 @@ namespace WPFGameTest.Logic
         {
             this.elements = elements;
 
-            elements.Add(new WaypointGroup(WaypointGroups.Count));
             elements.Add(new SpawnPoint());
             elements.Add(new FinishPoint());
             elements.Add(new BlockRect());
             elements.Add(new TrapRect());
             elements.Add(new CannonRect());
+            elements.Add(new SpikeTrapRect());
+            elements.Add(new WaypointGroup(WaypointGroups.Count));
         }
 
         public void SaveLevel(string levelName)
         {
             LevelManager.Save(levelName, Grid.Map, rects);
+        }
+
+        public void LoadLevel(Level level)
+        {
+            Init();
+            level.LoadToEditor(this);
         }
 
         public void SelectElement(EditorElement element)
@@ -815,7 +908,7 @@ namespace WPFGameTest.Logic
             element.Position = new Vector2(to.X * ObjectData.BLOCK_WIDTH, to.Y * ObjectData.BLOCK_HEIGHT);
         }
 
-        private void AddTile(EditorElement element, Vector2 to)
+        public void AddTile(EditorElement element, Vector2 to)
         {
             Coordinate coordTo = new Coordinate(to.X, to.Y);
 

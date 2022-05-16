@@ -19,6 +19,7 @@ namespace Game.Renderer
         public string Name { get; set; }
         public List<Int32Rect> Regions { get; private set; }
         public BitmapImage Image { get; private set; }
+        public int NumOfImages { get; private set; }
 
         public CroppedBitmap ImageWithIndex(int index)
         {
@@ -27,6 +28,7 @@ namespace Game.Renderer
 
         public SpriteSheet(string fileName, int numOfImages, int imageWidth, int imageHeight)
         {
+            NumOfImages = numOfImages;
             Regions = new List<Int32Rect>();
             Image = new BitmapImage(new Uri(System.IO.Path.Combine(Directory.GetParent(Directory.GetCurrentDirectory()).Parent.Parent.Parent.FullName, @"Graphics\", fileName), UriKind.Relative));
             for (int i = 0; i < numOfImages; i++)
@@ -42,6 +44,7 @@ namespace Game.Renderer
         public delegate void AnimationEvent();
         public event AnimationEvent OnAnimationOver;
         public event AnimationEvent OnAnimationStart;
+        public List<Action> OnAnimationImage;
 
         public float TimeBetweenImages { get; set; }
         public bool IsOver { get; set; }
@@ -61,6 +64,12 @@ namespace Game.Renderer
             spriteSheet = new SpriteSheet(filePath, numOfImages, imageWidth, imageHeight);
             TimeBetweenImages = timeBetweenImages;
 
+            OnAnimationImage = new List<Action>(numOfImages);
+            for (int i = 0; i < numOfImages; i++)
+            {
+                OnAnimationImage.Add(null);
+            }
+
             OnAnimationStart += () => { firstFrame = false; };
             OnAnimationOver += () => { IsOver = true; firstFrame = true; };
         }
@@ -69,6 +78,12 @@ namespace Game.Renderer
         {
             this.spriteSheet = spriteSheet;
             TimeBetweenImages = timeBetweenImages;
+
+            OnAnimationImage = new List<Action>(spriteSheet.NumOfImages);
+            for (int i = 0; i < spriteSheet.NumOfImages; i++)
+            {
+                OnAnimationImage.Add(null);
+            }
 
             OnAnimationStart += () => { firstFrame = false; };
             OnAnimationOver += () => { IsOver = true; firstFrame = true; };
@@ -130,6 +145,8 @@ namespace Game.Renderer
                         audioClips[imageIndex].Play();
                     }
                 }
+                    
+                OnAnimationImage[imageIndex]?.Invoke();
             }
         }
     }

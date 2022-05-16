@@ -26,6 +26,7 @@ namespace Game.Models
             Hitbox = new IntRect(position.X, position.Y, size.X, size.Y);
         }
 
+        public static List<GameObject> props = new List<GameObject>();
         public static List<GameObject> solids = new List<GameObject>();
         public static List<GameObject> interactables = new List<GameObject>();
         public static List<GameObject> players = new List<GameObject>();
@@ -43,6 +44,11 @@ namespace Game.Models
         public static void SetPlayers(List<GameObject> playerList)
         {
             players = playerList;
+        }
+
+        public static void SetProps(List<GameObject> propList)
+        {
+            props = propList;
         }
 
         public virtual void Start()
