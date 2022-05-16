@@ -136,18 +136,20 @@ namespace Game.Logic
             Player = new Player("01", "Player1", "", spawnPoint, new Vector2(ObjectData.PLAYER_WIDTH, ObjectData.PLAYER_HEIGHT), 8);
             DeathCount = 0;
 
+            messenger.Send("Player died", "PlayerDied");
+
+            Player.OnDeath += () =>
+            {
+                DeathCount++;
+                messenger.Send("Player died", "PlayerDied");
+            };
+
             if (currentLevel == campaignLevels[0])
             {
                 Player.OnFinishPointReached += OnFinishPointReached;
 
                 if (firstLoad)
                 {
-                    Player.OnDeath += () =>
-                    {
-                        DeathCount++;
-                        messenger.Send("Player died", "PlayerDied");
-                    };
-
                     transition.OnTransitionMiddle += () =>
                     {
                         currentLevelIndex++;
@@ -170,12 +172,6 @@ namespace Game.Logic
 
                 if (firstLoad)
                 {
-                    Player.OnDeath += () =>
-                    {
-                        DeathCount++;
-                        messenger.Send("Player died", "PlayerDied");
-                    };
-
                     transition.OnTransitionMiddle += () =>
                     {
                         GameOver = true;

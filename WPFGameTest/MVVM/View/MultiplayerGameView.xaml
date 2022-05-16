@@ -14,6 +14,53 @@
         <converter:ButtonActiveBoolConverter x:Key="ButtonActive"/>
         <converter:IdToNameConverter x:Key="IdToName"/>
         <converter:StringToColorConverter x:Key="IdToColor"/>
+        <Style x:Key="labelStyle" TargetType="Label">
+            <!--<Setter Property="FontFamily" Value="../../Resources/DisposableDroidBB.ttf #DisposableDroid BB"/>-->
+            <Setter Property="FontFamily" Value="../../Resources/novem.ttf #November"/>
+        </Style>
+        <Style x:Key="arcade" TargetType="Button">
+            <Setter Property="OverridesDefaultStyle" Value="True"/>
+            <Setter Property="FontFamily" Value="../../Resources/ARCADECLASSIC.ttf #ARCADECLASSIC"/>
+            <Setter Property="FontSize" Value="26"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Background">
+                <Setter.Value>
+                    <ImageBrush ImageSource="../../Resources/UI_BUTTON.png"  />
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Name="border" 
+        				Background="{TemplateBinding Background}">
+                            <Grid>
+                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" Name="content"/>
+                            </Grid>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Foreground" Value="#FF4788c8" />
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="content" Property="RenderTransform">
+                                    <Setter.Value>
+                                        <TranslateTransform Y="1.0" />
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter Property="Foreground" Value="Gray" />
+                                <Setter Property="Background">
+                                    <Setter.Value>
+                                        <ImageBrush ImageSource="../../Resources/UI_BUTTON_DIS.png"/>
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
     </UserControl.Resources>
     <Grid x:Name="MainGrid">
         <ScrollViewer x:Name="MainCamera" Grid.RowSpan="2">
@@ -47,12 +94,12 @@
                    HorizontalContentAlignment="Left"/>
             <Label Style="{StaticResource labelStyle}" Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" Content="Winner:" Foreground="Black" FontSize="28" Padding="10" HorizontalContentAlignment="Center"/>
             <StackPanel Grid.Row="2" Grid.ColumnSpan="3" Margin="50" VerticalAlignment="Center">
-                <Button Visibility="{Binding GameOver, Converter={StaticResource ButtonActive}}" Height="40" Margin="10,10,10,50" FontSize="16" Foreground="White" FontFamily="Calibri" Content="Resume" BorderThickness="0" Command="{Binding ResumeGame}">
+                <Button Style="{StaticResource arcade}" Visibility="{Binding GameOver, Converter={StaticResource ButtonActive}}" Height="40" Margin="10,10,10,50" Content="Resume" BorderThickness="0" Command="{Binding ResumeGame}">
                     <Button.Background>
                         <ImageBrush ImageSource="../../Resources/UI_BUTTON.png"  />
                     </Button.Background>
                 </Button>
-                <Button Height="40" Margin="10" Foreground="White" FontSize="16" FontFamily="Helvetica" Content="Disconnect" BorderThickness="0" Command="{Binding DisconnectFromServer}">
+                <Button Style="{StaticResource arcade}" Height="40" Margin="10" Content="Disconnect" BorderThickness="0" Command="{Binding DisconnectFromServer}">
                     <Button.Background>
                         <ImageBrush ImageSource="../../Resources/UI_BUTTON.png"  />
                     </Button.Background>
