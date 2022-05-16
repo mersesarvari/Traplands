@@ -11,6 +11,7 @@
              d:DesignHeight="800" d:DesignWidth="1024">
     <UserControl.Resources>
         <converter:ButtonActiveBoolConverter x:Key="ButtonActive"/>
+        <converter:ColorStringToBrushConverter x:Key="ColorToBrush"/>
         <Style x:Key="input" TargetType="TextBox">
             <Setter Property="FontFamily" Value="../../Resources/Minecraftia.ttf #Minecraftia"/>
             <Setter Property="Background" Value="Transparent"/>
@@ -122,7 +123,7 @@
             <ComboBox IsEnabled="{Binding NotConnected}" IsSynchronizedWithCurrentItem="True"  Margin="0,10,10,10" SelectedIndex="0" ItemsSource="{Binding ColorList}" Grid.Column="1" Grid.Row="1" SelectedItem="{Binding SelectedColor}">
                 <ComboBox.ItemTemplate>
                     <DataTemplate>
-                        <Rectangle Height="40" Width="60" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Fill="{Binding Color}"></Rectangle>
+                        <Rectangle Height="40" Width="60" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Fill="{Binding Color, Converter={StaticResource ColorToBrush}}"></Rectangle>
                     </DataTemplate>
                 </ComboBox.ItemTemplate>
             </ComboBox>
