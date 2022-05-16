@@ -13,7 +13,8 @@
         <converter:GameEffectConverter x:Key="GamePausedEffect"/>
         <converter:ButtonActiveBoolConverter x:Key="ButtonActive"/>
         <Style x:Key="labelArcade" TargetType="Label">
-            <Setter Property="FontFamily" Value="../../Resources/Minecraftia.ttf #Minecraftia"/>
+            <!--<Setter Property="FontFamily" Value="../../Resources/DisposableDroidBB.ttf #DisposableDroid BB"/>-->
+            <Setter Property="FontFamily" Value="../../Resources/novem.ttf #November"/>
         </Style>
         <Style x:Key="arcade" TargetType="Button">
             <Setter Property="OverridesDefaultStyle" Value="True"/>
@@ -60,13 +61,27 @@
         </Style>
     </UserControl.Resources>
     <Grid x:Name="MainGrid">
-        <ScrollViewer x:Name="MainCamera" Grid.RowSpan="2" Effect="{Binding GamePaused, Converter={StaticResource GamePausedEffect}}">
+        <ScrollViewer x:Name="MainCamera" Effect="{Binding GamePaused, Converter={StaticResource GamePausedEffect}}">
             <renderer:SinglePlayerRenderer x:Name="Renderer" Width="3600" Height="3600"/>
         </ScrollViewer>
-        <Label Content="{Binding LevelTimeElapsed}" FontFamily="Calibri" ContentStringFormat="{}{0:0.#}" FontSize="26" Padding="10" Margin="10"/>
+        <Grid Width="150" Height="80" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="20">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="1*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="2*"/>
+            </Grid.ColumnDefinitions>
+            <Image Source="../../Resources/clock.png" Grid.Row="0" Width="30" HorizontalAlignment="Center"></Image>
+            <Image Source="../../Resources/skull.png" Grid.Row="1" Width="30" HorizontalAlignment="Center"></Image>
+            <Label Style="{StaticResource labelArcade}" Grid.Column="1" Content="{Binding LevelTimeElapsed}" ContentStringFormat="{}{0:0.#}" FontSize="26"/>
+            <Label Style="{StaticResource labelArcade}" Grid.Row="1" Grid.Column="1" Content="{Binding DeathCount}" VerticalAlignment="Center" FontSize="26"/>
+        </Grid>
         <Grid Width="400" Visibility="{Binding GamePaused, Converter={StaticResource GamePaused}}" HorizontalAlignment="Stretch" x:Name="PauseMenu"  Margin="300,100,300,100">
             <Grid.RowDefinitions>
                 <RowDefinition Height="3*"/>
+                <RowDefinition Height="2*"/>
                 <RowDefinition Height="2*"/>
                 <RowDefinition Height="8*"/>
             </Grid.RowDefinitions>
@@ -83,10 +98,13 @@
             </Grid.Effect>
             <Grid Grid.ColumnSpan="2" Grid.RowSpan="3"/>
             <Image Source="../../Resources/clock.png" Grid.Row="1" Width="30" HorizontalAlignment="Right"></Image>
-            <Label Grid.Row="0" VerticalAlignment="Center" Grid.ColumnSpan="3" Content="{Binding GameState}" HorizontalContentAlignment="Center" Foreground="Black" FontFamily="Helvetica" FontSize="36" Padding="10"/>
-            <Label Grid.Row="1" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Left" Content="{Binding LevelTimeElapsed}" Foreground="Black" FontFamily="Calibri" ContentStringFormat="{}{0:0.#}" FontSize="28" Padding="10" HorizontalContentAlignment="Left"/>
-            <Label Style="{StaticResource labelArcade}" Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Right" Content="Time (seconds):" Foreground="Black" FontSize="18" Padding="10" HorizontalContentAlignment="Center"/>
-            <StackPanel Grid.Row="2" Grid.ColumnSpan="3" Margin="50" VerticalAlignment="Center">
+            <Image Source="../../Resources/skull.png" Grid.Row="2" Width="30" HorizontalAlignment="Right"></Image>
+            <Label Style="{StaticResource labelArcade}" Grid.Row="0" VerticalAlignment="Center" Grid.ColumnSpan="3" Content="{Binding GameState}" HorizontalContentAlignment="Center" Foreground="Black" FontSize="36" Padding="10"/>
+            <Label Style="{StaticResource labelArcade}" Grid.Row="1" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Left" Content="{Binding LevelTimeElapsed}" Foreground="Black"  ContentStringFormat="{}{0:0.#}" FontSize="28" HorizontalContentAlignment="Left"/>
+            <Label Style="{StaticResource labelArcade}" Grid.Row="2" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Left" Content="{Binding DeathCount}" Foreground="Black" FontSize="28"  HorizontalContentAlignment="Left"/>
+            <Label Style="{StaticResource labelArcade}" Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" Content="Time (seconds):" Foreground="Black" FontSize="18" HorizontalContentAlignment="Center"/>
+            <Label Style="{StaticResource labelArcade}" Grid.Row="2" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" Content="Deathcount:" Foreground="Black" FontSize="18" Padding="10" HorizontalContentAlignment="Center"/>
+            <StackPanel Grid.Row="3" Grid.ColumnSpan="3" Margin="50" VerticalAlignment="Center">
                 <Button Style="{StaticResource arcade}" Visibility="{Binding GameOver, Converter={StaticResource ButtonActive}}" Height="40" Margin="10,10,10,50" Content="Resume" Command="{Binding ResumeGame}">
                 </Button>
                 <Button Style="{StaticResource arcade}" Height="40" Margin="10" Content="Exit" Command="{Binding NavigateMainMenuCommand}">

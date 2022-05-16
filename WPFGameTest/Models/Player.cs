@@ -16,8 +16,11 @@ namespace Game.Models
         private PlayerState State { get; set; }
 
         public Action OnFinishPointReached;
+        public Action OnDeath;
 
         public Vector2 Spawn { get; set; }
+
+        public bool IsDead { get; set; }
 
         // Player data from the server
         public string PlayerName { get; set; }
@@ -154,6 +157,11 @@ namespace Game.Models
                 Dir = 0;
                 State = new PlayerOnGround(this);
             };
+
+            OnDeath += () =>
+            {
+                Die();
+            };
         }
 
         public override void MoveY(float amount, Action onCollision)
@@ -282,11 +290,13 @@ namespace Game.Models
         public void Die()
         {
             State = new PlayerDead(this);
+            IsDead = true;
         }
 
         public void Respawn()
         {
             SetPosition(new Vector2(Spawn.X, Spawn.Y));
+            IsDead = false;
         }
 
         public void GrabWall()
@@ -343,7 +353,7 @@ namespace Game.Models
             {
                 if (obj.Tag == "Trap")
                 {
-                    Die();
+                    if (!IsDead) OnDeath?.Invoke();
                 }
                 else if (obj.Tag == "Bird")
                 {

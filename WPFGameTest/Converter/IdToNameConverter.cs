@@ -17,7 +17,8 @@ namespace Game.Converter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return MultiLogic.locals.lobby.Users.FirstOrDefault(x => x.Id == value.ToString()).Username + ": ";
+            var user = MultiLogic.locals.lobby.Users.FirstOrDefault(x => x.Id == value.ToString());
+            return user == null ? "" : user.Username;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
@@ -31,7 +32,7 @@ namespace Game.Converter
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             User user = MultiLogic.locals.lobby.Users.FirstOrDefault(x => x.Id == value.ToString());
-            return new SolidColorBrush((Color)ColorConverter.ConvertFromString(user.Color));
+            return user == null ? new SolidColorBrush(Colors.Black) : new SolidColorBrush((Color)ColorConverter.ConvertFromString(user.Color));
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

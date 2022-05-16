@@ -11,6 +11,10 @@
         d:DesignHeight="800" d:DesignWidth="1024">
     <UserControl.Resources>
         <converter:ButtonActiveObjectConverter x:Key="ButtonActive"/>
+        <Style x:Key="labelStyle" TargetType="Label">
+            <!--<Setter Property="FontFamily" Value="../../Resources/DisposableDroidBB.ttf #DisposableDroid BB"/>-->
+            <Setter Property="FontFamily" Value="../../Resources/novem.ttf #November"/>
+        </Style>
         <Style x:Key="arcade" TargetType="Button">
             <Setter Property="OverridesDefaultStyle" Value="True"/>
             <Setter Property="FontFamily" Value="../../Resources/ARCADECLASSIC.ttf #ARCADECLASSIC"/>
@@ -73,20 +77,20 @@
                                 <ColumnDefinition Width="5*"/>
                             </Grid.ColumnDefinitions>
                             <Rectangle Width="40" Height="40" Fill="{Binding Rectangle.Fill}" Grid.Column="0"></Rectangle>
-                            <Label Content="{Binding Name}" VerticalAlignment="Center" FontSize="16" FontFamily="Calibri" Grid.Column="1"></Label>
+                            <Label Style="{StaticResource labelStyle}" Content="{Binding Name}" VerticalAlignment="Center" FontSize="16" Grid.Column="1"></Label>
                         </Grid>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>
             <Button Style="{StaticResource arcade}" Height="50" Command="{Binding FlipCannon}" Visibility="{Binding SelectedCannon, Converter={StaticResource ButtonActive}}" Padding="10" Margin="10, 10, 10, 10">Flip</Button>
-            <Label FontFamily="Calibri" Content="Level name" FontSize="18" Margin="0,10,0,0" Padding="10"></Label>
+            <Label Style="{StaticResource labelStyle}" Content="Level name" FontSize="18" Margin="10,0,0,0" Padding="0"></Label>
             <TextBox FontFamily="Calibri" Text="{Binding LevelName, UpdateSourceTrigger=PropertyChanged}" Padding="10" Margin="10"></TextBox>
             <Button Style="{StaticResource arcade}" Height="50" Command="{Binding SaveLevel}" Padding="10" Margin="10">Save and Exit</Button>
             <ComboBox Margin="10"  ItemsSource="{Binding Levels}" SelectedItem="{Binding SelectedLevel}">
                 <ComboBox.ItemTemplate>
                     <DataTemplate>
                         <Grid>
-                            <Label Content="{Binding Name}" VerticalAlignment="Center" FontSize="16" FontFamily="Calibri"></Label>
+                            <Label Style="{StaticResource labelStyle}" Content="{Binding Name}" VerticalAlignment="Center" FontSize="16"></Label>
                         </Grid>
                     </DataTemplate>
                 </ComboBox.ItemTemplate>

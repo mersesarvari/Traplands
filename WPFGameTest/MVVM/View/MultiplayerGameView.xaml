@@ -12,6 +12,8 @@
         <converter:GameVisibilityConverter x:Key="GamePaused"/>
         <converter:GameEffectConverter x:Key="GamePausedEffect"/>
         <converter:ButtonActiveBoolConverter x:Key="ButtonActive"/>
+        <converter:IdToNameConverter x:Key="IdToName"/>
+        <converter:StringToColorConverter x:Key="IdToColor"/>
     </UserControl.Resources>
     <Grid x:Name="MainGrid">
         <ScrollViewer x:Name="MainCamera" Grid.RowSpan="2">
@@ -25,7 +27,7 @@
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="1*"/>
-                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="1*"/>
                 <ColumnDefinition Width="1*"/>
             </Grid.ColumnDefinitions>
             <Grid.Background>
@@ -35,17 +37,22 @@
                 <DropShadowEffect/>
             </Grid.Effect>
             <Grid Grid.ColumnSpan="2" Grid.RowSpan="3"/>
-            <Image Source="../../Resources/clock.png" Grid.Row="1" Width="30" HorizontalAlignment="Right"></Image>
+            <Image Source="../../Resources/medal.png" Grid.Row="1" Width="50" HorizontalAlignment="Right"></Image>
             <Label Grid.Row="0" VerticalAlignment="Center" Grid.ColumnSpan="3" Content="{Binding GameState}" HorizontalContentAlignment="Center" Foreground="Black" FontFamily="Helvetica" FontSize="36" Padding="10"/>
-            <Label Grid.Row="1" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Left" Content="{Binding LevelTimeElapsed}" Foreground="Black" FontFamily="Calibri" ContentStringFormat="{}{0:0.#}" FontSize="28" Padding="10" HorizontalContentAlignment="Left"/>
-            <Label Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Right" Content="Time (seconds):" Foreground="Black" FontFamily="Calibri" FontSize="28" Padding="10" HorizontalContentAlignment="Center"/>
+            <Label Grid.Row="1" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Left" 
+                   Content="{Binding Winner, Converter={StaticResource IdToName}}" 
+                   Foreground="{Binding Winner, Converter={StaticResource IdToColor}}" 
+                   Style="{StaticResource labelStyle}"
+                   FontSize="28" Padding="10" 
+                   HorizontalContentAlignment="Left"/>
+            <Label Style="{StaticResource labelStyle}" Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" Content="Winner:" Foreground="Black" FontSize="28" Padding="10" HorizontalContentAlignment="Center"/>
             <StackPanel Grid.Row="2" Grid.ColumnSpan="3" Margin="50" VerticalAlignment="Center">
                 <Button Visibility="{Binding GameOver, Converter={StaticResource ButtonActive}}" Height="40" Margin="10,10,10,50" FontSize="16" Foreground="White" FontFamily="Calibri" Content="Resume" BorderThickness="0" Command="{Binding ResumeGame}">
                     <Button.Background>
                         <ImageBrush ImageSource="../../Resources/UI_BUTTON.png"  />
                     </Button.Background>
                 </Button>
-                <Button Height="40" Margin="10" Foreground="White" FontSize="16" FontFamily="Helvetica" Content="Disconnect" BorderThickness="0" Command="{Binding LeaveGame}">
+                <Button Height="40" Margin="10" Foreground="White" FontSize="16" FontFamily="Helvetica" Content="Disconnect" BorderThickness="0" Command="{Binding DisconnectFromServer}">
                     <Button.Background>
                         <ImageBrush ImageSource="../../Resources/UI_BUTTON.png"  />
                     </Button.Background>

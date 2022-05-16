@@ -33,6 +33,13 @@ namespace WPFGameTest.Logic
         public Vector2 Position { get; set; }
         public string Name { get; set; }
         public ObjectType Type { get; set; }
+        public Brush Brush { get; set; }
+
+        public EditorElement()
+        {
+            Rectangle = new Rectangle();
+            Position = new Vector2();
+        }
     }
 
     public class WaypointGroup : EditorElement
@@ -52,7 +59,8 @@ namespace WPFGameTest.Logic
             ID = id;
 
             Rectangle = new Rectangle();
-            Rectangle.Fill = new SolidColorBrush(Colors.Red);
+            Rectangle.Fill = new SolidColorBrush(Colors.DarkOrange);
+            Brush = new SolidColorBrush(Colors.DarkOrange);
             Rectangle.Fill.Opacity = 0.5;
             Position = new Vector2();
             Name = "Trap waypoint";
@@ -87,7 +95,7 @@ namespace WPFGameTest.Logic
 
             WaypointRect rect = new WaypointRect();
             rect.Rectangle = new Rectangle();
-            rect.Rectangle.Fill = new SolidColorBrush(Colors.Red);
+            rect.Rectangle.Fill = new SolidColorBrush(Colors.DarkOrange);
             rect.Rectangle.Fill.Opacity = 0.5;
             rect.Rectangle.Width = size.X;
             rect.Rectangle.Height = size.Y;
@@ -212,6 +220,7 @@ namespace WPFGameTest.Logic
             Rectangle = new Rectangle();
             Position = new Vector2();
             Rectangle.Fill = new ImageBrush(Resource.GetImage("Cannon_Right"));
+            Brush = new ImageBrush(Resource.GetImage("Cannon_Right"));
             Name = "Cannon";
             Type = ObjectType.Cannon;
         }
@@ -222,6 +231,7 @@ namespace WPFGameTest.Logic
             Rectangle = new Rectangle();
             Position = new Vector2();
             Rectangle.Fill = facingRight ? new ImageBrush(Resource.GetImage("Cannon_Right")) : new ImageBrush(Resource.GetImage("Cannon_Left"));
+            Brush = new ImageBrush(Resource.GetImage("Cannon_Right"));
             Name = "Cannon";
             Type = ObjectType.Cannon;
         }
@@ -247,7 +257,8 @@ namespace WPFGameTest.Logic
             Rectangle = new Rectangle();
             Position = new Vector2();
             Rectangle.Fill = new ImageBrush(Resource.GetImage("Stone"));
-            Name = "Raising spikes";
+            Brush = new ImageBrush(Resource.GetImage("Stone"));
+            Name = "Rising spikes";
             Type = ObjectType.Trap_Spike;
         }
     }
@@ -259,6 +270,7 @@ namespace WPFGameTest.Logic
             Rectangle = new Rectangle();
             Position = new Vector2();
             Rectangle.Fill = new ImageBrush(Resource.GetImage("Grass_Top_Center"));
+            Brush = new ImageBrush(Resource.GetImage("Grass_Top_Center"));
             Name = "Terrain";
             Type = ObjectType.Grass_Top_Center;
         }
@@ -271,6 +283,7 @@ namespace WPFGameTest.Logic
             Rectangle = new Rectangle();
             Position = new Vector2();
             Rectangle.Fill = new ImageBrush(Resource.GetImage("Spike"));
+            Brush = new ImageBrush(Resource.GetImage("Spike"));
             Name = "Trap";
             Type = ObjectType.Spike;
         }
@@ -282,6 +295,7 @@ namespace WPFGameTest.Logic
         {
             Rectangle = new Rectangle();
             Position = new Vector2();
+            Brush = new ImageBrush(Resource.GetImage("Spawn"));
             Rectangle.Fill = new ImageBrush(Resource.GetImage("Spawn"));
             Name = "Spawn";
             Type = ObjectType.Spawn;
@@ -295,6 +309,7 @@ namespace WPFGameTest.Logic
             Rectangle = new Rectangle();
             Position = new Vector2();
             Rectangle.Fill = new ImageBrush(Resource.GetImage("Finish"));
+            Brush = new ImageBrush(Resource.GetImage("Finish"));
             Name = "Finish";
             Type = ObjectType.Finish;
         }
@@ -312,7 +327,8 @@ namespace WPFGameTest.Logic
         public WaypointRect()
         {
             Rectangle = new Rectangle();
-            Rectangle.Fill = new SolidColorBrush(Colors.Red);
+            Rectangle.Fill = new SolidColorBrush(Colors.DarkOrange);
+            Brush = new SolidColorBrush(Colors.DarkOrange);
             Position = new Vector2();
             Name = "Trap waypoint";
             Type = ObjectType.Trap_Waypoint;
@@ -349,9 +365,10 @@ namespace WPFGameTest.Logic
         private FrameworkElement renderTarget;
         private ScrollViewer camera;
 
-        private EditorElement currentElement;
-
         private Line previewLine;
+
+        Brush previewImage;
+        Brush deletingImage;
 
         // Camera
         private double Zoom { get; set; }
@@ -411,6 +428,16 @@ namespace WPFGameTest.Logic
         public LevelEditor(IMessenger messenger)
         {
             this.messenger = messenger;
+            // Visual
+            deletingImage = new SolidColorBrush(Colors.Red);
+            previewImage = new SolidColorBrush(Colors.Transparent);
+
+            PreviewRect = new EditorElement();
+            PreviewRect.Rectangle.Width = ObjectData.BLOCK_WIDTH;
+            PreviewRect.Rectangle.Height = ObjectData.BLOCK_HEIGHT;
+            PreviewRect.Rectangle.Fill = previewImage;
+            PreviewRect.Rectangle.Opacity = 0.5;
+
             Init();
         }
 
@@ -481,20 +508,19 @@ namespace WPFGameTest.Logic
             if (Input.GetKey(Key.LeftShift))
             {
                 isDeleting = true;
+                PreviewRect.Rectangle.Fill = deletingImage;
             }
             else
             {
                 isDeleting = false;
+                PreviewRect.Rectangle.Fill = previewImage;
             }
+
+            PreviewRect.Rectangle.Fill.Opacity = 0.5;
 
             if (Input.GetMouseButtonReleased(Mouse.LeftButton))
             {
                 if (selected != null) MouseReleased();
-            }
-
-            if (Input.GetKeyReleased(Key.Space))
-            {
-                CheckInfo();
             }
         }
 
@@ -807,17 +833,6 @@ namespace WPFGameTest.Logic
             }
         }
 
-        public void CheckInfo()
-        {
-            Vector2 matrixPos = new Vector2(actualPos.X / Grid.CellSize.X, actualPos.Y / Grid.CellSize.Y);
-            if (Grid.Map[matrixPos.X, matrixPos.Y] == 1)
-            {
-                Waypoint next = (Get(new Coordinate(matrixPos.X, matrixPos.Y)) as WaypointRect).Waypoint;
-
-                Trace.WriteLine(next.GroupID + ": " + next.Prev.ID + " - " + next.Next.ID);
-            }
-        }
-
         public void Init(FrameworkElement renderTarget, ScrollViewer camera)
         {
             this.renderTarget = renderTarget;
@@ -833,6 +848,7 @@ namespace WPFGameTest.Logic
 
                 // Get the rounded position for the Grid-like placement
                 actualPos = new Vector2(Grid.CellSize.X * (int)(mouseX / Grid.CellSize.X), Grid.CellSize.Y * (int)(mouseY / Grid.CellSize.Y));
+                PreviewRect.Position = actualPos;
             };
 
             // Set mouse scrolling as zoom
@@ -892,6 +908,7 @@ namespace WPFGameTest.Logic
         public void SelectElement(EditorElement element)
         {
             selectedElement = element.Type;
+            previewImage = element.Brush;
         }
 
         private void ReplaceTile(EditorElement element, Vector2 from, Vector2 to)

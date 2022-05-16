@@ -53,7 +53,12 @@ namespace Game.Logic
             Solids = currentLevel.Solids;
             Interactables = currentLevel.Interactables;
             Player = new Player(MultiLogic.locals.user.Id, MultiLogic.locals.user.Username, MultiLogic.locals.user.Color, spawnPoint, new Vector2(ObjectData.PLAYER_WIDTH, ObjectData.PLAYER_HEIGHT), 8);
-            
+
+            Player.OnFinishPointReached += () =>
+            {
+                Lobby.YouWonTheGame();
+            };
+
             renderData = new RenderData();
             renderData.Position = Player.Transform.Position;
             renderData.Size = Player.Transform.Size;
@@ -70,6 +75,11 @@ namespace Game.Logic
             GameObject.SetSolids(Solids);
             GameObject.SetInteractables(Interactables);
             GameObject.SetPlayers(new List<GameObject> { Player });
+
+            for (int i = Interactables.Count - 1; i >= 0; i--)
+            {
+                Interactables[i].Start();
+            }
         }
 
         public void LoadPlayers()

@@ -35,7 +35,25 @@ namespace Game.MVVM.ViewModel
             set { SetProperty(ref users, value); }
         }
 
-        public Level SelectedLevel { get; set; }
+        private List<Level> levels;
+        public List<Level> Levels
+        {
+            get { return levels; }
+            set { SetProperty(ref levels, value); }
+        }
+
+        private Level selectedLevel;
+        public Level SelectedLevel
+        {
+            get { return selectedLevel; }
+            set
+            {
+                SetProperty(ref selectedLevel, value);
+                OnPropertyChanged(nameof(SelectedLevel));
+                LevelManager.CurrentLevel = SelectedLevel;
+                (StartGameCommand as RelayCommand).NotifyCanExecuteChanged();
+            }
+        }
 
         private string messageText;
         public string MessageText
@@ -57,16 +75,18 @@ namespace Game.MVVM.ViewModel
         public LobbyViewModel(INavigationService game, INavigationService menu)
         {
             MultiLogic.locals.RegisterLobbyViewMessenger(Messenger);
-            SelectedLevel = LevelManager.GetLevel("Level 1");
             var l = MultiLogic.locals;
             Users = l.lobby.Users;
 
             Messages = new ObservableCollection<Message>(MultiLogic.locals.lobby.Messages);
             MultiLogic.locals.SetupCollection(Messages);
 
+            Levels = LevelManager.LevelList();
+
             StartGameCommand = new RelayCommand(
                 () => 
                 {
+                    MultiLogic.locals.lobby.Map = SelectedLevel.Name;
                     Lobby.Start(MultiLogic.locals.lobby, MultiLogic.locals.user.Username);
                 }
                 );

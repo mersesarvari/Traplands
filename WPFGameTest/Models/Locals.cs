@@ -23,7 +23,7 @@ namespace Game.Models
         IMessenger lobbyViewMessenger;
         IMessenger multiViewMessenger;
         IMessenger multigameViewMessenger;
-        public static string Winner { get; set; }
+        public string Winner { get; set; }
         public Lobby lobby;
         public List<Lobby> Lobbies;
         public Client client;
@@ -65,6 +65,7 @@ namespace Game.Models
             lobby = new Lobby();
             user = new User();
             Lobbies = new List<Lobby>();
+            Winner = "";
         }
 
         public void RegisterLobbyViewMessenger(IMessenger messenger)
@@ -89,6 +90,8 @@ namespace Game.Models
         {
             var msg = MultiLogic.locals.client.packetReader.ReadMessage();
             MultiLogic.locals.lobby = JsonConvert.DeserializeObject<Lobby>(msg);
+            LevelManager.CurrentLevel = LevelManager.GetLevel(MultiLogic.locals.lobby.Map);
+
             lobbyViewMessenger.Send("Game started", "GameStarted");
         }
 
@@ -168,9 +171,12 @@ namespace Game.Models
         private void GameFinished()
         {
             var rawID = MultiLogic.locals.client.packetReader.ReadMessage();
-            var rawLobby = MultiLogic.locals.client.packetReader.ReadMessage();
             Winner = rawID;
-            multigameViewMessenger.Send("Game Finished", "GameFinished");
+
+            Application.Current.Dispatcher.Invoke((Action)delegate
+            {
+                (MainWindow.game as Multiplayer).GameOver = true;
+            });
         }
     }
 }

@@ -29,6 +29,7 @@ namespace Game.Logic
 
     public interface ISingleplayer : IGameplayBase
     {
+        int DeathCount { get; set; }
         void SetLevel(string levelName);
         void SaveLevel();
     }

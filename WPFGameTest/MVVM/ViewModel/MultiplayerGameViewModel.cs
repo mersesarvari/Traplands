@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
 using Game.Logic;
 using Game.Models;
@@ -22,6 +24,8 @@ namespace Game.MVVM.ViewModel
         public bool GameOver { get { return logic.GameOver; } }
         public double TransitionAlpha { get { return logic.TransitionAlpha; } }
         public bool Transitioning { get { return logic.Transitioning; } }
+        public string Winner { get { return MultiLogic.locals.Winner; } }
+
         public ICommand NavigateMultiMenuCommand { get; }
         public ICommand ResumeGame { get; set; }
         public ICommand DisconnectFromServer { get; set; }
@@ -32,7 +36,7 @@ namespace Game.MVVM.ViewModel
             logic = new Multiplayer();
             MainWindow.game = logic;
             logic.SetMessenger(Messenger);
-            logic.LoadLevel("Level 1");
+            logic.LoadLevel(LevelManager.CurrentLevel.Name);
             //Ez a sor ami nem engedi elindulni a programot
             logic.LoadPlayers();
             
@@ -47,28 +51,33 @@ namespace Game.MVVM.ViewModel
 
             DisconnectFromServer = new RelayCommand(() =>
             {
-                Client.Disconnect(MultiLogic.locals.user.Id);
+                MainWindow.game = null;
                 multiMenuNavigationService.Navigate();
             });
 
-            //Messenger.Register<MultiplayerGameViewModel, string, string>(this, "LevelTimerUpdate", (recepient, msg) =>
-            //{
-            //    OnPropertyChanged(nameof(LevelTimeElapsed));
-            //});
+            Messenger.Register<MultiplayerGameViewModel, string, string>(this, "GamePaused", (recepient, msg) =>
+            {
+                OnPropertyChanged(nameof(GamePaused));
+                OnPropertyChanged(nameof(GameOver));
+                OnPropertyChanged(nameof(GameState));
+                (ResumeGame as RelayCommand).NotifyCanExecuteChanged();
+            });
 
-            //Messenger.Register<MultiplayerGameViewModel, string, string>(this, "GamePaused", (recepient, msg) =>
-            //{
-            //    OnPropertyChanged(nameof(GamePaused));
-            //    OnPropertyChanged(nameof(GameOver));
-            //    OnPropertyChanged(nameof(GameState));
-            //    (ResumeGame as RelayCommand).NotifyCanExecuteChanged();
-            //});
+            Messenger.Register<MultiplayerGameViewModel, string, string>(this, "Transition", (recepient, msg) =>
+            {
+                OnPropertyChanged(nameof(TransitionAlpha));
+                OnPropertyChanged(nameof(Transitioning));
+            });
 
-            //Messenger.Register<MultiplayerGameViewModel, string, string>(this, "Transition", (recepient, msg) =>
-            //{
-            //    OnPropertyChanged(nameof(TransitionAlpha));
-            //    OnPropertyChanged(nameof(Transitioning));
-            //});
+            Messenger.Register<MultiplayerGameViewModel, string, string>(this, "GameOver", (recepient, msg) =>
+            {
+                OnPropertyChanged(nameof(GamePaused));
+                OnPropertyChanged(nameof(GameOver));
+                OnPropertyChanged(nameof(GameState));
+                OnPropertyChanged(nameof(Winner));
+                (ResumeGame as RelayCommand).NotifyCanExecuteChanged();
+                Trace.WriteLine("Game over, winner: " + MultiLogic.locals.Winner);
+            });
         }
     }
 }

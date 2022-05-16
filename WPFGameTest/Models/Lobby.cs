@@ -98,7 +98,7 @@ namespace Game.Models
 
         }
 
-        public void YouWonTheGame()
+        public static void YouWonTheGame()
         {
             if (MultiLogic.locals.client.Connected())
             {

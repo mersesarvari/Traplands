@@ -12,8 +12,13 @@
     <UserControl.Resources>
         <converter:ButtonActiveBoolConverter x:Key="ButtonActive"/>
         <converter:ColorStringToBrushConverter x:Key="ColorToBrush"/>
+        <converter:IdToNameConverter x:Key="IdToName"/>
+        <Style x:Key="labelStyle" TargetType="Label">
+            <!--<Setter Property="FontFamily" Value="../../Resources/DisposableDroidBB.ttf #DisposableDroid BB"/>-->
+            <Setter Property="FontFamily" Value="../../Resources/novem.ttf #November"/>
+        </Style>
         <Style x:Key="input" TargetType="TextBox">
-            <Setter Property="FontFamily" Value="../../Resources/Minecraftia.ttf #Minecraftia"/>
+            <Setter Property="FontFamily" Value="../../Resources/novem.ttf #November"/>
             <Setter Property="Background" Value="Transparent"/>
             <Setter Property="Foreground" Value="Black"/>
             <Setter Property="BorderThickness" Value="1"/>
@@ -84,15 +89,11 @@
                 <BlurEffect/>
             </Grid.Effect>
         </Grid>
-        <Label Content="Lobbies" Grid.Row="1" Grid.Column="1" FontSize="22" FontFamily="Calibri" HorizontalAlignment="Center" VerticalAlignment="Bottom"/>
+        <Label Style="{StaticResource labelStyle}" Content="Lobbies" Grid.Row="1" Grid.Column="1" FontSize="22" HorizontalAlignment="Center" VerticalAlignment="Bottom"/>
         <ListBox Background="Transparent" Margin="10" Grid.Row="2" Grid.Column="1" ItemsSource="{Binding Lobbies}" SelectedItem="{Binding SelectedLobby}" BorderThickness="0" HorizontalContentAlignment="Stretch">
             <ListBox.ItemTemplate>
                 <DataTemplate>
-                    <Border BorderBrush="Black" BorderThickness="1">
-                        <Grid>
-                            <Label Content="{Binding LobbyId}" FontSize="18"/>
-                        </Grid>
-                    </Border>
+                    <Label Style="{StaticResource labelStyle}" Content="{Binding LobbyId}" FontSize="18"/>
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>

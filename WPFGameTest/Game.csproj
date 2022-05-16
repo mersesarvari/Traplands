@@ -11,8 +11,13 @@
   <ItemGroup>
     <None Remove="Resources\ARCADECLASSIC.TTF" />
     <None Remove="Resources\clock.png" />
+    <None Remove="Resources\DisposableDroidBB.ttf" />
+    <None Remove="Resources\DisposableDroidBB_bld.ttf" />
+    <None Remove="Resources\medal.png" />
     <None Remove="Resources\menu_bg.jpg" />
     <None Remove="Resources\Minecraftia.ttf" />
+    <None Remove="Resources\novem.ttf" />
+    <None Remove="Resources\skull.png" />
     <None Remove="Resources\traplands.png" />
     <None Remove="Resources\UI_BUTTON.png" />
     <None Remove="Resources\UI_BUTTON_DIS.png" />
@@ -41,8 +46,13 @@
   <ItemGroup>
     <Resource Include="Resources\ARCADECLASSIC.TTF" />
     <Resource Include="Resources\clock.png" />
+    <Resource Include="Resources\DisposableDroidBB.ttf" />
+    <Resource Include="Resources\DisposableDroidBB_bld.ttf" />
+    <Resource Include="Resources\medal.png" />
     <Resource Include="Resources\menu_bg.jpg" />
     <Resource Include="Resources\Minecraftia.ttf" />
+    <Resource Include="Resources\novem.ttf" />
+    <Resource Include="Resources\skull.png" />
     <Resource Include="Resources\traplands.png" />
     <Resource Include="Resources\UI_BUTTON.png" />
     <Resource Include="Resources\UI_BUTTON_DIS.png" />

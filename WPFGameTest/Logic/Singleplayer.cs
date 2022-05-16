@@ -101,6 +101,8 @@ namespace Game.Logic
     {
         public Action OnFinishPointReachedEvent;
 
+        public int DeathCount { get; set; }
+
         private List<Level> campaignLevels;
         private int currentLevelIndex;
 
@@ -132,6 +134,7 @@ namespace Game.Logic
             Interactables = currentLevel.Interactables;
             Props = currentLevel.Props;
             Player = new Player("01", "Player1", "", spawnPoint, new Vector2(ObjectData.PLAYER_WIDTH, ObjectData.PLAYER_HEIGHT), 8);
+            DeathCount = 0;
 
             if (currentLevel == campaignLevels[0])
             {
@@ -139,6 +142,12 @@ namespace Game.Logic
 
                 if (firstLoad)
                 {
+                    Player.OnDeath += () =>
+                    {
+                        DeathCount++;
+                        messenger.Send("Player died", "PlayerDied");
+                    };
+
                     transition.OnTransitionMiddle += () =>
                     {
                         currentLevelIndex++;
@@ -161,6 +170,12 @@ namespace Game.Logic
 
                 if (firstLoad)
                 {
+                    Player.OnDeath += () =>
+                    {
+                        DeathCount++;
+                        messenger.Send("Player died", "PlayerDied");
+                    };
+
                     transition.OnTransitionMiddle += () =>
                     {
                         GameOver = true;

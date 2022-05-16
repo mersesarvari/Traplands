@@ -15,6 +15,13 @@
         <converter:BorderRadiusConverter x:Key="BorderRadius"/>
         <converter:OrientationConverter x:Key="Orientation"/>
         <converter:ColumnSpanConverter x:Key="ColumnSpan"/>
+        <Style x:Key="labelStyle" TargetType="Label">
+            <!--<Setter Property="FontFamily" Value="../../Resources/DisposableDroidBB.ttf #DisposableDroid BB"/>-->
+            <Setter Property="FontFamily" Value="../../Resources/novem.ttf #November"/>
+        </Style>
+        <Style x:Key="input" TargetType="TextBox">
+            <Setter Property="FontFamily" Value="../../Resources/novem.ttf #November"/>
+        </Style>
         <Style x:Key="arcade" TargetType="Button">
             <Setter Property="OverridesDefaultStyle" Value="True"/>
             <Setter Property="FontFamily" Value="../../Resources/ARCADECLASSIC.ttf #ARCADECLASSIC"/>
@@ -80,7 +87,7 @@
                 <BlurEffect/>
             </Grid.Effect>
         </Grid>
-        <Label Content="Players" Grid.Row="1" Grid.Column="0" FontSize="22" FontFamily="Calibri" HorizontalAlignment="Center" VerticalAlignment="Bottom"/>
+        <Label Style="{StaticResource labelStyle}" Content="Players" Grid.Row="1" Grid.Column="0" FontSize="22" HorizontalAlignment="Center" VerticalAlignment="Bottom"/>
         <ListBox Background="Transparent" BorderThickness="0" Margin="10" Grid.Row="2" Grid.Column="0" ItemsSource="{Binding Users}" HorizontalContentAlignment="Stretch">
             <ListBox.ItemTemplate>
                 <DataTemplate>
@@ -89,7 +96,7 @@
                             BorderBrush="{Binding Id, Converter={StaticResource StringToColor}}" 
                             BorderThickness="1,1,1,1"
                             CornerRadius="10,10,10,10">
-                        <Label Foreground="White" Content="{Binding Username}" FontSize="18"/>
+                        <Label Style="{StaticResource labelStyle}" Foreground="White" Content="{Binding Username}" FontSize="18"/>
                     </Border>
                 </DataTemplate>
             </ListBox.ItemTemplate>
@@ -99,7 +106,7 @@
                 <BlurEffect/>
             </Grid.Effect>
         </Grid>
-        <Label Content="Chat" Grid.Row="1" Grid.Column="2" FontSize="22" FontFamily="Calibri" HorizontalAlignment="Center" VerticalAlignment="Bottom"/>
+        <Label Style="{StaticResource labelStyle}" Content="Chat" Grid.Row="1" Grid.Column="2" FontSize="22" HorizontalAlignment="Center" VerticalAlignment="Bottom"/>
         <Grid Grid.Row="2" Grid.Column="2">
             <Grid.RowDefinitions>
                 <RowDefinition Height="6*"/>
@@ -130,7 +137,8 @@
                             </Border>
                             <!--<Label HorizontalAlignment="{Binding ownerid, Converter={StaticResource Orientation}}" Foreground="White" Content="{Binding ownerid, Converter={StaticResource IdToName}}" Grid.Column="1" FontSize="18"/>-->
                             <!--<Label Content="{Binding Source={x:Static system:DateTime.Now}, StringFormat={0:HH:mm}}" Grid.Column="1" FontSize="18"/>-->
-                            <Label HorizontalContentAlignment="{Binding ownerid, Converter={StaticResource Orientation}}" 
+                            <Label Style="{StaticResource labelStyle}"
+                                   HorizontalContentAlignment="{Binding ownerid, Converter={StaticResource Orientation}}" 
                                    HorizontalAlignment="{Binding ownerid, Converter={StaticResource Orientation}}" 
                                    Foreground="White" Content="{Binding message}" 
                                    Grid.Column="{Binding ownerid, Converter={StaticResource ColumnSpan}}" 
@@ -142,7 +150,7 @@
             <Grid Grid.Row="1" Background="White" Opacity="0.5" Margin="20,10,20,20">
                 
             </Grid>
-            <TextBox Text="{Binding MessageText, Mode=TwoWay}" Background="Transparent" BorderThickness="0" FontSize="16" Margin="20,10,20,20" VerticalAlignment="Stretch" Grid.Row="1">
+            <TextBox Style="{StaticResource input}" Text="{Binding MessageText, Mode=TwoWay}" Background="Transparent" BorderThickness="0" FontSize="16" Margin="20,10,20,20" VerticalAlignment="Stretch" Grid.Row="1">
             </TextBox>
         </Grid>
         <Button  Height="50" Margin="10"  Grid.Column="2" Grid.Row="3" Style="{StaticResource arcade}" Content="Send" Command="{Binding SendMessageCommand}"  FontSize="30" ></Button>
@@ -151,15 +159,13 @@
                 <BlurEffect/>
             </Grid.Effect>
         </Grid>
-        <Label Content="Levels" Grid.Row="1" Grid.Column="1" FontSize="22" FontFamily="Calibri" HorizontalAlignment="Center" VerticalAlignment="Bottom"/>
-        <ListBox BorderThickness="0" Background="Transparent" Margin="10" Grid.Row="2" Grid.Column="1"  HorizontalContentAlignment="Stretch">
+        <Label Style="{StaticResource labelStyle}" Content="Levels" Grid.Row="1" Grid.Column="1" FontSize="22" HorizontalAlignment="Center" VerticalAlignment="Bottom"/>
+        <ListBox ItemsSource="{Binding Levels}" SelectedItem="{Binding SelectedLevel}"  BorderThickness="0" Background="Transparent" Margin="10" Grid.Row="2" Grid.Column="1"  HorizontalContentAlignment="Stretch">
             <ListBox.ItemTemplate>
                 <DataTemplate>
-                    <Border BorderBrush="Black" BorderThickness="1">
-                        <Grid>
-                            <!--<Label Content="{Binding Username}" FontSize="30" FontWeight="Bold"/>-->
-                        </Grid>
-                    </Border>
+                    <Grid>
+                        <Label Style="{StaticResource labelStyle}" Content="{Binding Name}" FontSize="20"/>
+                    </Grid>
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>

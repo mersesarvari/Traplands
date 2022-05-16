@@ -16,20 +16,16 @@ namespace Game.MVVM.ViewModel
     {
         private ISingleplayer logic;
 
+        public string GameState { get { return logic.GameOver ? "Finish" : "Paused"; } }
+        public float LevelTimeElapsed { get { return logic.LevelTimer; } }
+        public bool GamePaused { get { return logic.Paused; } }
+        public bool GameOver { get { return logic.GameOver; } }
+        public double TransitionAlpha { get { return logic.TransitionAlpha; } }
+        public bool Transitioning { get { return logic.Transitioning; } }
+        public int DeathCount { get { return logic.DeathCount; } }
+
         public ICommand NavigateMainMenuCommand { get; set; }
         public ICommand ResumeGame { get; set; }
-
-        public string GameState { get { return logic.GameOver ? "Finish" : "Paused"; } }
-
-        public float LevelTimeElapsed { get { return logic.LevelTimer; } }
-
-        public bool GamePaused { get { return logic.Paused; } }
-
-        public bool GameOver { get { return logic.GameOver; } }
-
-        public double TransitionAlpha { get { return logic.TransitionAlpha; } }
-
-        public bool Transitioning { get { return logic.Transitioning; } }
 
         public SingleplayerGameViewModel(INavigationService mainMenuNavigationService)
         {
@@ -57,6 +53,11 @@ namespace Game.MVVM.ViewModel
             {
                 OnPropertyChanged(nameof(TransitionAlpha));
                 OnPropertyChanged(nameof(Transitioning));
+            });
+
+            Messenger.Register<SingleplayerGameViewModel, string, string>(this, "PlayerDied", (recepient, msg) =>
+            {
+                OnPropertyChanged(nameof(DeathCount));
             });
         }
     }

@@ -89,6 +89,11 @@ namespace Game.Renderer
             {
                 drawingContext.DrawLine(new Pen(item.Stroke, item.StrokeThickness), new Point(item.X1, item.Y1), new Point(item.X2, item.Y2));
             }
+
+            drawingContext.DrawRectangle(
+                    model.PreviewRect.Rectangle.Fill,
+                    null,
+                    new Rect(model.PreviewRect.Position.X, model.PreviewRect.Position.Y, model.PreviewRect.Rectangle.Width, model.PreviewRect.Rectangle.Height));
         }
     }
 
