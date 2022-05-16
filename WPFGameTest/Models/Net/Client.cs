@@ -26,6 +26,7 @@ namespace Game.Models
         public event Action gameLeftEvent;
         public event Action messageRecievedEvent;
         public event Action gameFinishedEvent;
+        public event Action lobbyCreatedEvent;
 
         public Client()
         {
@@ -51,6 +52,9 @@ namespace Game.Models
                                 break;
                             case 2:
                                 userJoinedLobbyEvent?.Invoke();
+                                break;
+                            case 3:
+                                lobbyCreatedEvent?.Invoke();
                                 break;
                             case 4:
                                 updateUserData?.Invoke();

@@ -38,8 +38,22 @@ namespace Server.Models
             var alreadyexists = Server.lobbies.Where(x => x.LobbyId == userid.ToString()).FirstOrDefault();
             if (alreadyexists == null)
             {
-                Server.lobbies.Add(new Lobby(userid));
+                var newLobby = new Lobby(userid);
+                Server.lobbies.Add(newLobby);
                 Console.WriteLine($"[LOBBY CREATED] : {userid}");
+
+                foreach (var item in Server.players)
+                {
+                    var currentclient = Server.FindClient(item.Id);
+                    if (currentclient != null)
+                    {
+                        Server.SendResponse(3, currentclient, JsonConvert.SerializeObject(newLobby));
+                    }
+                    else
+                    {
+                        throw new Exception("curentclient was null");
+                    }
+                }
             }
 
         }
