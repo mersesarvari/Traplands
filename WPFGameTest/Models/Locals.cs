@@ -48,6 +48,7 @@ namespace Game.Models
             client.gameLeftEvent += GameLeft;
             client.messageRecievedEvent += MessageRecieved;
             client.gameFinishedEvent += GameFinished;
+            client.lobbyCreatedEvent += LobbyCreated;
         }
 
         public Locals(INavigationService lobbyService, INavigationService gameService, INavigationService multimenuService, INavigationService menuService)
@@ -104,10 +105,19 @@ namespace Game.Models
             var msg = MultiLogic.locals.client.packetReader.ReadMessage();
             var L = JsonConvert.DeserializeObject<Lobby>(msg);
             MultiLogic.locals.lobby = L;
-            MultiLogic.locals.Lobbies.Add(L);
+            
             Trace.WriteLine($"Lobby was set in multilogic");
             //MessageBox.Show("User Joined The Lobby");
             lobbyService.Navigate();
+        }
+
+        private void LobbyCreated()
+        {
+            var msg = MultiLogic.locals.client.packetReader.ReadMessage();
+            var L = JsonConvert.DeserializeObject<Lobby>(msg);
+            MultiLogic.locals.Lobbies.Add(L);
+
+            multiViewMessenger.Send("User connected", "UserConnected");
         }
 
         private void UserConnected()
