@@ -1,0 +1,111 @@
+﻿<UserControl x:Class="Game.MVVM.View.MultiplayerGameView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Game.MVVM.View"
+             xmlns:converter="clr-namespace:Game.Converter"
+             xmlns:renderer="clr-namespace:Game.Renderer"
+             mc:Ignorable="d" 
+             d:DesignHeight="800" d:DesignWidth="1024">
+    <UserControl.Resources>
+        <converter:GameVisibilityConverter x:Key="GamePaused"/>
+        <converter:GameEffectConverter x:Key="GamePausedEffect"/>
+        <converter:ButtonActiveBoolConverter x:Key="ButtonActive"/>
+        <converter:IdToNameConverter x:Key="IdToName"/>
+        <converter:StringToColorConverter x:Key="IdToColor"/>
+        <Style x:Key="labelStyle" TargetType="Label">
+            <!--<Setter Property="FontFamily" Value="../../Resources/DisposableDroidBB.ttf #DisposableDroid BB"/>-->
+            <Setter Property="FontFamily" Value="../../Resources/novem.ttf #November"/>
+        </Style>
+        <Style x:Key="arcade" TargetType="Button">
+            <Setter Property="OverridesDefaultStyle" Value="True"/>
+            <Setter Property="FontFamily" Value="../../Resources/ARCADECLASSIC.ttf #ARCADECLASSIC"/>
+            <Setter Property="FontSize" Value="26"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Background">
+                <Setter.Value>
+                    <ImageBrush ImageSource="../../Resources/UI_BUTTON.png"  />
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Name="border" 
+        				Background="{TemplateBinding Background}">
+                            <Grid>
+                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" Name="content"/>
+                            </Grid>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Foreground" Value="#FF4788c8" />
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="content" Property="RenderTransform">
+                                    <Setter.Value>
+                                        <TranslateTransform Y="1.0" />
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter Property="Foreground" Value="Gray" />
+                                <Setter Property="Background">
+                                    <Setter.Value>
+                                        <ImageBrush ImageSource="../../Resources/UI_BUTTON_DIS.png"/>
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </UserControl.Resources>
+    <Grid x:Name="MainGrid">
+        <ScrollViewer x:Name="MainCamera" Grid.RowSpan="2">
+            <renderer:MultiplayerRenderer x:Name="Renderer" Grid.RowSpan="2" Width="3600" Height="3600"/>
+        </ScrollViewer>
+        <Grid Width="400" Visibility="{Binding GamePaused, Converter={StaticResource GamePaused}}" HorizontalAlignment="Stretch" x:Name="PauseMenu"  Margin="300,100,300,100">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="3*"/>
+                <RowDefinition Height="2*"/>
+                <RowDefinition Height="8*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.Background>
+                <SolidColorBrush Color="#ccb693" />
+            </Grid.Background>
+            <Grid.Effect>
+                <DropShadowEffect/>
+            </Grid.Effect>
+            <Grid Grid.ColumnSpan="2" Grid.RowSpan="3"/>
+            <Image Source="../../Resources/medal.png" Grid.Row="1" Width="50" HorizontalAlignment="Right"></Image>
+            <Label Grid.Row="0" VerticalAlignment="Center" Grid.ColumnSpan="3" Content="{Binding GameState}" HorizontalContentAlignment="Center" Foreground="Black" FontFamily="Helvetica" FontSize="36" Padding="10"/>
+            <Label Grid.Row="1" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Left" 
+                   Content="{Binding Winner, Converter={StaticResource IdToName}}" 
+                   Foreground="{Binding Winner, Converter={StaticResource IdToColor}}" 
+                   Style="{StaticResource labelStyle}"
+                   FontSize="28" Padding="10" 
+                   HorizontalContentAlignment="Left"/>
+            <Label Style="{StaticResource labelStyle}" Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" Content="Winner:" Foreground="Black" FontSize="28" Padding="10" HorizontalContentAlignment="Center"/>
+            <StackPanel Grid.Row="2" Grid.ColumnSpan="3" Margin="50" VerticalAlignment="Center">
+                <Button Style="{StaticResource arcade}" Visibility="{Binding GameOver, Converter={StaticResource ButtonActive}}" Height="40" Margin="10,10,10,50" Content="Resume" BorderThickness="0" Command="{Binding ResumeGame}">
+                    <Button.Background>
+                        <ImageBrush ImageSource="../../Resources/UI_BUTTON.png"  />
+                    </Button.Background>
+                </Button>
+                <Button Style="{StaticResource arcade}" Height="40" Margin="10" Content="Disconnect" BorderThickness="0" Command="{Binding DisconnectFromServer}">
+                    <Button.Background>
+                        <ImageBrush ImageSource="../../Resources/UI_BUTTON.png"  />
+                    </Button.Background>
+                </Button>
+            </StackPanel>
+        </Grid>
+        <!--<Grid Background="Black" Opacity="{Binding TransitionAlpha}" Visibility="{Binding Transitioning, Converter={StaticResource GamePaused}}"/>-->
+    </Grid>
+</UserControl>

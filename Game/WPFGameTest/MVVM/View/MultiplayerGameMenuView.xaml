@@ -1,0 +1,142 @@
+﻿<UserControl x:Class="Game.MVVM.View.MultiplayerGameMenuView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Game.MVVM.View"
+             xmlns:converter="clr-namespace:Game.Converter"
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+             xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
+             mc:Ignorable="d" 
+             d:DesignHeight="800" d:DesignWidth="1024">
+    <UserControl.Resources>
+        <converter:ButtonActiveBoolConverter x:Key="ButtonActive"/>
+        <converter:ColorStringToBrushConverter x:Key="ColorToBrush"/>
+        <converter:IdToNameConverter x:Key="IdToName"/>
+        <Style x:Key="labelStyle" TargetType="Label">
+            <!--<Setter Property="FontFamily" Value="../../Resources/DisposableDroidBB.ttf #DisposableDroid BB"/>-->
+            <Setter Property="FontFamily" Value="../../Resources/novem.ttf #November"/>
+        </Style>
+        <Style x:Key="input" TargetType="TextBox">
+            <Setter Property="FontFamily" Value="../../Resources/novem.ttf #November"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="Black"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="FontSize" Value="22"/>
+        </Style>
+        <Style x:Key="arcade" TargetType="Button">
+            <Setter Property="OverridesDefaultStyle" Value="True"/>
+            <Setter Property="FontFamily" Value="../../Resources/ARCADECLASSIC.ttf #ARCADECLASSIC"/>
+            <Setter Property="FontSize" Value="26"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Background">
+                <Setter.Value>
+                    <ImageBrush ImageSource="../../Resources/UI_BUTTON.png"  />
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Name="border" 
+        				Background="{TemplateBinding Background}">
+                            <Grid>
+                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" Name="content"/>
+                            </Grid>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Foreground" Value="#FF4788c8" />
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="content" Property="RenderTransform">
+                                    <Setter.Value>
+                                        <TranslateTransform Y="1.0" />
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter Property="Foreground" Value="Gray" />
+                                <Setter Property="Background">
+                                    <Setter.Value>
+                                        <ImageBrush ImageSource="../../Resources/UI_BUTTON_DIS.png"/>
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </UserControl.Resources>
+    <Grid>
+        <Grid.Background>
+            <ImageBrush ImageSource="../../Resources/menu_bg.jpg"  />
+        </Grid.Background>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="3*"/>
+            <ColumnDefinition Width="1*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="4*"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="10*"/>
+            <RowDefinition Height="2*"/>
+            <RowDefinition Height="2*"/>
+        </Grid.RowDefinitions>
+        <Grid Margin="10" Grid.Column="1" Grid.Row="1" Grid.RowSpan="2" Background="White" Opacity="0.5">
+            <Grid.Effect>
+                <BlurEffect/>
+            </Grid.Effect>
+        </Grid>
+        <Label Style="{StaticResource labelStyle}" Content="Lobbies" Grid.Row="1" Grid.Column="1" FontSize="22" HorizontalAlignment="Center" VerticalAlignment="Bottom"/>
+        <ListBox Background="Transparent" Margin="10" Grid.Row="2" Grid.Column="1" ItemsSource="{Binding Lobbies}" SelectedItem="{Binding SelectedLobby}" BorderThickness="0" HorizontalContentAlignment="Stretch">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <Label Style="{StaticResource labelStyle}" Content="{Binding LobbyId}" FontSize="18"/>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+        <Button Width="200" Command="{Binding CreateLobbyCommand}" Visibility="{Binding NotConnected, Converter={StaticResource ButtonActive}}"
+                HorizontalAlignment="Left" Style="{StaticResource arcade}" Margin="10" Grid.Column="1" Grid.Row="3" Content="Create  lobby">
+        </Button>
+        <Button Width="150" Command="{Binding RefreshLobbies}" Visibility="{Binding NotConnected, Converter={StaticResource ButtonActive}}"
+                HorizontalAlignment="Center" Style="{StaticResource arcade}" Margin="10" Grid.Column="1" Grid.Row="3" Content="Refresh">
+        </Button>
+        <!--<Label Content="{Binding UserID}" FontSize="30"></Label>-->
+        <Grid Grid.Column="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="3*"/>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="3*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="1*"/>
+            </Grid.RowDefinitions>
+            <Grid Grid.Column="0" Grid.Row="1" Margin="10" Background="White" Opacity="0.3">
+                <Grid.Effect>
+                    <BlurEffect/>
+                </Grid.Effect>
+            </Grid>
+            <!--<Label Content="Name:" VerticalAlignment="Bottom" VerticalContentAlignment="Bottom" FontSize="30" HorizontalAlignment="Left" Grid.Column="0" Margin="10" />-->
+            <TextBox IsEnabled="{Binding NotConnected}" VerticalContentAlignment="Center" Style="{StaticResource input}" Text="{Binding Username, Mode=TwoWay}" Margin="10" Grid.Column="0" Grid.Row="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
+            <ComboBox IsEnabled="{Binding NotConnected}" IsSynchronizedWithCurrentItem="True"  Margin="0,10,10,10" SelectedIndex="0" ItemsSource="{Binding ColorList}" Grid.Column="1" Grid.Row="1" SelectedItem="{Binding SelectedColor}">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <Rectangle Height="40" Width="60" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Fill="{Binding Color, Converter={StaticResource ColorToBrush}}"></Rectangle>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+            <Button Grid.Column="2" Grid.Row="1" Command="{Binding ConnectServerCommand}" Margin="10" Style="{StaticResource arcade}" Content="Connect" FontSize="30"/>
+        </Grid>
+
+        <!--<Label Content="Lobby ID:" FontSize="30" HorizontalAlignment="Center" Padding="10" Margin="10"/>
+        <TextBox Text="{Binding LobbyCode, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" TextWrapping="Wrap" Height="50" HorizontalAlignment="Stretch" Margin="200 10 200 10"/>-->
+        <Button Margin="10" Grid.Column="1" HorizontalAlignment="Right" Style="{StaticResource arcade}" Width="200" Grid.Row="3" Command="{Binding JoinLobbyCommand}" Content="Join  Lobby">
+        </Button>
+
+        <Button Margin="10" Command="{Binding NavigateMainMenuCommand}" Style="{StaticResource arcade}" Content="Back" FontSize="30" Grid.Row="4">
+        </Button>
+    </Grid>
+</UserControl>

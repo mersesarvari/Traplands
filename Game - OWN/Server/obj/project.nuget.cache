@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "w2ioxem05ClglBNQQOYPPI30tuJe+Ul2ZUaoi0ab5Cz506ukttSuzVCh/3evG2YN4BarYCK9wB1+kfI3O2tqsA==",
+  "success": true,
+  "projectFilePath": "D:\\Programozás\\Prog4\\Game - OWN\\Server\\Server.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\merse\\.nuget\\packages\\microsoft.toolkit.mvvm\\7.1.2\\microsoft.toolkit.mvvm.7.1.2.nupkg.sha512",
+    "C:\\Users\\merse\\.nuget\\packages\\newtonsoft.json\\13.0.1\\newtonsoft.json.13.0.1.nupkg.sha512"
+  ],
+  "logs": []
+}

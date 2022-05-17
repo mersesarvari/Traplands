@@ -1,0 +1,36 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.32112.339
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Game", "WPFGameTest\Game.csproj", "{810DE979-DCAC-4DF1-B351-1D58F5417DAE}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Server", "Server\Server.csproj", "{E099E750-648B-4008-85CB-8CD4C0A154A2}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{4706C729-258E-4DDA-BA7B-698FF546A576}"
+	ProjectSection(SolutionItems) = preProject
+		Graphics\menu_bg.jpg = Graphics\menu_bg.jpg
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{810DE979-DCAC-4DF1-B351-1D58F5417DAE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{810DE979-DCAC-4DF1-B351-1D58F5417DAE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{810DE979-DCAC-4DF1-B351-1D58F5417DAE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{810DE979-DCAC-4DF1-B351-1D58F5417DAE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E099E750-648B-4008-85CB-8CD4C0A154A2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E099E750-648B-4008-85CB-8CD4C0A154A2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E099E750-648B-4008-85CB-8CD4C0A154A2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E099E750-648B-4008-85CB-8CD4C0A154A2}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {E0845C2C-D4C2-4596-9E8F-A5C1D16CB271}
+	EndGlobalSection
+EndGlobal
